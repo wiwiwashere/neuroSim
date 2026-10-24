@@ -37,10 +37,16 @@ export class ApiError extends Error {
 }
 
 // FastAPI always answers errors in JSON, so a 5xx with a non-JSON body (or a
-// fetch that throws) means the Next proxy couldn't reach it: usually uvicorn
-// restarting under --reload. Retry after these waits, then say so plainly.
+// fetch that throws) means the Next proxy gave up on it. A quick failure is a
+// refused connection, usually uvicorn restarting under --reload: retry after
+// these waits, then say so plainly. A slow one is the proxy's 5-minute timeout
+// (next.config.ts): the API is busy, so sending the request again would only
+// stack another one behind it.
 const RETRY_DELAYS_MS = [1000, 2000];
+const QUICK_FAILURE_MS = 10_000;
 const UNREACHABLE = "Can't reach the neuroSim API on :8000. It may be restarting or stopped. Try again in a moment.";
+const TIMED_OUT =
+  "The neuroSim API didn't answer within 5 minutes, so the request was dropped. The API log shows what it was waiting on.";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const url = SNAPSHOT_MODE ? `/demo/${snapshotPath(path, init?.body as string | undefined)}` : `/api${path}`;
@@ -51,6 +57,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
   const json = typeof init?.body === "string";
   for (let attempt = 0; ; attempt++) {
+    const started = Date.now();
     const res = await fetch(url, { ...init, headers: json ? { "Content-Type": "application/json" } : undefined }).catch(() => null);
     if (res?.ok) return res.json() as Promise<T>;
     const text = res ? await res.text().catch(() => "") : "";
@@ -59,6 +66,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       body = JSON.parse(text) as { detail?: unknown };
     } catch {}
     if (!res || (res.status >= 500 && body === undefined)) {
+      if (Date.now() - started > QUICK_FAILURE_MS) throw new ApiError(TIMED_OUT, res?.status ?? 0);
       if (attempt < RETRY_DELAYS_MS.length) {
         await new Promise((resolve) => setTimeout(resolve, RETRY_DELAYS_MS[attempt]));
         continue;
