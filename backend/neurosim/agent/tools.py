@@ -11,15 +11,112 @@ which is sent to the model). Keep the two in sync when you add a tool.
 
 from __future__ import annotations
 
+import json
+
+from neurosim import config
+from neurosim.api import mocks
+from neurosim.bio import evidence
+from neurosim.engine import pipeline
+from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SimulationRequest, SimulationResult
+
+# Sent with every result while the API serves mocks, so the agent says so.
+_SAMPLE_NOTE = "Sample numbers: the engine isn't built yet, so these are fixed placeholder values, not real results."
+TOP_GROUPS = 5
+TOP_NEURONS = 5
+
+
+def _dump(payload: dict) -> str:
+    if config.USE_MOCKS:
+        payload = {"note": _SAMPLE_NOTE, **payload}
+    return json.dumps(payload, default=str)
+
+
+def _seeds(human_gene: str, high_confidence_only: bool) -> SeedSet:
+    if config.USE_MOCKS:
+        gene = next((g for g in mocks.mock_genes() if g["human_gene"] == human_gene), None)
+        if gene is None:
+            known = ", ".join(g["human_gene"] for g in mocks.mock_genes())
+            raise ValueError(f"No evidence for {human_gene}. Genes with evidence: {known}.")
+        if not gene["simulatable"]:
+            raise ValueError(f"{human_gene} has no fly ortholog, so it can't be simulated.")
+        return mocks.mock_seeds(human_gene)
+    return evidence.resolve_seeds(SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only))
+
+
+def _simulate(request: SimulationRequest) -> SimulationResult:
+    return mocks.mock_result(request) if config.USE_MOCKS else pipeline.run_simulation(request)
+
+
+def summarize_result(result: SimulationResult) -> dict:
+    """The compact view of a run the agent sees (also used for the run summary)."""
+    req = result.request
+    return {
+        "run_id": result.run_id,
+        "request": {
+            "human_gene": req.human_gene,
+            "mode": req.mode.value,
+            "strength": req.strength,
+            "high_confidence_only": req.high_confidence_only,
+            "seed_cell_types": req.seed_cell_types,
+        },
+        "seed_cell_types": [t.cell_type for t in result.seeds.seed_types],
+        "n_seed_neurons": result.n_seed_neurons,
+        "n_reached": result.n_reached,
+        "disruption_score": result.disruption_score,
+        "disruption_null_mean": result.disruption_null_mean,
+        "disruption_z": result.disruption_z,
+        "top_groups": {
+            level.value: [
+                {
+                    "group": g.group,
+                    "z_score": round(g.z_score, 2),
+                    "q_value": g.q_value,
+                    "above_chance": g.above_chance,
+                    "n_neurons": g.n_neurons,
+                    "function_label": g.function_label,
+                }
+                for g in groups[:TOP_GROUPS]
+            ]
+            for level, groups in result.groups.items()
+        },
+        "top_neurons": [
+            {"root_id": n.root_id, "cell_type": n.cell_type, "region": n.region, "direct": n.direct, "impact": n.impact}
+            for n in result.top_neurons[:TOP_NEURONS]
+        ],
+        "assumptions": result.assumptions,
+    }
+
 
 def list_diseases() -> str:
     """List the diseases neuroSim has evidence for."""
-    raise NotImplementedError
+    diseases = ["parkinsons"] if config.USE_MOCKS else evidence.list_diseases()
+    return _dump({"diseases": diseases})
 
 
 def get_gene_chain(human_gene: str, high_confidence_only: bool = False) -> str:
     """Fly ortholog, lost dopamine clusters, matched cell types, neuron counts, confidence."""
-    raise NotImplementedError
+    seeds = _seeds(human_gene.upper(), high_confidence_only)
+    return _dump(
+        {
+            "human_gene": seeds.human_gene,
+            "ortholog": seeds.ortholog.model_dump(),
+            "seed_types": [
+                {
+                    "cell_type": t.cell_type,
+                    "cluster": t.cluster,
+                    "match": t.match,
+                    "n_neurons": t.n_neurons,
+                    "confidence": t.confidence,
+                    "evidence": [
+                        {"finding": e.finding, "citation": e.citation, "tier": e.tier, "model_type": e.model_type,
+                         "verified_by_bio": e.verified_by_bio}
+                        for e in t.evidence
+                    ],
+                }
+                for t in seeds.seed_types
+            ],
+        }
+    )
 
 
 def run_simulation(
@@ -29,17 +126,33 @@ def run_simulation(
     seed_cell_types: list[str] | None = None,
 ) -> str:
     """Run a perturbation; return run id, disruption score and top groups with z-scores."""
-    raise NotImplementedError
+    human_gene = human_gene.upper()
+    seeds = _seeds(human_gene, False)
+    if seed_cell_types:
+        available = {t.cell_type for t in seeds.seed_types}
+        missing = [t for t in seed_cell_types if t not in available]
+        if missing:
+            raise ValueError(f"{', '.join(missing)} is not a seed type for {human_gene}. Its seed types: {', '.join(sorted(available))}.")
+    request = SimulationRequest(
+        human_gene=human_gene,
+        mode=PerturbationMode(mode),
+        strength=1.0 if mode == "knockout" else strength,
+        seed_cell_types=seed_cell_types or None,
+    )
+    return _dump(summarize_result(_simulate(request)))
 
 
 def compare_runs(run_a: str, run_b: str, level: str = "region") -> str:
     """Rank correlation of two runs, groups above chance in both, groups unique to each."""
-    raise NotImplementedError
+    cmp = mocks.mock_comparison(run_a, run_b) if config.USE_MOCKS else pipeline.compare(run_a, run_b, GroupLevel(level))
+    return _dump(cmp.model_dump(mode="json"))
 
 
 def explain_neuron(run_id: str, root_id: int) -> str:
     """Strongest connection paths from the seed neurons to one neuron."""
-    raise NotImplementedError
+    if config.USE_MOCKS:
+        return _dump({"root_id": root_id, "paths": [{"neurons": ["PPL101", "MBON01"], "strength": 0.41}]})
+    return _dump(pipeline.explain_neuron(run_id, int(root_id)))
 
 
 TOOLS = {

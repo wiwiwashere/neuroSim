@@ -23,8 +23,10 @@ from neurosim.models import EvidenceRow, Ortholog, SeedSet, SimulationRequest
 
 
 def load_evidence() -> dict:
-    """Read data/evidence.json. Validate every evidence row against EvidenceRow
-    and fail loudly on a row without a citation."""
+    """Read data/evidence.json, plus the rows Bio approved from paper uploads
+    in config.APPROVED_EVIDENCE_PATH if that file exists (same row shape, with
+    an extra "extracted" block). Validate every evidence row against
+    EvidenceRow and fail loudly on a row without a citation."""
     raise NotImplementedError
 
 
