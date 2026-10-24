@@ -114,12 +114,12 @@
   ],
   "cluster_to_cell_types": {
     "_readme": "Bio + CS1, built on day 1 by searching Codex. exact = the connectome names this cluster directly; inferred = matched by projection pattern.",
-    "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"]},
+    "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"], "_note": "The FlyWire v783 annotations (flywire_annotations v3.2.0) also have PPL107 and PPL108 (2 neurons each, dopamine). Bio to decide whether they belong here."},
     "PAM":  {"match": "exact", "cell_types": ["PAM01", "PAM02", "PAM03", "PAM04", "PAM05", "PAM06", "PAM07", "PAM08", "PAM09", "PAM10", "PAM11", "PAM12", "PAM13", "PAM14", "PAM15"]},
-    "PPL2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
-    "PPM1/2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
-    "PPM3": {"match": "inferred", "cell_types": [], "_todo": "central complex DA types; find in Codex"},
-    "PAL":  {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
+    "PPL2": {"match": "exact", "cell_types": ["PPL201", "PPL202", "PPL203", "PPL204"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations (flywire_annotations v3.2.0): 8 neurons, 2 per type, all predicted and known dopamine."},
+    "PPM1/2": {"match": "exact", "cell_types": ["PPM1201", "PPM1202", "PPM1203", "PPM1204,PS139", "PPM1205"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations: 16 neurons. The hemibrain names PPM1 and PPM2 together as PPM12. PPM1204,PS139 is one type name in FlyWire; its 4 neurons are predicted glutamate but annotated known dopamine."},
+    "PPM3": {"match": "inferred", "cell_types": ["ExR2_1", "ExR2_2", "FB1C", "FB2A", "FB4L", "FB4M", "FB5H"], "verified_by_bio": false, "_note": "No FlyWire type is named PPM3. Picked central complex types whose known_nt lists dopamine from immunostaining or EASI-FISH, all but FB5H in the DM6 lineage. ExR2 likely corresponds to the PPM3 neurons that innervate the ellipsoid body (Hulse et al. 2021). FB6H and FB7B also stain for dopamine but are DL1-lineage glutamate neurons, so they are left out. 24 neurons; Bio to confirm each type."},
+    "PAL":  {"match": "exact", "cell_types": ["PAL01", "PAL02", "PAL03"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations: 6 neurons, 2 per type, all dopamine."},
     "ALL_DA": {"match": "inferred", "cell_types": ["*"], "_note": "every neuron predicted dopaminergic"}
   }
 }
