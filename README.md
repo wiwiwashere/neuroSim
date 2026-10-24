@@ -45,7 +45,7 @@ data/
   processed/           output of prep (not committed; regenerate)
   evidence.json        hand-curated evidence table (committed)
 docs/ENGINE_DESIGN.md  how the simulation and vulnerability model work, and why
-frontend/SCREENS.md    each screen, which endpoint it calls, what it shows
+frontend/               Next.js workspace app (CS2); SCREENS.md maps each view to its endpoint
 tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 ```
 
@@ -65,4 +65,5 @@ python -m neurosim.prep.build_dataset            # once, ~minutes
 export GEMINI_API_KEY=...                        # for the agent
 uvicorn neurosim.api.main:app --reload           # API on :8000
 pytest tests/                                    # toy-graph tests
+cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)
 ```
