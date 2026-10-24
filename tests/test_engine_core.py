@@ -90,3 +90,14 @@ def test_random_draws_are_reproducible_and_without_replacement():
     assert all(len(set(row)) == 5 and set(row) <= set(pool) for row in a)
     with pytest.raises(ValueError):
         draw_random_seeds(pool, 21, 1, np.random.default_rng(0))
+
+
+def test_synthetic_brain_is_reproducible_and_has_a_mixed_da_pool():
+    from neurosim.engine.synthetic import synthetic_connectome
+
+    a, b = synthetic_connectome(), synthetic_connectome()
+    assert (a.W != b.W).nnz == 0
+    da_types = set(a.neurons.loc[a.dopaminergic(), "cell_type"])
+    assert {"PAM02", "PPL101", "PPM3_syn"} <= da_types
+    sums = np.asarray(a.A.sum(axis=1)).ravel()
+    assert np.allclose(sums[a.in_strength > 0], 1.0)
