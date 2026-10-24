@@ -19,7 +19,7 @@ from __future__ import annotations
 import os
 from contextlib import contextmanager
 
-from fastapi import FastAPI, HTTPException, Request, UploadFile
+from fastapi import FastAPI, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -185,22 +185,52 @@ async def run_summary(run_id: str) -> dict:
 
 
 @app.post("/evidence/extract")
-async def evidence_extract(file: UploadFile) -> dict:
-    """Upload a paper PDF; Gemini proposes evidence rows, each pending Bio's
-    approval. Nothing is used until approved."""
-    pdf = await file.read()
-    return await run_in_threadpool(_gemini, papers.extract, pdf, file.filename or "paper.pdf")
+async def evidence_extract(
+    file: UploadFile | None = None, text: str | None = Form(None), doi: str | None = Form(None)
+) -> dict:
+    """Send one of: a paper PDF (file), its text (text), or a DOI/PMID (doi).
+    The model proposes evidence rows, each checked against the evidence table
+    and pending Bio's approval. Nothing is used until approved."""
+    pdf = await file.read() if file is not None else None
+    name = file.filename if file is not None and file.filename else "paper.pdf"
+    return await run_in_threadpool(lambda: _gemini(lambda: papers.extract(pdf, name, text, doi)))
+
+
+@app.get("/evidence/proposals")
+def evidence_proposals() -> list[dict]:
+    """Rows from earlier uploads still waiting for a decision."""
+    return papers.pending()
 
 
 class Decision(BaseModel):
     approve: bool
+    edits: dict | None = None    # any of human_gene, fly_gene, model_type, clusters, finding, tier
 
 
 @app.post("/evidence/rows/{row_id}/decision")
 def evidence_decision(row_id: str, body: Decision) -> dict:
-    """Bio approves or rejects one proposed row. Approved rows go to
-    data/evidence_approved.json, not evidence.json."""
+    """Bio approves (optionally with corrections) or rejects one proposed row.
+    Approved rows go to data/evidence_approved.json, not evidence.json, and
+    seed the next run."""
     try:
-        return papers.decide(row_id, body.approve)
+        return papers.decide(row_id, body.approve, body.edits)
     except KeyError as err:
         raise HTTPException(404, str(err.args[0])) from err
+    except ValueError as err:
+        raise HTTPException(400, str(err)) from err
+
+
+@app.get("/evidence/approved")
+def evidence_approved() -> list[dict]:
+    """Rows approved from paper uploads, newest last."""
+    return papers.approved_rows()
+
+
+@app.delete("/evidence/approved/{row_id}")
+def evidence_remove(row_id: str) -> dict:
+    """Take an approved paper row back out of the evidence table."""
+    try:
+        papers.remove_approved(row_id)
+    except KeyError as err:
+        raise HTTPException(404, str(err.args[0])) from err
+    return {"removed": row_id}

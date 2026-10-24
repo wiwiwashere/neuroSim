@@ -76,7 +76,11 @@ def list_genes(disease: str) -> list[dict]:
     rows = [row for row in load_evidence()["evidence"] if row.disease == disease]
     genes = []
     for gene in dict.fromkeys(row.human_gene for row in rows):
-        ortholog = find_ortholog(gene)
+        try:
+            ortholog = find_ortholog(gene)
+        except SeedError:  # a gene only an uploaded paper mentions, not yet in the ortholog table
+            ortholog = Ortholog(human_gene=gene, fly_genes=[], diopt_score=None,
+                                relationship="not in the ortholog table", confidence=0.0)
         seeds = [row for row in rows if row.human_gene == gene and not _is_validation(row)]
         best = max((row.tier for row in seeds), key=TIER_ORDER.get, default=None)
         genes.append({

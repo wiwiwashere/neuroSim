@@ -5,6 +5,7 @@ pyarrow          # reads the FlyWire .feather file
 networkx         # only for the small drawn subgraph
 fastapi
 python-multipart # paper PDF uploads (FastAPI UploadFile)
+pypdf            # paper text and quote checks for uploaded PDFs
 uvicorn
 watchfiles       # lets uvicorn --reload-exclude skip prep/ (see README)
 pydantic>=2

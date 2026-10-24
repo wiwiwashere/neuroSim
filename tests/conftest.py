@@ -12,4 +12,5 @@ def _no_local_uploads(tmp_path, monkeypatch):
     from neurosim import config
 
     monkeypatch.setattr(config, "APPROVED_EVIDENCE_PATH", tmp_path / "evidence_approved.json")
-    monkeypatch.setattr(config, "PROPOSALS_PATH", tmp_path / "evidence_proposals.json", raising=False)
+    monkeypatch.setattr(config, "PROPOSALS_PATH", tmp_path / "evidence_proposals.json")
+    monkeypatch.setattr("neurosim.agent.papers._PROPOSALS", None)
