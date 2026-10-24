@@ -7,7 +7,7 @@ pipeline.run_simulation works (set NEUROSIM_MOCKS=0).
 
 from __future__ import annotations
 
-from neurosim.bio import evidence
+from neurosim.bio import evidence, expression
 from neurosim.engine import graph
 from neurosim.models import (
     Comparison,
@@ -59,7 +59,7 @@ def mock_seeds(request: SimulationRequest | str = "PRKN") -> SeedSet:
     )
     if request.seed_cell_types:
         seeds.seed_types = [t for t in seeds.seed_types if t.cell_type in request.seed_cell_types]
-    return seeds
+    return expression.annotate(seeds)
 
 
 def _group(name: str, z: float, label: str) -> GroupScore:

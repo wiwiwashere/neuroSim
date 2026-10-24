@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 
 from neurosim import config
+from neurosim.bio import expression
 from neurosim.models import EvidenceRow, Ortholog, SeedSet, SeedType, SimulationRequest
 
 ALL_DA = "*"
@@ -226,7 +227,8 @@ def resolve_seeds(request: SimulationRequest) -> SeedSet:
                         "have no matched cell types" + (" after the filters" if request.seed_cell_types
                                                        or request.high_confidence_only else ""))
     disease = rows[0].disease
-    return SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types)
+    # Expression is an annotation on the seeds, applied after they are chosen.
+    return expression.annotate(SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types))
 
 
 def validation_seeds() -> SeedSet:

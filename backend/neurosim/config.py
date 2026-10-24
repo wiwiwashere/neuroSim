@@ -20,6 +20,8 @@ EVIDENCE_PATH = ROOT / "data" / "evidence.json"
 # Rows Bio approved from paper uploads (agent/papers.py). Kept apart from the
 # hand-curated table so a live approval never rewrites evidence.json.
 APPROVED_EVIDENCE_PATH = ROOT / "data" / "evidence_approved.json"
+# Kait's expression atlas table (Davis et al. 2020), read by bio/expression.py.
+EXPRESSION_PATH = ROOT / "data" / "expression_table.csv"
 # Paper rows waiting for Bio's decision, so an API reload doesn't drop them (gitignored).
 PROPOSALS_PATH = ROOT / "data" / "evidence_proposals.json"
 
