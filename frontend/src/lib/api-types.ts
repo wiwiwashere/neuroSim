@@ -67,6 +67,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/genes/{human_gene}/expression": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gene Expression
+         * @description Kait's atlas values for the gene's fly orthologs (PAM only), or null.
+         *     From the evidence table, so it works for genes that can't be simulated yet.
+         */
+        get: operations["gene_expression_genes__human_gene__expression_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/simulate": {
         parameters: {
             query?: never;
@@ -334,6 +355,23 @@ export interface components {
             /** Doi */
             doi?: string | null;
         };
+        /**
+         * CellTypeExpression
+         * @description A fly gene's expression in one FlyWire cell type, from Kait's atlas table.
+         *     An annotation only: it never changes which neurons are seeds or their confidence.
+         */
+        CellTypeExpression: {
+            /** Cell Type */
+            cell_type: string;
+            /** Tpm */
+            tpm: {
+                [key: string]: number;
+            };
+            /** Atlas Labels */
+            atlas_labels: string[];
+            /** Match */
+            match: string;
+        };
         /** ChatRequest */
         ChatRequest: {
             /** Message */
@@ -401,6 +439,26 @@ export interface components {
              */
             verified_by_bio?: boolean;
             extracted?: components["schemas"]["PaperSource"] | null;
+        };
+        /**
+         * GeneExpression
+         * @description What the expression atlas says about one gene's fly orthologs (bio/expression.py).
+         */
+        GeneExpression: {
+            /** Human Gene */
+            human_gene: string;
+            /** Fly Genes */
+            fly_genes: string[];
+            /** Missing Fly Genes */
+            missing_fly_genes: string[];
+            /** Clusters Measured */
+            clusters_measured: string[];
+            /** Cell Types */
+            cell_types: components["schemas"]["CellTypeExpression"][];
+            /** Citation */
+            citation: string;
+            /** Url */
+            url: string;
         };
         /** GraphEdge */
         GraphEdge: {
@@ -551,6 +609,7 @@ export interface components {
             ortholog: components["schemas"]["Ortholog"];
             /** Seed Types */
             seed_types: components["schemas"]["SeedType"][];
+            expression?: components["schemas"]["GeneExpression"] | null;
         };
         /**
          * SeedType
@@ -571,6 +630,7 @@ export interface components {
             confidence: number;
             /** Evidence */
             evidence: components["schemas"]["EvidenceRow"][];
+            expression?: components["schemas"]["CellTypeExpression"] | null;
         };
         /** SimulationRequest */
         SimulationRequest: {
@@ -732,6 +792,37 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    gene_expression_genes__human_gene__expression_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                human_gene: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeneExpression"] | null;
                 };
             };
             /** @description Validation Error */

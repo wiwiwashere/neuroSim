@@ -11,6 +11,8 @@ export type SeedType = S["SeedType"];
 export type EvidenceRow = S["EvidenceRow"];
 export type PaperSource = S["PaperSource"];
 export type Ortholog = S["Ortholog"];
+export type GeneExpression = S["GeneExpression"];
+export type CellTypeExpression = S["CellTypeExpression"];
 export type SimulationRequest = S["SimulationRequest"];
 export type SimulationResult = S["SimulationResult"];
 export type GroupScore = S["GroupScore"];
@@ -31,6 +33,8 @@ export interface GeneOption {
   fly_genes: string[];
   best_tier: "high" | "medium" | "low" | null;
   simulatable: boolean;
+  /** Why it can't be simulated: no fly ortholog, or an ortholog but no paper naming the lost clusters yet. */
+  why_not: "no_ortholog" | "no_evidence" | null;
 }
 
 /** GET /runs/{id}/neurons/{rid}/explain */
