@@ -141,17 +141,18 @@ def test_refused_key_is_reported_plainly(fake):
 
 
 def test_summary_uses_the_runs_numbers_and_drops_unknown_circuits(fake):
-    result = mocks.mock_result(SimulationRequest(human_gene="PINK1"))
+    # PRKN's seeds include PPL101 both as fake seeds and from the real table.
+    result = mocks.mock_result(SimulationRequest(human_gene="PRKN"))
     summary._CACHE.clear()
     fake([_interaction("s1", text=json.dumps({
-        "headline": "PINK1 seeds feed the mushroom body far more than chance.",
+        "headline": "PRKN seeds feed the mushroom body far more than chance.",
         "top_circuits": [
             {"group": "mushroom body", "level": "super_region", "why": "Most input comes from PPL1."},
             {"group": "made-up region", "level": "region", "why": "Invented."},
         ],
         "caveats": ["Sample numbers."],
         "next_experiment": {"description": "PPL101 alone", "why": "Find the bottleneck.",
-                            "human_gene": "PINK1", "mode": "knockout", "seed_cell_types": ["PPL101"]},
+                            "human_gene": "PRKN", "mode": "knockout", "seed_cell_types": ["PPL101"]},
     }))])
     out = summary.summarize_run(result)
     assert [c["group"] for c in out["top_circuits"]] == ["mushroom body"]

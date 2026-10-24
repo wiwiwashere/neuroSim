@@ -89,16 +89,14 @@ def _gemini(fn, *args):
 @app.get("/diseases")
 def diseases() -> list[str]:
     """Diseases in the evidence table (just Parkinson's for the MVP)."""
-    if USE_MOCKS:
-        return ["parkinsons"]
     return evidence.list_diseases()
 
 
 @app.get("/diseases/{disease}/genes")
 def genes(disease: str) -> list[dict]:
-    """Gene picker: gene, fly ortholog, confidence, whether it can be simulated."""
-    if USE_MOCKS:
-        return mocks.mock_genes()
+    """Gene picker: gene, fly ortholog, confidence, whether it can be simulated.
+    Always from the evidence table (it needs no engine), so a gene that only
+    an approved paper row mentions shows up too."""
     return evidence.list_genes(disease)
 
 
@@ -106,21 +104,16 @@ def genes(disease: str) -> list[dict]:
 def mapping_chain(human_gene: str, high_confidence_only: bool = False) -> dict:
     """Everything for the mapping-chain screen: ortholog, evidence rows,
     clusters, cell types, neuron counts, confidence at every link."""
-    if USE_MOCKS:
-        return mocks.mock_seeds(human_gene).model_dump()
+    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
     with _http_errors():
-        return evidence.resolve_seeds(
-            SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
-        ).model_dump()
+        return (mocks.mock_seeds(request) if USE_MOCKS else evidence.resolve_seeds(request)).model_dump()
 
 
 @app.post("/simulate")
 def simulate(request: SimulationRequest) -> SimulationResult:
     """Run (or fetch from cache) one experiment."""
-    if USE_MOCKS:
-        return mocks.mock_result(request)
     with _http_errors():
-        return pipeline.run_simulation(request)
+        return mocks.mock_result(request) if USE_MOCKS else pipeline.run_simulation(request)
 
 
 @app.get("/runs/{run_id}")
