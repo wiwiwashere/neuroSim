@@ -69,6 +69,22 @@ every row as evidence. Confidence does not scale the simulation (every seed
 neuron gets the same deficit); it is shown on the mapping chain, and "High
 confidence only" drops low-tier rows and inferred matches before seeding.
 
+**Expression is an annotation, not a factor.** `bio/expression.py` reads
+Kait's atlas table (`data/expression_table.csv`, Davis et al. 2020 bulk
+RNA-seq of labelled cell types) through the `expression` block of
+`evidence.json`, which maps its PAM driver lines to FlyWire PAM types.
+After the seeds are chosen it attaches TPM values to the seed set and to
+each PAM seed type. It never removes a seed or changes a confidence. The
+atlas profiled PAM only, so PPL1, PPL2, PPM1/2, PPM3 and PAL are "not
+measured", which must never count against them. Whether expression should
+become a confidence factor is open for Bio and CS1.
+
+**Genes without evidence yet.** An `orthologs` entry with
+`"diseases": ["parkinsons"]` and no evidence row is listed in the gene
+picker with `why_not: "no_evidence"` (Kait's ten extra PD genes, VPS35 to
+GBA1). Seeding it raises a `SeedError` saying no paper names its clusters;
+an approved paper row makes it simulatable.
+
 **Adding evidence from a paper** (`agent/papers.py`, the "Evidence from a
 paper" panel):
 
