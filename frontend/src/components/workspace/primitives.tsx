@@ -1,14 +1,11 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/** Numbered step heading used down the left column. */
-export function StepHeading({ n, title, aside }: { n: number; title: string; aside?: ReactNode }) {
+/** Section heading used down the left column. */
+export function StepHeading({ title, aside }: { title: string; aside?: ReactNode }) {
   return (
     <div className="mb-2.5 flex items-baseline justify-between gap-2">
-      <h2 className="flex items-baseline gap-2 text-[13px] font-medium tracking-tight">
-        <span className="font-mono text-[11px] text-faint tabular">{String(n).padStart(2, "0")}</span>
-        {title}
-      </h2>
+      <h2 className="text-[13px] font-semibold tracking-tight">{title}</h2>
       {aside}
     </div>
   );
@@ -65,8 +62,8 @@ export function StatTile({
       <span className="text-[12px] text-muted-foreground">{label}</span>
       <span
         className={cn(
-          "font-mono tabular leading-none tracking-tight",
-          emphasis ? "text-[40px] font-medium" : "text-[26px]",
+          "tabular leading-none tracking-[-0.02em]",
+          emphasis ? "text-[44px] font-semibold" : "text-[26px] font-medium",
         )}
       >
         {value}

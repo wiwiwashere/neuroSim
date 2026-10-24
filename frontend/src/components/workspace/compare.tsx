@@ -96,7 +96,7 @@ function ComparePair({ a, b }: { a: RunEntry; b: RunEntry }) {
     <>
       {cmp.error && <ErrorNote error={cmp.error} />}
       {cmp.data && (
-        <div className="grid grid-cols-[auto_1fr] items-center gap-8 rounded-xl border bg-card px-5 py-4">
+        <div className="grid items-center gap-4 rounded-xl border bg-card px-5 py-4 sm:grid-cols-[auto_1fr] sm:gap-8">
           <StatTile emphasis label="Rank correlation (Spearman ρ)" value={cmp.data.spearman_rho.toFixed(2)} sub={`${LEVEL_LABEL[level]} level`} />
           <div className="grid gap-2.5">
             <p className="text-[14px] leading-snug">{cmp.data.summary}</p>
@@ -108,7 +108,7 @@ function ComparePair({ a, b }: { a: RunEntry; b: RunEntry }) {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         {[a, b].map((r) => {
           const groups = r.result.groups[level] ?? [];
           return (

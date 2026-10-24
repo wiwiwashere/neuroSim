@@ -47,35 +47,37 @@ function Overview({ result }: { result: SimulationResult }) {
 
   return (
     <div className="grid gap-4">
+      {/* One panel: the headline number, what it is measured against, and where it goes. */}
       <Panel>
-        <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] gap-6 px-5 py-4">
+        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-b px-5 pt-5 pb-4">
           <StatTile
             emphasis
-            label="Disruption score"
+            label={`Disruption score · ${result.request.human_gene}`}
             value={pct(result.disruption_score)}
             sub={
               <>
-                z = <span className="font-mono text-foreground">{result.disruption_z.toFixed(1)}</span> ·{" "}
-                {zPhrase(result.disruption_z)}
+                <span className={result.disruption_z >= 2 ? "font-medium text-signal" : "text-foreground"}>
+                  z {result.disruption_z.toFixed(1)}, {zPhrase(result.disruption_z)}
+                </span>{" "}
+                · random DA neurons of the same count score {pct(result.disruption_null_mean)}
               </>
             }
           />
-          <StatTile label="Chance level" value={pct(result.disruption_null_mean)} sub="random DA neurons, same count" />
-          <StatTile label="Seed neurons" value={int(result.n_seed_neurons)} sub="perturbed" />
-          <StatTile label="Neurons reached" value={int(result.n_reached)} sub={`within ${result.assumptions.hops ?? 3} synapses`} />
+          <dl className="grid grid-cols-2 gap-x-8 gap-y-1 text-[12.5px]">
+            <dt className="text-muted-foreground">Seed neurons perturbed</dt>
+            <dd className="text-right font-medium tabular">{int(result.n_seed_neurons)}</dd>
+            <dt className="text-muted-foreground">Reached within {result.assumptions.hops ?? 3} synapses</dt>
+            <dd className="text-right font-medium tabular">{int(result.n_reached)}</dd>
+          </dl>
         </div>
-      </Panel>
-
-      <Panel
-        title="Where does the damage go?"
-        aside={
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-3.5">
+          <h3 className="text-[13px] font-semibold">Where does the damage go?</h3>
           <span className="flex items-center gap-3 text-[11.5px] text-muted-foreground">
             <Legend swatch="bg-seed" label="seed cluster" />
             <Legend swatch="bg-signal" label="above chance" />
             <Legend swatch="bg-faint" label="within chance" />
           </span>
-        }
-      >
+        </div>
         <div className="h-[340px] px-2 py-2">
           {sankey.error && <ErrorNote error={sankey.error} />}
           {sankey.data && <DamageSankey links={sankey.data} groups={supers} />}
@@ -204,7 +206,7 @@ function Network({ result }: { result: SimulationResult }) {
 
   return (
     <div className="grid gap-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         {(["healthy", "perturbed"] as const).map((variant) => (
           <Panel
             key={variant}
@@ -307,7 +309,7 @@ export function Results() {
 
   return (
     <Tabs value={ws.tab} onValueChange={(v) => ws.set({ tab: v as Tab })} className="flex h-full min-h-0 flex-col gap-0">
-      <div className="flex items-center justify-between gap-4 border-b px-6 py-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b px-4 py-2.5 sm:px-6">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="ranked">Ranked</TabsTrigger>
@@ -316,19 +318,19 @@ export function Results() {
         </TabsList>
         <RunSwitcher />
       </div>
-      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-5">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6">
         {!result && ws.tab !== "compare" ? (
           <EmptyState title="No run yet">Pick a gene on the left and run a simulation, or ask the agent on the right.</EmptyState>
         ) : (
           <>
             {/* Keyed on the run so a new result (yours or the agent's) visibly lands. */}
-            <TabsContent value="overview" key={`o-${ws.activeKey}`} className="animate-in fade-in duration-500">
+            <TabsContent value="overview" key={`o-${ws.activeKey}`} className="animate-in fade-in duration-200">
               {result && <Overview result={result} />}
             </TabsContent>
-            <TabsContent value="ranked" key={`r-${ws.activeKey}`} className="animate-in fade-in duration-500">
+            <TabsContent value="ranked" key={`r-${ws.activeKey}`} className="animate-in fade-in duration-200">
               {result && <Ranked result={result} />}
             </TabsContent>
-            <TabsContent value="network" key={`n-${ws.activeKey}`} className="animate-in fade-in duration-500">
+            <TabsContent value="network" key={`n-${ws.activeKey}`} className="animate-in fade-in duration-200">
               {result && <Network result={result} />}
             </TabsContent>
             <TabsContent value="compare">

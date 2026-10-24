@@ -127,7 +127,7 @@ export function AgentPanel() {
   };
 
   return (
-    <aside className="flex min-h-0 flex-col border-l bg-card">
+    <aside className="flex h-[560px] min-h-0 flex-col border-t bg-card lg:col-span-2 xl:col-span-1 xl:h-auto xl:border-t-0 xl:border-l">
       <div className="flex items-center gap-2 border-b px-4 py-3">
         <Sparkles className="size-4 text-signal" />
         <h2 className="text-[13px] font-medium">Ask neuroSim</h2>
@@ -170,7 +170,7 @@ export function AgentPanel() {
                       <button
                         key={j}
                         onClick={() => openChip(c)}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-signal/40 bg-signal-soft px-2.5 py-1 font-mono text-[11px] text-foreground transition-colors hover:border-signal"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-signal/40 bg-signal-soft px-2.5 py-1 text-[11.5px] text-foreground transition-colors hover:border-signal"
                       >
                         <Icon className="size-3 text-signal" />
                         {chipText(c)}

@@ -14,7 +14,7 @@ export function DiseasePicker() {
 
   return (
     <section>
-      <StepHeading n={1} title="Disease" />
+      <StepHeading title="Disease" />
       {diseases.error && <ErrorNote error={diseases.error} />}
       <div className="grid gap-1.5">
         {(diseases.data ?? []).map((d) => {
@@ -51,7 +51,7 @@ export function GenePicker() {
 
   return (
     <section>
-      <StepHeading n={2} title="Gene" aside={<span className="text-[11px] text-faint">fly ortholog · evidence</span>} />
+      <StepHeading title="Gene" aside={<span className="text-[11px] text-faint">fly ortholog · evidence</span>} />
       {genes.error && <ErrorNote error={genes.error} />}
       <div className="overflow-hidden rounded-lg border bg-card">
         {genes.isPending &&

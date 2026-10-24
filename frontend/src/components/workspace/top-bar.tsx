@@ -38,7 +38,7 @@ export function TopBar() {
         <span className="hidden text-[12px] text-faint lg:inline">disease gene → fly connectome</span>
       </div>
 
-      <nav aria-label="Progress" className="flex items-center gap-1 text-[12.5px]">
+      <nav aria-label="Progress" className="hidden items-center gap-1 text-[12.5px] md:flex">
         {steps.map((s, i) => (
           <button
             key={s.label}

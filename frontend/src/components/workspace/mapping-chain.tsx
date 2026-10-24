@@ -19,7 +19,7 @@ function Link({ kicker, children, confidence, last }: { kicker: string; children
       {!last && <span className="absolute top-[24px] bottom-[-10px] left-[8px] w-px bg-border" />}
       <div className="rounded-lg border bg-card px-3 py-2.5">
         <div className="mb-1 flex items-center justify-between gap-2">
-          <span className="text-[11px] uppercase tracking-[0.06em] text-faint">{kicker}</span>
+          <span className="text-[12px] text-muted-foreground">{kicker}</span>
           {confidence !== undefined && <ConfidenceMeter value={confidence} />}
         </div>
         {children}
@@ -63,7 +63,7 @@ export function MappingChain() {
   if (!simulatable) {
     return (
       <section>
-        <StepHeading n={3} title="Why these neurons?" />
+        <StepHeading title="Why these neurons?" />
         <div className="rounded-lg border border-dashed bg-card px-3.5 py-3 text-[13px]">
           <p className="font-medium">
             <span className="font-mono">{ws.gene}</span> has no fly ortholog.
@@ -84,7 +84,7 @@ export function MappingChain() {
 
   return (
     <section>
-      <StepHeading n={3} title="Why these neurons?" aside={toggle} />
+      <StepHeading title="Why these neurons?" aside={toggle} />
       {chain.error && <ErrorNote error={chain.error} />}
       {chain.isPending && <div className="h-64 animate-pulse rounded-lg bg-muted/60" />}
       {c && (

@@ -35,7 +35,7 @@ export function Perturbation() {
 
   return (
     <section>
-      <StepHeading n={4} title="Perturbation" />
+      <StepHeading title="Perturbation" />
       <div className="grid gap-3.5 rounded-lg border bg-card p-3">
         <ToggleGroup
           type="single"
