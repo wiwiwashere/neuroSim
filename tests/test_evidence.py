@@ -45,3 +45,14 @@ def test_validation_seeds_are_beta_prime_pam_types():
     seeds = evidence.validation_seeds()
     assert {t.cell_type for t in seeds.seed_types} <= set(evidence.VALIDATION_PAM_TYPES)
     assert all(t.cluster == "PAM" for t in seeds.seed_types)
+
+
+def test_type_matching_covers_subtypes_and_hemibrain_names():
+    import pandas as pd
+
+    neurons = pd.DataFrame({
+        "cell_type": ["PAM08_a", "PAM08_b", "PAM080", "PPL101", None, "KC"],
+        "hemibrain_type": [None, None, None, None, "PAM08_c", None],
+    })
+    assert evidence.type_mask(neurons, ["PAM08"]).tolist() == [True, True, False, False, True, False]
+    assert evidence.type_mask(neurons[["cell_type"]], ["PPL101"]).tolist() == [False, False, False, True, False, False]

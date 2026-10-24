@@ -122,6 +122,24 @@ def cluster_cell_types(cluster: str, high_confidence_only: bool = False) -> tupl
     return match, list(entry.get("cell_types", []))
 
 
+TYPE_COLUMNS = ("cell_type", "hemibrain_type")
+
+
+def type_mask(neurons, cell_types: list[str]):
+    """Neurons whose cell type is one of these names or a subtype of one
+    ("PAM08" also matches "PAM08_a"). Checks cell_type and, when prep wrote
+    it, hemibrain_type, because FlyWire splits some hemibrain types."""
+    mask = None
+    for column in TYPE_COLUMNS:
+        if column not in neurons:
+            continue
+        values = neurons[column].astype("string")
+        hit = values.isin(cell_types) | values.str.split("_").str[0].isin(cell_types)
+        hit = hit.fillna(False)
+        mask = hit if mask is None else mask | hit
+    return mask.to_numpy(dtype=bool)
+
+
 def _neurons():
     from neurosim.engine.graph import load_connectome
 
@@ -143,7 +161,7 @@ def _seed_types(rows: list[EvidenceRow], ortholog_confidence: float, high_confid
                 if cell_type == ALL_DA:
                     members, name = neurons[is_da], "all DA neurons"
                 else:
-                    members, name = neurons[neurons["cell_type"] == cell_type], cell_type
+                    members, name = neurons[type_mask(neurons, [cell_type])], cell_type
                 if members.empty:
                     continue
                 confidence = round(ortholog_confidence * tier * config.TYPE_MATCH_WEIGHT[match], 3)

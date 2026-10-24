@@ -98,9 +98,8 @@ class ValidationReport:
 
 
 def beta_prime_mbons(conn: Connectome) -> np.ndarray:
-    cell_type = conn.neurons["cell_type"].astype("string")
     for names in (BETA_PRIME_MBON_TYPES, SYNTHETIC_BETA_PRIME_MBON_TYPES):
-        hits = np.flatnonzero(cell_type.isin(names).fillna(False).to_numpy())
+        hits = np.flatnonzero(evidence.type_mask(conn.neurons, names))
         if hits.size:
             return hits
     raise ValueError("no beta-prime MBON cell types found in the connectome")
