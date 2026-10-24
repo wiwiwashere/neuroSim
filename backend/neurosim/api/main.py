@@ -19,7 +19,7 @@ from __future__ import annotations
 import os
 from contextlib import contextmanager
 
-from fastapi import FastAPI, HTTPException, Request, UploadFile
+from fastapi import FastAPI, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -33,7 +33,21 @@ from neurosim.engine import pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
 
-USE_MOCKS = config.USE_MOCKS
+USE_SYNTHETIC = os.environ.get("NEUROSIM_SYNTHETIC") == "1"
+_MOCKS_ENV = os.environ.get("NEUROSIM_MOCKS")
+if USE_SYNTHETIC:
+    USE_MOCKS = False
+elif _MOCKS_ENV is not None:
+    USE_MOCKS = _MOCKS_ENV == "1"
+else:
+    USE_MOCKS = not (processed_data_available() and pipeline.engine_ready())
+# The agent's tools read config.USE_MOCKS, so they serve what the API serves.
+config.USE_MOCKS = USE_MOCKS
+
+if USE_SYNTHETIC:
+    from neurosim.engine.synthetic import synthetic_connectome
+
+    set_connectome(synthetic_connectome())
 
 app = FastAPI(title="neuroSim")
 
@@ -47,6 +61,18 @@ async def _unhandled(request: Request, err: Exception) -> JSONResponse:
         status_code=500,
         content={"detail": f"neuroSim hit an internal error ({type(err).__name__}). The API log has the traceback."},
     )
+
+
+@contextmanager
+def _http_errors():
+    """Seed problems are the user's to fix (422, message shown as is);
+    unknown run or neuron IDs are 404."""
+    try:
+        yield
+    except evidence.SeedError as e:
+        raise HTTPException(status_code=422, detail=str(e)) from e
+    except KeyError as e:
+        raise HTTPException(status_code=404, detail=f"not found: {e}") from e
 
 
 def _gemini(fn, *args):
@@ -63,45 +89,39 @@ def _gemini(fn, *args):
 @app.get("/diseases")
 def diseases() -> list[str]:
     """Diseases in the evidence table (just Parkinson's for the MVP)."""
-    if USE_MOCKS:
-        return ["parkinsons"]
     return evidence.list_diseases()
 
 
 @app.get("/diseases/{disease}/genes")
 def genes(disease: str) -> list[dict]:
-    """Gene picker: gene, fly ortholog, confidence, whether it can be simulated."""
-    if USE_MOCKS:
-        return mocks.mock_genes()
-    raise NotImplementedError  # bio.evidence.list_genes(disease)
+    """Gene picker: gene, fly ortholog, confidence, whether it can be simulated.
+    Always from the evidence table (it needs no engine), so a gene that only
+    an approved paper row mentions shows up too."""
+    return evidence.list_genes(disease)
 
 
 @app.get("/genes/{human_gene}/chain")
 def mapping_chain(human_gene: str, high_confidence_only: bool = False) -> dict:
     """Everything for the mapping-chain screen: ortholog, evidence rows,
     clusters, cell types, neuron counts, confidence at every link."""
-    if USE_MOCKS:
-        return mocks.mock_seeds(human_gene).model_dump()
+    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
     with _http_errors():
-        return evidence.resolve_seeds(
-            SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
-        ).model_dump()
+        return (mocks.mock_seeds(request) if USE_MOCKS else evidence.resolve_seeds(request)).model_dump()
 
 
 @app.post("/simulate")
 def simulate(request: SimulationRequest) -> SimulationResult:
     """Run (or fetch from cache) one experiment."""
-    if USE_MOCKS:
-        return mocks.mock_result(request)
     with _http_errors():
-        return pipeline.run_simulation(request)
+        return mocks.mock_result(request) if USE_MOCKS else pipeline.run_simulation(request)
 
 
 @app.get("/runs/{run_id}")
 def run(run_id: str) -> SimulationResult:
     if USE_MOCKS:
         return mocks.mock_run(run_id)
-    raise NotImplementedError  # pipeline.get_result(run_id)
+    with _http_errors():
+        return pipeline.get_result(run_id)
 
 
 @app.get("/runs/{run_id}/sankey")
@@ -132,7 +152,8 @@ def explain(run_id: str, root_id: int) -> dict:
 def compare(run_a: str, run_b: str, level: GroupLevel = GroupLevel.REGION) -> Comparison:
     if USE_MOCKS:
         return mocks.mock_comparison(run_a, run_b)
-    raise NotImplementedError  # pipeline.compare(run_a, run_b, level)
+    with _http_errors():
+        return pipeline.compare(run_a, run_b, level)
 
 
 class ChatRequest(BaseModel):
@@ -158,27 +179,62 @@ async def run_summary(run_id: str) -> dict:
     if USE_MOCKS:
         result = mocks.mock_run(run_id)
     else:
-        raise NotImplementedError  # pipeline.get_result(run_id)
+        with _http_errors():
+            result = pipeline.get_result(run_id)
     return await run_in_threadpool(_gemini, summary.summarize_run, result)
 
 
 @app.post("/evidence/extract")
-async def evidence_extract(file: UploadFile) -> dict:
-    """Upload a paper PDF; Gemini proposes evidence rows, each pending Bio's
-    approval. Nothing is used until approved."""
-    pdf = await file.read()
-    return await run_in_threadpool(_gemini, papers.extract, pdf, file.filename or "paper.pdf")
+async def evidence_extract(
+    file: UploadFile | None = None, text: str | None = Form(None), doi: str | None = Form(None)
+) -> dict:
+    """Send one of: a paper PDF (file), its text (text), or a DOI/PMID (doi).
+    The model proposes evidence rows, each checked against the evidence table
+    and pending Bio's approval. Nothing is used until approved."""
+    pdf = await file.read() if file is not None else None
+    name = file.filename if file is not None and file.filename else "paper.pdf"
+    return await run_in_threadpool(lambda: _gemini(lambda: papers.extract(pdf, name, text, doi)))
+
+
+@app.get("/evidence/proposals")
+def evidence_proposals() -> list[dict]:
+    """Rows from earlier uploads still waiting for a decision."""
+    return papers.pending()
 
 
 class Decision(BaseModel):
     approve: bool
+    edits: dict | None = None    # any of human_gene, fly_gene, model_type, clusters, finding, tier
 
 
 @app.post("/evidence/rows/{row_id}/decision")
 def evidence_decision(row_id: str, body: Decision) -> dict:
-    """Bio approves or rejects one proposed row. Approved rows go to
-    data/evidence_approved.json, not evidence.json."""
+    """Bio approves (optionally with corrections) or rejects one proposed row.
+    Approved rows go to data/evidence_approved.json, not evidence.json, and
+    seed the next run."""
     try:
-        return papers.decide(row_id, body.approve)
+        row = papers.decide(row_id, body.approve, body.edits)
     except KeyError as err:
         raise HTTPException(404, str(err.args[0])) from err
+    except ValueError as err:
+        raise HTTPException(400, str(err)) from err
+    if row["status"] == "approved":
+        pipeline.clear_cache()   # cached runs were seeded without this row
+    return row
+
+
+@app.get("/evidence/approved")
+def evidence_approved() -> list[dict]:
+    """Rows approved from paper uploads, newest last."""
+    return papers.approved_rows()
+
+
+@app.delete("/evidence/approved/{row_id}")
+def evidence_remove(row_id: str) -> dict:
+    """Take an approved paper row back out of the evidence table."""
+    try:
+        papers.remove_approved(row_id)
+    except KeyError as err:
+        raise HTTPException(404, str(err.args[0])) from err
+    pipeline.clear_cache()
+    return {"removed": row_id}

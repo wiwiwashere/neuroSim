@@ -130,6 +130,11 @@ def processed_data_available() -> bool:
 _CACHE: Connectome | None = None
 
 
+def connectome_available() -> bool:
+    """A connectome is loaded or can be: set_connectome was called, or data/processed exists."""
+    return _CACHE is not None or processed_data_available()
+
+
 def set_connectome(conn: Connectome | None) -> None:
     """Replace the process-wide connectome (synthetic graphs, tests). None clears it."""
     global _CACHE

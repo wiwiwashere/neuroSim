@@ -20,6 +20,8 @@ EVIDENCE_PATH = ROOT / "data" / "evidence.json"
 # Rows Bio approved from paper uploads (agent/papers.py). Kept apart from the
 # hand-curated table so a live approval never rewrites evidence.json.
 APPROVED_EVIDENCE_PATH = ROOT / "data" / "evidence_approved.json"
+# Paper rows waiting for Bio's decision, so an API reload doesn't drop them (gitignored).
+PROPOSALS_PATH = ROOT / "data" / "evidence_proposals.json"
 
 # Serve api/mocks.py payloads instead of the engine until the engine works.
 # The API and the agent's tools both read this, so they always agree.
@@ -107,3 +109,6 @@ PAPER_TIMEOUT_S = 150
 # after this. Two full PAPER_TIMEOUT_S calls would reach the frontend proxy's
 # 300s timeout, so the fallback only gets what is left.
 PAPER_DEADLINE_S = 240
+# A paper's text is cut to this many characters (about 50k tokens) after the
+# reference list is dropped; methods, results and legends fit well within it.
+PAPER_MAX_CHARS = 200_000

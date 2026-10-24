@@ -11,11 +11,14 @@ import type {
   AgentReply,
   ChatRequest,
   Comparison,
+  EvidenceEdits,
   EvidenceExtraction,
   EvidenceProposal,
+  EvidenceRow,
   GeneOption,
   GroupLevel,
   NeuronExplanation,
+  PaperInput,
   RunSummary,
   SankeyLink,
   SeedSet,
@@ -105,16 +108,22 @@ export const api = {
     request<Comparison>(`/compare${q({ run_a: runA, run_b: runB, level })}`),
   agentChat: (body: ChatRequest) => request<AgentReply>("/agent/chat", { method: "POST", body: JSON.stringify(body) }),
   runSummary: (runId: string) => request<RunSummary>(`/runs/${encodeURIComponent(runId)}/summary`, { method: "POST" }),
-  extractEvidence: (file: File) => {
+  extractEvidence: (input: PaperInput) => {
     const form = new FormData();
-    form.append("file", file);
+    if ("file" in input) form.append("file", input.file);
+    else if ("text" in input) form.append("text", input.text);
+    else form.append("doi", input.doi);
     return request<EvidenceExtraction>("/evidence/extract", { method: "POST", body: form });
   },
-  decideEvidence: (rowId: string, approve: boolean) =>
+  pendingEvidence: () => request<EvidenceProposal[]>("/evidence/proposals"),
+  decideEvidence: (rowId: string, approve: boolean, edits?: EvidenceEdits) =>
     request<EvidenceProposal>(`/evidence/rows/${encodeURIComponent(rowId)}/decision`, {
       method: "POST",
-      body: JSON.stringify({ approve }),
+      body: JSON.stringify({ approve, edits: edits && Object.keys(edits).length ? edits : null }),
     }),
+  approvedEvidence: () => request<EvidenceRow[]>("/evidence/approved"),
+  removeEvidence: (rowId: string) =>
+    request<{ removed: string }>(`/evidence/approved/${encodeURIComponent(rowId)}`, { method: "DELETE" }),
 };
 
 /** FlyWire Codex page for one neuron: the real 3D shape, no renderer of our own. */

@@ -1,12 +1,14 @@
 """Fixed sample payloads (CS2) so the frontend can be built before the engine works.
 
-Every number here is FAKE. They have the right shape and roughly the right
+Every number here is FAKE, except the seeds (see mock_seeds). They have the right shape and roughly the right
 size so layouts and charts can be built. Delete this file's use once
 pipeline.run_simulation works (set NEUROSIM_MOCKS=0).
 """
 
 from __future__ import annotations
 
+from neurosim.bio import evidence
+from neurosim.engine import graph
 from neurosim.models import (
     Comparison,
     EvidenceRow,
@@ -15,7 +17,6 @@ from neurosim.models import (
     GroupLevel,
     GroupScore,
     NeuronImpact,
-    Ortholog,
     SankeyLink,
     SeedSet,
     SeedType,
@@ -32,22 +33,23 @@ _EVIDENCE = EvidenceRow(
 )
 
 
-def mock_genes() -> list[dict]:
-    return [
-        {"human_gene": "PINK1", "fly_genes": ["Pink1"], "best_tier": "medium", "simulatable": True},
-        {"human_gene": "PRKN", "fly_genes": ["park"], "best_tier": "medium", "simulatable": True},
-        {"human_gene": "PARK7", "fly_genes": ["dj-1beta", "DJ-1alpha"], "best_tier": "low", "simulatable": True},
-        {"human_gene": "LRRK2", "fly_genes": ["Lrrk"], "best_tier": "low", "simulatable": True},
-        {"human_gene": "SNCA", "fly_genes": [], "best_tier": None, "simulatable": False},
-    ]
-
-
-def mock_seeds(gene: str = "PRKN") -> SeedSet:
-    fly = next((g["fly_genes"] for g in mock_genes() if g["human_gene"] == gene), ["park"])
-    return SeedSet(
+def mock_seeds(request: SimulationRequest | str = "PRKN") -> SeedSet:
+    """Seeds for a mock run. Seed resolution doesn't need the engine, so when
+    the connectome is on disk these are the real ones from the evidence table
+    (rows approved from paper uploads included, SeedError for a gene that
+    can't be simulated). Without it, the table's ortholog and two fake PPL1 types."""
+    if isinstance(request, str):
+        request = SimulationRequest(human_gene=request)
+    if graph.connectome_available():
+        return evidence.resolve_seeds(request)
+    gene = request.human_gene
+    ortholog = evidence.find_ortholog(gene)   # SeedError for a gene the table doesn't know
+    if not ortholog.fly_genes:
+        raise evidence.SeedError(f"{gene} has no fly ortholog, so it cannot be simulated in the fly connectome")
+    seeds = SeedSet(
         disease="parkinsons",
         human_gene=gene,
-        ortholog=Ortholog(human_gene=gene, fly_genes=fly, diopt_score=15, relationship="1:1", confidence=0.9),
+        ortholog=ortholog,
         seed_types=[
             SeedType(cell_type="PPL101", cluster="PPL1", match="exact", n_neurons=2,
                      root_ids=[720575940000000001, 720575940000000002], confidence=0.63, evidence=[_EVIDENCE]),
@@ -55,6 +57,9 @@ def mock_seeds(gene: str = "PRKN") -> SeedSet:
                      root_ids=[720575940000000003, 720575940000000004], confidence=0.63, evidence=[_EVIDENCE]),
         ],
     )
+    if request.seed_cell_types:
+        seeds.seed_types = [t for t in seeds.seed_types if t.cell_type in request.seed_cell_types]
+    return seeds
 
 
 def _group(name: str, z: float, label: str) -> GroupScore:
@@ -82,9 +87,7 @@ def _mock_run_id(request: SimulationRequest) -> str:
 
 def mock_result(request: SimulationRequest | None = None) -> SimulationResult:
     request = request or SimulationRequest(human_gene="PRKN")
-    seeds = mock_seeds(request.human_gene)
-    if request.seed_cell_types:
-        seeds.seed_types = [t for t in seeds.seed_types if t.cell_type in request.seed_cell_types]
+    seeds = mock_seeds(request)
     result = SimulationResult(
         run_id=_mock_run_id(request),
         request=request,

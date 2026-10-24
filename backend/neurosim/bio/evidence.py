@@ -44,7 +44,23 @@ def load_evidence() -> dict:
     in config.APPROVED_EVIDENCE_PATH if that file exists (same row shape, with
     an extra "extracted" block). Validate every evidence row against
     EvidenceRow and fail loudly on a row without a citation."""
-    raise NotImplementedError
+    data = json.loads(config.EVIDENCE_PATH.read_text())
+    raw_rows = [(config.EVIDENCE_PATH.name, raw) for raw in data.get("evidence", [])]
+    if config.APPROVED_EVIDENCE_PATH.exists():
+        approved = json.loads(config.APPROVED_EVIDENCE_PATH.read_text())
+        raw_rows += [(config.APPROVED_EVIDENCE_PATH.name, raw) for raw in approved.get("evidence", [])]
+    rows = []
+    for i, (source, raw) in enumerate(raw_rows):
+        row = EvidenceRow(**raw)
+        if not row.citation.strip():
+            raise ValueError(f"evidence row {i} in {source} ({row.human_gene}, {row.clusters}) has no citation")
+        rows.append(row)
+    data["evidence"] = rows
+    return data
+
+
+def _is_validation(row: EvidenceRow) -> bool:
+    return row.finding.strip().upper().startswith("VALIDATION")
 
 
 def list_diseases() -> list[str]:
@@ -60,7 +76,11 @@ def list_genes(disease: str) -> list[dict]:
     rows = [row for row in load_evidence()["evidence"] if row.disease == disease]
     genes = []
     for gene in dict.fromkeys(row.human_gene for row in rows):
-        ortholog = find_ortholog(gene)
+        try:
+            ortholog = find_ortholog(gene)
+        except SeedError:  # a gene only an uploaded paper mentions, not yet in the ortholog table
+            ortholog = Ortholog(human_gene=gene, fly_genes=[], diopt_score=None,
+                                relationship="not in the ortholog table", confidence=0.0)
         seeds = [row for row in rows if row.human_gene == gene and not _is_validation(row)]
         best = max((row.tier for row in seeds), key=TIER_ORDER.get, default=None)
         genes.append({

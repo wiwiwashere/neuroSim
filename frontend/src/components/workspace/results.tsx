@@ -15,7 +15,7 @@ import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { DamageBars, regionShares } from "@/components/charts/damage-bars";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
-import { EmptyState, ErrorNote, StatTile } from "./primitives";
+import { EmptyState, ErrorNote, evidenceKey, StatTile, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
 import { RunSummaryCard } from "./run-summary";
 
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
@@ -97,8 +97,52 @@ function Overview({ result }: { result: SimulationResult }) {
         </div>
       </Panel>
 
+      <EvidenceBehind result={result} />
       <RunSummaryCard result={result} />
     </div>
+  );
+}
+
+/** The evidence rows these seeds rest on, with the ones approved from uploaded papers marked. */
+function EvidenceBehind({ result }: { result: SimulationResult }) {
+  const rows = uniqueEvidence(result.seeds);
+  if (!rows.length) return null;
+  const uploaded = rows.filter((r) => r.extracted).length;
+  return (
+    <Panel
+      title="The evidence behind these seeds"
+      aside={
+        <span className="text-[11.5px] text-muted-foreground">
+          {rows.length} row{rows.length > 1 ? "s" : ""}
+          {uploaded ? ` · ${uploaded} from uploaded papers` : ""}
+        </span>
+      }
+    >
+      <ul className="grid gap-2 px-4 py-3">
+        {rows.map((e) => (
+          <li key={evidenceKey(e)} className="grid gap-0.5 text-[12.5px] leading-snug">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <span>
+                <span className="font-mono">{e.clusters.join(", ")}</span>
+                <span className="text-muted-foreground"> · {e.finding}</span>
+              </span>
+              <span className="flex items-center gap-1.5 text-[11.5px] text-muted-foreground">
+                {e.url ? (
+                  <a href={e.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline-offset-2 hover:underline">
+                    {e.citation}
+                    <ExternalLink className="size-3" />
+                  </a>
+                ) : (
+                  e.citation
+                )}
+                <TierBadge tier={e.tier} />
+              </span>
+            </div>
+            <UploadedQuote row={e} />
+          </li>
+        ))}
+      </ul>
+    </Panel>
   );
 }
 
@@ -106,7 +150,8 @@ function Overview({ result }: { result: SimulationResult }) {
 function Takeaway({ result, ratio }: { result: SimulationResult; ratio: number | null }) {
   const { human_gene: gene, mode, strength } = result.request;
   const verb = mode === "reduce_output" ? `Cutting ${gene} output by ${Math.round((strength ?? 1) * 100)}%` : `${gene} knockout`;
-  const clusters = [...new Set(result.seeds.seed_types.map((t) => t.cluster))].join(" and ");
+  const names = [...new Set(result.seeds.seed_types.map((t) => t.cluster))];
+  const clusters = names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : (names[0] ?? "");
   const n = int(result.n_seed_neurons);
   return (
     <>

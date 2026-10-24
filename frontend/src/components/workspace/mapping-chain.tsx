@@ -6,10 +6,9 @@ import type { ReactNode } from "react";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/lib/api";
 import { int } from "@/lib/format";
-import type { EvidenceRow, SeedSet } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useWorkspace } from "@/lib/workspace";
-import { ConfidenceMeter, ErrorNote, FlyGene, StepHeading, TierBadge } from "./primitives";
+import { ConfidenceMeter, ErrorNote, evidenceKey, FlyGene, StepHeading, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
 
 /** One link in the chain. The rail on the left joins the cards into a sequence. */
 function Link({ kicker, children, confidence, last }: { kicker: string; children: ReactNode; confidence?: number; last?: boolean }) {
@@ -26,12 +25,6 @@ function Link({ kicker, children, confidence, last }: { kicker: string; children
       </div>
     </li>
   );
-}
-
-function uniqueEvidence(chain: SeedSet): EvidenceRow[] {
-  const seen = new Map<string, EvidenceRow>();
-  for (const t of chain.seed_types) for (const e of t.evidence) seen.set(`${e.citation}|${e.clusters.join()}`, e);
-  return [...seen.values()];
 }
 
 export function MappingChain() {
@@ -111,8 +104,9 @@ export function MappingChain() {
             <p className="font-mono text-[14px]">{clusters.join(", ")}</p>
             <ul className="mt-1.5 grid gap-2">
               {evidence.map((e) => (
-                <li key={e.citation} className="border-t pt-1.5 text-[12px] leading-snug">
+                <li key={evidenceKey(e)} className="border-t pt-1.5 text-[12px] leading-snug">
                   <p className="text-foreground/90">{e.finding}</p>
+                  <UploadedQuote row={e} />
                   <div className="mt-1 flex items-center justify-between gap-2 text-muted-foreground">
                     <a href={e.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline-offset-2 hover:underline">
                       {e.citation}

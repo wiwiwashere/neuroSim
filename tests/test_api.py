@@ -47,6 +47,7 @@ def test_stays_on_mocks_while_the_engine_is_a_placeholder(monkeypatch):
     import neurosim.engine.graph as graph
 
     monkeypatch.setattr(graph, "processed_data_available", lambda: True)
+    monkeypatch.setattr(graph, "connectome_available", lambda: False)   # fake seeds: there are no files behind the lie above
     monkeypatch.setattr(pipeline, "engine_ready", lambda: False)
     client = client_with(monkeypatch)
     assert client.post("/simulate", json={"human_gene": "PRKN"}).json()["run_id"].startswith("mock-")

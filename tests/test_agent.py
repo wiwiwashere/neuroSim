@@ -1,4 +1,4 @@
-"""Agent, run summary and paper extraction against a fake Gemini client, so
+"""Agent and run summary against a fake Gemini client, so
 these run offline and cost no quota. The fake replays scripted interactions
 and records what we sent."""
 
@@ -9,7 +9,7 @@ import httpx
 import pytest
 
 from neurosim import config
-from neurosim.agent import agent, gemini, papers, summary
+from neurosim.agent import agent, gemini, summary
 from neurosim.api import mocks
 from neurosim.models import SimulationRequest
 
@@ -141,70 +141,23 @@ def test_refused_key_is_reported_plainly(fake):
 
 
 def test_summary_uses_the_runs_numbers_and_drops_unknown_circuits(fake):
-    result = mocks.mock_result(SimulationRequest(human_gene="PINK1"))
+    # PRKN's seeds include PPL101 both as fake seeds and from the real table.
+    result = mocks.mock_result(SimulationRequest(human_gene="PRKN"))
     summary._CACHE.clear()
     fake([_interaction("s1", text=json.dumps({
-        "headline": "PINK1 seeds feed the mushroom body far more than chance.",
+        "headline": "PRKN seeds feed the mushroom body far more than chance.",
         "top_circuits": [
             {"group": "mushroom body", "level": "super_region", "why": "Most input comes from PPL1."},
             {"group": "made-up region", "level": "region", "why": "Invented."},
         ],
         "caveats": ["Sample numbers."],
         "next_experiment": {"description": "PPL101 alone", "why": "Find the bottleneck.",
-                            "human_gene": "PINK1", "mode": "knockout", "seed_cell_types": ["PPL101"]},
+                            "human_gene": "PRKN", "mode": "knockout", "seed_cell_types": ["PPL101"]},
     }))])
     out = summary.summarize_run(result)
     assert [c["group"] for c in out["top_circuits"]] == ["mushroom body"]
     assert out["top_circuits"][0]["z_score"] == 6.2
     assert out["next_experiment"]["request"]["seed_cell_types"] == ["PPL101"]
-
-
-def test_paper_rows_wait_for_approval(fake, tmp_path, monkeypatch):
-    monkeypatch.setattr(config, "APPROVED_EVIDENCE_PATH", tmp_path / "approved.json")
-    row = {"disease": "parkinsons", "human_gene": "pink1", "fly_gene": "Pink1", "model_type": "RNAi",
-           "clusters": ["PPL2"], "finding": "Pink1 RNAi lost PPL2 neurons.", "tier": "medium",
-           "tier_reason": "Counted per cluster.", "quote": "PPL2 neurons were reduced", "page": 3}
-    fake([_interaction("p1", text=json.dumps({"citation": "Wang et al. 2006, PNAS", "url": "", "rows": [row, row]}))])
-    out = papers.extract(b"%PDF-1.4 fake", "wang.pdf")
-
-    assert not config.APPROVED_EVIDENCE_PATH.exists()        # nothing saved before a decision
-    first, second = out["rows"]
-    assert first["human_gene"] == "PINK1" and first["status"] == "pending"
-    papers.decide(first["id"], True)
-    papers.decide(second["id"], False)
-    saved = json.loads(config.APPROVED_EVIDENCE_PATH.read_text())["evidence"]
-    assert len(saved) == 1
-    assert saved[0]["verified_by_bio"] is False
-    assert saved[0]["extracted"]["quote"] == "PPL2 neurons were reduced"
-
-
-def test_paper_fallback_gets_only_the_time_left(fake, monkeypatch):
-    clock = SimpleNamespace(now=0.0)
-    monkeypatch.setattr(papers, "time", SimpleNamespace(monotonic=lambda: clock.now))
-    monkeypatch.setattr(config, "PAPER_TIMEOUT_S", 150)
-    monkeypatch.setattr(config, "PAPER_DEADLINE_S", 240)
-    sent = fake([httpx.ReadTimeout("The read operation timed out"),
-                 _interaction("p1", text=json.dumps({"citation": "", "url": "", "rows": []}))])
-    answer = sent.create
-
-    def flash_hangs(**kwargs):
-        if kwargs["model"] == config.AGENT_MODEL:
-            clock.now += kwargs["timeout"]
-        return answer(**kwargs)
-
-    monkeypatch.setattr(sent, "create", flash_hangs)
-    out = papers.extract(b"%PDF-1.4 fake", "long.pdf")
-
-    assert out["model"] == config.AGENT_FALLBACK_MODEL
-    # Flash keeps its full 150s; the fallback gets the 90s left under the deadline.
-    assert [(s["model"], s["timeout"]) for s in sent.sent] == [
-        (config.AGENT_MODEL, 150), (config.AGENT_FALLBACK_MODEL, 90)]
-
-
-def test_non_pdf_is_refused(fake):
-    fake([])
-    with pytest.raises(ValueError, match="isn't a PDF"):
-        papers.extract(b"hello", "notes.txt")
 
 
 def test_sdk_does_not_retry_on_its_own():

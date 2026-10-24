@@ -32,15 +32,12 @@ def _dump(payload: dict) -> str:
 
 
 def _seeds(human_gene: str, high_confidence_only: bool) -> SeedSet:
-    if config.USE_MOCKS:
-        gene = next((g for g in mocks.mock_genes() if g["human_gene"] == human_gene), None)
-        if gene is None:
-            known = ", ".join(g["human_gene"] for g in mocks.mock_genes())
-            raise ValueError(f"No evidence for {human_gene}. Genes with evidence: {known}.")
-        if not gene["simulatable"]:
-            raise ValueError(f"{human_gene} has no fly ortholog, so it can't be simulated.")
-        return mocks.mock_seeds(human_gene)
-    return evidence.resolve_seeds(SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only))
+    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
+    try:
+        return mocks.mock_seeds(request) if config.USE_MOCKS else evidence.resolve_seeds(request)
+    except evidence.SeedError as err:
+        known = ", ".join(g["human_gene"] for g in evidence.list_genes("parkinsons") if g["simulatable"])
+        raise ValueError(f"{err}. Genes that can be simulated: {known}.") from err
 
 
 def _simulate(request: SimulationRequest) -> SimulationResult:
