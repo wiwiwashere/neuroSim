@@ -1,14 +1,12 @@
 # Screens (CS2)
 
-Next.js (App Router) + TypeScript, Tailwind CSS with shadcn/ui, TanStack
+What the built app looks like and which endpoint feeds each part. Next.js 15
+(App Router) + React 19 + TypeScript, Tailwind CSS 4 with shadcn/ui, TanStack
 Query, Plotly (react-plotly.js) for the Sankey, ranked bars and comparison,
-Cytoscape.js with a preset layout for the network. One charting library
-everywhere. Every view reads only from the API in
-`backend/neurosim/api/main.py`, and the mocks make every endpoint work from
-hour 0.
-
-Fallback, decided once at the hour-4 checkpoint: Streamlit + Plotly +
-st-cytoscape against the same API.
+Cytoscape.js with preset positions for the network. Every view reads only from
+the API in `backend/neurosim/api/main.py`; while `NEUROSIM_MOCKS=1` (the
+default) the API serves fixed sample payloads, so every view works before the
+engine does.
 
 ## Running it
 
@@ -23,17 +21,27 @@ cd frontend && npm install && npm run dev
 | --- | --- |
 | `npm run dev` | App against the live API |
 | `npm run gen:api` | Regenerate `src/lib/api-types.ts` from FastAPI's OpenAPI schema (API must be running). Do this whenever `models.py` changes |
-| `npm run snapshot` | Save every demo request from the live API into `public/demo/` (also warms the API cache) |
+| `npm run snapshot` | Save every demo request from the live API into `public/demo/` (also warms the API cache). Needs Node 22.6+ |
 | `npm run dev:snapshot` | App reading `public/demo/` instead of the API (`NEXT_PUBLIC_DEMO_SNAPSHOT=1`), so the demo survives a backend crash |
 | `npm run typecheck`, `npm run lint`, `npm run build` | Checks |
 
+The snapshot covers every simulatable gene knocked out, at 50% output and
+with each seed cell type alone, with and without "high-confidence only", plus
+PINK1 vs PRKN at all three levels.
+
 ## Layout
 
-One workspace page instead of separate screens. A top bar shows the steps
-(gene, chain, results, compare). The left column holds the disease and gene
-pickers, the mapping chain and the perturbation controls. The centre has tabs
-for Overview, Ranked, Network and Compare. The agent panel stays open on the
-right.
+One workspace page (`src/app/page.tsx`), not separate screens. Three columns
+on wide screens: inputs on the left, results in the centre, the agent on the
+right. Below 1280 px the agent panel moves under the other two; on phones
+everything stacks.
+
+**Top bar.** Logo, then the steps Gene / Chain / Results / Compare, numbered,
+filled in as they are done and clickable (scrolls to the step or switches tab).
+On the right: a dashed "sample numbers" badge when the run came from the mocks
+(`run_id` starts with `mock-`), a "snapshot mode" badge, and the light/dark
+toggle (follows the OS until the person picks, then remembered in
+localStorage).
 
 | # | View | Where | Endpoint | Shows | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -49,17 +57,17 @@ right.
 | 10 | Run summary | Overview tab | `POST /runs/{id}/summary` | Gemini's card: headline, top circuits with the run's own z-scores, caveats, one next experiment with a Run button | Asked for on click to save free-tier quota; hidden in snapshot mode |
 | 11 | Evidence from a paper | Left | `POST /evidence/extract`, `POST /evidence/rows/{id}/decision` | Upload a PDF; Gemini proposes evidence rows with quote and page; Approve or Reject each | Approved rows go to `data/evidence_approved.json`, unverified until Bio checks the figures |
 
-Every results view carries one line: "Structural dependency in the fly
+Every results view ends with one line: "Structural dependency in the fly
 connectome, not a prediction of symptoms." (Bio writes the final wording, in
-`src/lib/format.ts`.) When the API serves mocks (`run_id` starts with
-`mock-`) the top bar shows a "sample numbers" badge.
+`src/lib/format.ts`.)
 
 ## Code map
 
 | Path | What |
 | --- | --- |
 | `src/app/page.tsx` | The workspace layout |
-| `src/lib/api.ts` | Every request; live vs snapshot switch |
+| `src/app/providers.tsx` | TanStack Query, theme and workspace providers |
+| `src/lib/api.ts` | Every request; live vs snapshot switch; Codex link |
 | `src/lib/snapshot-keys.ts` | Request → `public/demo/` file name, shared with `scripts/snapshot.ts` |
 | `src/lib/api-types.ts` | Generated from OpenAPI; don't edit |
 | `src/lib/types.ts` | Friendly names for the generated types, plus the untyped endpoints |
@@ -69,5 +77,5 @@ connectome, not a prediction of symptoms." (Bio writes the final wording, in
 | `src/components/workspace/` | The views above |
 
 Colour: two data roles only, `--signal` (blue, above chance) and `--seed`
-(orange, the perturbed neurons), on a warm neutral surface, defined in
-`src/app/globals.css` for light and dark.
+(orange, the perturbed neurons), plus `--faint` / `--chance` greys, on a warm
+neutral surface, defined in `src/app/globals.css` for light and dark.

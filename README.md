@@ -25,6 +25,7 @@ backend/neurosim/
   config.py            all tunable constants in one place (thresholds, decay, hops, ...)
   models.py            data contracts shared by engine, API, agent and frontend
   prep/build_dataset.py  offline: raw FlyWire files -> data/processed/*   (CS1)
+  prep/download_labels.py  fetch FlyWire cell type / region / NT labels into data/raw/
   bio/evidence.py      gene -> ortholog -> clusters -> seed neurons        (Bio + CS1)
   engine/
     graph.py           load connectome, input-normalized weight matrix     (CS1)
@@ -56,9 +57,33 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 
 1. FlyWire FAFB v783 connections: `proofread_connections_783.feather` (852 MB)
    from https://zenodo.org/records/10676866 → `data/raw/`
-2. Codex annotations (free Google sign-in + API token): the neuron
-   classification, cell type and neurotransmitter CSVs → `data/raw/`
-   (see the docstring in `prep/build_dataset.py` for which columns are used).
+2. Neuron labels: `python -m neurosim.prep.download_labels` (run from
+   `backend/`) fetches them into `data/raw/` and checks each file's checksum.
+   No login needed. It writes `data/raw/labels_manifest.json` with the URL,
+   size and SHA-256 of every file.
+   - `flywire_neuron_annotations_783.tsv`: cell type, super class, side and
+     predicted neurotransmitter (`top_nt`) for all 139,248 neurons, from
+     [flyconnectome/flywire_annotations](https://github.com/flyconnectome/flywire_annotations)
+     tag `v3.2.0`.
+   - `per_neuron_neuropil_count_{pre,post}_783.feather`: synapses per neuron
+     per neuropil (region), from the same Zenodo record as step 1.
+
+   On a fresh machine just run the script. If the annotations are already in
+   place and only the Zenodo region files are missing (they weren't verified
+   in the cloud, where Zenodo is blocked), run from the repo root:
+
+   ```
+   source .venv/bin/activate
+   cd backend && python -m neurosim.prep.download_labels --only neuropil_pre neuropil_post
+   ```
+
+   It prints `verified md5` for each file and adds them to the manifest.
+
+   Codex serves similar tables but needs a personal API token, so prep doesn't
+   use it. All FlyWire data is CC BY 4.0: cite Dorkenwald et al. 2024 and
+   Schlegel et al. 2024 (Nature), Eckstein et al. 2024 (Cell) for the
+   neurotransmitter predictions, and Berg et al. 2026 (Cell) for the v3
+   annotations.
 
 ## Running (once implemented)
 
