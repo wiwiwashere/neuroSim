@@ -33,7 +33,21 @@ from neurosim.engine import pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
 
-USE_MOCKS = config.USE_MOCKS
+USE_SYNTHETIC = os.environ.get("NEUROSIM_SYNTHETIC") == "1"
+_MOCKS_ENV = os.environ.get("NEUROSIM_MOCKS")
+if USE_SYNTHETIC:
+    USE_MOCKS = False
+elif _MOCKS_ENV is not None:
+    USE_MOCKS = _MOCKS_ENV == "1"
+else:
+    USE_MOCKS = not (processed_data_available() and pipeline.engine_ready())
+# The agent's tools read config.USE_MOCKS, so they serve what the API serves.
+config.USE_MOCKS = USE_MOCKS
+
+if USE_SYNTHETIC:
+    from neurosim.engine.synthetic import synthetic_connectome
+
+    set_connectome(synthetic_connectome())
 
 app = FastAPI(title="neuroSim")
 
@@ -47,6 +61,18 @@ async def _unhandled(request: Request, err: Exception) -> JSONResponse:
         status_code=500,
         content={"detail": f"neuroSim hit an internal error ({type(err).__name__}). The API log has the traceback."},
     )
+
+
+@contextmanager
+def _http_errors():
+    """Seed problems are the user's to fix (422, message shown as is);
+    unknown run or neuron IDs are 404."""
+    try:
+        yield
+    except evidence.SeedError as e:
+        raise HTTPException(status_code=422, detail=str(e)) from e
+    except KeyError as e:
+        raise HTTPException(status_code=404, detail=f"not found: {e}") from e
 
 
 def _gemini(fn, *args):
@@ -73,7 +99,7 @@ def genes(disease: str) -> list[dict]:
     """Gene picker: gene, fly ortholog, confidence, whether it can be simulated."""
     if USE_MOCKS:
         return mocks.mock_genes()
-    raise NotImplementedError  # bio.evidence.list_genes(disease)
+    return evidence.list_genes(disease)
 
 
 @app.get("/genes/{human_gene}/chain")
@@ -101,7 +127,8 @@ def simulate(request: SimulationRequest) -> SimulationResult:
 def run(run_id: str) -> SimulationResult:
     if USE_MOCKS:
         return mocks.mock_run(run_id)
-    raise NotImplementedError  # pipeline.get_result(run_id)
+    with _http_errors():
+        return pipeline.get_result(run_id)
 
 
 @app.get("/runs/{run_id}/sankey")
@@ -132,7 +159,8 @@ def explain(run_id: str, root_id: int) -> dict:
 def compare(run_a: str, run_b: str, level: GroupLevel = GroupLevel.REGION) -> Comparison:
     if USE_MOCKS:
         return mocks.mock_comparison(run_a, run_b)
-    raise NotImplementedError  # pipeline.compare(run_a, run_b, level)
+    with _http_errors():
+        return pipeline.compare(run_a, run_b, level)
 
 
 class ChatRequest(BaseModel):
@@ -158,7 +186,8 @@ async def run_summary(run_id: str) -> dict:
     if USE_MOCKS:
         result = mocks.mock_run(run_id)
     else:
-        raise NotImplementedError  # pipeline.get_result(run_id)
+        with _http_errors():
+            result = pipeline.get_result(run_id)
     return await run_in_threadpool(_gemini, summary.summarize_run, result)
 
 
