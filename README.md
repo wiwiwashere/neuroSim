@@ -27,6 +27,7 @@ backend/neurosim/
   prep/build_dataset.py  offline: raw FlyWire files -> data/processed/*   (CS1)
   prep/download_labels.py  fetch FlyWire cell type / region / NT labels into data/raw/
   bio/evidence.py      gene -> ortholog -> clusters -> seed neurons        (Bio + CS1)
+  bio/expression.py    atlas TPM for a gene's fly genes, shown on the seeds (annotation only)
   engine/
     graph.py           load connectome, input-normalized weight matrix     (CS1)
     perturb.py         perturbation modes -> initial deficit vector        (CS1)
@@ -47,7 +48,9 @@ backend/neurosim/
 data/
   raw/                 downloads go here (not committed)
   processed/           output of prep (not committed; regenerate)
-  evidence.json        hand-curated evidence table (committed)
+  evidence.json        hand-curated evidence table: orthologs, evidence rows, clusters,
+                       and the expression atlas's PAM crosswalk (committed)
+  expression_table.csv Kait's expression atlas (Davis et al. 2020, PAM only; committed)
   evidence_approved.json  rows approved from paper uploads (written by the app; not committed yet)
   evidence_proposals.json paper rows waiting for review (written by the app; gitignored)
 docs/ENGINE_DESIGN.md  how the simulation and vulnerability model work, and why
