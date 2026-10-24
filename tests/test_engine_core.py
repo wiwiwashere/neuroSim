@@ -59,3 +59,34 @@ def test_batched_group_means_match_group_table():
     for i, name in enumerate(names):
         assert batch[i] == pytest.approx(table.loc[name, "mean_impact"])
     assert not table.loc["unlabelled", "rankable"]
+
+
+def test_benjamini_hochberg_matches_hand_computed_values_and_skips_nan():
+    from neurosim.engine.baseline import benjamini_hochberg
+
+    q = benjamini_hochberg(np.array([0.01, 0.04, np.nan, 0.03, 0.005]))
+    assert np.allclose(q[[0, 1, 3, 4]], [0.02, 0.04, 0.04, 0.02])
+    assert np.isnan(q[2])
+
+
+def test_z_and_p_are_empirical_and_one_sided():
+    from neurosim.engine.baseline import z_and_p
+
+    null = np.array([[0.0, 1.0, 2.0, 3.0], [1.0, 1.0, 1.0, 1.0]])
+    mean, sd, z, p = z_and_p(np.array([4.0, 1.0]), null)
+    assert mean.tolist() == [1.5, 1.0]
+    assert z[0] == pytest.approx(2.5 / np.std([0, 1, 2, 3]))
+    assert p.tolist() == [1 / 5, 5 / 5]  # nothing beats 4; every draw ties 1
+    assert z[1] == 0.0  # zero spread is floored, not a division by zero
+
+
+def test_random_draws_are_reproducible_and_without_replacement():
+    from neurosim.engine.baseline import draw_random_seeds
+
+    pool = np.arange(10, 30)
+    a = draw_random_seeds(pool, 5, 50, np.random.default_rng(42))
+    b = draw_random_seeds(pool, 5, 50, np.random.default_rng(42))
+    assert a.shape == (50, 5) and np.array_equal(a, b)
+    assert all(len(set(row)) == 5 and set(row) <= set(pool) for row in a)
+    with pytest.raises(ValueError):
+        draw_random_seeds(pool, 21, 1, np.random.default_rng(0))
