@@ -80,7 +80,7 @@ SUBGRAPH_MAX_NODES = 200
 # "gemma" (open Gemma 4 models, served free by the Gemini API with the same
 # GEMINI_API_KEY; the hackathon's "Best use of Gemma" track) or "gemini".
 # Restart the API after changing it.
-LLM = os.environ.get("NEUROSIM_LLM", "gemini").strip().lower()
+LLM = os.environ.get("NEUROSIM_LLM", "gemma").strip().lower()
 if LLM not in ("gemma", "gemini"):
     raise ValueError(f"NEUROSIM_LLM must be gemma or gemini, not {LLM!r}.")
 LLM_NAME = LLM.capitalize()   # shown in error messages and the UI

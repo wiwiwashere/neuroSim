@@ -39,9 +39,11 @@ backend/neurosim/
   api/main.py          FastAPI endpoints                                   (CS2)
   api/mocks.py         fixed sample payloads until the engine works        (CS2)
   agent/tools.py       tools the LLM may call (thin wrappers on pipeline)  (CS2)
-  agent/agent.py       the agent loop (Gemini API)                         (CS2)
-  agent/gemini.py      Gemini client, rate-limit and overload fallback     (CS2)
-  agent/summary.py     structured run summary card (Gemini, JSON schema)   (CS2)
+  agent/agent.py       the agent loop (Gemma or Gemini, see below)         (CS2)
+  agent/gemini.py      Gemini API client, rate-limit and overload fallback (CS2)
+  agent/gemma.py       Gemma calls through generate_content                (CS2)
+  agent/llm.py         one JSON call for either family                     (CS2)
+  agent/summary.py     structured run summary card (JSON schema)           (CS2)
   agent/papers.py      paper PDF/text/DOI -> checked evidence rows for Bio (CS2)
   agent/prompts.py     system prompt rules                                 (Bio)
 data/
@@ -92,7 +94,7 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 ```
 pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
-cp .env.example .env                             # then paste your Gemini key into .env
+cp .env.example .env                             # then paste your Gemini API key into .env
 (cd backend && uvicorn neurosim.api.main:app --reload \
   --reload-dir neurosim --reload-exclude 'neurosim/prep/*')  # API on :8000
 pytest tests/                                    # engine, pipeline and API tests
@@ -104,6 +106,12 @@ cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SC
 the API mid-request; every other file under `neurosim/`, `config.py` and
 `models.py` included, still reloads it. The exclude needs `watchfiles`, which
 is in requirements.txt (plain `uvicorn` ignores the flag without it).
+
+The agent, the run summary and paper extraction use Gemma 4 by default
+(`gemma-4-26b-a4b-it`, falling back to `gemma-4-31b-it` when it is busy or
+rate-limited). Gemma is free on the Gemini API with the same `GEMINI_API_KEY`.
+`NEUROSIM_LLM=gemini` switches all three back to Gemini Flash; restart the API
+after changing it.
 
 The API picks its data source at startup: the real pipeline when
 `data/processed/` exists and the engine is implemented, otherwise mocks.
@@ -149,7 +157,6 @@ it should give PINK1 → Pink1, RNAi, PPL1 lost, tier high. Wang et al. 2006
 **Which model reads papers.** The agent, run summaries and paper extraction
 share one client (`agent/gemini.py`) and the free-tier guards in
 `config.py`; paper extraction calls the model in one place,
-`papers.ask_model`. On this branch that is Gemini (`gemini-3.8-flash`,
-falling back to `gemini-3.5-flash-lite`). The `gemma` branch makes Gemma 4
-the default for all three and keeps Gemini selectable with
-`NEUROSIM_LLM=gemini`; both use the same `GEMINI_API_KEY`.
+`papers.ask_model`, which sends the paper's text through `llm.json_reply`.
+That is Gemma 4 by default and Gemini Flash with `NEUROSIM_LLM=gemini` (see
+above); both use the same `GEMINI_API_KEY`.
