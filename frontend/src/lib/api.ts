@@ -36,22 +36,40 @@ export class ApiError extends Error {
   }
 }
 
+// FastAPI always answers errors in JSON, so a 5xx with a non-JSON body (or a
+// fetch that throws) means the Next proxy couldn't reach it: usually uvicorn
+// restarting under --reload. Retry after these waits, then say so plainly.
+const RETRY_DELAYS_MS = [1000, 2000];
+const UNREACHABLE = "Can't reach the neuroSim API on :8000. It may be restarting or stopped. Try again in a moment.";
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const url = SNAPSHOT_MODE ? `/demo/${snapshotPath(path, init?.body as string | undefined)}` : `/api${path}`;
+  if (SNAPSHOT_MODE) {
+    const res = await fetch(url);
+    if (!res.ok) throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) not in the demo snapshot`, res.status);
+    return res.json() as Promise<T>;
+  }
   const json = typeof init?.body === "string";
-  const res = await fetch(url, SNAPSHOT_MODE ? undefined : { ...init, headers: json ? { "Content-Type": "application/json" } : undefined });
-  if (!res.ok) {
-    if (SNAPSHOT_MODE) throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) not in the demo snapshot`, res.status);
-    const text = await res.text().catch(() => "");
-    // FastAPI's HTTPException carries a plain-words message in "detail": show that alone.
-    let detail: unknown = text;
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { ...init, headers: json ? { "Content-Type": "application/json" } : undefined }).catch(() => null);
+    if (res?.ok) return res.json() as Promise<T>;
+    const text = res ? await res.text().catch(() => "") : "";
+    let body: { detail?: unknown } | undefined;
     try {
-      detail = (JSON.parse(text) as { detail?: unknown }).detail ?? text;
+      body = JSON.parse(text) as { detail?: unknown };
     } catch {}
-    if (typeof detail === "string" && detail && (res.status < 500 || res.status === 503)) throw new ApiError(detail, res.status);
+    if (!res || (res.status >= 500 && body === undefined)) {
+      if (attempt < RETRY_DELAYS_MS.length) {
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAYS_MS[attempt]));
+        continue;
+      }
+      throw new ApiError(UNREACHABLE, res?.status ?? 0);
+    }
+    // FastAPI's errors carry a plain-words message in "detail": show that alone.
+    const detail = body?.detail;
+    if (typeof detail === "string" && detail) throw new ApiError(detail, res.status);
     throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) ${text}`.trim(), res.status);
   }
-  return res.json() as Promise<T>;
 }
 
 const q = (params: Record<string, string | boolean | undefined>) => {
