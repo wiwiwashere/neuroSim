@@ -48,6 +48,7 @@ import scipy.sparse as sp
 from neurosim import config
 
 CONNECTIONS_FILE = "proofread_connections_783.feather"
+ANNOTATIONS_FILE = "flywire_neuron_annotations_783.tsv"
 
 PRE, POST = "pre_pt_root_id", "post_pt_root_id"
 
@@ -59,6 +60,19 @@ NT_COLUMNS = {
     "oct_avg": "OCT",
     "ser_avg": "SER",
     "da_avg": "DA",
+}
+# The annotation file spells transmitters out in lower case. known_nt (from
+# the literature) also names histamine and tyramine, which the synapse
+# predictions do not cover.
+NT_NAMES = {
+    "acetylcholine": "ACH",
+    "gaba": "GABA",
+    "glutamate": "GLUT",
+    "octopamine": "OCT",
+    "serotonin": "SER",
+    "dopamine": "DA",
+    "histamine": "HA",
+    "tyramine": "TYR",
 }
 
 
@@ -96,14 +110,49 @@ def load_connections(path: Path | None = None, columns: list[str] | None = None)
     return pd.DataFrame(data, copy=False)
 
 
-def load_annotations() -> pd.DataFrame:
-    """Read and join the Codex CSVs into one table keyed by root_id.
 
-    Keep: root_id, super_class, class, cell_type, side, nt_type, nt_type_score.
-    A neuron missing a cell type keeps cell_type = None; do not drop it, it is
-    still part of the wiring.
+def load_annotations(path: Path | None = None) -> pd.DataFrame | None:
+    """Read the neuron annotation TSV into one table keyed by root_id.
+
+    Keeps: root_id, super_class, class, sub_class, cell_type, hemibrain_type,
+    side, flow, and nt_type (Codex code) with nt_type_score and nt_source
+    ("known" from the literature, else "predicted" from synapses). A neuron missing a
+    cell type keeps cell_type = None; do not drop it, it is still part of the
+    wiring. Returns None when the file has not been downloaded yet.
     """
-    raise NotImplementedError
+    path = Path(path or config.RAW_DIR / ANNOTATIONS_FILE)
+    if not path.exists():
+        return None
+    wanted = {"root_id", "super_class", "cell_class", "cell_sub_class", "cell_type",
+              "hemibrain_type", "side", "flow", "top_nt", "top_nt_conf", "known_nt"}
+    labels = pd.read_csv(path, sep="\t", dtype={"root_id": "int64"}, usecols=lambda c: c in wanted,
+                         low_memory=False)
+    missing = {"root_id", "cell_type"} - set(labels.columns)
+    if missing:
+        raise ValueError(f"{path.name} lacks columns {sorted(missing)}")
+    labels = labels.rename(columns={"cell_class": "class", "cell_sub_class": "sub_class"})
+
+    # Literature transmitter first, synapse prediction second. This matters:
+    # top_nt calls ~5,200 Kenyon cells dopaminergic, while known_nt says they
+    # are cholinergic. Without this the random DA baseline would be mostly
+    # Kenyon cells.
+    empty = pd.Series(np.nan, index=labels.index, dtype=object)
+    known = labels.pop("known_nt").map(_first_transmitter, na_action="ignore") if "known_nt" in labels else empty
+    top = labels.pop("top_nt").str.lower().map(NT_NAMES) if "top_nt" in labels else empty
+    score = labels.pop("top_nt_conf").astype(float) if "top_nt_conf" in labels else empty.astype(float)
+    labels["nt_type"] = known.fillna(top)
+    labels["nt_type_score"] = score.where(known.isna())
+    labels["nt_source"] = np.where(known.notna(), "known", np.where(top.notna(), "predicted", None))
+    return labels.drop_duplicates("root_id").reset_index(drop=True)
+
+def _first_transmitter(known_nt: str) -> str | None:
+    """'acetylcholine; sNPF; acetylcholine, sNPF' -> 'ACH'. Peptides and
+    'gaba-negative' style entries are skipped."""
+    for name in known_nt.replace(",", ";").split(";"):
+        code = NT_NAMES.get(name.strip().lower())
+        if code:
+            return code
+    return None
 
 
 def aggregate_pairs(conn: pd.DataFrame, threshold: int = config.SYNAPSE_THRESHOLD) -> pd.DataFrame:

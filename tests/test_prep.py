@@ -72,3 +72,31 @@ def test_build_matrix_rejects_unknown_ids():
     pairs = pd.DataFrame({"pre": [1], "post": [7], "syn_count": [5]})
     with pytest.raises(ValueError):
         bd.build_matrix(pairs, np.array([1, 2]))
+
+
+def test_load_annotations_maps_columns(tmp_path):
+    path = tmp_path / bd.ANNOTATIONS_FILE
+    pd.DataFrame({
+        "root_id": ["720575940600000001", "720575940600000002", "720575940600000003"],
+        "super_class": ["central", "central", "central"],
+        "cell_class": ["DAN", None, "Kenyon_Cell"],
+        "cell_type": ["PPL101", None, "KCab"],
+        "side": ["right", "left", "left"],
+        "top_nt": ["dopamine", np.nan, "dopamine"],
+        "top_nt_conf": [0.95, np.nan, 0.6],
+        "known_nt": [np.nan, np.nan, "acetylcholine; sNPF; acetylcholine, sNPF"],
+        "status": ["", "", ""],
+    }).to_csv(path, sep="\t", index=False)
+    labels = bd.load_annotations(path)
+    assert labels["root_id"].dtype == "int64"
+    assert labels.loc[0, "root_id"] == 720575940600000001  # not rounded through float
+    assert labels.loc[0, "class"] == "DAN" and labels.loc[0, "nt_type"] == "DA"
+    assert labels.loc[0, "nt_source"] == "predicted" and labels.loc[0, "nt_type_score"] == 0.95
+    # Kenyon cells are predicted dopaminergic but known to be cholinergic.
+    assert labels.loc[2, "nt_type"] == "ACH" and labels.loc[2, "nt_source"] == "known"
+    assert pd.isna(labels.loc[1, "cell_type"])  # kept, not dropped
+    assert "status" not in labels
+
+
+def test_load_annotations_missing_file_is_none(tmp_path):
+    assert bd.load_annotations(tmp_path / "nope.tsv") is None
