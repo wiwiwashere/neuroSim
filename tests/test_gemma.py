@@ -47,8 +47,9 @@ class FakeModels:
 def fake(monkeypatch):
     monkeypatch.setattr(config, "LLM", "gemma")
     monkeypatch.setattr(config, "LLM_NAME", "Gemma")
-    monkeypatch.setattr(config, "AGENT_MODEL", "gemma-4-31b-it")
-    monkeypatch.setattr(config, "AGENT_FALLBACK_MODEL", "gemma-4-26b-a4b-it")
+    monkeypatch.setattr(config, "AGENT_MODEL", "gemma-4-26b-a4b-it")
+    monkeypatch.setattr(config, "AGENT_FALLBACK_MODEL", "gemma-4-31b-it")
+    monkeypatch.setattr(config, "AGENT_THINKING_LEVEL", "low")
     monkeypatch.setattr(config, "USE_MOCKS", True)
     monkeypatch.setattr(gemini, "_fallback_until", 0.0)
     monkeypatch.setattr(gemini.time, "sleep", lambda s: None)
@@ -73,15 +74,15 @@ def test_chat_runs_tools_and_keeps_the_history(fake):
     assert out["reply"] == "PRKN hits the mushroom body (z 6.2)."
     assert out["run_ids"] == ["mock-prkn-knockout"]
     assert [c["name"] for c in out["tool_calls"]] == ["get_gene_chain", "run_simulation"]
-    assert out["model"] == "gemma-4-31b-it"
+    assert out["model"] == "gemma-4-26b-a4b-it"
     assert out["interaction_id"].startswith("gemma-")
 
     first, second = sent.sent[:2]
-    assert first["model"] == "gemma-4-31b-it"
+    assert first["model"] == "gemma-4-26b-a4b-it"
     assert "mock-pink1-knockout" in first["contents"][0].parts[0].text      # workspace context reached the model
     assert first["config"].system_instruction == agent.SYSTEM_PROMPT
     assert {d.name for d in first["config"].tools[0].function_declarations} == set(agent.TOOLS)
-    assert first["config"].thinking_config.thinking_level == types.ThinkingLevel.HIGH
+    assert first["config"].thinking_config.thinking_level == types.ThinkingLevel.MINIMAL   # "low" = off
     # The second call resends the question, the model's calls, and both results together.
     results = second["contents"][2]
     assert [p.function_response.name for p in results.parts] == ["get_gene_chain", "run_simulation"]
@@ -117,14 +118,16 @@ def test_unknown_or_gemini_id_starts_a_new_conversation(fake):
     assert len(sent.sent[0]["contents"]) == 1
 
 
-def test_overload_falls_back_to_the_moe_model(fake):
+@pytest.mark.parametrize("status", [503, 504])
+def test_overload_or_server_deadline_falls_back(fake, status):
+    # 504: the API ran out of the deadline the SDK sends it with our timeout.
     class Busy(Exception):
-        code = 503
+        code = status
 
     sent = fake([Busy("busy"), _response(_text("ok"))])
     out = agent.chat("hi")
-    assert out["model"] == "gemma-4-26b-a4b-it"
-    assert [s["model"] for s in sent.sent] == ["gemma-4-31b-it", "gemma-4-26b-a4b-it"]
+    assert out["model"] == "gemma-4-31b-it"
+    assert [s["model"] for s in sent.sent] == ["gemma-4-26b-a4b-it", "gemma-4-31b-it"]
 
 
 def test_timeouts_reach_the_sdk_in_milliseconds(fake, monkeypatch):
@@ -149,10 +152,10 @@ def test_summary_parses_fenced_json_and_skips_thinking(fake):
     out = summary.summarize_run(result)
 
     assert out["top_circuits"][0]["z_score"] == 6.2
-    assert out["model"] == "gemma-4-31b-it"
+    assert out["model"] == "gemma-4-26b-a4b-it"
     cfg = sent.sent[0]["config"]
     assert cfg.response_mime_type == "application/json"
-    assert cfg.response_json_schema == summary.SCHEMA
+    assert cfg.response_json_schema == gemma._gemma_schema(summary.SCHEMA)
     assert '"headline"' in cfg.system_instruction                     # schema also spelled out in the prompt
     assert cfg.thinking_config.thinking_level == types.ThinkingLevel.MINIMAL
 
@@ -169,18 +172,20 @@ def test_paper_text_goes_to_generate_content(fake):
     row = {"disease": "parkinsons", "human_gene": "pink1", "fly_gene": "Pink1", "model_type": "RNAi",
            "clusters": ["PPL1"], "finding": "Pink1 RNAi flies lose PPL1 neurons.", "tier": "medium",
            "tier_reason": "Loss reported without per-cluster counts.", "quote": quote, "page": 0}
-    sent = fake([_response(_text(json.dumps({"citation": "Doe et al. 2020, Fly Journal", "url": "", "rows": [row]})))])
+    sent = fake([_response(_text(json.dumps({"citation": "Doe et al. 2020, Fly Journal", "url": "", "rows": [row] * 15})))])
     out = papers.extract(text=f"Here we knocked down Pink1 in Drosophila dopaminergic neurons by RNAi. {quote} "
                               "compared with controls, while the PAM cluster was unaffected. " * 3)
 
-    assert [r["human_gene"] for r in out["rows"]] == ["PINK1"]
-    assert out["rows"][0]["quote_found"] is True
-    assert out["model"] == "gemma-4-31b-it"
+    assert len(out["rows"]) == 12                                     # maxItems, capped in code for Gemma
+    assert out["rows"][0]["human_gene"] == "PINK1" and out["rows"][0]["quote_found"] is True
+    assert out["model"] == "gemma-4-26b-a4b-it"
     prompt = sent.sent[0]["contents"]
     assert isinstance(prompt, str) and quote in prompt
     cfg = sent.sent[0]["config"]
     assert cfg.response_mime_type == "application/json"
     assert "rows" in cfg.response_json_schema["properties"]
+    assert "maxItems" not in json.dumps(cfg.response_json_schema)     # Gemma answers maxItems with a bare 400
+    assert papers.SCHEMA["properties"]["rows"]["maxItems"] == 12      # the original is untouched
 
 
 def test_generate_content_does_not_retry_on_its_own():
@@ -230,3 +235,4 @@ def test_api_names_the_model_family(monkeypatch):
     monkeypatch.setattr(config, "AGENT_MODEL", "gemma-4-31b-it")
     body = TestClient(app).get("/agent/llm").json()
     assert (body["family"], body["name"], body["model"]) == ("gemma", "Gemma", "gemma-4-31b-it")
+

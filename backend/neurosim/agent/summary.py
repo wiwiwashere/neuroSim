@@ -92,7 +92,7 @@ def _ground(raw: dict, result: SimulationResult) -> dict:
         (level.value, g.group): g for level, groups in result.groups.items() for g in groups
     }
     circuits = []
-    for c in raw.get("top_circuits", []):
+    for c in raw.get("top_circuits", [])[:3]:
         g = by_name.get((c.get("level"), c.get("group"))) or next(
             (g for (lvl, name), g in by_name.items() if name == c.get("group")), None
         )

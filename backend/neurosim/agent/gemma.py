@@ -1,11 +1,12 @@
 """Gemma 4 through the Gemini API (CS2), used when config.LLM is "gemma".
 
-The Gemini API serves Gemma on the free tier with the same GEMINI_API_KEY,
-but only through generate_content: there is no server-side conversation
-(agent.py keeps the history) and no PDF input (papers.py sends text anyway).
-Function calling, system instructions and JSON output work as for Gemini.
-Every call still goes through gemini.call, so the rate-limit and overload
-guards are the same for both families.
+The Gemini API serves Gemma on the free tier with the same GEMINI_API_KEY.
+We call it through generate_content, the API Google documents for Gemma, so
+agent.py keeps the conversation history itself. Papers reach both families
+as text with [page N] markers (papers.py). Function calling, system
+instructions and JSON output work as for Gemini, with one gap (see
+_gemma_schema). Every call still goes through gemini.call, so the rate-limit
+and overload guards are the same for both families.
 """
 
 from __future__ import annotations
@@ -66,6 +67,16 @@ def function_tools() -> list[types.Tool]:
     ])]
 
 
+def _gemma_schema(schema):
+    """The schema without maxItems: Gemma rejected the paper schema (rows
+    maxItems 12) with a bare 400 INVALID_ARGUMENT. Callers cap lists in code."""
+    if isinstance(schema, dict):
+        return {k: _gemma_schema(v) for k, v in schema.items() if k not in ("maxItems", "minItems")}
+    if isinstance(schema, list):
+        return [_gemma_schema(v) for v in schema]
+    return schema
+
+
 def json_text(model: str, *, system: str, schema: dict, text_input: str, thinking_level: str,
               max_output_tokens: int, timeout: float) -> str:
     """Ask for one JSON object matching schema and return the raw text."""
@@ -76,6 +87,6 @@ def json_text(model: str, *, system: str, schema: dict, text_input: str, thinkin
         max_output_tokens=max_output_tokens,
         timeout=timeout,
         response_mime_type="application/json",
-        response_json_schema=schema,
+        response_json_schema=_gemma_schema(schema),
     )
     return text(generate(model, text_input, cfg))
