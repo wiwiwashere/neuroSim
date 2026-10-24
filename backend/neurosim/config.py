@@ -88,6 +88,10 @@ AGENT_RETRY_MAX_WAIT_S = 20
 AGENT_REQUEST_TIMEOUT_S = 30
 # After a switch to the fallback, stay on it this long before trying Flash again.
 AGENT_FALLBACK_COOLDOWN_S = 300
+# A whole agent turn (every Gemini call and tool round) stops after this and
+# answers with a readable 503. Keep it well under the frontend proxy's 300s
+# timeout (frontend/next.config.ts), or the user gets the proxy's bare 500.
+AGENT_TURN_DEADLINE_S = float(os.environ.get("NEUROSIM_AGENT_TURN_DEADLINE_S", "120"))
 
 # Paper upload: PDFs larger than this are refused before they reach Gemini.
 PAPER_MAX_BYTES = 20 * 1024 * 1024

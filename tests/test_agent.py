@@ -107,6 +107,33 @@ def test_timeout_falls_back_straight_away(fake, timeout):
     assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL]
 
 
+def test_slow_turn_stops_at_the_deadline_with_a_readable_503(fake, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from neurosim.api.main import app
+
+    clock = SimpleNamespace(now=0.0)
+    monkeypatch.setattr(agent, "time", SimpleNamespace(monotonic=lambda: clock.now))
+    monkeypatch.setattr(config, "AGENT_TURN_DEADLINE_S", 120.0)
+    monkeypatch.setattr(config, "AGENT_REQUEST_TIMEOUT_S", 30)
+    sent = fake([_interaction(f"i{n}", [_call("list_diseases", {}, f"c{n}")]) for n in range(1, 5)])
+    answer = sent.create
+
+    def slow(**kwargs):  # every Gemini call takes 50s
+        clock.now += 50
+        return answer(**kwargs)
+
+    monkeypatch.setattr(sent, "create", slow)
+    res = TestClient(app).post("/agent/chat", json={"message": "hi"})
+
+    assert res.status_code == 503
+    assert res.json()["detail"] == (
+        "The agent couldn't finish within 2 minutes because Gemini is slow right now. Try again in a minute."
+    )
+    # Calls at t=0, 50 and 100 get the time left (capped at 30s); none starts at t=150.
+    assert [s["timeout"] for s in sent.sent] == [30, 30, 20]
+
+
 def test_refused_key_is_reported_plainly(fake):
     fake([StatusError(402)])
     with pytest.raises(gemini.GeminiUnavailable, match="billing"):

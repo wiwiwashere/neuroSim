@@ -104,6 +104,8 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
     while True:
         try:
             return fn(model)
+        except GeminiUnavailable:
+            raise  # fn gave up on its own (agent.py's turn deadline)
         except Exception as err:  # the SDK raises a different class per API surface
             status = _status(err)
             timed_out = _timed_out(err)

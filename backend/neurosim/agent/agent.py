@@ -15,6 +15,7 @@ fallback come from config.py (see agent/gemini.py for the guards).
 from __future__ import annotations
 
 import json
+import time
 
 from neurosim import config
 from neurosim.agent import gemini
@@ -22,9 +23,22 @@ from neurosim.agent.prompts import SYSTEM_PROMPT
 from neurosim.agent.tools import TOOL_DECLARATIONS, TOOLS
 
 
-def _create(input, previous_interaction_id: str | None, state: dict, tool_choice: str = "auto"):
-    return gemini.call(
-        lambda model: gemini.client().interactions.create(
+def _too_slow() -> gemini.GeminiUnavailable:
+    s = config.AGENT_TURN_DEADLINE_S
+    limit = f"{s / 60:g} minute{'s' if s != 60 else ''}" if s % 60 == 0 else f"{s:g} seconds"
+    return gemini.GeminiUnavailable(
+        f"The agent couldn't finish within {limit} because Gemini is slow right now. Try again in a minute."
+    )
+
+
+def _create(input, previous_interaction_id: str | None, state: dict, deadline: float, tool_choice: str = "auto"):
+    """One Gemini call, given only the time left before the turn's deadline."""
+
+    def create(model: str):
+        left = deadline - time.monotonic()
+        if left <= 0:
+            raise _too_slow()
+        return gemini.client().interactions.create(
             model=model,
             input=input,
             tools=TOOL_DECLARATIONS,
@@ -35,10 +49,10 @@ def _create(input, previous_interaction_id: str | None, state: dict, tool_choice
                 "tool_choice": tool_choice,
             },
             previous_interaction_id=previous_interaction_id,
-            timeout=config.AGENT_REQUEST_TIMEOUT_S,
-        ),
-        state,
-    )
+            timeout=min(config.AGENT_REQUEST_TIMEOUT_S, left),
+        )
+
+    return gemini.call(create, state)
 
 
 def _with_context(message: str, context: dict | None) -> str:
@@ -77,7 +91,10 @@ def chat(message: str, previous_interaction_id: str | None = None, context: dict
              "interaction_id", "model"} for the frontend.
     """
     state: dict = {}
-    interaction = _create(_with_context(message, context), previous_interaction_id, state)
+    # Every call and tool round shares one deadline, so a slow Gemini ends the
+    # turn with a readable 503 instead of outlasting the frontend proxy.
+    deadline = time.monotonic() + config.AGENT_TURN_DEADLINE_S
+    interaction = _create(_with_context(message, context), previous_interaction_id, state, deadline)
     tool_calls: list[dict] = []
     run_ids: list[str] = []
 
@@ -105,7 +122,7 @@ def chat(message: str, previous_interaction_id: str | None = None, context: dict
             )
         # Out of rounds: hand back the last results and make it answer in text.
         last = round_ == config.AGENT_MAX_TOOL_ROUNDS - 1
-        interaction = _create(results, interaction.id, state, tool_choice="none" if last else "auto")
+        interaction = _create(results, interaction.id, state, deadline, tool_choice="none" if last else "auto")
 
     return {
         "reply": interaction.output_text or "",
