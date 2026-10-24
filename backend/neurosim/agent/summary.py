@@ -86,6 +86,16 @@ def _context(result: SimulationResult) -> str:
     return json.dumps(data, default=str)
 
 
+def _reduce_strength(strength) -> float:
+    """reduce_output needs a share strictly between 0 and 1. Gemma suggested
+    strength 0 (a run that changes nothing), so anything outside gets half."""
+    try:
+        value = float(strength)
+    except (TypeError, ValueError):
+        return 0.5
+    return value if 0.0 < value < 1.0 else 0.5
+
+
 def _ground(raw: dict, result: SimulationResult) -> dict:
     """Attach real numbers and drop anything the run doesn't contain."""
     by_name = {
@@ -114,7 +124,7 @@ def _ground(raw: dict, result: SimulationResult) -> dict:
             request = {
                 "human_gene": nxt["human_gene"].upper(),
                 "mode": nxt["mode"],
-                "strength": min(1.0, max(0.0, float(strength))) if nxt["mode"] == "reduce_output" and strength is not None else 1.0,
+                "strength": _reduce_strength(strength) if nxt["mode"] == "reduce_output" else 1.0,
                 "seed_cell_types": wanted,
             }
     return {
@@ -136,7 +146,9 @@ def summarize_run(result: SimulationResult) -> dict:
             system=INSTRUCTION,
             schema=SCHEMA,
             prompt=_context(result),
-            thinking_level="low",
+            # Gemma without thinking garbled words in the card ("thedependency",
+            # stray characters); with it the card takes a few seconds longer.
+            thinking_level="medium" if config.LLM == "gemma" else "low",
             max_output_tokens=4000,
             timeout=config.AGENT_REQUEST_TIMEOUT_S,
         ),

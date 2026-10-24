@@ -157,7 +157,7 @@ def test_summary_parses_fenced_json_and_skips_thinking(fake):
     assert cfg.response_mime_type == "application/json"
     assert cfg.response_json_schema == gemma._gemma_schema(summary.SCHEMA)
     assert '"headline"' in cfg.system_instruction                     # schema also spelled out in the prompt
-    assert cfg.thinking_config.thinking_level == types.ThinkingLevel.MINIMAL
+    assert cfg.thinking_config.thinking_level == types.ThinkingLevel.HIGH       # thinking on for the card
 
 
 def test_summary_that_isnt_json_is_a_readable_error(fake):
@@ -236,3 +236,13 @@ def test_api_names_the_model_family(monkeypatch):
     body = TestClient(app).get("/agent/llm").json()
     assert (body["family"], body["name"], body["model"]) == ("gemma", "Gemma", "gemma-4-31b-it")
 
+
+@pytest.mark.parametrize("strength,expected", [(0.0, 0.5), (None, 0.5), (1.0, 0.5), (0.3, 0.3)])
+def test_summary_never_suggests_a_reduce_that_changes_nothing(fake, strength, expected):
+    summary._CACHE.clear()
+    body = {"headline": "h", "top_circuits": [], "caveats": [],
+            "next_experiment": {"description": "d", "why": "w", "human_gene": "PINK1", "mode": "reduce_output",
+                                "strength": strength}}
+    fake([_response(_text(json.dumps(body)))])
+    out = summary.summarize_run(mocks.mock_result(SimulationRequest(human_gene="PINK1")))
+    assert out["next_experiment"]["request"]["strength"] == expected
