@@ -146,3 +146,41 @@ def test_non_pdf_is_refused(fake):
     fake([])
     with pytest.raises(ValueError, match="isn't a PDF"):
         papers.extract(b"hello", "notes.txt")
+
+
+def test_sdk_does_not_retry_on_its_own():
+    # A local server that always fails: the SDK must give up after one request
+    # and leave retrying to gemini.call.
+    import http.server
+    import threading
+
+    from google import genai
+
+    hits = []
+
+    class Failing(http.server.BaseHTTPRequestHandler):
+        def do_POST(self):
+            hits.append(self.path)
+            self.rfile.read(int(self.headers.get("content-length", 0)))
+            status = 429 if len(hits) == 1 else 503
+            self.send_response(status)
+            self.send_header("content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": {"code": status, "message": "busy"}}).encode())
+
+        def log_message(self, *args):
+            pass
+
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Failing)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        options = gemini.HTTP_OPTIONS.model_copy(update={"base_url": f"http://127.0.0.1:{server.server_port}"})
+        client = genai.Client(api_key="test-key", http_options=options)
+        for status in (429, 503):
+            before = len(hits)
+            with pytest.raises(Exception) as err:
+                client.interactions.create(model="m", input="hi", timeout=5)
+            assert gemini._status(err.value) == status
+            assert len(hits) == before + 1
+    finally:
+        server.shutdown()

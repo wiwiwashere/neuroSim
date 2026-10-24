@@ -17,6 +17,7 @@ import time
 from typing import Any, Callable
 
 from google import genai
+from google.genai import types
 
 from neurosim import config
 
@@ -32,11 +33,19 @@ class GeminiUnavailable(RuntimeError):
         self.status = status
 
 
+# call() below is the only retry logic. Left alone, the SDK retries 429 and
+# 5xx three more times on its own (waiting out each Retry-After), which turned
+# one 30s call into minutes. attempts=1 should mean "no retries", but the
+# Interactions client in google-genai 2.33 reads it as one retry, so we also
+# narrow the retried statuses to one Gemini never sends.
+HTTP_OPTIONS = types.HttpOptions(retry_options=types.HttpRetryOptions(attempts=1, http_status_codes=[999]))
+
+
 def client() -> genai.Client:
     # Created on first use so importing never needs credentials.
     global _client
     if _client is None:
-        _client = genai.Client()
+        _client = genai.Client(http_options=HTTP_OPTIONS)
     return _client
 
 
