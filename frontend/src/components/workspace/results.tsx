@@ -12,12 +12,12 @@ import { int, LEVEL_LABEL, pct, SCOPE_LINE, zPhrase } from "@/lib/format";
 import type { GraphNode, GroupLevel, GroupScore, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
+import { DamageBars, regionShares } from "@/components/charts/damage-bars";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
 import { EmptyState, ErrorNote, StatTile } from "./primitives";
 import { RunSummaryCard } from "./run-summary";
 
-const DamageSankey = dynamic(() => import("@/components/charts/sankey").then((m) => m.DamageSankey), { ssr: false });
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
 const NetworkGraph = dynamic(() => import("@/components/charts/network").then((m) => m.NetworkGraph), { ssr: false });
 const DamageFlow = dynamic(() => import("@/components/charts/damage-flow").then((m) => m.DamageFlow), { ssr: false });
@@ -47,78 +47,96 @@ function Panel({ title, aside, children, className }: { title?: string; aside?: 
 function Overview({ result }: { result: SimulationResult }) {
   const sankey = useQuery({ queryKey: ["sankey", result.run_id], queryFn: () => api.sankey(result.run_id) });
   const supers = groupsAt(result, "super_region");
-  const top = [...supers].sort((a, b) => b.z_score - a.z_score).slice(0, 3);
+  const shares = useMemo(() => regionShares(sankey.data, supers), [sankey.data, supers]);
   const ratio = result.disruption_null_mean > 0 ? result.disruption_score / result.disruption_null_mean : null;
+  const top = shares[0];
 
   return (
     <div className="grid gap-4">
-      {/* One panel: the headline number, what it is measured against, and where it goes. */}
+      {/* One panel: the claim in a sentence, the two numbers behind it, then where it lands. */}
       <Panel className="landed">
-        <div className="grid gap-5 border-b px-5 pt-5 pb-4 md:grid-cols-[auto_1fr] md:items-end md:gap-10">
-          {/* Lead with the comparison to chance: that is the claim, the raw percent is not. */}
-          <div className="flex flex-col gap-1">
-            <span className="text-[13px] font-medium">{runLabel(result.request)}</span>
-            <span className="text-[44px] leading-none font-semibold tracking-[-0.02em] tabular">
-              {ratio !== null ? `${ratio.toFixed(1)}×` : pct(result.disruption_score)}
-              {ratio !== null && <span className="ml-2 text-[20px] font-medium text-muted-foreground">chance</span>}
-            </span>
-            <span className={cn("text-[13px]", result.disruption_z >= 2 ? "font-medium text-signal" : "text-muted-foreground")}>
-              z {result.disruption_z.toFixed(1)}, {zPhrase(result.disruption_z)}
-            </span>
+        <div className="grid gap-5 border-b px-5 pt-5 pb-5 lg:grid-cols-[1fr_minmax(16rem,22rem)] lg:gap-10">
+          <div className="flex flex-col gap-2">
+            <span className="text-[12.5px] font-medium text-muted-foreground">{runLabel(result.request)}</span>
+            <p className="text-[20px] leading-snug font-medium tracking-[-0.01em] text-balance">
+              <Takeaway result={result} ratio={ratio} />
+            </p>
+            <p className="text-[14px] text-muted-foreground">
+              That gap is {zPhrase(result.disruption_z)} (z {result.disruption_z.toFixed(1)})
+              {result.disruption_z >= 2 ? "." : ", so treat it as noise."}
+              {top && (
+                <>
+                  {" "}
+                  Most of it lands on the <span className="font-medium text-foreground">{top.group}</span>
+                  {top.score?.function_label && <> ({top.score.function_label})</>}: {Math.round(top.share * 100)}% of the total
+                  {top.score ? (top.score.above_chance ? ", more than chance would put there." : ", but no more than chance would.") : "."}
+                </>
+              )}
+            </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 md:max-w-xl md:justify-self-end">
-            <Compared label={`${result.request.human_gene} seeds`} value={pct(result.disruption_score)} strong />
-            <Compared label="Random DA neurons, same count" value={pct(result.disruption_null_mean)} />
-            <p className="text-[12px] text-muted-foreground sm:col-span-2">
-              Share of downstream input lost. {int(result.n_seed_neurons)} seed neurons perturbed, {int(result.n_reached)} reached within{" "}
-              {result.assumptions.hops ?? 3} synapses.
+          <div className="flex flex-col justify-end gap-2.5">
+            <CompareBar label={`${result.request.human_gene} seeds`} value={result.disruption_score} max={Math.max(result.disruption_score, result.disruption_null_mean)} strong />
+            <CompareBar label="Random DA neurons, same count" value={result.disruption_null_mean} max={Math.max(result.disruption_score, result.disruption_null_mean)} />
+            <p className="text-[11.5px] text-muted-foreground">
+              Share of all downstream input in the brain that is lost. {int(result.n_seed_neurons)} seed neurons, {int(result.n_reached)}{" "}
+              neurons reached within {result.assumptions.hops ?? 3} synapses.
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-3.5">
+        <div className="flex flex-wrap items-baseline justify-between gap-3 px-5 pt-4">
           <h3 className="text-[13px] font-semibold">Where does the damage go?</h3>
           <span className="flex items-center gap-3 text-[11.5px] text-muted-foreground">
-            <Legend swatch="bg-seed" label="seed cluster" />
-            <Legend swatch="bg-signal" label="above chance" />
-            <Legend swatch="bg-faint" label="within chance" />
+            <Legend swatch="bg-signal" label="hit harder than chance" />
+            <Legend swatch="bg-faint/70" label="within chance" />
           </span>
         </div>
-        <div className="h-[340px] px-2 py-2">
+        <p className="px-5 pt-0.5 text-[12px] text-muted-foreground">Each bar is the region&apos;s share of all the input lost.</p>
+        <div className="px-5 pt-4 pb-5">
           {sankey.error && <ErrorNote error={sankey.error} />}
-          {sankey.data && <DamageSankey links={sankey.data} groups={supers} />}
+          {shares.length > 0 && <DamageBars shares={shares} />}
         </div>
       </Panel>
 
       <RunSummaryCard result={result} />
-
-      {top.length > 0 && (
-        <Panel title="Most dependent regions">
-          <ol className="divide-y">
-            {top.map((g, i) => (
-              <li key={g.group} className="grid grid-cols-[1.5rem_1fr_auto] items-baseline gap-3 px-4 py-2.5 text-[13px]">
-                <span className="font-mono text-[11px] text-faint">{i + 1}</span>
-                <span>
-                  <span className="font-medium">{g.group}</span>
-                  {g.function_label && <span className="text-muted-foreground"> · {g.function_label}</span>}
-                </span>
-                <span className={cn("font-mono tabular", g.above_chance ? "text-signal" : "text-muted-foreground")}>
-                  z {g.z_score.toFixed(1)} <span className="text-[11px]">{g.above_chance ? "above chance" : "chance"}</span>
-                </span>
-              </li>
-            ))}
-          </ol>
-        </Panel>
-      )}
     </div>
   );
 }
 
-/** Two numbers at equal weight so the gap is seen, not read. */
-function Compared({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+/** The run's claim as one sentence, in the words a first-time viewer would use. */
+function Takeaway({ result, ratio }: { result: SimulationResult; ratio: number | null }) {
+  const { human_gene: gene, mode, strength } = result.request;
+  const verb = mode === "reduce_output" ? `Cutting ${gene} output by ${Math.round((strength ?? 1) * 100)}%` : `${gene} knockout`;
+  const clusters = [...new Set(result.seeds.seed_types.map((t) => t.cluster))].join(" and ");
+  const n = int(result.n_seed_neurons);
   return (
-    <div className={cn("rounded-lg border px-3 py-2", strong ? "border-foreground/25" : "border-dashed")}>
-      <div className="text-[12px] text-muted-foreground">{label}</div>
-      <div className={cn("text-[22px] leading-tight tabular", strong ? "font-semibold" : "font-medium text-muted-foreground")}>{value}</div>
+    <>
+      {verb} in {n} {clusters ? `${clusters} ` : ""}dopamine neurons removes{" "}
+      {ratio !== null ? (
+        <>
+          <span className={cn("font-semibold", result.disruption_z >= 2 && "text-signal")}>{ratio.toFixed(1)}×</span> the downstream input that{" "}
+          {n} random ones do.
+        </>
+      ) : (
+        <>{pct(result.disruption_score)} of downstream input.</>
+      )}
+    </>
+  );
+}
+
+/** Seeds against random neurons on one scale, so "2×" is seen as a longer bar, not read off two small percents. */
+function CompareBar({ label, value, max, strong }: { label: string; value: number; max: number; strong?: boolean }) {
+  return (
+    <div className="grid gap-1">
+      <div className="flex items-baseline justify-between text-[12px]">
+        <span className={strong ? "font-medium" : "text-muted-foreground"}>{label}</span>
+        <span className={cn("font-mono tabular", strong ? "font-semibold" : "text-muted-foreground")}>{pct(value)}</span>
+      </div>
+      <div className="h-3 overflow-hidden rounded-[3px] bg-muted/70">
+        <div
+          className={cn("h-full rounded-[3px]", strong ? "bg-foreground/80" : "border border-dashed border-foreground/40 bg-transparent")}
+          style={{ width: `${max > 0 ? (value / max) * 100 : 0}%` }}
+        />
+      </div>
     </div>
   );
 }
