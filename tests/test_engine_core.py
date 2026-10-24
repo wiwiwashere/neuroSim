@@ -138,3 +138,22 @@ def test_subgraph_marks_seeds_and_lost_drive():
     assert edges[("S", "A")].lost == pytest.approx(0.75)
     assert edges[("A", "B")].lost == pytest.approx(0.5 * 0.75)
     assert all(0 <= n.x <= 1000 and 0 <= n.y <= 1000 for n in sub.nodes)
+
+
+def test_comparison_uses_z_scores_and_a_template_summary():
+    from neurosim.api import mocks
+    from neurosim.engine.compare import compare_runs
+    from neurosim.models import GroupLevel, SimulationRequest
+
+    def run(gene, zs, hits):
+        result = mocks.mock_result(SimulationRequest(human_gene=gene))
+        groups = [mocks._group(name, z, None).model_copy(update={"above_chance": name in hits})
+                  for name, z in zs.items()]
+        return result.model_copy(update={"run_id": gene, "groups": {GroupLevel.SUPER_REGION: groups}})
+
+    a = run("PINK1", {"mb": 5.0, "lh": 3.0, "cx": 1.0, "ol": -1.0}, {"mb", "lh"})
+    b = run("PRKN", {"mb": 4.0, "lh": 0.5, "cx": 2.0, "ol": -2.0}, {"mb", "cx"})
+    c = compare_runs(a, b, GroupLevel.SUPER_REGION)
+    assert c.spearman_rho == pytest.approx(0.8)
+    assert (c.shared_top, c.only_a, c.only_b) == (["mb"], ["lh"], ["cx"])
+    assert c.summary.startswith("PINK1 and PRKN hit similar brain areas (rank correlation 0.80 over 4).")
