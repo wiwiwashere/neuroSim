@@ -117,10 +117,12 @@ def pdf_pages(pdf: bytes) -> list[str]:
 DOI_RE = re.compile(r"10\.\d{4,9}/\S+")
 
 
-def europe_pmc(identifier: str) -> tuple[list[str], str, str]:
-    """(pages, citation, url) for a DOI or PMID from Europe PMC: the full text
-    when it is open access there, else title and abstract."""
-    ident = identifier.strip().removeprefix("https://doi.org/").removeprefix("doi:").strip()
+def europe_pmc(identifier: str, full_text: bool = True) -> dict:
+    """{"pages", "citation", "url", "read"} for a DOI or PMID from Europe PMC.
+    pages is the full text when it is open access there ("read": "full text"),
+    else title and abstract ("read": "abstract"). full_text=False only looks
+    up the citation."""
+    ident = identifier.strip().removeprefix("https://doi.org/").removeprefix("doi:").strip().rstrip(".,;)")
     if DOI_RE.fullmatch(ident):
         query = f'DOI:"{ident}"'
     elif ident.isdigit():
@@ -136,18 +138,31 @@ def europe_pmc(identifier: str) -> tuple[list[str], str, str]:
                 raise ValueError(f"Europe PMC has no paper for {ident}.")
             full = ""
             pmcid = result.get("pmcid")
-            if pmcid and result.get("isOpenAccess") == "Y":
+            if full_text and pmcid and result.get("isOpenAccess") == "Y":
                 xml = http.get(f"{base}/{pmcid}/fullTextXML")
                 if xml.status_code == 200:
                     full = _xml_text(xml.text)
-    except httpx.HTTPError as err:
+    except (httpx.HTTPError, json.JSONDecodeError) as err:
         raise ValueError(f"Couldn't reach Europe PMC ({type(err).__name__}). Upload the PDF or paste the text instead.") from err
     authors = result.get("authorString", "")
     first = authors.split(",")[0].split(" ")[0] if authors else "Unknown"
-    citation = f"{first} et al. {result.get('pubYear', '')}, {result.get('journalTitle') or result.get('journalInfo', {}).get('journal', {}).get('title', '')}".strip(", ")
+    journal = result.get("journalTitle") or result.get("journalInfo", {}).get("journal", {}).get("title", "")
+    citation = f"{first} et al. {result.get('pubYear', '')}, {journal}".strip(", ")
     url = f"https://doi.org/{result['doi']}" if result.get("doi") else f"https://europepmc.org/article/MED/{result.get('pmid', ident)}"
     text = full or f"{result.get('title', '')}\n\n{_xml_text(result.get('abstractText', ''))}"
-    return [text], citation, url
+    return {"pages": [text], "citation": citation, "url": url, "read": "full text" if full else "abstract"}
+
+
+def _metadata(pages: list[str]) -> dict | None:
+    """Europe PMC's record for the DOI printed near the start of a paper, or
+    None when there is none or Europe PMC can't be reached."""
+    doi = DOI_RE.search(" ".join(pages[:2]))
+    if doi is None:
+        return None
+    try:
+        return europe_pmc(doi.group(0), full_text=False)
+    except ValueError:
+        return None
 
 
 def _xml_text(xml: str) -> str:
@@ -294,6 +309,11 @@ def check_row(row: dict) -> dict:
     )
     if duplicate:
         problems.append("The evidence table already has this gene, clusters and paper.")
+    if row.get("extracted_by") == config.AGENT_FALLBACK_MODEL:
+        problems.append(f"Read by the backup model ({config.AGENT_FALLBACK_MODEL}) because the main one was busy. "
+                        "Check it more closely, or try the paper again in a minute.")
+    if row.get("read") == "abstract" and not row["clusters"]:
+        problems.append("Only the abstract was read. Upload the PDF to find which clusters were lost.")
     if row.get("quote_found") is False:
         problems.append("The quote isn't in the paper's text word for word. Check it before approving.")
     return {"ortholog": ortholog, "clusters": clusters, "confidence": confidence, "can_seed": confidence is not None,
@@ -322,20 +342,22 @@ def extract(pdf: bytes | None = None, filename: str = "paper.pdf", text: str | N
     """Propose rows from exactly one of: a PDF, pasted text, or a DOI/PMID."""
     if sum(x is not None and x != "" for x in (pdf, text, doi)) != 1:
         raise ValueError("Give one of: a PDF, the paper's text, or its DOI.")
-    citation = url = ""
     if pdf:
-        pages, source = pdf_pages(pdf), filename
+        pages, source, read = pdf_pages(pdf), filename, "PDF"
+        meta = _metadata(pages)
     elif text:
         if len(text.strip()) < 200:
             raise ValueError("That text is too short to hold a finding. Paste at least the abstract.")
-        pages, source = [text], "pasted text"
+        pages, source, read = [text], "pasted text", "pasted text"
+        meta = _metadata(pages)
     else:
-        pages, citation, url = europe_pmc(doi)
-        source = doi.strip()
+        meta = europe_pmc(doi)
+        pages, source, read = meta["pages"], doi.strip(), meta["read"]
 
     raw, model = ask_model(_paper_text(pages))
-    citation = raw.get("citation") or citation
-    url = raw.get("url") or url
+    # The published record beats the model's reading of the title page.
+    citation = meta["citation"] if meta else raw.get("citation", "")
+    url = meta["url"] if meta else raw.get("url", "")
 
     rows = []
     for r in raw.get("rows", []):
@@ -358,6 +380,7 @@ def extract(pdf: bytes | None = None, filename: str = "paper.pdf", text: str | N
             "citation": citation,
             "url": url,
             "source_file": source,
+            "read": read,
             "extracted_by": model,
             "edited": [],
         }
@@ -367,7 +390,11 @@ def extract(pdf: bytes | None = None, filename: str = "paper.pdf", text: str | N
         _proposals()[row["id"]] = row
         rows.append(row)
     _save_proposals()
-    return {"citation": citation, "url": url, "file": source, "model": model, "rows": rows}
+    note = None
+    if read == "abstract":
+        note = "Only the abstract was available, and abstracts rarely name neuron clusters. Upload the PDF to get per-cluster findings."
+    return {"citation": citation, "url": url, "file": source, "read": read, "note": note, "model": model,
+            "fallback": model == config.AGENT_FALLBACK_MODEL, "rows": rows}
 
 
 def pending() -> list[dict]:

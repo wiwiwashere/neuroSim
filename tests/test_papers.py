@@ -14,7 +14,7 @@ from neurosim.engine.graph import set_connectome
 from neurosim.engine.synthetic import synthetic_connectome
 from neurosim.models import SimulationRequest
 
-from test_agent import _interaction, fake  # noqa: F401  (fake is a fixture)
+from test_agent import StatusError, _interaction, fake  # noqa: F401  (fake is a fixture)
 
 ABSTRACT = (
     "Mutations in PINK1 cause early-onset Parkinson's disease. Here we knocked down Pink1 in Drosophila "
@@ -22,6 +22,7 @@ ABSTRACT = (
     "dopaminergic neurons compared with controls, while the PAM cluster was unaffected. "
     "Climbing ability declined in parallel with the neuron loss."
 )
+REAL_CLIENT = httpx.Client
 QUOTE = "Aged Pink1 RNAi flies showed a significant loss of PPL1 cluster dopaminergic neurons compared with controls"
 
 
@@ -134,25 +135,64 @@ def test_bad_edits_are_refused(fake):
         papers.decide(row_id, True, {"citation": "Me 2026"})
 
 
-def test_doi_reads_the_open_access_full_text(fake, monkeypatch):
+def _europe_pmc(monkeypatch, open_access=True, fail=False):
+    """Serve Europe PMC from a fake transport: one record (Riemensperger 2013),
+    full text if open_access, a connection error if fail."""
     def handler(request):
+        if fail:
+            raise httpx.ConnectError("no route")
         if request.url.path.endswith("/search"):
             assert 'DOI:"10.1016/j.celrep.2012.12.014"' in request.url.params["query"]
             return httpx.Response(200, json={"resultList": {"result": [{
-                "pmcid": "PMC1", "isOpenAccess": "Y", "doi": "10.1016/j.celrep.2012.12.014",
+                "pmcid": "PMC1", "isOpenAccess": "Y" if open_access else "N", "doi": "10.1016/j.celrep.2012.12.014",
                 "authorString": "Riemensperger T, Issa AR", "pubYear": "2013", "journalTitle": "Cell Rep",
-                "title": "A single dopamine pathway", "abstractText": "Short."}]}})
+                "title": "A single dopamine pathway", "abstractText": "Pink1 flies lose dopamine neurons. " * 10}]}})
+        assert open_access, "full text fetched for a paper that isn't open access"
         return httpx.Response(200, text=f"<article><sec><p>{ABSTRACT}</p></sec></article>")
 
-    real_client = httpx.Client
-    monkeypatch.setattr(papers.httpx, "Client", lambda **kw: real_client(transport=httpx.MockTransport(handler)))
-    sent = fake([_answer(_row(), citation="")])
+    monkeypatch.setattr(papers.httpx, "Client", lambda **kw: REAL_CLIENT(transport=httpx.MockTransport(handler)))
+
+
+def test_doi_reads_the_open_access_full_text_and_keeps_the_real_citation(fake, monkeypatch):
+    _europe_pmc(monkeypatch)
+    sent = fake([_answer(_row(), citation="Clark et al. 2006, Nature")])   # the model misreads the paper
     out = papers.extract(doi="https://doi.org/10.1016/j.celrep.2012.12.014")
 
     assert ABSTRACT in sent.sent[0]["input"][0]["text"]
     assert out["citation"] == "Riemensperger et al. 2013, Cell Rep"
     assert out["url"] == "https://doi.org/10.1016/j.celrep.2012.12.014"
-    assert out["rows"][0]["quote_found"] is True
+    assert out["read"] == "full text" and out["note"] is None
+    assert out["rows"][0]["quote_found"] is True and out["rows"][0]["citation"] == out["citation"]
+
+
+def test_doi_without_full_text_says_only_the_abstract_was_read(fake, monkeypatch):
+    _europe_pmc(monkeypatch, open_access=False)
+    fake([_answer(_row(clusters=[]))])
+    out = papers.extract(doi="10.1016/j.celrep.2012.12.014")
+
+    assert out["read"] == "abstract" and "Upload the PDF" in out["note"]
+    assert any("Only the abstract" in p for p in out["rows"][0]["checks"]["problems"])
+
+
+def test_a_pdf_takes_its_citation_from_the_doi_it_prints(fake, monkeypatch):
+    pages = ["Cell Reports. doi: 10.1016/j.celrep.2012.12.014. " + "Title page. " * 50, "Results. " + ABSTRACT]
+    monkeypatch.setattr(papers, "pdf_pages", lambda pdf: pages)
+    _europe_pmc(monkeypatch)
+    fake([_answer(_row(), citation="Clark et al. 2006, Nature")])
+    assert papers.extract(b"%PDF-1.4", "r.pdf")["citation"] == "Riemensperger et al. 2013, Cell Rep"
+
+    # Europe PMC down: fall back to what the model read.
+    _europe_pmc(monkeypatch, fail=True)
+    fake([_answer(_row(), citation="Riemensperger et al. 2013, Cell Reports")])
+    out = papers.extract(b"%PDF-1.4", "r.pdf")
+    assert out["citation"] == "Riemensperger et al. 2013, Cell Reports" and out["read"] == "PDF"
+
+
+def test_rows_read_by_the_backup_model_are_flagged(fake, monkeypatch):
+    fake([StatusError(503), _answer(_row())])
+    out = papers.extract(text=ABSTRACT)
+    assert out["fallback"] is True
+    assert any("backup model" in p for p in out["rows"][0]["checks"]["problems"])
 
 
 def test_inputs_are_checked_before_the_model_is_called(fake):
