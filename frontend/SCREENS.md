@@ -2,7 +2,7 @@
 
 What the built app looks like and which endpoint feeds each part. Next.js 15
 (App Router) + React 19 + TypeScript, Tailwind CSS 4 with shadcn/ui, TanStack
-Query, Plotly (react-plotly.js) for the Sankey, ranked bars and comparison,
+Query, Plotly (react-plotly.js) for the ranked bars and comparison,
 Cytoscape.js with preset positions for the network. Every view reads only from
 the API in `backend/neurosim/api/main.py`; while `NEUROSIM_MOCKS=1` (the
 default) the API serves fixed sample payloads, so every view works before the
@@ -49,7 +49,7 @@ localStorage).
 | 2 | Pick gene | Left | `GET /diseases/{d}/genes` | Gene, fly ortholog (italic), evidence tier | SNCA greyed: "no fly ortholog"; clicking it explains why it can't be simulated |
 | 3 | Mapping chain | Left | `GET /genes/{g}/chain` | Linked cards: human gene → fly gene (DIOPT) → clusters lost (finding, citation, tier) → connectome cell types (exact/inferred) → neuron count; confidence meter on each link | "High-confidence only" switch re-calls with `high_confidence_only=true` |
 | 4 | Perturbation | Left | — | Knockout / reduce output, strength slider, Run | Note under the slider: "results scale linearly with strength; rankings don't change" |
-| 5 | Overview (hero) | Centre tab | `POST /simulate`, `GET /runs/{id}/sankey` | Disruption score with its z and chance level, seed and reached counts; Sankey from seed clusters to super regions; top three regions | Seeds orange, above-chance regions blue, the rest grey |
+| 5 | Overview (hero) | Centre tab | `POST /simulate`, `GET /runs/{id}/sankey` | One-sentence takeaway ("PINK1 knockout in 4 PPL1 dopamine neurons removes 2.0× the downstream input that 4 random ones do"), seeds vs random drawn as two bars on one scale, then one bar per super region for its share of the damage (summed from the Sankey links), split by seed cluster when there are several | Above-chance regions blue, the rest grey |
 | 6 | Ranked | Centre tab | from `/simulate` result | Horizontal bars of z vs random DA neurons, chance range (±1.96) shaded, above-chance bars in the accent colour, function label under each name; table view toggle | Level toggle: super region / region / cell type |
 | 7 | Network | Centre tab | `GET /runs/{id}/subgraph`, `GET /runs/{id}/neurons/{rid}/explain` | Flow by synapse (default): seeds, then one column per synapse away (hops found client-side from the drawn edges), rows merged by cell type or one per neuron, grey width = connection, orange width = drive lost, blue = above chance in Ranked; hover traces a row's path. Toggle back to healthy and perturbed side by side at the backend's positions. Click a row or neuron for its top paths and its Codex link | ≤ 200 nodes |
 | 8 | Compare | Centre tab | `GET /compare?run_a&run_b&level` | Rank correlation with a plain-words reading, summary sentence, shared/only chips, one paired dot chart (a row per region, a dot per gene, shared chance band) | The demo's high point: PINK1 vs PRKN |
