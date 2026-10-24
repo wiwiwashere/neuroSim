@@ -88,66 +88,90 @@ export function DamageFlow({
   const maxWeight = Math.max(...flow.links.map((l) => l.weight), 1e-9);
   const downstream = flow.columns.flatMap((c) => c.rows).filter((r) => !r.isSeed);
   const maxImpact = Math.max(...downstream.map((r) => r.impact), 1e-9);
+  // The row holding the single most hit neuron, which is also what the detail panel opens on.
+  const hardest = [...downstream].sort((a, b) => b.nodes[0].impact - a.nodes[0].impact)[0];
+  const hardestColumn = hardest ? flow.columns[hardest.column].title.toLowerCase() : "";
 
   return (
-    <div ref={box} className="w-full min-w-0 overflow-x-auto">
-      <div className="relative" style={{ width: innerW, height }} onMouseLeave={() => setHovered(null)}>
-        {flow.columns.map((c, i) => (
-          <div
-            key={c.title}
-            className="absolute top-0 text-[11.5px] text-muted-foreground"
-            style={{ left: i * colW + 12, width: boxW }}
-          >
-            {c.title}
-          </div>
-        ))}
-
-        <svg className="pointer-events-none absolute inset-0" width={innerW} height={height}>
-          {flow.links.map((l) => {
-            const s = place.get(l.source)!;
-            const t = place.get(l.target)!;
-            const x1 = s.x + boxW;
-            const x2 = t.x;
-            const { y1, y2 } = ports.get(`${l.source}->${l.target}`)!;
-            const mx = (x1 + x2) / 2;
-            const d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
-            const on = !lit || (lit.has(l.source) && lit.has(l.target));
-            return (
-              <g key={`${l.source}->${l.target}`} style={{ opacity: on ? 1 : 0.12, transition: "opacity 150ms" }}>
-                <path d={d} fill="none" stroke="var(--faint)" strokeOpacity={0.35} strokeWidth={Math.max(1, (MAX_STROKE * l.weight) / maxWeight)} />
-                {l.lost > 0 && (
-                  <path d={d} fill="none" stroke="var(--seed)" strokeOpacity={0.8} strokeWidth={Math.max(1, (MAX_STROKE * l.lost) / maxWeight)} />
-                )}
-              </g>
-            );
-          })}
-        </svg>
-
-        {flow.columns.flatMap((c) =>
-          c.rows.map((r) => (
-            <Row
-              key={r.key}
-              row={r}
-              style={{ left: place.get(r.key)!.x, top: place.get(r.key)!.y, width: boxW, height: ROW_H }}
-              grouped={grouping === "cell_type"}
-              above={aboveChance.has(r.label) || aboveChance.has(r.region)}
-              barShare={r.isSeed ? 1 : r.impact / maxImpact}
-              dimmed={!!lit && !lit.has(r.key)}
-              selected={r.key === selectedRow}
-              onHover={setHovered}
-              onSelect={() => {
-                setPinned(r.key === pinned ? null : r.key);
-                onSelect(r.key === selectedRow ? null : r.nodes[0]);
-              }}
-            />
-          )),
-        )}
-      </div>
-      {flow.hiddenEdges > 0 && (
-        <p className="px-3 pb-1 text-[11.5px] text-faint">
-          {flow.hiddenEdges} feedback or same-step connection{flow.hiddenEdges === 1 ? "" : "s"} not drawn.
+    <div className="grid gap-3">
+      {hardest && (
+        <p className="px-3 text-[14px] text-muted-foreground">
+          Hardest-hit neuron: {grouping === "cell_type" && hardest.nodes.length > 1 ? "a " : ""}
+          <span className={cn("font-mono font-medium", aboveChance.has(hardest.nodes[0].label) ? "text-signal" : "text-foreground")}>
+            {hardest.nodes[0].label}
+          </span>
+          {grouping === "cell_type" && hardest.nodes.length > 1 && <> (one of {hardest.nodes.length})</>} in {hardest.nodes[0].group},{" "}
+          {hardestColumn.startsWith("further") ? "reached indirectly" : hardestColumn}, impact {hardest.nodes[0].impact.toFixed(2)}. Read
+          left to right: each column is one more synapse from the seeds, and the orange band is the input that goes missing.
         </p>
       )}
+      <div ref={box} className="w-full min-w-0 overflow-x-auto">
+        <div className="relative" style={{ width: innerW, height }} onMouseLeave={() => setHovered(null)}>
+          {flow.columns.map((c, i) => (
+            <div key={c.title} className="absolute top-0 text-[11.5px] text-muted-foreground" style={{ left: i * colW + 12, width: boxW }}>
+              {c.title}
+            </div>
+          ))}
+
+          <svg className="pointer-events-none absolute inset-0" width={innerW} height={height}>
+            {flow.links.map((l) => {
+              const s = place.get(l.source)!;
+              const t = place.get(l.target)!;
+              const x1 = s.x + boxW;
+              const x2 = t.x;
+              const { y1, y2 } = ports.get(`${l.source}->${l.target}`)!;
+              const mx = (x1 + x2) / 2;
+              const d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+              const on = !lit || (lit.has(l.source) && lit.has(l.target));
+              return (
+                <g key={`${l.source}->${l.target}`} style={{ opacity: on ? 1 : 0.12, transition: "opacity 150ms" }}>
+                  <path
+                    d={d}
+                    fill="none"
+                    stroke="var(--faint)"
+                    strokeOpacity={0.35}
+                    strokeWidth={Math.max(1, (MAX_STROKE * l.weight) / maxWeight)}
+                  />
+                  {l.lost > 0 && (
+                    <path
+                      d={d}
+                      fill="none"
+                      stroke="var(--seed)"
+                      strokeOpacity={0.8}
+                      strokeWidth={Math.max(1, (MAX_STROKE * l.lost) / maxWeight)}
+                    />
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+
+          {flow.columns.flatMap((c) =>
+            c.rows.map((r) => (
+              <Row
+                key={r.key}
+                row={r}
+                style={{ left: place.get(r.key)!.x, top: place.get(r.key)!.y, width: boxW, height: ROW_H }}
+                grouped={grouping === "cell_type"}
+                above={aboveChance.has(r.label) || aboveChance.has(r.region)}
+                barShare={r.isSeed ? 1 : r.impact / maxImpact}
+                dimmed={!!lit && !lit.has(r.key)}
+                selected={r.key === selectedRow}
+                onHover={setHovered}
+                onSelect={() => {
+                  setPinned(r.key === pinned ? null : r.key);
+                  onSelect(r.key === selectedRow ? null : r.nodes[0]);
+                }}
+              />
+            )),
+          )}
+        </div>
+        {flow.hiddenEdges > 0 && (
+          <p className="px-3 pb-1 text-[11.5px] text-faint">
+            {flow.hiddenEdges} feedback or same-step connection{flow.hiddenEdges === 1 ? "" : "s"} not drawn.
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -192,7 +216,9 @@ function Row({
       style={style}
     >
       <span className="flex items-baseline gap-1.5 text-[12px] leading-none">
-        <span className={cn("truncate font-mono", row.isMore ? "text-muted-foreground" : "font-medium", above && "text-signal")}>{row.label}</span>
+        <span className={cn("truncate font-mono", row.isMore ? "text-muted-foreground" : "font-medium", above && "text-signal")}>
+          {row.label}
+        </span>
         {grouped && n > 1 && !row.isMore && <span className="font-mono text-[11px] text-muted-foreground">×{n}</span>}
         <span className="ml-auto shrink-0 font-mono text-[11px] text-muted-foreground tabular">
           {row.isSeed ? "seed" : row.impact.toFixed(2)}
