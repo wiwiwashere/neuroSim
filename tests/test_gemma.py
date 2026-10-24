@@ -218,3 +218,15 @@ def test_generate_content_does_not_retry_on_its_own():
         assert len(hits) == 1
     finally:
         server.shutdown()
+
+
+def test_api_names_the_model_family(monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from neurosim.api.main import app
+
+    monkeypatch.setattr(config, "LLM", "gemma")
+    monkeypatch.setattr(config, "LLM_NAME", "Gemma")
+    monkeypatch.setattr(config, "AGENT_MODEL", "gemma-4-31b-it")
+    body = TestClient(app).get("/agent/llm").json()
+    assert (body["family"], body["name"], body["model"]) == ("gemma", "Gemma", "gemma-4-31b-it")

@@ -5,19 +5,21 @@ import { FlaskConical, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { api, SNAPSHOT_MODE } from "@/lib/api";
 import { LEVEL_LABEL } from "@/lib/format";
+import { useLlm } from "@/lib/llm";
 import type { SimulationRequest, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { requestKey, runLabel, useWorkspace } from "@/lib/workspace";
 import { useSimulate } from "./perturbation";
 import { ErrorNote } from "./primitives";
 
-// Gemini's structured read of one run (POST /runs/{id}/summary). Asked for on
+// The model's structured read of one run (POST /runs/{id}/summary). Asked for on
 // click, not on every run, to spend the free-tier quota only when wanted.
 // The z-scores shown are the run's own; the backend drops any circuit the run
 // doesn't contain.
 export function RunSummaryCard({ result }: { result: SimulationResult }) {
   const ws = useWorkspace();
   const simulate = useSimulate();
+  const llm = useLlm();
   // Fetched only on click (enabled: false), then cached per run.
   const summary = useQuery({
     queryKey: ["summary", result.run_id],
@@ -34,7 +36,7 @@ export function RunSummaryCard({ result }: { result: SimulationResult }) {
     return (
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-dashed px-4 py-3">
         <p className="text-[12.5px] text-muted-foreground">
-          Gemini can read this run and write a short summary: the circuits that stand out, the caveats, and one experiment to run next.
+          {llm.name} can read this run and write a short summary: the circuits that stand out, the caveats, and one experiment to run next.
         </p>
         <Button variant="outline" size="sm" onClick={() => summary.refetch()} disabled={summary.isFetching}>
           {summary.isFetching ? <Loader2 className="animate-spin" /> : <Sparkles className="text-signal" />}
