@@ -53,6 +53,12 @@ FDR_ALPHA = 0.05          # Benjamini-Hochberg threshold for "above chance"
 
 EVIDENCE_TIER_WEIGHT = {"high": 0.9, "medium": 0.7, "low": 0.4}
 TYPE_MATCH_WEIGHT = {"exact": 1.0, "inferred": 0.6}
+# Ortholog confidence = DIOPT score / this. 18 is a placeholder: set it to the
+# maximum score of the DIOPT version Bio used for data/evidence.json.
+DIOPT_MAX_SCORE = 18
+# Used while an ortholog's DIOPT score is still blank in evidence.json, so
+# seeds are not zeroed out by a missing number. Shown in the mapping chain.
+UNSCORED_ORTHOLOG_CONFIDENCE = 0.5
 
 # --- Drawing (CS1 -> CS2) ----------------------------------------------------------
 
