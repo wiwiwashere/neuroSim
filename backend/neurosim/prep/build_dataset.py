@@ -152,14 +152,53 @@ def primary_input_region(conn: pd.DataFrame) -> pd.Series:
     return pd.Series(np.asarray(neuropil.cat.categories)[best], index=post_ids, name="region")
 
 
-def build_matrix(pairs: pd.DataFrame, root_ids: list[int]) -> sp.csr_matrix:
+def neuron_transmitter(conn: pd.DataFrame) -> pd.DataFrame:
+    """Each presynaptic neuron's predicted transmitter, from its own synapses.
+
+    Each row of the file carries the mean transmitter probabilities over that
+    row's synapses. Weighting by syn_count and summing per pre neuron gives
+    the mean over all of the neuron's output synapses, the neuron-level vote
+    FlyWire uses. Returns nt_type (Codex code) and nt_type_score (the winning
+    mean probability), indexed by root_id.
+    """
+    pre_ids, pre_codes = np.unique(conn[PRE].to_numpy(np.int64), return_inverse=True)
+    # Rows without a prediction (NaN) count for nothing, in the vote and the total.
+    weight = conn["syn_count"].to_numpy(np.float64)
+    for col in NT_COLUMNS:
+        weight[np.isnan(conn[col].to_numpy())] = 0.0
+    total = np.bincount(pre_codes, weights=weight, minlength=len(pre_ids))
+    votes = np.column_stack([
+        np.bincount(pre_codes, weights=weight * np.nan_to_num(conn[col].to_numpy(np.float64)),
+                    minlength=len(pre_ids))
+        for col in NT_COLUMNS
+    ])
+    has_vote = total > 0
+    probs = votes[has_vote] / total[has_vote, None]
+    best = probs.argmax(axis=1)
+    return pd.DataFrame(
+        {"nt_type": np.array(list(NT_COLUMNS.values()))[best],
+         "nt_type_score": probs[np.arange(len(best)), best]},
+        index=pd.Index(pre_ids[has_vote], name="root_id"),
+    )
+
+
+def build_matrix(pairs: pd.DataFrame, root_ids: np.ndarray) -> sp.csr_matrix:
     """Sparse matrix W with W[i, j] = synapses from neuron i to neuron j.
 
-    Rows are presynaptic, columns postsynaptic, positions follow root_ids.
-    Stored as raw counts; normalization happens at load time in engine/graph.py
-    so we can change the normalization without re-running prep.
+    Rows are presynaptic, columns postsynaptic, positions follow root_ids
+    (sorted and unique). Stored as raw int32 counts; normalization happens at
+    load time in engine/graph.py so we can change the normalization without
+    re-running prep.
     """
-    raise NotImplementedError
+    root_ids = np.asarray(root_ids, dtype=np.int64)
+    if np.any(np.diff(root_ids) <= 0):
+        raise ValueError("root_ids must be sorted and unique")
+    rows = _positions(root_ids, pairs["pre"].to_numpy(np.int64))
+    cols = _positions(root_ids, pairs["post"].to_numpy(np.int64))
+    n = len(root_ids)
+    W = sp.csr_matrix((pairs["syn_count"].to_numpy(np.int32), (rows, cols)), shape=(n, n))
+    W.sum_duplicates()
+    return W
 
 
 def _positions(root_ids: np.ndarray, ids: np.ndarray) -> np.ndarray:
