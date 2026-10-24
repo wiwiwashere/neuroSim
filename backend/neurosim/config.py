@@ -76,12 +76,29 @@ SUBGRAPH_MAX_NODES = 200
 
 # --- Agent (CS2) -------------------------------------------------------------------
 
-# Gemini via the Interactions API. Flash is fast and cheap enough for a live demo.
-AGENT_MODEL = "gemini-3.8-flash"
-# Free-tier fallback when AGENT_MODEL returns 429 (rate limit). gemini-4-argon
-# is not on the free tier, so never set it here.
-AGENT_FALLBACK_MODEL = "gemini-3.5-flash-lite"
+# Which model family answers the agent, the run summary and paper extraction:
+# "gemma" (open Gemma 4 models, served free by the Gemini API with the same
+# GEMINI_API_KEY; the hackathon's "Best use of Gemma" track) or "gemini".
+# Restart the API after changing it.
+LLM = os.environ.get("NEUROSIM_LLM", "gemini").strip().lower()
+if LLM not in ("gemma", "gemini"):
+    raise ValueError(f"NEUROSIM_LLM must be gemma or gemini, not {LLM!r}.")
+LLM_NAME = LLM.capitalize()   # shown in error messages and the UI
+
+if LLM == "gemma":
+    # Gemma has no Interactions API, so it goes through generate_content
+    # (agent/gemma.py). 31B dense answers best; the 26B MoE (4B active) is
+    # faster and has its own free quota, so it is the fallback.
+    AGENT_MODEL = "gemma-4-31b-it"
+    AGENT_FALLBACK_MODEL = "gemma-4-26b-a4b-it"
+else:
+    # Gemini via the Interactions API. Flash is fast and cheap enough for a live demo.
+    AGENT_MODEL = "gemini-3.8-flash"
+    # Free-tier fallback when AGENT_MODEL returns 429 (rate limit). gemini-4-argon
+    # is not on the free tier, so never set it here.
+    AGENT_FALLBACK_MODEL = "gemini-3.5-flash-lite"
 # "low" | "medium" | "high". Pick the lowest that still gives good answers.
+# Gemma thinks or doesn't: "medium" and "high" turn it on, "low" turns it off.
 AGENT_THINKING_LEVEL = "medium"
 # Caps thinking AND the answer together, so keep it generous.
 AGENT_MAX_OUTPUT_TOKENS = 16000
@@ -109,6 +126,8 @@ PAPER_TIMEOUT_S = 150
 # after this. Two full PAPER_TIMEOUT_S calls would reach the frontend proxy's
 # 300s timeout, so the fallback only gets what is left.
 PAPER_DEADLINE_S = 240
-# A paper's text is cut to this many characters (about 50k tokens) after the
-# reference list is dropped; methods, results and legends fit well within it.
-PAPER_MAX_CHARS = 200_000
+# A paper's text is cut to this many characters after the reference list is
+# dropped; methods, results and legends fit well within it. About 50k tokens
+# for Gemini; about 15k for Gemma, so one paper fits Gemma's free-tier
+# tokens-per-minute limit with room for the answer.
+PAPER_MAX_CHARS = 60_000 if LLM == "gemma" else 200_000
