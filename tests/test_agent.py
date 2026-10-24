@@ -5,6 +5,7 @@ and records what we sent."""
 import json
 from types import SimpleNamespace
 
+import httpx
 import pytest
 
 from neurosim import config
@@ -96,6 +97,14 @@ def test_overload_falls_back_and_stays_there(fake):
     agent.chat("hi")
     agent.chat("again", "i1")
     assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL, config.AGENT_FALLBACK_MODEL]
+
+
+@pytest.mark.parametrize("timeout", [httpx.ReadTimeout("The read operation timed out"), TimeoutError()])
+def test_timeout_falls_back_straight_away(fake, timeout):
+    sent = fake([timeout, _interaction("i1", text="ok")])
+    out = agent.chat("hi")
+    assert out["reply"] == "ok"
+    assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL]
 
 
 def test_refused_key_is_reported_plainly(fake):

@@ -16,6 +16,7 @@ import re
 import time
 from typing import Any, Callable
 
+import httpx
 from google import genai
 from google.genai import types
 
@@ -58,6 +59,16 @@ def _status(err: Exception) -> int | None:
     return None
 
 
+def _timed_out(err: Exception) -> bool:
+    # The SDK wraps timeouts in its own APITimeoutError; httpx and the stdlib
+    # can raise theirs directly.
+    if isinstance(err, (httpx.TimeoutException, TimeoutError)):
+        return True
+    if any("Timeout" in base.__name__ for base in type(err).__mro__):
+        return True
+    return _status(err) is None and "timed out" in str(err).lower()
+
+
 def _retry_delay(err: Exception) -> float:
     response = getattr(err, "response", None)
     header = response.headers.get("retry-after") if response is not None else None
@@ -95,13 +106,14 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
             return fn(model)
         except Exception as err:  # the SDK raises a different class per API surface
             status = _status(err)
-            if status is None and not hasattr(err, "body"):
+            timed_out = _timed_out(err)
+            if status is None and not timed_out and not hasattr(err, "body"):
                 raise  # not an API error: a bug on our side
             if status == 429 and not retried:
                 retried = True
                 time.sleep(min(_retry_delay(err), config.AGENT_RETRY_MAX_WAIT_S))
                 continue
-            overloaded = status in (500, 503) or (status is None and "timed out" in str(err).lower())
+            overloaded = status in (500, 503) or timed_out
             if (status == 429 or overloaded) and model != config.AGENT_FALLBACK_MODEL:
                 model = state["model"] = config.AGENT_FALLBACK_MODEL
                 _fallback_until = time.monotonic() + config.AGENT_FALLBACK_COOLDOWN_S
