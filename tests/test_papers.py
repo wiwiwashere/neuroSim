@@ -207,6 +207,11 @@ def test_inputs_are_checked_before_the_model_is_called(fake):
         papers.extract(doi="not a doi")
 
 
+def test_symbol_font_glyphs_are_read_as_text():
+    text = "loss of TH/H11001 neurons in PAL, PPM1/H208622 and PPL1; doi/H2086210.1073/H20862pnas.0602493103"
+    assert papers.clean_glyphs(text) == "loss of TH+ neurons in PAL, PPM1/2 and PPL1; doi/10.1073/pnas.0602493103"
+
+
 def test_model_json_in_a_fence_is_accepted():
     assert papers.parse_json('```json\n{"rows": []}\n```') == {"rows": []}
 

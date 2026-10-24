@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import io
 import json
+import logging
 import re
 import time
 import unicodedata
@@ -95,18 +96,33 @@ CLUSTER_ALIASES = {"DL1": "PPL1", "DL2": "PPL2", "PPM1": "PPM1/2", "PPM2": "PPM1
 # --- Getting text ---------------------------------------------------------------
 
 
+# Some journals (PNAS among them) set symbols in a Mathematical Pi font that
+# pypdf reads as glyph names like "/H11001". The common ones, so "TH/H11001",
+# "PPM1/H208622" and "10.1073/H20862pnas" read as TH+, PPM1/2 and a DOI.
+GLYPHS = {"H20862": "/", "H20841": " · ", "H11001": "+", "H11545": "+", "H11002": "−", "H11003": "×", "H11005": "=",
+          "H11006": "±", "H11021": "<", "H11022": ">", "H11015": "~", "H11011": "~", "H11032": "′", "H11033": "″",
+          "H9004": "Δ", "H9251": "α", "H9252": "β", "H9253": "γ", "H9254": "δ", "H9262": "μ"}
+_GLYPH_RE = re.compile("/(" + "|".join(sorted(GLYPHS, key=len, reverse=True)) + ")")
+
+
+def clean_glyphs(text: str) -> str:
+    return _GLYPH_RE.sub(lambda m: GLYPHS[m.group(1)], text)
+
+
 def pdf_pages(pdf: bytes) -> list[str]:
     """The PDF's text, one string per page."""
     if len(pdf) > config.PAPER_MAX_BYTES:
         raise ValueError(f"The PDF is over {config.PAPER_MAX_BYTES // (1024 * 1024)} MB.")
     if not pdf.startswith(b"%PDF"):
         raise ValueError("That file isn't a PDF.")
+    # pypdf warns about every font it can't fully parse; the text is still fine.
+    logging.getLogger("pypdf").setLevel(logging.ERROR)
     try:
         from pypdf import PdfReader
     except ImportError as err:  # requirements.txt has it; an old venv may not
         raise ValueError("Reading PDFs needs pypdf: run pip install -r requirements.txt") from err
     try:
-        pages = [page.extract_text() or "" for page in PdfReader(io.BytesIO(pdf)).pages]
+        pages = [clean_glyphs(page.extract_text() or "") for page in PdfReader(io.BytesIO(pdf)).pages]
     except Exception as err:  # pypdf raises many kinds on broken files
         raise ValueError(f"Couldn't read that PDF ({type(err).__name__}). Paste its text instead.") from err
     if sum(len(p.strip()) for p in pages) < 500:
