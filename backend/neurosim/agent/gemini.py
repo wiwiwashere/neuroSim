@@ -89,7 +89,7 @@ def _plain(err: Exception, status: int | None) -> str:
         return f"{name} rejected the API key. Check GEMINI_API_KEY in .env."
     if status == 429:
         return f"{name}'s free-tier rate limit is used up on both models. Try again in a minute."
-    if status in (500, 503) or status is None:
+    if status in (500, 503, 504) or status is None:
         return f"{name} is overloaded or not responding on both models right now. Try again in a minute."
     return f"{name} call failed ({status or 'no status'}): {text[:300]}"
 
@@ -117,7 +117,8 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
                 retried = True
                 time.sleep(min(_retry_delay(err), config.AGENT_RETRY_MAX_WAIT_S))
                 continue
-            overloaded = status in (500, 503) or timed_out
+            # 504: the API ran out of the deadline we sent it (our timeout).
+            overloaded = status in (500, 503, 504) or timed_out
             if (status == 429 or overloaded) and model != config.AGENT_FALLBACK_MODEL:
                 model = state["model"] = config.AGENT_FALLBACK_MODEL
                 _fallback_until = time.monotonic() + config.AGENT_FALLBACK_COOLDOWN_S
