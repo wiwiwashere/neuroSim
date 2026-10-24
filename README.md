@@ -65,6 +65,17 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
    - `per_neuron_neuropil_count_{pre,post}_783.feather`: synapses per neuron
      per neuropil (region), from the same Zenodo record as step 1.
 
+   On a fresh machine just run the script. If the annotations are already in
+   place and only the Zenodo region files are missing (they weren't verified
+   in the cloud, where Zenodo is blocked), run from the repo root:
+
+   ```
+   source .venv/bin/activate
+   cd backend && python -m neurosim.prep.download_labels --only neuropil_pre neuropil_post
+   ```
+
+   It prints `verified md5` for each file and adds them to the manifest.
+
    Codex serves similar tables but needs a personal API token, so prep doesn't
    use it. All FlyWire data is CC BY 4.0: cite Dorkenwald et al. 2024 and
    Schlegel et al. 2024 (Nature), Eckstein et al. 2024 (Cell) for the
