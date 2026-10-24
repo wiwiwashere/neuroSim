@@ -66,7 +66,14 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
 cp .env.example .env                             # then paste your Gemini key into .env
-uvicorn neurosim.api.main:app --reload           # API on :8000
+(cd backend && uvicorn neurosim.api.main:app --reload \
+  --reload-dir neurosim/api --reload-dir neurosim/agent \
+  --reload-dir neurosim/bio --reload-dir neurosim/engine)  # API on :8000
 pytest tests/                                    # toy-graph tests
 cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)
 ```
+
+The `--reload-dir` flags keep edits to `prep/` (the dataset build) from
+restarting the API mid-request. `--reload-exclude` would be simpler but needs
+`watchfiles`, which plain `uvicorn` doesn't install. Edits to the top-level
+`neurosim/config.py` or `models.py` aren't watched: restart the API by hand.
