@@ -105,6 +105,21 @@ def test_problems_are_spelled_out(fake):
     assert genes["VPS35"]["simulatable"] is False
 
 
+def test_paper_spellings_of_the_fly_gene_are_the_tables(fake):
+    fake([_answer(_row(fly_gene="dPink1"), _row(fly_gene="dPINK1"), _row(fly_gene="PINK1"), _row(fly_gene="Parkin"))])
+    rows = papers.extract(text=ABSTRACT)["rows"]
+    assert [r["fly_gene"] for r in rows] == ["Pink1", "Pink1", "Pink1", "Parkin"]
+    assert [r["checks"]["ortholog"]["fly_gene_matches"] for r in rows] == [True, True, True, False]
+
+
+def test_clusters_the_quote_doesnt_name_are_flagged(fake):
+    fake([_answer(_row(clusters=["PPL1", "PPM1/2"]), _row(clusters=["PPM1/2"], quote="TH+ neurons were lost in the PPM1 cluster of aged flies."))])
+    unsupported, alias = papers.extract(text=ABSTRACT)["rows"]
+    assert [c["in_quote"] for c in unsupported["checks"]["clusters"]] == [True, False]
+    assert any("doesn't mention PPM1/2" in p for p in unsupported["checks"]["problems"])
+    assert alias["checks"]["clusters"][0]["in_quote"] is True     # "PPM1" names PPM1/2
+
+
 def test_duplicates_of_the_table_are_flagged(fake):
     fake([_answer(_row(human_gene="PRKN", fly_gene="park", clusters=["PPL1"]), citation="Whitworth et al. 2005, PNAS")])
     row = papers.extract(text=ABSTRACT)["rows"][0]

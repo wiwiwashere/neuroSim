@@ -277,6 +277,29 @@ def normalize_clusters(clusters: list[str]) -> list[str]:
     return out
 
 
+def normalize_fly_gene(human_gene: str, fly_gene: str) -> str:
+    """The ortholog table's spelling when a paper's name means the same gene:
+    any case, with or without the "d" papers prefix ("dPink1", "dPINK1"), or
+    the human name used for the fly gene. Anything else is left as written."""
+    entry = evidence.load_evidence()["orthologs"].get(human_gene) or {}
+    table = entry.get("fly_genes", [])
+    name = fly_gene.strip()
+    candidates = {name.lower()} | ({name[1:].lower()} if len(name) > 2 and name[0] in "dD" else set())
+    for gene in table:
+        if gene.lower() in candidates:
+            return gene
+    if len(table) == 1 and human_gene.lower() in candidates:
+        return table[0]
+    return name
+
+
+def _named_in(cluster: str, quote: str) -> bool:
+    """Whether the quote names this cluster, under the table's name or an alias."""
+    names = {cluster} | {alias for alias, target in CLUSTER_ALIASES.items() if target == cluster}
+    text = (quote or "").upper()
+    return any(re.search(rf"(?<![0-9A-Z]){re.escape(n.upper())}(?![0-9A-Z])", text) for n in names)
+
+
 def _citation_key(citation: str) -> str:
     """'Wang et al. 2006, PNAS' -> 'wang2006'."""
     author = re.match(r"\s*([^\W\d_]+)", citation or "")
@@ -305,9 +328,13 @@ def check_row(row: dict) -> dict:
     for name in row["clusters"]:
         match, cell_types = evidence.cluster_cell_types(name)
         known = name in table.get("cluster_to_cell_types", {})
-        clusters.append({"name": name, "known": known, "match": match if known else None, "n_cell_types": len(cell_types)})
+        in_quote = name == "ALL_DA" or _named_in(name, row.get("quote", ""))
+        clusters.append({"name": name, "known": known, "match": match if known else None, "n_cell_types": len(cell_types),
+                         "in_quote": in_quote})
         if not known:
             problems.append(f"Cluster {name} isn't in the cluster table, so it seeds no neurons.")
+        elif not in_quote:
+            problems.append(f"The quote doesn't mention {name}. Check that the paper reports its loss, or remove it.")
     if not row["clusters"]:
         problems.append("No clusters named, so this row seeds no neurons.")
 
@@ -385,7 +412,7 @@ def extract(pdf: bytes | None = None, filename: str = "paper.pdf", text: str | N
             "status": "pending",
             **{k: r.get(k) for k in ROW_FIELDS},
             "human_gene": str(r.get("human_gene") or "").strip().upper(),
-            "fly_gene": str(r.get("fly_gene") or "").strip(),
+            "fly_gene": normalize_fly_gene(str(r.get("human_gene") or "").strip().upper(), str(r.get("fly_gene") or "")),
             "model_type": r.get("model_type") if r.get("model_type") in MODEL_TYPES else "other",
             "clusters": normalize_clusters([str(c) for c in r.get("clusters") or []]),
             "tier": r.get("tier") if r.get("tier") in config.EVIDENCE_TIER_WEIGHT else "low",
