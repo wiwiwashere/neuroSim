@@ -7,6 +7,7 @@ import { useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { api, codexUrl } from "@/lib/api";
+import type { FlowGrouping } from "@/lib/flow";
 import { int, LEVEL_LABEL, pct, SCOPE_LINE, zPhrase } from "@/lib/format";
 import type { GraphNode, GroupLevel, GroupScore, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ import { RunSummaryCard } from "./run-summary";
 const DamageSankey = dynamic(() => import("@/components/charts/sankey").then((m) => m.DamageSankey), { ssr: false });
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
 const NetworkGraph = dynamic(() => import("@/components/charts/network").then((m) => m.NetworkGraph), { ssr: false });
+const DamageFlow = dynamic(() => import("@/components/charts/damage-flow").then((m) => m.DamageFlow), { ssr: false });
 
 export const LEVELS: GroupLevel[] = ["super_region", "region", "cell_type"];
 
@@ -213,55 +215,111 @@ function GroupTable({ groups }: { groups: GroupScore[] }) {
 
 // --- Network ----------------------------------------------------------------
 
+type NetworkView = "flow" | "side_by_side";
+
 function Network({ result }: { result: SimulationResult }) {
   const graph = useQuery({ queryKey: ["subgraph", result.run_id], queryFn: () => api.subgraph(result.run_id) });
   const [picked, setPicked] = useState<GraphNode | null | undefined>(undefined);
+  const [view, setView] = useState<NetworkView>("flow");
+  const [grouping, setGrouping] = useState<FlowGrouping>("cell_type");
   const mostHit = useMemo(
     () => graph.data?.nodes.filter((n) => !n.is_seed).sort((x, y) => y.impact - x.impact)[0] ?? null,
     [graph.data],
+  );
+  // Cell types (or regions) the Ranked tab calls above chance are drawn blue here too.
+  const aboveChance = useMemo(
+    () => new Set([...groupsAt(result, "cell_type"), ...groupsAt(result, "region")].filter((g) => g.above_chance).map((g) => g.group)),
+    [result],
   );
   const selected = picked === undefined ? mostHit : picked;
   const setSelected = setPicked;
   const gene = result.request.human_gene;
   const perturbLabel = result.request.mode === "reduce_output" ? `output −${Math.round((result.request.strength ?? 1) * 100)}%` : "knockout";
+  const counts = graph.data ? `${graph.data.nodes.length} neurons · ${graph.data.edges.length} connections` : "";
 
   return (
-    <div className="grid gap-4">
-      <div className="grid gap-4 md:grid-cols-2">
-        {(["healthy", "perturbed"] as const).map((variant) => (
-          <Panel
-            key={variant}
-            title={variant === "healthy" ? "Healthy" : `With ${gene} ${perturbLabel}`}
-            aside={
-              variant === "perturbed" ? (
-                <span className="flex shrink-0 items-center gap-3 text-[11.5px] whitespace-nowrap text-muted-foreground">
-                  <Legend swatch="bg-seed" label="seed" />
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="w-4 border-t-2 border-dashed border-foreground" />
-                    lost drive
-                  </span>
-                </span>
-              ) : (
-                <span className="text-[11.5px] text-muted-foreground">
-                  {graph.data ? `${graph.data.nodes.length} neurons · ${graph.data.edges.length} connections` : ""}
-                </span>
-              )
-            }
-          >
-            <div className="h-[380px]">
-              {graph.error && <ErrorNote error={graph.error} />}
-              {graph.data && (
-                <NetworkGraph graph={graph.data} variant={variant} selectedId={selected?.id ?? null} onSelect={setSelected} />
-              )}
-            </div>
-          </Panel>
-        ))}
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <ToggleGroup type="single" value={view} onValueChange={(v) => v && setView(v as NetworkView)} variant="outline" size="sm">
+          <ToggleGroupItem value="flow" className="h-7 px-2.5 text-[12px]">
+            Flow by synapse
+          </ToggleGroupItem>
+          <ToggleGroupItem value="side_by_side" className="h-7 px-2.5 text-[12px]">
+            Healthy vs perturbed
+          </ToggleGroupItem>
+        </ToggleGroup>
+        <span className="text-[11.5px] text-muted-foreground">{counts}</span>
       </div>
+
+      {view === "flow" ? (
+        <Panel
+          title={`How ${gene} ${perturbLabel} spreads, one synapse at a time`}
+          aside={
+            <div className="flex shrink-0 items-center gap-3">
+              <span className="hidden items-center gap-3 text-[11.5px] whitespace-nowrap text-muted-foreground lg:flex">
+                <Legend swatch="bg-seed" label="drive lost" />
+                <Legend swatch="bg-faint/40" label="connection" />
+                <Legend swatch="bg-signal" label="above chance" />
+              </span>
+              <ToggleGroup type="single" value={grouping} onValueChange={(v) => v && setGrouping(v as FlowGrouping)} variant="outline" size="sm">
+                <ToggleGroupItem value="cell_type" className="h-7 px-2.5 text-[12px]">
+                  Cell types
+                </ToggleGroupItem>
+                <ToggleGroupItem value="neuron" className="h-7 px-2.5 text-[12px]">
+                  Neurons
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          }
+        >
+          <div className="px-1 pt-3 pb-2">
+            {graph.error && <ErrorNote error={graph.error} />}
+            {graph.data && (
+              <DamageFlow
+                graph={graph.data}
+                grouping={grouping}
+                aboveChance={aboveChance}
+                selectedId={selected?.id ?? null}
+                onSelect={setSelected}
+              />
+            )}
+          </div>
+        </Panel>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {(["healthy", "perturbed"] as const).map((variant) => (
+            <Panel
+              key={variant}
+              title={variant === "healthy" ? "Healthy" : `With ${gene} ${perturbLabel}`}
+              aside={
+                variant === "perturbed" ? (
+                  <span className="flex shrink-0 items-center gap-3 text-[11.5px] whitespace-nowrap text-muted-foreground">
+                    <Legend swatch="bg-seed" label="seed" />
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="w-4 border-t-2 border-dashed border-foreground" />
+                      lost drive
+                    </span>
+                  </span>
+                ) : undefined
+              }
+            >
+              <div className="h-[380px]">
+                {graph.error && <ErrorNote error={graph.error} />}
+                {graph.data && (
+                  <NetworkGraph graph={graph.data} variant={variant} selectedId={selected?.id ?? null} onSelect={setSelected} />
+                )}
+              </div>
+            </Panel>
+          ))}
+        </div>
+      )}
       {selected ? (
         <NeuronDetail node={selected} result={result} onClose={() => setSelected(null)} />
       ) : (
         <p className="px-1 text-[12.5px] text-muted-foreground">
-          Same neurons, same positions. Click a neuron to see the paths that carry the loss to it.
+          {view === "flow"
+            ? "Each column is one more synapse from the seeds. Hover a row to trace its path; click it to see the strongest paths into its most hit neuron."
+            : "Same neurons, same positions. Click a neuron to see the paths that carry the loss to it."}
         </p>
       )}
     </div>
