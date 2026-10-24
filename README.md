@@ -48,6 +48,8 @@ data/
   raw/                 downloads go here (not committed)
   processed/           output of prep (not committed; regenerate)
   evidence.json        hand-curated evidence table (committed)
+  evidence_approved.json  rows approved from paper uploads (written by the app; not committed yet)
+  evidence_proposals.json paper rows waiting for review (written by the app; gitignored)
 docs/ENGINE_DESIGN.md  how the simulation and vulnerability model work, and why
 frontend/               Next.js workspace app (CS2); SCREENS.md maps each view to its endpoint
 tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
@@ -104,8 +106,10 @@ the API mid-request; every other file under `neurosim/`, `config.py` and
 is in requirements.txt (plain `uvicorn` ignores the flag without it).
 
 The API picks its data source at startup: the real pipeline when
-`data/processed/` exists, otherwise mocks. `NEUROSIM_MOCKS=1` or `=0` forces
-either. `NEUROSIM_SYNTHETIC=1` runs the real engine on a small made-up brain
+`data/processed/` exists and the engine is implemented, otherwise mocks.
+`NEUROSIM_MOCKS=1` or `=0` forces either. Mock runs still take their seeds
+and the gene list from the real evidence table when `data/processed/` exists;
+only the engine's numbers are fake. `NEUROSIM_SYNTHETIC=1` runs the real engine on a small made-up brain
 (`engine/synthetic.py`), so the full pipeline can be tried before prep has run.
 Its numbers mean nothing biologically.
 
@@ -115,3 +119,37 @@ Its numbers mean nothing biologically.
 Everything around it is in place (pipeline, seed resolution, Sankey/subgraph,
 comparison, validation script, API), and the tests marked `needs_engine` are
 expected to fail until the math exists. The API stays on mocks until then.
+
+## Evidence from papers
+
+The "Evidence from a paper" panel (left column) adds rows to the evidence
+table from a paper, so a new finding seeds the next run:
+
+1. Drop a PDF, paste the text, or give a DOI or PubMed ID. A DOI only gives
+   the full text when the paper is open access on Europe PMC; otherwise the
+   model sees just the abstract, which rarely names clusters, so prefer the
+   PDF.
+2. The model proposes rows (gene, fly gene, model, clusters lost, tier,
+   finding) with a verbatim quote. Each row shows its checks: clusters mapped
+   to the table, quote found on which page, problems in plain words (unknown
+   gene or cluster, a cluster the quote doesn't name, already in the table,
+   read by the backup model), and the confidence its seeds would get.
+3. Edit a row if needed, then Approve or Reject it. Approved rows go to
+   `data/evidence_approved.json`, are listed under the panel with a remove
+   button, and are used by the next run of that gene. The mapping chain and
+   the Overview mark them "uploaded paper".
+
+A good test paper is Yang et al. 2006, PNAS
+([doi:10.1073/pnas.0602493103](https://doi.org/10.1073/pnas.0602493103)):
+it should give PINK1 → Pink1, RNAi, PPL1 lost, tier high. Wang et al. 2006
+(PMC1569195) comes back flagged as already in the table. PDFs need `pypdf`
+(in requirements.txt). How the pipeline works and how confidence is computed:
+`docs/ENGINE_DESIGN.md`, section 1b.
+
+**Which model reads papers.** The agent, run summaries and paper extraction
+share one client (`agent/gemini.py`) and the free-tier guards in
+`config.py`; paper extraction calls the model in one place,
+`papers.ask_model`. On this branch that is Gemini (`gemini-3.8-flash`,
+falling back to `gemini-3.5-flash-lite`). The `gemma` branch makes Gemma 4
+the default for all three and keeps Gemini selectable with
+`NEUROSIM_LLM=gemini`; both use the same `GEMINI_API_KEY`.
