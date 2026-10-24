@@ -95,6 +95,8 @@ def compare(run_a: str, run_b: str, level: GroupLevel = GroupLevel.REGION) -> Co
 
 @app.post("/agent/chat")
 def agent_chat(body: dict) -> dict:
-    """{"messages": [...]} in, {"reply": str, "tool_calls": [...], "run_ids": [...]} out.
-    The frontend shows tool_calls so users see the agent used real results."""
-    raise NotImplementedError  # agent.agent.chat(body["messages"])
+    """{"message": str, "interaction_id": str | None} in,
+    {"reply": str, "tool_calls": [...], "run_ids": [...], "interaction_id": str} out.
+    The frontend keeps only the latest interaction_id (Gemini holds the history)
+    and shows tool_calls so users see the agent used real results."""
+    raise NotImplementedError  # agent.agent.chat(body["message"], body.get("interaction_id"))

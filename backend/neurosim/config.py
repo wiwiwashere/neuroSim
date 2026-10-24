@@ -54,6 +54,12 @@ SUBGRAPH_MAX_NODES = 200
 
 # --- Agent (CS2) -------------------------------------------------------------------
 
-AGENT_MODEL = "claude-opus-5-5"
-AGENT_EFFORT = "medium"
-AGENT_MAX_TOKENS = 16000
+# Gemini via the Interactions API. Flash is fast and cheap enough for a live demo.
+AGENT_MODEL = "gemini-3.8-flash"
+# Free-tier fallback when AGENT_MODEL returns 429 (rate limit). gemini-4-argon
+# is not on the free tier, so never set it here.
+AGENT_FALLBACK_MODEL = "gemini-3.5-flash-lite"
+# "low" | "medium" | "high". Pick the lowest that still gives good answers.
+AGENT_THINKING_LEVEL = "medium"
+# Caps thinking AND the answer together, so keep it generous.
+AGENT_MAX_OUTPUT_TOKENS = 16000

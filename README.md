@@ -38,7 +38,7 @@ backend/neurosim/
   api/main.py          FastAPI endpoints                                   (CS2)
   api/mocks.py         fixed sample payloads until the engine works        (CS2)
   agent/tools.py       tools the LLM may call (thin wrappers on pipeline)  (CS2)
-  agent/agent.py       the agent loop (Anthropic API)                      (CS2)
+  agent/agent.py       the agent loop (Gemini API)                         (CS2)
   agent/prompts.py     system prompt rules                                 (Bio)
 data/
   raw/                 downloads go here (not committed)
@@ -62,6 +62,7 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 ```
 pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
+export GEMINI_API_KEY=...                        # for the agent
 uvicorn neurosim.api.main:app --reload           # API on :8000
 pytest tests/                                    # toy-graph tests
 ```
