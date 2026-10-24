@@ -7,8 +7,9 @@ works) endpoints return api/mocks.py payloads so the frontend is never blocked.
 
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from neurosim import config
@@ -20,6 +21,17 @@ from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationReques
 USE_MOCKS = config.USE_MOCKS
 
 app = FastAPI(title="neuroSim")
+
+
+@app.exception_handler(Exception)
+async def _unhandled(request: Request, err: Exception) -> JSONResponse:
+    """Any bug becomes a JSON 500 with a readable detail (the traceback still
+    goes to the API log), so a plain-text 500 in the browser can only mean the
+    Next proxy couldn't reach this server."""
+    return JSONResponse(
+        status_code=500,
+        content={"detail": f"neuroSim hit an internal error ({type(err).__name__}). The API log has the traceback."},
+    )
 
 
 def _gemini(fn, *args):
