@@ -9,7 +9,7 @@ pypdf            # paper text and quote checks for uploaded PDFs
 uvicorn
 watchfiles       # lets uvicorn --reload-exclude skip prep/ (see README)
 pydantic>=2
-google-genai     # agent (Gemini)
+google-genai     # agent (Gemma or Gemini, both through the Gemini API)
 python-dotenv    # loads GEMINI_API_KEY from .env
 pytest
 httpx            # FastAPI TestClient in tests/test_api.py

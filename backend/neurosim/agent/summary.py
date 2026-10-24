@@ -1,7 +1,7 @@
-"""Structured run summary (CS2): Gemini fills a fixed JSON schema for one run,
-and the UI renders it as a card.
+"""Structured run summary (CS2): the model (Gemma or Gemini, see config.LLM)
+fills a fixed JSON schema for one run, and the UI renders it as a card.
 
-Gemini only picks and explains. Every number on the card (z-scores, above
+The model only picks and explains. Every number on the card (z-scores, above
 chance) is copied from the run afterwards, and circuits the run doesn't
 contain are dropped, so the card can't show a number the engine didn't make.
 """
@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 
 from neurosim import config
-from neurosim.agent import gemini
+from neurosim.agent import gemini, llm
 from neurosim.agent.tools import summarize_result
 from neurosim.models import GroupLevel, SimulationResult
 
@@ -130,22 +130,18 @@ def summarize_run(result: SimulationResult) -> dict:
     if result.run_id in _CACHE:
         return _CACHE[result.run_id]
     state: dict = {}
-    interaction = gemini.call(
-        lambda model: gemini.client().interactions.create(
-            model=model,
-            input=_context(result),
-            system_instruction=INSTRUCTION,
-            response_format={"type": "text", "mime_type": "application/json", "schema": SCHEMA},
-            generation_config={"thinking_level": "low", "max_output_tokens": 4000},
-            store=False,
+    raw = llm.parse_json(gemini.call(
+        lambda model: llm.json_reply(
+            model,
+            system=INSTRUCTION,
+            schema=SCHEMA,
+            prompt=_context(result),
+            thinking_level="low",
+            max_output_tokens=4000,
             timeout=config.AGENT_REQUEST_TIMEOUT_S,
         ),
         state,
-    )
-    try:
-        raw = json.loads(interaction.output_text or "")
-    except json.JSONDecodeError as err:
-        raise gemini.GeminiUnavailable(f"Gemini returned a summary that isn't valid JSON: {err}") from err
+    ), "a summary")
     summary = {**_ground(raw, result), "model": state["model"]}
     _CACHE[result.run_id] = summary
     return summary
