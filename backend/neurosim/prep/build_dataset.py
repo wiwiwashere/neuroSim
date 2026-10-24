@@ -36,6 +36,9 @@ Decisions made here (details in docs/ENGINE_DESIGN.md, sections 2-3):
 
 from __future__ import annotations
 
+import argparse
+import json
+import time
 from pathlib import Path
 
 import numpy as np
@@ -301,13 +304,116 @@ def build_region_table(neuropils: list[str]) -> dict:
     return table
 
 
-def main() -> None:
-    """Run every step above and write data/processed/*.
+LABEL_COLUMNS = ["super_class", "class", "sub_class", "cell_type", "hemibrain_type", "side", "flow"]
 
-    Print a summary: neurons, edges after threshold, number of dopaminergic
-    neurons, and how many PPL1* and PAM* cell types were found (the hour-4 gate).
-    """
-    raise NotImplementedError
+
+def build_neuron_table(root_ids: np.ndarray, W: sp.csr_matrix, region: pd.Series,
+                       nt: pd.DataFrame, labels: pd.DataFrame | None, regions: dict) -> pd.DataFrame:
+    """One row per matrix position: root_id, region, super_region, labels,
+    transmitter, and input/output synapse totals after thresholding."""
+    root_ids = np.asarray(root_ids, dtype=np.int64)
+    neurons = pd.DataFrame({"root_id": root_ids})
+    neurons["region"] = region.reindex(root_ids).to_numpy()
+    neurons["super_region"] = neurons["region"].map(lambda r: regions[r]["super_region"], na_action="ignore")
+    neurons["in_syn"] = np.asarray(W.sum(axis=0)).ravel().astype(np.int64)
+    neurons["out_syn"] = np.asarray(W.sum(axis=1)).ravel().astype(np.int64)
+
+    lab = labels.set_index("root_id") if labels is not None else pd.DataFrame(index=pd.Index([], dtype="int64"))
+    lab = lab.reindex(index=root_ids, columns=LABEL_COLUMNS + ["nt_type", "nt_type_score", "nt_source"])
+    for col in LABEL_COLUMNS:
+        neurons[col] = lab[col].to_numpy()
+    # Neurons without an annotated side take the side of their input neuropil.
+    region_side = neurons["region"].map(lambda r: regions[r]["side"], na_action="ignore")
+    neurons["side"] = neurons["side"].fillna(region_side)
+
+    derived = nt.reindex(root_ids)
+    annotated = lab["nt_type"].notna().to_numpy()
+    neurons["nt_type"] = np.where(annotated, lab["nt_type"], derived["nt_type"])
+    neurons["nt_type_score"] = np.where(annotated, lab["nt_type_score"].astype(float),
+                                        derived["nt_type_score"])
+    neurons["nt_source"] = np.where(annotated, lab["nt_source"],
+                                    np.where(derived["nt_type"].notna(), "synapses", None))
+
+    # Parquet wants None, not NaN, in text columns.
+    for col in neurons.columns[neurons.dtypes == object]:
+        neurons[col] = neurons[col].astype(object).where(neurons[col].notna(), None)
+    return neurons
+
+
+def build(raw_dir: Path = config.RAW_DIR, out_dir: Path = config.PROCESSED_DIR,
+          threshold: int = config.SYNAPSE_THRESHOLD) -> dict:
+    """Run every step above, write out_dir/*, and return the summary."""
+    t0 = time.time()
+    raw_dir, out_dir = Path(raw_dir), Path(out_dir)
+    print(f"Reading {raw_dir / CONNECTIONS_FILE}")
+    conn = load_connections(raw_dir / CONNECTIONS_FILE, WIRING_COLUMNS)
+    print(f"  {len(conn):,} rows, {int(conn['syn_count'].sum()):,} synapses")
+    region = primary_input_region(conn)
+    neuropils = list(conn["neuropil"].cat.categories)
+    connected = np.union1d(conn[PRE].unique(), conn[POST].unique())
+    pairs = aggregate_pairs(conn, threshold)
+    del conn
+    nt = neuron_transmitter(load_connections(raw_dir / CONNECTIONS_FILE, [PRE, "syn_count", *NT_COLUMNS]))
+
+    labels = load_annotations(raw_dir / ANNOTATIONS_FILE)
+    if labels is None:
+        print(f"  no {ANNOTATIONS_FILE}: cell types stay empty (run prep/download_labels.py first)")
+        root_ids = connected
+    else:
+        # Annotated neurons without connections stay in as isolated rows, so a
+        # seed picked from the labels always resolves to a matrix position.
+        root_ids = np.union1d(connected, labels["root_id"].to_numpy(np.int64))
+
+    W = build_matrix(pairs, root_ids)
+    regions = build_region_table(neuropils)
+    neurons = build_neuron_table(root_ids, W, region, nt, labels, regions)
+
+    types = pd.Series(neurons["cell_type"].dropna().unique(), dtype=str)
+    summary = {
+        "neurons": int(len(neurons)),
+        "neurons_with_connections": int(len(connected)),
+        "neurons_with_cell_type": int(neurons["cell_type"].notna().sum()),
+        "edges": int(W.nnz),
+        "synapses_kept": int(W.sum()),
+        "synapse_threshold": threshold,
+        "dopaminergic": int((neurons["nt_type"] == "DA").sum()),
+        "ppl1_types": sorted(types[types.str.startswith("PPL1")]),
+        "pam_types": sorted(types[types.str.startswith("PAM")]),
+    }
+    write_outputs(out_dir, W, root_ids, neurons, regions, summary)
+    summary["seconds"] = round(time.time() - t0, 1)
+    return summary
+
+
+def write_outputs(out_dir: Path, W: sp.csr_matrix, root_ids: np.ndarray, neurons: pd.DataFrame,
+                  regions: dict, summary: dict) -> None:
+    """Write the five files in data/processed/ that engine/graph.py reads."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    sp.save_npz(out_dir / "edges.npz", W, compressed=True)
+    np.save(out_dir / "index.npy", np.asarray(root_ids, dtype=np.int64))
+    neurons.to_parquet(out_dir / "neurons.parquet")
+    (out_dir / "regions.json").write_text(json.dumps(regions, indent=2) + "\n")
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+
+
+def main(argv: list[str] | None = None) -> None:
+    """Build data/processed/* and print a summary: neurons, edges after
+    threshold, number of dopaminergic neurons, and which PPL1* and PAM* cell
+    types were found (the hour-4 gate)."""
+    parser = argparse.ArgumentParser(description="Build data/processed/ from the raw FlyWire files.")
+    parser.add_argument("--raw-dir", type=Path, default=config.RAW_DIR)
+    parser.add_argument("--out-dir", type=Path, default=config.PROCESSED_DIR)
+    parser.add_argument("--threshold", type=int, default=config.SYNAPSE_THRESHOLD)
+    args = parser.parse_args(argv)
+
+    s = build(args.raw_dir, args.out_dir, args.threshold)
+    print(f"\nWrote {args.out_dir} in {s['seconds']}s")
+    print(f"  neurons: {s['neurons']:,} ({s['neurons_with_connections']:,} connected, "
+          f"{s['neurons_with_cell_type']:,} with a cell type)")
+    print(f"  edges with >= {s['synapse_threshold']} synapses: {s['edges']:,} ({s['synapses_kept']:,} synapses)")
+    print(f"  dopaminergic neurons: {s['dopaminergic']:,}")
+    print(f"  PPL1 types ({len(s['ppl1_types'])}): {', '.join(s['ppl1_types']) or 'none'}")
+    print(f"  PAM types ({len(s['pam_types'])}): {', '.join(s['pam_types']) or 'none'}")
 
 
 if __name__ == "__main__":

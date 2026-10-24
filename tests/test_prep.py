@@ -1,9 +1,14 @@
 """Tests for the offline prep (prep/build_dataset.py) on a tiny fake FlyWire
 table. The real run is checked by its printed summary, not here."""
 
+import json
+
 import numpy as np
 import pandas as pd
+import pyarrow as pa
+import pyarrow.feather as feather
 import pytest
+import scipy.sparse as sp
 
 from neurosim.prep import build_dataset as bd
 
@@ -109,3 +114,38 @@ def test_load_annotations_maps_columns(tmp_path):
 
 def test_load_annotations_missing_file_is_none(tmp_path):
     assert bd.load_annotations(tmp_path / "nope.tsv") is None
+
+
+def test_build_end_to_end(tmp_path):
+    raw, out = tmp_path / "raw", tmp_path / "processed"
+    raw.mkdir()
+    feather.write_feather(pa.Table.from_pandas(fake_conn(), preserve_index=False), raw / bd.CONNECTIONS_FILE)
+    pd.DataFrame({
+        "root_id": [1, 2, 9, 5],  # 5 is annotated but has no connections
+        "super_class": ["central"] * 4,
+        "cell_class": ["DAN", None, "MBON", None],
+        "cell_type": ["PPL101", None, "MBON01", "PAM01"],
+        "side": ["right"] * 4,
+        "top_nt": ["dopamine", np.nan, "acetylcholine", "dopamine"],
+        "top_nt_conf": [0.9, np.nan, 0.8, 0.7],
+    }).to_csv(raw / bd.ANNOTATIONS_FILE, sep="\t", index=False)
+
+    summary = bd.build(raw, out, threshold=5)
+
+    root_ids = np.load(out / "index.npy")
+    assert root_ids.tolist() == [1, 2, 5, 8, 9]
+    W = sp.load_npz(out / "edges.npz")
+    assert W.shape == (5, 5) and W.sum() == 11
+    neurons = pd.read_parquet(out / "neurons.parquet")
+    assert neurons.index.tolist() == [0, 1, 2, 3, 4]
+    n = neurons.set_index("root_id")
+    assert n.loc[9, "region"] == "MB_ML_R" and n.loc[9, "super_region"] == "mushroom body"
+    assert n.loc[9, "in_syn"] == 11 and n.loc[1, "out_syn"] == 6
+    assert n.loc[1, "nt_type"] == "DA" and n.loc[1, "nt_source"] == "predicted"
+    assert n.loc[2, "nt_type"] == "ACH" and n.loc[2, "nt_source"] == "synapses"
+    assert pd.isna(n.loc[5, "region"]) and n.loc[5, "nt_type"] == "DA"
+    assert n.loc[8, "side"] == "right"  # unannotated: side of its input neuropil (LH_R)
+    regions = json.loads((out / "regions.json").read_text())
+    assert set(regions) == {"MB_CA_R", "MB_ML_R", "LH_R", "SLP_R"}
+    assert summary["dopaminergic"] == 2
+    assert summary["ppl1_types"] == ["PPL101"] and summary["pam_types"] == ["PAM01"]
