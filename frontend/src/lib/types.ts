@@ -87,7 +87,8 @@ export interface RunSummary {
 /** What a proposed row would do in a simulation (agent/papers.py check_row). */
 export interface RowChecks {
   ortholog: { known: boolean; fly_genes: string[]; fly_gene_matches: boolean; confidence: number };
-  clusters: { name: string; known: boolean; match: "exact" | "inferred" | null; n_cell_types: number }[];
+  /** in_quote: the supporting quote names this cluster. */
+  clusters: { name: string; known: boolean; match: "exact" | "inferred" | null; n_cell_types: number; in_quote: boolean }[];
   /** ortholog x tier x best cluster match, as the seeds would get; null when it can't seed. */
   confidence: number | null;
   can_seed: boolean;

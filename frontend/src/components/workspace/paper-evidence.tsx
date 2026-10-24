@@ -242,10 +242,15 @@ function ProposalCard({ row }: { row: EvidenceProposal }) {
         {checks.clusters.map((c) => (
           <span
             key={c.name}
-            title={c.known ? `${c.match} match, ${c.n_cell_types} cell types` : "not in the cluster table"}
+            title={
+              !c.known
+                ? "not in the cluster table"
+                : `${c.match} match, ${c.n_cell_types} cell types${c.in_quote ? "" : ", not named in the quote"}`
+            }
             className={cn(
               "rounded px-1 font-mono text-[11px]",
               !c.known ? "text-destructive line-through" : c.match === "exact" ? "bg-secondary" : "border border-dashed",
+              c.known && !c.in_quote && "text-destructive",
             )}
           >
             {c.name}
