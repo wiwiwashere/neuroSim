@@ -1,0 +1,82 @@
+{
+  "_readme": "Hand-curated by Bio. Every row needs a citation. Set verified_by_bio to true only after checking the paper's figures, not just the abstract. Rows marked TODO are drafts from abstracts.",
+  "orthologs": {
+    "PINK1": {"fly_genes": ["Pink1"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
+    "PRKN":  {"fly_genes": ["park"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
+    "PARK7": {"fly_genes": ["dj-1beta", "DJ-1alpha"], "relationship": "1:2", "diopt_score": null, "_todo": "fill DIOPT score; FlyBase lists both as DIOPT orthologs"},
+    "LRRK2": {"fly_genes": ["Lrrk"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
+    "SNCA":  {"fly_genes": [], "relationship": "none", "diopt_score": null}
+  },
+  "evidence": [
+    {
+      "disease": "parkinsons",
+      "human_gene": "PINK1",
+      "fly_gene": "Pink1",
+      "model_type": "RNAi",
+      "clusters": ["PAL", "PPM1/2", "PPM3", "PPL2"],
+      "finding": "Pink1 knockdown caused significant dopamine neuron loss in PAL, PPM1/2, PPM3 and PPL2; PPL1 was less affected.",
+      "citation": "Wang et al. 2006, PNAS",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1569195",
+      "tier": "medium",
+      "verified_by_bio": false
+    },
+    {
+      "disease": "parkinsons",
+      "human_gene": "PRKN",
+      "fly_gene": "park",
+      "model_type": "mutant",
+      "clusters": ["PPL1"],
+      "finding": "parkin mutants lose a subset of dopamine neurons. TODO: confirm the cluster is PPL1 from the paper's figures.",
+      "citation": "Whitworth et al. 2005, PNAS",
+      "url": "https://flybase.org/reports/FBrf0188281",
+      "tier": "medium",
+      "verified_by_bio": false
+    },
+    {
+      "disease": "parkinsons",
+      "human_gene": "PARK7",
+      "fly_gene": "dj-1beta",
+      "model_type": "mutant",
+      "clusters": ["ALL_DA"],
+      "finding": "TODO: mostly oxidative-stress sensitivity; no clear cluster-specific loss found yet. Seeds all DA neurons as a low-confidence placeholder.",
+      "citation": "TODO",
+      "url": "",
+      "tier": "low",
+      "verified_by_bio": false
+    },
+    {
+      "disease": "parkinsons",
+      "human_gene": "LRRK2",
+      "fly_gene": "Lrrk",
+      "model_type": "overexpression",
+      "clusters": ["PPL1", "PPM1/2"],
+      "finding": "TODO: knockout results conflict; G2019S overexpression causes DA loss and locomotor deficits. Find a paper that names clusters.",
+      "citation": "TODO (see Frontiers in Neurology 2018 review)",
+      "url": "https://www.frontiersin.org/journals/neurology/articles/10.3389/fneur.2018.00228/full",
+      "tier": "low",
+      "verified_by_bio": false
+    },
+    {
+      "disease": "parkinsons",
+      "human_gene": "SNCA",
+      "fly_gene": "none (human SNCA expressed in fly)",
+      "model_type": "overexpression",
+      "clusters": ["PAM"],
+      "finding": "VALIDATION CASE, not a gene seed: alpha-synuclein in ~15 PAM neurons per hemisphere reduces their connections to the mushroom body beta-prime lobe, which is needed for climbing.",
+      "citation": "Riemensperger et al. 2013, Cell Reports",
+      "url": "https://doaj.org/article/c810518659ba41b7a4a7b748d12bc7b6",
+      "tier": "high",
+      "verified_by_bio": false
+    }
+  ],
+  "cluster_to_cell_types": {
+    "_readme": "Bio + CS1, built on day 1 by searching Codex. exact = the connectome names this cluster directly; inferred = matched by projection pattern.",
+    "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"]},
+    "PAM":  {"match": "exact", "cell_types": ["PAM01", "PAM02", "PAM03", "PAM04", "PAM05", "PAM06", "PAM07", "PAM08", "PAM09", "PAM10", "PAM11", "PAM12", "PAM13", "PAM14", "PAM15"]},
+    "PPL2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
+    "PPM1/2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
+    "PPM3": {"match": "inferred", "cell_types": [], "_todo": "central complex DA types; find in Codex"},
+    "PAL":  {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
+    "ALL_DA": {"match": "inferred", "cell_types": ["*"], "_note": "every neuron predicted dopaminergic"}
+  }
+}

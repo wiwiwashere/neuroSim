@@ -1,0 +1,173 @@
+"""Data contracts shared by the engine, the API, the agent and the frontend.
+
+Agree on these on day one. CS2 builds screens against them using mocks while
+CS1 builds the engine that fills them. Changing a field means telling the
+other two people.
+"""
+
+from __future__ import annotations
+
+from enum import Enum
+
+from pydantic import BaseModel, Field
+
+from neurosim import config
+
+
+# --- Gene -> neurons (Bio) ----------------------------------------------------------
+
+
+class Ortholog(BaseModel):
+    human_gene: str                      # "PINK1"
+    fly_genes: list[str]                 # ["Pink1"]; PARK7 -> ["dj-1beta", "DJ-1alpha"]
+    diopt_score: int | None              # DIOPT support count; None if no ortholog
+    relationship: str                    # "1:1", "1:2", "none"
+    confidence: float                    # 0..1, from the DIOPT score
+
+
+class EvidenceRow(BaseModel):
+    """One published finding: in this fly model, these DA clusters were lost."""
+
+    disease: str                         # "parkinsons"
+    human_gene: str
+    fly_gene: str
+    model_type: str                      # "mutant", "RNAi", "overexpression"
+    clusters: list[str]                  # ["PPL1"], ["PAM"], ["PPM3", "PPL2"]
+    finding: str                         # one plain sentence a judge can read
+    citation: str                        # "Whitworth et al. 2005, PNAS"
+    url: str
+    tier: str                            # "high" | "medium" | "low"
+    verified_by_bio: bool = False        # flipped once Bio checks the paper figures
+
+
+class SeedType(BaseModel):
+    """A connectome cell type chosen as a starting point, and why."""
+
+    cell_type: str                       # "PPL101"
+    cluster: str                         # "PPL1"
+    match: str                           # "exact" | "inferred"
+    n_neurons: int
+    root_ids: list[int]
+    confidence: float                    # ortholog x tier x match (see bio/evidence.py)
+    evidence: list[EvidenceRow]
+
+
+class SeedSet(BaseModel):
+    disease: str
+    human_gene: str
+    ortholog: Ortholog
+    seed_types: list[SeedType]
+
+    @property
+    def root_ids(self) -> list[int]:
+        return [rid for t in self.seed_types for rid in t.root_ids]
+
+
+# --- Simulation (CS1) ----------------------------------------------------------------
+
+
+class PerturbationMode(str, Enum):
+    KNOCKOUT = "knockout"                # seeds produce no output
+    REDUCE_OUTPUT = "reduce_output"      # seeds' output scaled by (1 - strength)
+
+
+class SimulationRequest(BaseModel):
+    human_gene: str
+    mode: PerturbationMode = PerturbationMode.KNOCKOUT
+    strength: float = Field(1.0, ge=0.0, le=1.0)   # ignored for knockout
+    hops: int = Field(config.HOPS, ge=1, le=5)
+    decay: float = Field(config.DECAY, gt=0.0, le=1.0)
+    high_confidence_only: bool = False   # drop low-tier evidence and inferred type matches
+    seed_cell_types: list[str] | None = None   # restrict to these (agent follow-ups)
+
+
+class GroupLevel(str, Enum):
+    REGION = "region"                    # brain region / neuropil, e.g. "MB_ML_R"
+    SUPER_REGION = "super_region"        # coarse: "mushroom body", "central complex"
+    CELL_TYPE = "cell_type"              # e.g. "MBON05"
+    SUPER_CLASS = "super_class"          # e.g. "central", "descending"
+
+
+class GroupScore(BaseModel):
+    group: str
+    level: GroupLevel
+    n_neurons: int
+    mean_direct: float                   # mean share of input coming straight from seeds
+    mean_impact: float                   # mean multi-hop impact score
+    n_strong_hits: int                   # neurons with direct dependency >= STRONG_HIT
+    null_mean: float                     # same score under random seeds
+    null_sd: float
+    z_score: float
+    p_value: float                       # empirical, from the random draws
+    q_value: float                       # FDR-corrected
+    above_chance: bool                   # q_value < FDR_ALPHA and z > 0
+    function_label: str | None = None    # plain words, from Bio: "learning and memory"
+
+
+class NeuronImpact(BaseModel):
+    root_id: int
+    cell_type: str | None
+    region: str | None
+    direct: float
+    impact: float
+    per_hop: list[float]                 # impact contributed at hop 1, 2, 3
+
+
+class SimulationResult(BaseModel):
+    run_id: str                          # cache key, deterministic from the request
+    request: SimulationRequest
+    seeds: SeedSet
+    n_seed_neurons: int
+    n_reached: int                       # neurons with impact > 0 (excluding seeds)
+    disruption_score: float              # 0..1, see engine/vulnerability.py
+    disruption_null_mean: float
+    disruption_z: float
+    groups: dict[GroupLevel, list[GroupScore]]   # each list sorted by z_score desc
+    top_neurons: list[NeuronImpact]      # top 50 by impact
+    assumptions: dict[str, float | int | str]    # config values used, shown in the UI
+
+
+# --- Drawing (CS1 -> CS2) -----------------------------------------------------------
+
+
+class GraphNode(BaseModel):
+    id: str
+    label: str
+    group: str                           # region, used for compound-node grouping
+    is_seed: bool
+    impact: float
+    x: float | None = None               # fixed layout so before/after line up
+    y: float | None = None
+
+
+class GraphEdge(BaseModel):
+    source: str
+    target: str
+    weight: float                        # input fraction
+    synapses: int
+    lost: float                          # how much of this edge's drive is removed
+
+
+class Subgraph(BaseModel):
+    nodes: list[GraphNode]
+    edges: list[GraphEdge]
+
+
+class SankeyLink(BaseModel):
+    source: str                          # seed cluster, e.g. "PPL1"
+    target: str                          # super region, e.g. "mushroom body"
+    value: float                         # summed impact
+
+
+# --- Comparison (CS1) ---------------------------------------------------------------
+
+
+class Comparison(BaseModel):
+    run_a: str
+    run_b: str
+    level: GroupLevel
+    spearman_rho: float                  # how similar the two group rankings are
+    shared_top: list[str]                # in both top-N lists
+    only_a: list[str]
+    only_b: list[str]
+    summary: str                         # one deterministic sentence, no LLM

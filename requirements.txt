@@ -1,0 +1,10 @@
+numpy
+scipy
+pandas
+pyarrow          # reads the FlyWire .feather file
+networkx         # only for the small drawn subgraph
+fastapi
+uvicorn
+pydantic>=2
+anthropic        # agent
+pytest
