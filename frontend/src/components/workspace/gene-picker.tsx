@@ -63,12 +63,11 @@ export function GenePicker() {
               key={g.human_gene}
               onClick={() => ws.set({ gene: g.human_gene })}
               className={cn(
-                "relative grid w-full grid-cols-[4.5rem_1fr_auto] items-center gap-2 border-b px-3 py-2.5 text-left last:border-0",
+                "grid w-full grid-cols-[4.5rem_1fr_auto] items-center gap-2 border-b px-3 py-2.5 text-left last:border-0",
                 "transition-colors",
-                active ? "bg-secondary" : "hover:bg-secondary/60",
+                active ? "bg-secondary font-medium" : "hover:bg-secondary/60",
               )}
             >
-              {active && <span className="absolute inset-y-1.5 left-0 w-[3px] rounded-r bg-foreground" />}
               <span className={cn("font-mono text-[13px] font-medium", !g.simulatable && "text-faint")}>{g.human_gene}</span>
               <span className="truncate text-[12.5px] text-muted-foreground">
                 {g.fly_genes.length ? (
