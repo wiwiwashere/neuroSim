@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { EvidenceRow, SeedSet } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /** Section heading used down the left column. */
@@ -93,4 +94,32 @@ export function ErrorNote({ error }: { error: unknown }) {
 /** Fly gene symbols are italic by convention. */
 export function FlyGene({ children }: { children: ReactNode }) {
   return <i className="font-mono italic">{children}</i>;
+}
+
+/** Each evidence row behind a seed set once, in table order. */
+export function uniqueEvidence(seeds: SeedSet): EvidenceRow[] {
+  const seen = new Map<string, EvidenceRow>();
+  for (const t of seeds.seed_types) for (const e of t.evidence) seen.set(evidenceKey(e), e);
+  return [...seen.values()];
+}
+
+export const evidenceKey = (e: EvidenceRow) => e.extracted?.id ?? `${e.citation}|${e.clusters.join()}`;
+
+/** Marks a row Bio approved from a paper upload, with the quote it rests on. */
+export function UploadedQuote({ row }: { row: EvidenceRow }) {
+  const x = row.extracted;
+  if (!x) return null;
+  return (
+    <p className="mt-1 text-[11.5px] leading-snug text-muted-foreground">
+      <span className="mr-1 inline-flex h-4 items-center rounded border border-dashed border-foreground/30 px-1 text-[10px] font-medium uppercase not-italic tracking-wide text-foreground/80">
+        uploaded paper
+      </span>
+      <span className="italic">“{x.quote}”</span>
+      <span className="text-faint">
+        {x.page ? ` p. ${x.page}` : ""}
+        {x.quote_found === false ? " · quote not found word for word" : ""}
+        {x.edited?.length ? ` · edited by Bio: ${x.edited.join(", ")}` : ""}
+      </span>
+    </p>
+  );
 }

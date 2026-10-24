@@ -42,7 +42,7 @@ backend/neurosim/
   agent/agent.py       the agent loop (Gemini API)                         (CS2)
   agent/gemini.py      Gemini client, rate-limit and overload fallback     (CS2)
   agent/summary.py     structured run summary card (Gemini, JSON schema)   (CS2)
-  agent/papers.py      paper PDF -> proposed evidence rows for Bio         (CS2)
+  agent/papers.py      paper PDF/text/DOI -> checked evidence rows for Bio (CS2)
   agent/prompts.py     system prompt rules                                 (Bio)
 data/
   raw/                 downloads go here (not committed)
