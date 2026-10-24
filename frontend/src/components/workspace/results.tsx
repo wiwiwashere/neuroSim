@@ -15,7 +15,7 @@ import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { DamageBars, regionShares } from "@/components/charts/damage-bars";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
-import { EmptyState, ErrorNote, evidenceKey, StatTile, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
+import { EmptyState, ErrorNote, evidenceKey, ExpressionNote, StatTile, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
 import { RunSummaryCard } from "./run-summary";
 
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
@@ -142,6 +142,15 @@ function EvidenceBehind({ result }: { result: SimulationResult }) {
           </li>
         ))}
       </ul>
+      {result.seeds.expression && (
+        <div className="border-t px-4 py-3">
+          <p className="mb-1 text-[12px] text-muted-foreground">Expression in fly neurons · atlas</p>
+          <ExpressionNote
+            expression={result.seeds.expression}
+            seedClusters={[...new Set(result.seeds.seed_types.map((t) => t.cluster))]}
+          />
+        </div>
+      )}
     </Panel>
   );
 }
@@ -452,6 +461,8 @@ export function Results() {
   const id = result?.run_id ?? "";
   useQuery({ queryKey: ["sankey", id], queryFn: () => api.sankey(id), enabled: !!result });
   useQuery({ queryKey: ["subgraph", id], queryFn: () => api.subgraph(id), enabled: !!result });
+  const genes = useQuery({ queryKey: ["genes", ws.disease], queryFn: () => api.genes(ws.disease!), enabled: !!ws.disease });
+  const blocked = genes.data?.find((g) => g.human_gene === ws.gene)?.simulatable === false;
 
   return (
     <Tabs value={ws.tab} onValueChange={(v) => ws.set({ tab: v as Tab })} className="flex h-full min-h-0 flex-col gap-0">
@@ -466,12 +477,18 @@ export function Results() {
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6">
         {!result && ws.tab !== "compare" ? (
-          <EmptyState title={ws.gene ? `Ready to perturb ${ws.gene}` : "No run yet"}>
-            {ws.gene
-              ? "Run it here or from the left, or ask the agent a what-if."
-              : "Pick a disease and a gene on the left, or ask the agent on the right."}
-            <RunCta />
-          </EmptyState>
+          blocked ? (
+            <EmptyState title={`${ws.gene} can’t be simulated yet`}>
+              “Why these neurons?” on the left says what’s missing. Pick another gene to run.
+            </EmptyState>
+          ) : (
+            <EmptyState title={ws.gene ? `Ready to perturb ${ws.gene}` : "No run yet"}>
+              {ws.gene
+                ? "Run it here or from the left, or ask the agent a what-if."
+                : "Pick a disease and a gene on the left, or ask the agent on the right."}
+              <RunCta />
+            </EmptyState>
+          )
         ) : (
           <>
             {/* Keyed on the run so a new result (yours or the agent's) visibly lands. */}
