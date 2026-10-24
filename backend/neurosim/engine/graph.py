@@ -34,17 +34,32 @@ DOPAMINE_LABELS = {"da", "dopamine"}
 @dataclass
 class Connectome:
     W: sp.csr_matrix              # pre x post synapse counts
-    A: sp.csr_matrix              # post x pre input fractions (rows sum to 1 or 0)
-    in_strength: np.ndarray       # total input synapses per neuron
     neurons: pd.DataFrame         # one row per matrix position
     root_ids: np.ndarray          # position -> root_id
     pos: dict[int, int]           # root_id -> position
     regions: dict = field(default_factory=dict)   # neuropil -> {super_region, function}
     source: str = "FlyWire FAFB v783"             # shown in the UI's model assumptions
+    _normalized: tuple | None = field(default=None, repr=False)
 
     @property
     def n(self) -> int:
         return self.W.shape[0]
+
+    @property
+    def A(self) -> sp.csr_matrix:
+        """post x pre input fractions (rows sum to 1 or 0), built on first use
+        so seed lookups work before input_normalize does."""
+        return self._normalize()[0]
+
+    @property
+    def in_strength(self) -> np.ndarray:
+        """Total input synapses per neuron."""
+        return self._normalize()[1]
+
+    def _normalize(self) -> tuple[sp.csr_matrix, np.ndarray]:
+        if self._normalized is None:
+            self._normalized = input_normalize(self.W)
+        return self._normalized
 
     def positions(self, root_ids: list[int]) -> np.ndarray:
         """Matrix positions for these root IDs. Unknown IDs are an error, not skipped:
@@ -78,6 +93,7 @@ def input_normalize(W: sp.csr_matrix) -> tuple[sp.csr_matrix, np.ndarray]:
     Returns (A as CSR, in_strength).
 
     Test: every row of A sums to 1.0 (within 1e-9) or 0.0.
+    Connectome.A calls this on first use.
     """
     W = sp.csr_matrix(W, dtype=float)
     in_strength = np.asarray(W.sum(axis=0)).ravel()
@@ -103,9 +119,8 @@ def build_connectome(W: sp.spmatrix, neurons: pd.DataFrame, root_ids: np.ndarray
             neurons[col] = None
     if regions and neurons["super_region"].isna().all():
         neurons["super_region"] = neurons["region"].map(lambda r: regions.get(r, {}).get("super_region"))
-    A, in_strength = input_normalize(W)
     pos = {int(rid): i for i, rid in enumerate(root_ids)}
-    return Connectome(W=W, A=A, in_strength=in_strength, neurons=neurons, root_ids=root_ids, pos=pos,
+    return Connectome(W=W, neurons=neurons, root_ids=root_ids, pos=pos,
                       regions=regions, source=source)
 
 

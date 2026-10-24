@@ -22,11 +22,13 @@ import json
 from dataclasses import dataclass
 
 import numpy as np
+import pandas as pd
+import scipy.sparse as sp
 
 from neurosim import config
 from neurosim.bio import evidence
 from neurosim.engine import baseline, compare as compare_mod, subgraph, vulnerability
-from neurosim.engine.graph import Connectome, load_connectome
+from neurosim.engine.graph import Connectome, input_normalize, load_connectome
 from neurosim.engine.perturb import initial_deficit
 from neurosim.engine.propagate import Propagation, propagate
 from neurosim.models import (
@@ -34,6 +36,7 @@ from neurosim.models import (
     GroupLevel,
     GroupScore,
     NeuronImpact,
+    PerturbationMode,
     SankeyLink,
     SeedSet,
     SimulationRequest,
@@ -182,6 +185,24 @@ def _top_neurons(conn: Connectome, prop: Propagation) -> list[NeuronImpact]:
 def _label(conn: Connectome, position: int, column: str) -> str | None:
     value = conn.neurons.iloc[position].get(column)
     return None if value is None or (isinstance(value, float) and np.isnan(value)) else str(value)
+
+
+def engine_ready() -> bool:
+    """True once CS1's simulation functions are implemented: runs each one on a
+    two-neuron graph. The API serves mocks until this is True, so a stubbed
+    engine never breaks the frontend."""
+    try:
+        A, _ = input_normalize(sp.csr_matrix(np.array([[0.0, 5.0], [0.0, 0.0]])))
+        x0 = initial_deficit(2, np.array([0]), PerturbationMode.KNOCKOUT)
+        prop = propagate(A, x0, 1, config.DECAY)
+        vulnerability.group_table(prop, pd.DataFrame({"region": ["a", "a"]}), GroupLevel.REGION, 1, config.STRONG_HIT)
+        vulnerability.disruption_score(prop, np.array([0.0, 5.0]), 1, config.DECAY)
+        baseline.draw_random_seeds(np.arange(2), 1, 1, np.random.default_rng(0))
+        baseline.z_and_p(np.array([1.0]), np.array([[0.0, 1.0]]))
+        baseline.benjamini_hochberg(np.array([0.5]))
+    except NotImplementedError:
+        return False
+    return True
 
 
 def clear_cache() -> None:

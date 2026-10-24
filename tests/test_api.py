@@ -39,6 +39,16 @@ def test_defaults_to_mocks_without_processed_data(monkeypatch, tmp_path):
     assert client.post("/simulate", json={"human_gene": "PRKN"}).json()["run_id"].startswith("mock-")
 
 
+
+def test_stays_on_mocks_while_the_engine_is_a_placeholder(monkeypatch):
+    import neurosim.engine.graph as graph
+
+    monkeypatch.setattr(graph, "processed_data_available", lambda: True)
+    monkeypatch.setattr(pipeline, "engine_ready", lambda: False)
+    client = client_with(monkeypatch)
+    assert client.post("/simulate", json={"human_gene": "PRKN"}).json()["run_id"].startswith("mock-")
+
+
 def test_synthetic_flag_runs_the_real_pipeline_end_to_end(monkeypatch):
     client = client_with(monkeypatch, NEUROSIM_SYNTHETIC="1")
     assert client.get("/diseases").json() == ["parkinsons"]

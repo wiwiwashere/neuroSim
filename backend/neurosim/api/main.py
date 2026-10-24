@@ -6,7 +6,8 @@ No science happens here.
 Data source, decided once at startup:
     NEUROSIM_MOCKS=1        api/mocks.py payloads (fake numbers, "mock-" run IDs)
     NEUROSIM_MOCKS=0        the real pipeline on data/processed
-    unset                   real pipeline if data/processed exists, else mocks
+    unset                   real pipeline once data/processed exists AND the
+                            engine is implemented (pipeline.engine_ready), else mocks
     NEUROSIM_SYNTHETIC=1    the real pipeline on the made-up test brain
                             (engine/synthetic.py), handy before prep has run
 """
@@ -31,7 +32,7 @@ if USE_SYNTHETIC:
 elif _MOCKS_ENV is not None:
     USE_MOCKS = _MOCKS_ENV == "1"
 else:
-    USE_MOCKS = not processed_data_available()
+    USE_MOCKS = not (processed_data_available() and pipeline.engine_ready())
 
 if USE_SYNTHETIC:
     from neurosim.engine.synthetic import synthetic_connectome
