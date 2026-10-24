@@ -213,11 +213,14 @@ def evidence_decision(row_id: str, body: Decision) -> dict:
     Approved rows go to data/evidence_approved.json, not evidence.json, and
     seed the next run."""
     try:
-        return papers.decide(row_id, body.approve, body.edits)
+        row = papers.decide(row_id, body.approve, body.edits)
     except KeyError as err:
         raise HTTPException(404, str(err.args[0])) from err
     except ValueError as err:
         raise HTTPException(400, str(err)) from err
+    if row["status"] == "approved":
+        pipeline.clear_cache()   # cached runs were seeded without this row
+    return row
 
 
 @app.get("/evidence/approved")
@@ -233,4 +236,5 @@ def evidence_remove(row_id: str) -> dict:
         papers.remove_approved(row_id)
     except KeyError as err:
         raise HTTPException(404, str(err.args[0])) from err
+    pipeline.clear_cache()
     return {"removed": row_id}
