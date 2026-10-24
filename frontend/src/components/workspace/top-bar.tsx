@@ -18,12 +18,14 @@ function Mark() {
   );
 }
 
+const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
 export function TopBar() {
   const ws = useWorkspace();
   const { theme, toggle } = useTheme();
   const steps = [
-    { label: "Gene", done: !!ws.gene, go: () => {} },
-    { label: "Chain", done: !!ws.gene, go: () => {} },
+    { label: "Gene", done: !!ws.gene, go: () => scrollTo("gene") },
+    { label: "Chain", done: !!ws.gene, go: () => scrollTo("chain") },
     { label: "Results", done: !!ws.activeRun, go: () => ws.activeRun && ws.set({ tab: "overview" }) },
     { label: "Compare", done: !!ws.compareRun, go: () => ws.set({ tab: "compare" }) },
   ];

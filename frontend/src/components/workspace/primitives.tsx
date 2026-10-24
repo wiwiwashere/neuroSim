@@ -77,7 +77,7 @@ export function EmptyState({ title, children }: { title: string; children?: Reac
   return (
     <div className="flex h-full min-h-[240px] flex-col items-center justify-center gap-1.5 px-6 text-center">
       <p className="text-sm font-medium">{title}</p>
-      {children && <p className="max-w-sm text-[13px] text-muted-foreground">{children}</p>}
+      {children && <div className="flex max-w-sm flex-col items-center text-[13px] text-muted-foreground">{children}</div>}
     </div>
   );
 }

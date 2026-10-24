@@ -10,8 +10,9 @@ import { api, codexUrl } from "@/lib/api";
 import { int, LEVEL_LABEL, pct, SCOPE_LINE, zPhrase } from "@/lib/format";
 import type { GraphNode, GroupLevel, GroupScore, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { type Tab, useWorkspace } from "@/lib/workspace";
+import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { CompareTab } from "./compare";
+import { RunCta } from "./perturbation";
 import { EmptyState, ErrorNote, StatTile } from "./primitives";
 
 const DamageSankey = dynamic(() => import("@/components/charts/sankey").then((m) => m.DamageSankey), { ssr: false });
@@ -44,31 +45,32 @@ function Overview({ result }: { result: SimulationResult }) {
   const sankey = useQuery({ queryKey: ["sankey", result.run_id], queryFn: () => api.sankey(result.run_id) });
   const supers = groupsAt(result, "super_region");
   const top = [...supers].sort((a, b) => b.z_score - a.z_score).slice(0, 3);
+  const ratio = result.disruption_null_mean > 0 ? result.disruption_score / result.disruption_null_mean : null;
 
   return (
     <div className="grid gap-4">
       {/* One panel: the headline number, what it is measured against, and where it goes. */}
-      <Panel>
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4 border-b px-5 pt-5 pb-4">
-          <StatTile
-            emphasis
-            label={`Disruption score · ${result.request.human_gene}`}
-            value={pct(result.disruption_score)}
-            sub={
-              <>
-                <span className={result.disruption_z >= 2 ? "font-medium text-signal" : "text-foreground"}>
-                  z {result.disruption_z.toFixed(1)}, {zPhrase(result.disruption_z)}
-                </span>{" "}
-                · random DA neurons of the same count score {pct(result.disruption_null_mean)}
-              </>
-            }
-          />
-          <dl className="grid grid-cols-2 gap-x-8 gap-y-1 text-[12.5px]">
-            <dt className="text-muted-foreground">Seed neurons perturbed</dt>
-            <dd className="text-right font-medium tabular">{int(result.n_seed_neurons)}</dd>
-            <dt className="text-muted-foreground">Reached within {result.assumptions.hops ?? 3} synapses</dt>
-            <dd className="text-right font-medium tabular">{int(result.n_reached)}</dd>
-          </dl>
+      <Panel className="landed">
+        <div className="grid gap-5 border-b px-5 pt-5 pb-4 md:grid-cols-[auto_1fr] md:items-end md:gap-10">
+          {/* Lead with the comparison to chance: that is the claim, the raw percent is not. */}
+          <div className="flex flex-col gap-1">
+            <span className="text-[13px] font-medium">{runLabel(result.request)}</span>
+            <span className="text-[44px] leading-none font-semibold tracking-[-0.02em] tabular">
+              {ratio !== null ? `${ratio.toFixed(1)}×` : pct(result.disruption_score)}
+              {ratio !== null && <span className="ml-2 text-[20px] font-medium text-muted-foreground">chance</span>}
+            </span>
+            <span className={cn("text-[13px]", result.disruption_z >= 2 ? "font-medium text-signal" : "text-muted-foreground")}>
+              z {result.disruption_z.toFixed(1)}, {zPhrase(result.disruption_z)}
+            </span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 md:max-w-xl md:justify-self-end">
+            <Compared label={`${result.request.human_gene} seeds`} value={pct(result.disruption_score)} strong />
+            <Compared label="Random DA neurons, same count" value={pct(result.disruption_null_mean)} />
+            <p className="text-[12px] text-muted-foreground sm:col-span-2">
+              Share of downstream input lost. {int(result.n_seed_neurons)} seed neurons perturbed, {int(result.n_reached)} reached within{" "}
+              {result.assumptions.hops ?? 3} synapses.
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap items-center justify-between gap-3 px-5 pt-3.5">
           <h3 className="text-[13px] font-semibold">Where does the damage go?</h3>
@@ -102,6 +104,16 @@ function Overview({ result }: { result: SimulationResult }) {
           </ol>
         </Panel>
       )}
+    </div>
+  );
+}
+
+/** Two numbers at equal weight so the gap is seen, not read. */
+function Compared({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+  return (
+    <div className={cn("rounded-lg border px-3 py-2", strong ? "border-foreground/25" : "border-dashed")}>
+      <div className="text-[12px] text-muted-foreground">{label}</div>
+      <div className={cn("text-[22px] leading-tight tabular", strong ? "font-semibold" : "font-medium text-muted-foreground")}>{value}</div>
     </div>
   );
 }
@@ -187,7 +199,7 @@ function GroupTable({ groups }: { groups: GroupScore[] }) {
               <td className="px-4 py-1.5">{(g.mean_direct * 100).toFixed(2)}</td>
               <td className="px-4 py-1.5">{g.z_score.toFixed(2)}</td>
               <td className="px-4 py-1.5">{g.q_value.toFixed(3)}</td>
-              <td className="px-4 py-1.5 font-sans text-[11.5px]">{g.above_chance ? <span className="text-signal">above chance</span> : "chance"}</td>
+              <td className="px-4 py-1.5 font-sans text-[11.5px] whitespace-nowrap">{g.above_chance ? <span className="text-signal">above chance</span> : "chance"}</td>
             </tr>
           ))}
         </tbody>
@@ -200,7 +212,13 @@ function GroupTable({ groups }: { groups: GroupScore[] }) {
 
 function Network({ result }: { result: SimulationResult }) {
   const graph = useQuery({ queryKey: ["subgraph", result.run_id], queryFn: () => api.subgraph(result.run_id) });
-  const [selected, setSelected] = useState<GraphNode | null>(null);
+  const [picked, setPicked] = useState<GraphNode | null | undefined>(undefined);
+  const mostHit = useMemo(
+    () => graph.data?.nodes.filter((n) => !n.is_seed).sort((x, y) => y.impact - x.impact)[0] ?? null,
+    [graph.data],
+  );
+  const selected = picked === undefined ? mostHit : picked;
+  const setSelected = setPicked;
   const gene = result.request.human_gene;
   const perturbLabel = result.request.mode === "reduce_output" ? `output −${Math.round((result.request.strength ?? 1) * 100)}%` : "knockout";
 
@@ -213,8 +231,12 @@ function Network({ result }: { result: SimulationResult }) {
             title={variant === "healthy" ? "Healthy" : `With ${gene} ${perturbLabel}`}
             aside={
               variant === "perturbed" ? (
-                <span className="flex items-center gap-3 text-[11.5px] text-muted-foreground">
-                  <Legend swatch="bg-seed" label="lost drive" />
+                <span className="flex shrink-0 items-center gap-3 text-[11.5px] whitespace-nowrap text-muted-foreground">
+                  <Legend swatch="bg-seed" label="seed" />
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="w-4 border-t-2 border-dashed border-foreground" />
+                    lost drive
+                  </span>
                 </span>
               ) : (
                 <span className="text-[11.5px] text-muted-foreground">
@@ -320,7 +342,12 @@ export function Results() {
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 sm:px-6">
         {!result && ws.tab !== "compare" ? (
-          <EmptyState title="No run yet">Pick a gene on the left and run a simulation, or ask the agent on the right.</EmptyState>
+          <EmptyState title={ws.gene ? `Ready to perturb ${ws.gene}` : "No run yet"}>
+            {ws.gene
+              ? "Run it here or from the left, or ask the agent a what-if."
+              : "Pick a disease and a gene on the left, or ask the agent on the right."}
+            <RunCta />
+          </EmptyState>
         ) : (
           <>
             {/* Keyed on the run so a new result (yours or the agent's) visibly lands. */}

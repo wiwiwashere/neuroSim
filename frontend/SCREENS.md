@@ -44,7 +44,7 @@ right.
 | 5 | Overview (hero) | Centre tab | `POST /simulate`, `GET /runs/{id}/sankey` | Disruption score with its z and chance level, seed and reached counts; Sankey from seed clusters to super regions; top three regions | Seeds orange, above-chance regions blue, the rest grey |
 | 6 | Ranked | Centre tab | from `/simulate` result | Horizontal bars of z vs random DA neurons, chance range (±1.96) shaded, above-chance bars in the accent colour, function label under each name; table view toggle | Level toggle: super region / region / cell type |
 | 7 | Network | Centre tab | `GET /runs/{id}/subgraph`, `GET /runs/{id}/neurons/{rid}/explain` | Healthy and perturbed side by side at the backend's positions, grouped by region; lost drive drawn dashed; click a neuron for its top paths and its Codex link | ≤ 200 nodes |
-| 8 | Compare | Centre tab | `GET /compare?run_a&run_b&level` | Rank correlation, summary sentence, shared/only chips, two ranked charts side by side with shared regions in bold | The demo's high point: PINK1 vs PRKN |
+| 8 | Compare | Centre tab | `GET /compare?run_a&run_b&level` | Rank correlation with a plain-words reading, summary sentence, shared/only chips, one paired dot chart (a row per region, a dot per gene, shared chance band) | The demo's high point: PINK1 vs PRKN |
 | 9 | Agent panel | Right | `POST /agent/chat` | Chat; each tool call is a chip ("ran simulation: PRKN, knockout") that opens its result. Runs in `run_ids` load into the centre views, so the screen changes when the agent runs something | Until `/agent/chat` is implemented (or in snapshot mode) a clearly labelled scripted stand-in calls the same API tools |
 
 Every results view carries one line: "Structural dependency in the fly

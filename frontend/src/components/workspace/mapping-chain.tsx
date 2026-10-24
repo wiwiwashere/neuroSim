@@ -83,7 +83,7 @@ export function MappingChain() {
   const nNeurons = c ? c.seed_types.reduce((n, t) => n + t.n_neurons, 0) : 0;
 
   return (
-    <section>
+    <section id="chain" className="scroll-mt-4">
       <StepHeading title="Why these neurons?" aside={toggle} />
       {chain.error && <ErrorNote error={chain.error} />}
       {chain.isPending && <div className="h-64 animate-pulse rounded-lg bg-muted/60" />}

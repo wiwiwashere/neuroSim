@@ -84,9 +84,10 @@ export function NetworkGraph({
             "text-margin-y": 4,
             width: perturbed ? "mapData(impact, 0, 1, 14, 30)" : 18,
             height: perturbed ? "mapData(impact, 0, 1, 14, 30)" : 18,
-            "background-color": perturbed ? `mapData(impact, 0, 1, ${c.card}, ${c.seed})` : c.card,
+            // Downstream loss is drawn in ink, darker with impact; orange stays reserved for the seeds.
+            "background-color": perturbed ? `mapData(impact, 0, 1, ${c.card}, ${c["muted-foreground"]})` : c.card,
             "border-width": 1.5,
-            "border-color": perturbed ? c.seed : c["muted-foreground"],
+            "border-color": c["muted-foreground"],
             "overlay-opacity": 0,
           },
         },
@@ -135,8 +136,8 @@ export function NetworkGraph({
               {
                 selector: "edge.lost",
                 style: {
-                  "line-color": c.seed,
-                  "target-arrow-color": c.seed,
+                  "line-color": c.foreground,
+                  "target-arrow-color": c.foreground,
                   "line-style": "dashed" as const,
                   "line-dash-pattern": [6, 4],
                   opacity: "mapData(lost, 0, 0.5, 0.45, 1)" as unknown as number,

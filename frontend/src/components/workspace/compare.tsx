@@ -6,13 +6,13 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { api } from "@/lib/api";
-import { LEVEL_LABEL } from "@/lib/format";
+import { LEVEL_LABEL, rhoPhrase } from "@/lib/format";
 import type { GroupLevel, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { type RunEntry, useWorkspace } from "@/lib/workspace";
 import { EmptyState, ErrorNote, StatTile } from "./primitives";
 
-const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
+const PairedDots = dynamic(() => import("@/components/charts/paired-dots").then((m) => m.PairedDots), { ssr: false });
 
 function levelFor(a: SimulationResult, b: SimulationResult, wanted: GroupLevel): GroupLevel {
   if (a.groups[wanted]?.length && b.groups[wanted]?.length) return wanted;
@@ -91,13 +91,19 @@ function ComparePair({ a, b }: { a: RunEntry; b: RunEntry }) {
     queryFn: () => api.compare(a.result.run_id, b.result.run_id, level),
   });
   const shared = new Set(cmp.data?.shared_top ?? []);
+  const rowCount = new Set([...(a.result.groups[level] ?? []), ...(b.result.groups[level] ?? [])].map((g) => g.group)).size;
 
   return (
     <>
       {cmp.error && <ErrorNote error={cmp.error} />}
       {cmp.data && (
         <div className="grid items-center gap-4 rounded-xl border bg-card px-5 py-4 sm:grid-cols-[auto_1fr] sm:gap-8">
-          <StatTile emphasis label="Rank correlation (Spearman ρ)" value={cmp.data.spearman_rho.toFixed(2)} sub={`${LEVEL_LABEL[level]} level`} />
+          <StatTile
+            emphasis
+            label="Rank correlation (Spearman ρ)"
+            value={cmp.data.spearman_rho.toFixed(2)}
+            sub={<span className="font-medium text-foreground">{rhoPhrase(cmp.data.spearman_rho)} · {LEVEL_LABEL[level].toLowerCase()} level</span>}
+          />
           <div className="grid gap-2.5">
             <p className="text-[14px] leading-snug">{cmp.data.summary}</p>
             <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-[12px]">
@@ -108,20 +114,21 @@ function ComparePair({ a, b }: { a: RunEntry; b: RunEntry }) {
           </div>
         </div>
       )}
-      <div className="grid gap-4 md:grid-cols-2">
-        {[a, b].map((r) => {
-          const groups = r.result.groups[level] ?? [];
-          return (
-            <div key={r.key} className="rounded-xl border bg-card">
-              <div className="border-b px-4 py-2.5 font-mono text-[13px] font-medium">{r.label}</div>
-              <div className="px-1 pt-1" style={{ height: Math.max(220, groups.length * 54 + 80) }}>
-                <RankedBars groups={groups} highlight={shared} />
-              </div>
-            </div>
-          );
-        })}
+      <div className="rounded-xl border bg-card">
+        <div className="border-b px-4 py-2.5 text-[13px] font-semibold">Do they hit the same circuits?</div>
+        <div className="px-1 pt-1" style={{ height: Math.max(260, rowCount * 56 + 100) }}>
+          <PairedDots
+            a={a.result.groups[level] ?? []}
+            b={b.result.groups[level] ?? []}
+            labelA={a.label}
+            labelB={b.label}
+            shared={shared}
+          />
+        </div>
       </div>
-      <p className="px-1 text-[12px] text-muted-foreground">Bold names are in both genes’ top lists.</p>
+      <p className="px-1 text-[12px] text-muted-foreground">
+        One row per region. Dots close together mean both genes hit it alike; bold regions are in both top lists.
+      </p>
     </>
   );
 }

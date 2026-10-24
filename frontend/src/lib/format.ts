@@ -28,3 +28,12 @@ export function zPhrase(z: number) {
 
 /** The single line every results view carries (Bio writes the final wording). */
 export const SCOPE_LINE = "Structural dependency in the fly connectome, not a prediction of symptoms.";
+
+/** Plain words for a Spearman rank correlation between two genes' rankings. */
+export function rhoPhrase(rho: number) {
+  if (rho >= 0.8) return "nearly the same regions, in the same order";
+  if (rho >= 0.5) return "mostly the same regions";
+  if (rho >= 0.2) return "partly the same regions";
+  if (rho > -0.2) return "unrelated rankings";
+  return "opposite rankings";
+}

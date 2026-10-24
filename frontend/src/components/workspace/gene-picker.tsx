@@ -50,7 +50,7 @@ export function GenePicker() {
   if (!ws.disease) return null;
 
   return (
-    <section>
+    <section id="gene" className="scroll-mt-4">
       <StepHeading title="Gene" aside={<span className="text-[11px] text-faint">fly ortholog · evidence</span>} />
       {genes.error && <ErrorNote error={genes.error} />}
       <div className="overflow-hidden rounded-lg border bg-card">
@@ -81,7 +81,10 @@ export function GenePicker() {
                   <span className="text-faint">no fly ortholog</span>
                 )}
               </span>
-              {g.simulatable ? <TierBadge tier={g.best_tier} /> : <span className="text-[11px] text-faint">can’t simulate</span>}
+              <span className="flex items-center gap-1.5">
+                {g.simulatable ? <TierBadge tier={g.best_tier} /> : <span className="text-[11px] text-faint">can’t simulate</span>}
+                <Check className={cn("size-3.5", active ? "text-foreground" : "invisible")} aria-label={active ? "selected" : undefined} />
+              </span>
             </button>
           );
         })}

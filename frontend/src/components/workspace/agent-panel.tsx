@@ -209,7 +209,7 @@ export function AgentPanel() {
         }}
         className="border-t p-3"
       >
-        <div className="flex items-end gap-2 rounded-xl border bg-background px-3 py-2 focus-within:border-foreground/30">
+        <div className="flex items-end gap-2 rounded-xl border bg-background px-3 py-2 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20">
           <textarea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
