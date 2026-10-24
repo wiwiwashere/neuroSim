@@ -17,41 +17,33 @@ from __future__ import annotations
 import os
 from contextlib import contextmanager
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi.concurrency import run_in_threadpool
+from pydantic import BaseModel
 
+from neurosim import config
+from neurosim.agent import agent, papers, summary
+from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
 from neurosim.bio import evidence
 from neurosim.engine import pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
 
-USE_SYNTHETIC = os.environ.get("NEUROSIM_SYNTHETIC") == "1"
-_MOCKS_ENV = os.environ.get("NEUROSIM_MOCKS")
-if USE_SYNTHETIC:
-    USE_MOCKS = False
-elif _MOCKS_ENV is not None:
-    USE_MOCKS = _MOCKS_ENV == "1"
-else:
-    USE_MOCKS = not (processed_data_available() and pipeline.engine_ready())
-
-if USE_SYNTHETIC:
-    from neurosim.engine.synthetic import synthetic_connectome
-
-    set_connectome(synthetic_connectome())
+USE_MOCKS = config.USE_MOCKS
 
 app = FastAPI(title="neuroSim")
 
 
-@contextmanager
-def _http_errors():
-    """Seed problems are the user's to fix (422, message shown as is);
-    unknown run or neuron IDs are 404."""
+def _gemini(fn, *args):
+    """Run a Gemini-backed call off the event loop; its refusals become 503s
+    and bad input becomes 400s, both with a message the UI can show."""
     try:
-        yield
-    except evidence.SeedError as e:
-        raise HTTPException(status_code=422, detail=str(e)) from e
-    except KeyError as e:
-        raise HTTPException(status_code=404, detail=f"not found: {e}") from e
+        return fn(*args)
+    except GeminiUnavailable as err:
+        raise HTTPException(503, str(err)) from err
+    except ValueError as err:
+        raise HTTPException(400, str(err)) from err
 
 
 @app.get("/diseases")
@@ -66,14 +58,8 @@ def diseases() -> list[str]:
 def genes(disease: str) -> list[dict]:
     """Gene picker: gene, fly ortholog, confidence, whether it can be simulated."""
     if USE_MOCKS:
-        return [
-            {"human_gene": "PINK1", "fly_genes": ["Pink1"], "best_tier": "medium", "simulatable": True},
-            {"human_gene": "PRKN", "fly_genes": ["park"], "best_tier": "medium", "simulatable": True},
-            {"human_gene": "PARK7", "fly_genes": ["dj-1beta", "DJ-1alpha"], "best_tier": "low", "simulatable": True},
-            {"human_gene": "LRRK2", "fly_genes": ["Lrrk"], "best_tier": "low", "simulatable": True},
-            {"human_gene": "SNCA", "fly_genes": [], "best_tier": None, "simulatable": False},
-        ]
-    return evidence.list_genes(disease)
+        return mocks.mock_genes()
+    raise NotImplementedError  # bio.evidence.list_genes(disease)
 
 
 @app.get("/genes/{human_gene}/chain")
@@ -100,9 +86,8 @@ def simulate(request: SimulationRequest) -> SimulationResult:
 @app.get("/runs/{run_id}")
 def run(run_id: str) -> SimulationResult:
     if USE_MOCKS:
-        return mocks.mock_result()
-    with _http_errors():
-        return pipeline.get_result(run_id)
+        return mocks.mock_run(run_id)
+    raise NotImplementedError  # pipeline.get_result(run_id)
 
 
 @app.get("/runs/{run_id}/sankey")
@@ -132,15 +117,54 @@ def explain(run_id: str, root_id: int) -> dict:
 @app.get("/compare")
 def compare(run_a: str, run_b: str, level: GroupLevel = GroupLevel.REGION) -> Comparison:
     if USE_MOCKS:
-        return mocks.mock_comparison()
-    with _http_errors():
-        return pipeline.compare(run_a, run_b, level)
+        return mocks.mock_comparison(run_a, run_b)
+    raise NotImplementedError  # pipeline.compare(run_a, run_b, level)
+
+
+class ChatRequest(BaseModel):
+    message: str
+    interaction_id: str | None = None
+    context: dict | None = None          # {"active_run": {"run_id", "human_gene", "mode", ...}}
 
 
 @app.post("/agent/chat")
-def agent_chat(body: dict) -> dict:
-    """{"message": str, "interaction_id": str | None} in,
-    {"reply": str, "tool_calls": [...], "run_ids": [...], "interaction_id": str} out.
+async def agent_chat(body: ChatRequest) -> dict:
+    """{"message", "interaction_id": str | None, "context": {...} | None} in,
+    {"reply", "tool_calls": [{"name", "arguments", "error"}], "run_ids",
+    "interaction_id", "model"} out.
     The frontend keeps only the latest interaction_id (Gemini holds the history)
     and shows tool_calls so users see the agent used real results."""
-    raise NotImplementedError  # agent.agent.chat(body["message"], body.get("interaction_id"))
+    return await run_in_threadpool(_gemini, agent.chat, body.message, body.interaction_id, body.context)
+
+
+@app.post("/runs/{run_id}/summary")
+async def run_summary(run_id: str) -> dict:
+    """Gemini's structured summary card for one run (cached per run): headline,
+    top circuits with the run's own z-scores, caveats, one next experiment."""
+    if USE_MOCKS:
+        result = mocks.mock_run(run_id)
+    else:
+        raise NotImplementedError  # pipeline.get_result(run_id)
+    return await run_in_threadpool(_gemini, summary.summarize_run, result)
+
+
+@app.post("/evidence/extract")
+async def evidence_extract(file: UploadFile) -> dict:
+    """Upload a paper PDF; Gemini proposes evidence rows, each pending Bio's
+    approval. Nothing is used until approved."""
+    pdf = await file.read()
+    return await run_in_threadpool(_gemini, papers.extract, pdf, file.filename or "paper.pdf")
+
+
+class Decision(BaseModel):
+    approve: bool
+
+
+@app.post("/evidence/rows/{row_id}/decision")
+def evidence_decision(row_id: str, body: Decision) -> dict:
+    """Bio approves or rejects one proposed row. Approved rows go to
+    data/evidence_approved.json, not evidence.json."""
+    try:
+        return papers.decide(row_id, body.approve)
+    except KeyError as err:
+        raise HTTPException(404, str(err.args[0])) from err

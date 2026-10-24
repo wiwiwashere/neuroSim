@@ -40,21 +40,11 @@ class SeedError(ValueError):
 
 
 def load_evidence() -> dict:
-    """Read data/evidence.json. Validate every evidence row against EvidenceRow
-    and fail loudly on a row without a citation."""
-    data = json.loads(config.EVIDENCE_PATH.read_text())
-    rows = []
-    for i, raw in enumerate(data.get("evidence", [])):
-        row = EvidenceRow(**raw)
-        if not row.citation.strip():
-            raise ValueError(f"evidence row {i} ({row.human_gene}, {row.clusters}) has no citation")
-        rows.append(row)
-    data["evidence"] = rows
-    return data
-
-
-def _is_validation(row: EvidenceRow) -> bool:
-    return row.finding.strip().upper().startswith("VALIDATION")
+    """Read data/evidence.json, plus the rows Bio approved from paper uploads
+    in config.APPROVED_EVIDENCE_PATH if that file exists (same row shape, with
+    an extra "extracted" block). Validate every evidence row against
+    EvidenceRow and fail loudly on a row without a citation."""
+    raise NotImplementedError
 
 
 def list_diseases() -> list[str]:
