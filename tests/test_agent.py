@@ -178,6 +178,29 @@ def test_paper_rows_wait_for_approval(fake, tmp_path, monkeypatch):
     assert saved[0]["extracted"]["quote"] == "PPL2 neurons were reduced"
 
 
+def test_paper_fallback_gets_only_the_time_left(fake, monkeypatch):
+    clock = SimpleNamespace(now=0.0)
+    monkeypatch.setattr(papers, "time", SimpleNamespace(monotonic=lambda: clock.now))
+    monkeypatch.setattr(config, "PAPER_TIMEOUT_S", 150)
+    monkeypatch.setattr(config, "PAPER_DEADLINE_S", 240)
+    sent = fake([httpx.ReadTimeout("The read operation timed out"),
+                 _interaction("p1", text=json.dumps({"citation": "", "url": "", "rows": []}))])
+    answer = sent.create
+
+    def flash_hangs(**kwargs):
+        if kwargs["model"] == config.AGENT_MODEL:
+            clock.now += kwargs["timeout"]
+        return answer(**kwargs)
+
+    monkeypatch.setattr(sent, "create", flash_hangs)
+    out = papers.extract(b"%PDF-1.4 fake", "long.pdf")
+
+    assert out["model"] == config.AGENT_FALLBACK_MODEL
+    # Flash keeps its full 150s; the fallback gets the 90s left under the deadline.
+    assert [(s["model"], s["timeout"]) for s in sent.sent] == [
+        (config.AGENT_MODEL, 150), (config.AGENT_FALLBACK_MODEL, 90)]
+
+
 def test_non_pdf_is_refused(fake):
     fake([])
     with pytest.raises(ValueError, match="isn't a PDF"):

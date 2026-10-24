@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import base64
 import json
+import time
 import uuid
 from datetime import datetime, timezone
 
@@ -74,8 +75,15 @@ def extract(pdf: bytes, filename: str) -> dict:
     if not pdf.startswith(b"%PDF"):
         raise ValueError("That file isn't a PDF.")
     state: dict = {}
-    interaction = gemini.call(
-        lambda model: gemini.client().interactions.create(
+    deadline = time.monotonic() + config.PAPER_DEADLINE_S
+
+    def create(model: str):
+        left = deadline - time.monotonic()
+        if left <= 0:
+            raise gemini.GeminiUnavailable(
+                f"Gemini couldn't read the paper within {config.PAPER_DEADLINE_S / 60:g} minutes. Try again in a minute."
+            )
+        return gemini.client().interactions.create(
             model=model,
             input=[
                 {"type": "document", "mime_type": "application/pdf", "data": base64.b64encode(pdf).decode()},
@@ -85,10 +93,10 @@ def extract(pdf: bytes, filename: str) -> dict:
             response_format={"type": "text", "mime_type": "application/json", "schema": SCHEMA},
             generation_config={"thinking_level": "medium", "max_output_tokens": 12000},
             store=False,
-            timeout=config.PAPER_TIMEOUT_S,
-        ),
-        state,
-    )
+            timeout=min(config.PAPER_TIMEOUT_S, left),
+        )
+
+    interaction = gemini.call(create, state)
     try:
         raw = json.loads(interaction.output_text or "")
     except json.JSONDecodeError as err:

@@ -97,3 +97,7 @@ AGENT_TURN_DEADLINE_S = float(os.environ.get("NEUROSIM_AGENT_TURN_DEADLINE_S", "
 PAPER_MAX_BYTES = 20 * 1024 * 1024
 # Reading a whole paper takes longer than an agent step.
 PAPER_TIMEOUT_S = 150
+# The whole extraction (Flash, then the fallback if Flash times out) stops
+# after this. Two full PAPER_TIMEOUT_S calls would reach the frontend proxy's
+# 300s timeout, so the fallback only gets what is left.
+PAPER_DEADLINE_S = 240
