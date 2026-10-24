@@ -292,3 +292,5 @@ stay in sync.
 | Group score | Mean + strong-hit count | Sum, max | Size-independent | — |
 | Null | Random DA neurons, size-matched, 200 | Random neurons, degree-matched | Isolates gene-specific signal | Judge asks for degree control |
 | Multiple testing | BH FDR 5% | Bonferroni, none | Standard, not over-strict | — |
+| Validation target | Beta-prime MBONs as one pre-registered neuron set, scored against the same nulls | Region or cell-type rank | FlyWire neuropils do not split the medial lobe into compartments, and every MBON type has fewer than 5 neurons, so neither appears in the ranked lists | Real-data run shows the set is too small to reach p < 0.05 |
+| Secondary "vs whole brain" null | Only in the validation script for now | In every GroupScore | Keeps the result contract unchanged | UI wants it next to each group |
