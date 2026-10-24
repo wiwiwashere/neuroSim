@@ -17,7 +17,6 @@ from neurosim.models import (
     GroupLevel,
     GroupScore,
     NeuronImpact,
-    Ortholog,
     SankeyLink,
     SeedSet,
     SeedType,
@@ -38,17 +37,19 @@ def mock_seeds(request: SimulationRequest | str = "PRKN") -> SeedSet:
     """Seeds for a mock run. Seed resolution doesn't need the engine, so when
     the connectome is on disk these are the real ones from the evidence table
     (rows approved from paper uploads included, SeedError for a gene that
-    can't be simulated). Without it, two fake PPL1 types."""
+    can't be simulated). Without it, the table's ortholog and two fake PPL1 types."""
     if isinstance(request, str):
         request = SimulationRequest(human_gene=request)
     if graph.connectome_available():
         return evidence.resolve_seeds(request)
     gene = request.human_gene
-    fly = {"PINK1": ["Pink1"], "PRKN": ["park"], "PARK7": ["dj-1beta", "DJ-1alpha"], "LRRK2": ["Lrrk"]}.get(gene, ["park"])
+    ortholog = evidence.find_ortholog(gene)   # SeedError for a gene the table doesn't know
+    if not ortholog.fly_genes:
+        raise evidence.SeedError(f"{gene} has no fly ortholog, so it cannot be simulated in the fly connectome")
     seeds = SeedSet(
         disease="parkinsons",
         human_gene=gene,
-        ortholog=Ortholog(human_gene=gene, fly_genes=fly, diopt_score=15, relationship="1:1", confidence=0.9),
+        ortholog=ortholog,
         seed_types=[
             SeedType(cell_type="PPL101", cluster="PPL1", match="exact", n_neurons=2,
                      root_ids=[720575940000000001, 720575940000000002], confidence=0.63, evidence=[_EVIDENCE]),
