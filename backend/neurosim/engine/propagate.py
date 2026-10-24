@@ -51,4 +51,16 @@ def propagate(
     x0 may be 1-D (one run) or 2-D (one column per run). Use A @ x, never
     densify A. Set seed_mask = x0 > 0.
     """
-    raise NotImplementedError
+    if hops < 1:
+        raise ValueError(f"hops must be at least 1, got {hops}")
+    x0 = np.asarray(x0, dtype=float)
+    if x0.shape[0] != A.shape[1]:
+        raise ValueError(f"x0 has {x0.shape[0]} rows, A has {A.shape[1]} columns")
+    per_hop = []
+    h = x0
+    impact = np.zeros_like(x0)
+    for k in range(hops):
+        h = A @ h
+        per_hop.append(h)
+        impact = impact + decay**k * h
+    return Propagation(per_hop=per_hop, impact=impact, seed_mask=x0 > 0)

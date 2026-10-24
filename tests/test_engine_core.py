@@ -24,3 +24,17 @@ def test_positions_follow_root_ids_and_reject_unknown_ids():
 
 def test_dopaminergic_pool_reads_nt_type():
     assert small_connectome().dopaminergic().tolist() == [0]
+
+
+def test_impact_never_exceeds_the_design_bound():
+    from neurosim.engine.graph import input_normalize
+    from neurosim.engine.propagate import propagate
+
+    rng = np.random.default_rng(0)
+    W = sp.random(300, 300, density=0.05, random_state=1, data_rvs=lambda k: rng.integers(5, 50, k)).tocsr()
+    A, _ = input_normalize(W)
+    x0 = np.zeros((300, 4))
+    x0[rng.choice(300, 40, replace=False), :] = 1.0
+    prop = propagate(A, x0, hops=3, decay=0.5)
+    assert all(h.max() <= 1.0 + 1e-12 for h in prop.per_hop)
+    assert prop.impact.max() <= 1.75 + 1e-12
