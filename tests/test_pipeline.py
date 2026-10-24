@@ -11,6 +11,8 @@ from neurosim.engine.subgraph import sankey_links
 from neurosim.engine.synthetic import synthetic_connectome
 from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SeedType, SimulationRequest
 
+from engine_status import needs_engine
+
 
 @pytest.fixture(autouse=True, scope="module")
 def synthetic_brain():
@@ -28,6 +30,7 @@ def custom_seeds(name: str, root_ids, cluster: str = "custom") -> SeedSet:
     return seeds.model_copy(update={"human_gene": name, "seed_types": [seed_type]})
 
 
+@needs_engine
 def test_same_request_gives_identical_results():
     request = SimulationRequest(human_gene="PRKN")
     first = pipeline.run_simulation(request).model_dump_json()
@@ -35,6 +38,7 @@ def test_same_request_gives_identical_results():
     assert pipeline.run_simulation(request).model_dump_json() == first
 
 
+@needs_engine
 def test_groups_are_sorted_by_z_and_seeds_are_not_reported():
     result = pipeline.run_simulation(SimulationRequest(human_gene="PRKN"))
     for scores in result.groups.values():
@@ -45,6 +49,7 @@ def test_groups_are_sorted_by_z_and_seeds_are_not_reported():
     assert result.n_seed_neurons == len(seed_ids)
 
 
+@needs_engine
 def test_reduce_output_halves_impact_but_keeps_z_scores():
     full = pipeline.run_simulation(SimulationRequest(human_gene="PRKN"))
     half = pipeline.run_simulation(SimulationRequest(human_gene="PRKN", mode=PerturbationMode.REDUCE_OUTPUT,
@@ -55,6 +60,7 @@ def test_reduce_output_halves_impact_but_keeps_z_scores():
     assert z_half == pytest.approx(z_full)
 
 
+@needs_engine
 def test_sankey_bands_add_up_to_the_total_impact():
     conn = load_connectome()
     prkn = evidence.resolve_seeds(SimulationRequest(human_gene="PRKN"))
@@ -71,6 +77,7 @@ def test_sankey_bands_add_up_to_the_total_impact():
     assert sum(link.value for link in links) == pytest.approx(prop.impact[~prop.seed_mask].sum())
 
 
+@needs_engine
 def test_random_da_seeds_are_not_above_chance():
     conn = load_connectome()
     rng = np.random.default_rng(1)
@@ -86,6 +93,7 @@ def test_gene_without_matched_cell_types_raises_a_seed_error():
         pipeline.run_simulation(SimulationRequest(human_gene="PINK1"))
 
 
+@needs_engine
 def test_drawing_endpoints_and_comparison_work_from_a_run_id():
     a = pipeline.run_simulation(SimulationRequest(human_gene="PRKN"))
     b = pipeline.run_simulation(SimulationRequest(human_gene="LRRK2"))

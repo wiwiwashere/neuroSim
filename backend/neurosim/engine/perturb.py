@@ -1,5 +1,9 @@
 """Perturbation modes (CS1). See docs/ENGINE_DESIGN.md, section 4.
 
+STATUS: placeholder. CS1 writes initial_deficit. pipeline.py, the
+validation script and the API already call it with the signatures
+below, and the tests marked `needs_engine` turn green once it works.
+
 A perturbation is described by one number per neuron, its output factor m:
     m = 1        healthy
     m = 0        knocked out (produces no output)
@@ -38,17 +42,4 @@ def initial_deficit(
     Raise ValueError for an empty seed set; an empty run must never look like
     "no effect".
     """
-    seed_positions = np.asarray(seed_positions, dtype=np.int64)
-    if seed_positions.size == 0:
-        raise ValueError("empty seed set: nothing to perturb")
-    if mode == PerturbationMode.KNOCKOUT:
-        deficit = 1.0
-    elif mode == PerturbationMode.REDUCE_OUTPUT:
-        if not 0.0 <= strength <= 1.0:
-            raise ValueError(f"strength must be between 0 and 1, got {strength}")
-        deficit = float(strength)
-    else:
-        raise ValueError(f"unknown perturbation mode: {mode}")
-    x0 = np.zeros(n_neurons)
-    x0[seed_positions] = deficit
-    return x0
+    raise NotImplementedError("CS1: initial_deficit")

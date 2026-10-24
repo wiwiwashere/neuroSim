@@ -74,3 +74,10 @@ The API picks its data source at startup: the real pipeline when
 either. `NEUROSIM_SYNTHETIC=1` runs the real engine on a small made-up brain
 (`engine/synthetic.py`), so the full pipeline can be tried before prep has run.
 Its numbers mean nothing biologically.
+
+**Engine status.** The simulation math is CS1's to write and currently raises
+`NotImplementedError`: `input_normalize` in `engine/graph.py`, and
+`engine/perturb.py`, `propagate.py`, `vulnerability.py` and `baseline.py`.
+Everything around it is in place (pipeline, seed resolution, Sankey/subgraph,
+comparison, validation script, API), and the tests marked `needs_engine` are
+expected to fail until the math exists. The API stays on mocks until then.

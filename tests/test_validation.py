@@ -5,7 +5,10 @@ from neurosim.engine import pipeline
 from neurosim.engine.graph import set_connectome
 from neurosim.engine.validation import main
 
+from engine_status import needs_engine
 
+
+@needs_engine
 def test_validation_recovers_the_planted_pam_result(capsys):
     try:
         assert main(["--synthetic"]) == 0

@@ -8,6 +8,8 @@ import scipy.sparse as sp
 
 from neurosim.engine.graph import build_connectome
 
+from engine_status import needs_engine
+
 
 def small_connectome():
     W = sp.csr_matrix(np.array([[0, 6, 0], [0, 0, 8], [0, 0, 0]], dtype=float))
@@ -26,6 +28,7 @@ def test_dopaminergic_pool_reads_nt_type():
     assert small_connectome().dopaminergic().tolist() == [0]
 
 
+@needs_engine
 def test_impact_never_exceeds_the_design_bound():
     from neurosim.engine.graph import input_normalize
     from neurosim.engine.propagate import propagate
@@ -40,6 +43,7 @@ def test_impact_never_exceeds_the_design_bound():
     assert prop.impact.max() <= 1.75 + 1e-12
 
 
+@needs_engine
 def test_batched_group_means_match_group_table():
     from neurosim.engine.graph import input_normalize
     from neurosim.engine.propagate import propagate
@@ -61,6 +65,7 @@ def test_batched_group_means_match_group_table():
     assert not table.loc["unlabelled", "rankable"]
 
 
+@needs_engine
 def test_benjamini_hochberg_matches_hand_computed_values_and_skips_nan():
     from neurosim.engine.baseline import benjamini_hochberg
 
@@ -69,6 +74,7 @@ def test_benjamini_hochberg_matches_hand_computed_values_and_skips_nan():
     assert np.isnan(q[2])
 
 
+@needs_engine
 def test_z_and_p_are_empirical_and_one_sided():
     from neurosim.engine.baseline import z_and_p
 
@@ -80,6 +86,7 @@ def test_z_and_p_are_empirical_and_one_sided():
     assert z[1] == 0.0  # zero spread is floored, not a division by zero
 
 
+@needs_engine
 def test_random_draws_are_reproducible_and_without_replacement():
     from neurosim.engine.baseline import draw_random_seeds
 
@@ -92,6 +99,7 @@ def test_random_draws_are_reproducible_and_without_replacement():
         draw_random_seeds(pool, 21, 1, np.random.default_rng(0))
 
 
+@needs_engine
 def test_synthetic_brain_is_reproducible_and_has_a_mixed_da_pool():
     from neurosim.engine.synthetic import synthetic_connectome
 
@@ -111,6 +119,7 @@ def _toy():
     return build_connectome(toy_W(), neurons, np.arange(len(NAMES)) + 1), P
 
 
+@needs_engine
 def test_top_path_strength_is_the_product_of_input_fractions():
     from neurosim.engine.subgraph import top_paths_with_strength
 
@@ -120,6 +129,7 @@ def test_top_path_strength_is_the_product_of_input_fractions():
     assert strength == pytest.approx(0.375)  # equals h3[D] in the design doc table
 
 
+@needs_engine
 def test_subgraph_marks_seeds_and_lost_drive():
     from neurosim.engine.perturb import initial_deficit
     from neurosim.engine.propagate import propagate

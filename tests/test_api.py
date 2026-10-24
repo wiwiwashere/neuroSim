@@ -8,6 +8,8 @@ from fastapi.testclient import TestClient
 from neurosim.engine import pipeline
 from neurosim.engine.graph import set_connectome
 
+from engine_status import needs_engine
+
 
 def client_with(monkeypatch, **env) -> TestClient:
     for key in ("NEUROSIM_MOCKS", "NEUROSIM_SYNTHETIC"):
@@ -49,6 +51,7 @@ def test_stays_on_mocks_while_the_engine_is_a_placeholder(monkeypatch):
     assert client.post("/simulate", json={"human_gene": "PRKN"}).json()["run_id"].startswith("mock-")
 
 
+@needs_engine
 def test_synthetic_flag_runs_the_real_pipeline_end_to_end(monkeypatch):
     client = client_with(monkeypatch, NEUROSIM_SYNTHETIC="1")
     assert client.get("/diseases").json() == ["parkinsons"]
