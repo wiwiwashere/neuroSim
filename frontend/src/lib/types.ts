@@ -118,6 +118,8 @@ export interface EvidenceProposal {
   citation: string;
   url: string;
   source_file: string;
+  /** What the model read: "PDF", "pasted text", "full text" or "abstract". */
+  read: string;
   extracted_by: string;
   edited: string[];
   checks: RowChecks;
@@ -133,6 +135,11 @@ export interface EvidenceExtraction {
   citation: string;
   url: string;
   file: string;
+  read: string;
+  /** Set when the result is weaker than it looks, e.g. only the abstract was available. */
+  note: string | null;
   model: string;
+  /** The main model was busy and the backup one read the paper. */
+  fallback: boolean;
   rows: EvidenceProposal[];
 }

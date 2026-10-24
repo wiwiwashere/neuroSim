@@ -158,12 +158,22 @@ export function PaperEvidence() {
         )}
         {extract.error && <ErrorNote error={extract.error} />}
         {last && !busy && (
-          <p className="text-[12px] text-muted-foreground">
-            {last.citation || last.file} ·{" "}
-            {last.rows.length
-              ? `${last.rows.length} proposed row${last.rows.length > 1 ? "s" : ""}`
-              : "no neuron-loss findings in this paper"}
-          </p>
+          <div className="grid gap-1">
+            <p className="text-[12px] text-muted-foreground">
+              {last.citation || last.file} · read from the {last.read} ·{" "}
+              {last.rows.length
+                ? `${last.rows.length} proposed row${last.rows.length > 1 ? "s" : ""}`
+                : "no neuron-loss findings in it"}
+            </p>
+            {[last.note, last.fallback ? `The main model was busy, so ${last.model} read it. Check its rows more closely.` : null]
+              .filter(Boolean)
+              .map((n) => (
+                <p key={n} className="flex gap-1.5 text-[11.5px] leading-snug text-destructive">
+                  <AlertTriangle className="mt-px size-3 shrink-0" />
+                  {n}
+                </p>
+              ))}
+          </div>
         )}
 
         {rows.length > 0 && (
