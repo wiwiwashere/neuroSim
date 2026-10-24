@@ -36,7 +36,8 @@ PATH_BEAM = 500
 LAYOUT_SIZE = 1000.0
 
 
-def sankey_links(conn, seeds, mode, strength: float, hops: int, decay: float) -> list[SankeyLink]:
+def sankey_links(conn, seeds, mode, strength: float, hops: int, decay: float,
+                 min_share: float = 0.01) -> list[SankeyLink]:
     """One propagation per seed cluster, aggregate impact by super region.
     Drop links below 1% of the total so the diagram stays readable."""
     all_seeds = conn.positions(seeds.root_ids)
@@ -57,7 +58,7 @@ def sankey_links(conn, seeds, mode, strength: float, hops: int, decay: float) ->
             totals[(cluster, target)] = totals.get((cluster, target), 0.0) + float(value)
     grand_total = sum(totals.values())
     links = [SankeyLink(source=c, target=t, value=v) for (c, t), v in totals.items()
-             if grand_total > 0 and v >= 0.01 * grand_total]
+             if grand_total > 0 and v >= min_share * grand_total]
     return sorted(links, key=lambda link: -link.value)
 
 

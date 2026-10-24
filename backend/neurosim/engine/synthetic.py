@@ -166,7 +166,7 @@ def synthetic_connectome(seed: int = 7) -> Connectome:
     neurons = pd.DataFrame(rows)
     regions = regions_table()
     neurons["super_region"] = neurons["region"].map(lambda r: regions.get(r, {}).get("super_region"))
-    return build_connectome(W, neurons, ROOT_ID_BASE + np.arange(n), regions)
+    return build_connectome(W, neurons, ROOT_ID_BASE + np.arange(n), regions, source="synthetic test brain (made up)")
 
 
 def _region(target: str) -> str:

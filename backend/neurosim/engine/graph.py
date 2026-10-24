@@ -40,6 +40,7 @@ class Connectome:
     root_ids: np.ndarray          # position -> root_id
     pos: dict[int, int]           # root_id -> position
     regions: dict = field(default_factory=dict)   # neuropil -> {super_region, function}
+    source: str = "FlyWire FAFB v783"             # shown in the UI's model assumptions
 
     @property
     def n(self) -> int:
@@ -86,7 +87,8 @@ def input_normalize(W: sp.csr_matrix) -> tuple[sp.csr_matrix, np.ndarray]:
     return A, in_strength
 
 
-def build_connectome(W: sp.spmatrix, neurons: pd.DataFrame, root_ids: np.ndarray, regions: dict | None = None) -> Connectome:
+def build_connectome(W: sp.spmatrix, neurons: pd.DataFrame, root_ids: np.ndarray, regions: dict | None = None,
+                     source: str = "FlyWire FAFB v783") -> Connectome:
     """Assemble a Connectome from W and a neuron table whose rows follow matrix
     positions. Used by load_connectome and by synthetic graphs in tests."""
     W = sp.csr_matrix(W, dtype=float)
@@ -103,7 +105,8 @@ def build_connectome(W: sp.spmatrix, neurons: pd.DataFrame, root_ids: np.ndarray
         neurons["super_region"] = neurons["region"].map(lambda r: regions.get(r, {}).get("super_region"))
     A, in_strength = input_normalize(W)
     pos = {int(rid): i for i, rid in enumerate(root_ids)}
-    return Connectome(W=W, A=A, in_strength=in_strength, neurons=neurons, root_ids=root_ids, pos=pos, regions=regions)
+    return Connectome(W=W, A=A, in_strength=in_strength, neurons=neurons, root_ids=root_ids, pos=pos,
+                      regions=regions, source=source)
 
 
 def processed_data_available() -> bool:
