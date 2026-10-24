@@ -39,18 +39,72 @@ export interface NeuronExplanation {
 }
 
 /** POST /agent/chat */
-export interface ChatMessage {
-  role: "user" | "assistant";
-  content: string;
+export interface ChatRequest {
+  message: string;
+  /** The last reply's interaction_id; Gemini keeps the history behind it. */
+  interaction_id: string | null;
+  /** What the results view shows, so "what if they lose half?" has a subject. */
+  context: { active_run: Record<string, unknown> } | null;
 }
 
 export interface ToolCall {
   name: string;
-  input: Record<string, unknown>;
+  arguments: Record<string, unknown>;
+  /** Set when the tool failed; the agent was told and explains it. */
+  error?: string | null;
 }
 
 export interface AgentReply {
   reply: string;
   tool_calls: ToolCall[];
   run_ids: string[];
+  interaction_id: string | null;
+  model?: string;
+}
+
+/** POST /runs/{id}/summary. Every number is copied from the run, not written by Gemini. */
+export interface RunSummary {
+  run_id: string;
+  headline: string;
+  top_circuits: {
+    group: string;
+    level: GroupLevel;
+    why: string;
+    z_score: number;
+    above_chance: boolean;
+    function_label: string | null;
+  }[];
+  caveats: string[];
+  next_experiment: {
+    description: string;
+    why: string;
+    request: Pick<SimulationRequest, "human_gene" | "mode" | "strength" | "seed_cell_types"> | null;
+  };
+  model: string;
+}
+
+/** POST /evidence/extract: rows Gemini proposes from a paper, each waiting for Bio. */
+export interface EvidenceProposal {
+  id: string;
+  status: "pending" | "approved" | "rejected";
+  disease: string;
+  human_gene: string;
+  fly_gene: string;
+  model_type: string;
+  clusters: string[];
+  finding: string;
+  tier: "high" | "medium" | "low";
+  tier_reason: string;
+  quote: string;
+  page: number;
+  citation: string;
+  url: string;
+}
+
+export interface EvidenceExtraction {
+  citation: string;
+  url: string;
+  file: string;
+  model: string;
+  rows: EvidenceProposal[];
 }

@@ -45,7 +45,9 @@ right.
 | 6 | Ranked | Centre tab | from `/simulate` result | Horizontal bars of z vs random DA neurons, chance range (±1.96) shaded, above-chance bars in the accent colour, function label under each name; table view toggle | Level toggle: super region / region / cell type |
 | 7 | Network | Centre tab | `GET /runs/{id}/subgraph`, `GET /runs/{id}/neurons/{rid}/explain` | Healthy and perturbed side by side at the backend's positions, grouped by region; lost drive drawn dashed; click a neuron for its top paths and its Codex link | ≤ 200 nodes |
 | 8 | Compare | Centre tab | `GET /compare?run_a&run_b&level` | Rank correlation with a plain-words reading, summary sentence, shared/only chips, one paired dot chart (a row per region, a dot per gene, shared chance band) | The demo's high point: PINK1 vs PRKN |
-| 9 | Agent panel | Right | `POST /agent/chat` | Chat; each tool call is a chip ("ran simulation: PRKN, knockout") that opens its result. Runs in `run_ids` load into the centre views, so the screen changes when the agent runs something | Until `/agent/chat` is implemented (or in snapshot mode) a clearly labelled scripted stand-in calls the same API tools |
+| 9 | Agent panel | Right | `POST /agent/chat` | Chat with Gemini; each tool call is a chip ("ran simulation: PRKN, knockout") that opens its result. Runs in `run_ids` load into the centre views, so the screen changes when the agent runs something | The panel sends the run on screen as context, so "what if they lose half?" works. In snapshot mode a clearly labelled scripted stand-in calls the same API tools |
+| 10 | Run summary | Overview tab | `POST /runs/{id}/summary` | Gemini's card: headline, top circuits with the run's own z-scores, caveats, one next experiment with a Run button | Asked for on click to save free-tier quota; hidden in snapshot mode |
+| 11 | Evidence from a paper | Left | `POST /evidence/extract`, `POST /evidence/rows/{id}/decision` | Upload a PDF; Gemini proposes evidence rows with quote and page; Approve or Reject each | Approved rows go to `data/evidence_approved.json`, unverified until Bio checks the figures |
 
 Every results view carries one line: "Structural dependency in the fly
 connectome, not a prediction of symptoms." (Bio writes the final wording, in
@@ -62,7 +64,7 @@ connectome, not a prediction of symptoms." (Bio writes the final wording, in
 | `src/lib/api-types.ts` | Generated from OpenAPI; don't edit |
 | `src/lib/types.ts` | Friendly names for the generated types, plus the untyped endpoints |
 | `src/lib/workspace.tsx` | Shared state: picks, runs, active tab. The agent writes here too |
-| `src/lib/standin-agent.ts` | Scripted stand-in for `/agent/chat` |
+| `src/lib/standin-agent.ts` | Scripted stand-in for `/agent/chat`, snapshot mode only |
 | `src/components/charts/` | Plotly and Cytoscape wrappers |
 | `src/components/workspace/` | The views above |
 
