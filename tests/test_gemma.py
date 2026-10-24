@@ -152,7 +152,7 @@ def test_summary_parses_fenced_json_and_skips_thinking(fake):
     out = summary.summarize_run(result)
 
     assert out["top_circuits"][0]["z_score"] == 6.2
-    assert out["model"] == "gemma-4-26b-a4b-it"
+    assert out["model"] == "gemma-4-31b-it"                            # summaries go straight to 31B
     cfg = sent.sent[0]["config"]
     assert cfg.response_mime_type == "application/json"
     assert cfg.response_json_schema == gemma._gemma_schema(summary.SCHEMA)

@@ -139,7 +139,10 @@ def _ground(raw: dict, result: SimulationResult) -> dict:
 def summarize_run(result: SimulationResult) -> dict:
     if result.run_id in _CACHE:
         return _CACHE[result.run_id]
-    state: dict = {}
+    # Live, the 26B MoE either garbled words (thinking off) or ran out its 60s
+    # (thinking on), while 31B wrote clean cards in 17-18s, so Gemma
+    # summaries start there and skip the switch.
+    state: dict = {"model": config.AGENT_FALLBACK_MODEL} if config.LLM == "gemma" else {}
     raw = llm.parse_json(gemini.call(
         lambda model: llm.json_reply(
             model,
