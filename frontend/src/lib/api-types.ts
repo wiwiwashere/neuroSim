@@ -34,6 +34,8 @@ export interface paths {
         /**
          * Genes
          * @description Gene picker: gene, fly ortholog, confidence, whether it can be simulated.
+         *     Always from the evidence table (it needs no engine), so a gene that only
+         *     an approved paper row mentions shows up too.
          */
         get: operations["genes_diseases__disease__genes_get"];
         put?: never;
@@ -181,11 +183,139 @@ export interface paths {
         put?: never;
         /**
          * Agent Chat
-         * @description {"messages": [...]} in, {"reply": str, "tool_calls": [...], "run_ids": [...]} out.
-         *     The frontend shows tool_calls so users see the agent used real results.
+         * @description {"message", "interaction_id": str | None, "context": {...} | None} in,
+         *     {"reply", "tool_calls": [{"name", "arguments", "error"}], "run_ids",
+         *     "interaction_id", "model"} out.
+         *     The frontend keeps only the latest interaction_id (Gemini holds the history)
+         *     and shows tool_calls so users see the agent used real results.
          */
         post: operations["agent_chat_agent_chat_post"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/runs/{run_id}/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Run Summary
+         * @description Gemini's structured summary card for one run (cached per run): headline,
+         *     top circuits with the run's own z-scores, caveats, one next experiment.
+         */
+        post: operations["run_summary_runs__run_id__summary_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/evidence/extract": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Evidence Extract
+         * @description Send one of: a paper PDF (file), its text (text), or a DOI/PMID (doi).
+         *     The model proposes evidence rows, each checked against the evidence table
+         *     and pending Bio's approval. Nothing is used until approved.
+         */
+        post: operations["evidence_extract_evidence_extract_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/evidence/proposals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Evidence Proposals
+         * @description Rows from earlier uploads still waiting for a decision.
+         */
+        get: operations["evidence_proposals_evidence_proposals_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/evidence/rows/{row_id}/decision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Evidence Decision
+         * @description Bio approves (optionally with corrections) or rejects one proposed row.
+         *     Approved rows go to data/evidence_approved.json, not evidence.json, and
+         *     seed the next run.
+         */
+        post: operations["evidence_decision_evidence_rows__row_id__decision_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/evidence/approved": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Evidence Approved
+         * @description Rows approved from paper uploads, newest last.
+         */
+        get: operations["evidence_approved_evidence_approved_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/evidence/approved/{row_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Evidence Remove
+         * @description Take an approved paper row back out of the evidence table.
+         */
+        delete: operations["evidence_remove_evidence_approved__row_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -195,6 +325,26 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Body_evidence_extract_evidence_extract_post */
+        Body_evidence_extract_evidence_extract_post: {
+            /** File */
+            file?: string | null;
+            /** Text */
+            text?: string | null;
+            /** Doi */
+            doi?: string | null;
+        };
+        /** ChatRequest */
+        ChatRequest: {
+            /** Message */
+            message: string;
+            /** Interaction Id */
+            interaction_id?: string | null;
+            /** Context */
+            context?: {
+                [key: string]: unknown;
+            } | null;
+        };
         /** Comparison */
         Comparison: {
             /** Run A */
@@ -212,6 +362,15 @@ export interface components {
             only_b: string[];
             /** Summary */
             summary: string;
+        };
+        /** Decision */
+        Decision: {
+            /** Approve */
+            approve: boolean;
+            /** Edits */
+            edits?: {
+                [key: string]: unknown;
+            } | null;
         };
         /**
          * EvidenceRow
@@ -241,6 +400,7 @@ export interface components {
              * @default false
              */
             verified_by_bio?: boolean;
+            extracted?: components["schemas"]["PaperSource"] | null;
         };
         /** GraphEdge */
         GraphEdge: {
@@ -337,6 +497,36 @@ export interface components {
             relationship: string;
             /** Confidence */
             confidence: number;
+        };
+        /**
+         * PaperSource
+         * @description Where an approved paper-upload row came from (agent/papers.py).
+         */
+        PaperSource: {
+            /** Id */
+            id: string;
+            /** By */
+            by: string;
+            /** File */
+            file: string;
+            /** Quote */
+            quote: string;
+            /** Page */
+            page?: number | null;
+            /** Quote Found */
+            quote_found?: boolean | null;
+            /**
+             * Tier Reason
+             * @default
+             */
+            tier_reason?: string;
+            /**
+             * Edited
+             * @default []
+             */
+            edited?: string[];
+            /** Approved At */
+            approved_at: string;
         };
         /**
          * PerturbationMode
@@ -757,11 +947,191 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": {
-                    [key: string]: unknown;
+                "application/json": components["schemas"]["ChatRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
+    };
+    run_summary_runs__run_id__summary_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evidence_extract_evidence_extract_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_evidence_extract_evidence_extract_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evidence_proposals_evidence_proposals_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+        };
+    };
+    evidence_decision_evidence_rows__row_id__decision_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                row_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Decision"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    evidence_approved_evidence_approved_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+        };
+    };
+    evidence_remove_evidence_approved__row_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                row_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
