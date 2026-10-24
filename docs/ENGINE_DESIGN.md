@@ -38,6 +38,77 @@ in section 10.
 
 ---
 
+## 1b. Where the seeds come from
+
+The engine starts from a seed set; `bio/evidence.py` builds it from the
+evidence table, never from expression (Pink1 and park are expressed almost
+everywhere; what is specific is which neurons die in fly models).
+
+```
+human gene ─(orthologs, DIOPT)─► fly gene ─(evidence rows)─► DA clusters lost
+           ─(cluster_to_cell_types)─► FlyWire cell types ─(neuron table)─► root IDs
+```
+
+**The evidence table** is `data/evidence.json` (hand-curated by Bio,
+committed) plus `data/evidence_approved.json` (rows approved from paper
+uploads, below). `load_evidence()` merges the two and rejects any row
+without a citation. A row says: in this fly model of this gene, these
+clusters were lost, at this evidence tier, citing this paper. The SNCA row
+is the validation case (section 9) and never seeds a gene run.
+
+**Confidence of each seed type** = ortholog × tier × cell-type match:
+
+| Factor | Value | Where |
+| --- | --- | --- |
+| Ortholog | DIOPT score / `DIOPT_MAX_SCORE`; `UNSCORED_ORTHOLOG_CONFIDENCE` (0.5) when the score is blank; 0 with no fly ortholog (gene not simulatable) | `find_ortholog` |
+| Evidence tier | high 0.9, medium 0.7, low 0.4 (`EVIDENCE_TIER_WEIGHT`) | the row's `tier` |
+| Cell-type match | exact 1.0, inferred 0.6 (`TYPE_MATCH_WEIGHT`) | `cluster_to_cell_types` |
+
+A cell type backed by several rows keeps its highest confidence and lists
+every row as evidence. Confidence does not scale the simulation (every seed
+neuron gets the same deficit); it is shown on the mapping chain, and "High
+confidence only" drops low-tier rows and inferred matches before seeding.
+
+**Adding evidence from a paper** (`agent/papers.py`, the "Evidence from a
+paper" panel):
+
+1. *Input.* A PDF, pasted text, or a DOI/PMID. PDFs become text with
+   `[page N]` markers (pypdf; symbol-font glyphs mapped back, reference list
+   dropped). A DOI is fetched from Europe PMC: the full text when it is open
+   access there, otherwise only the abstract, and the panel says so because
+   abstracts rarely name clusters. The citation and URL come from Europe
+   PMC (for a PDF, via the DOI it prints), not from the model.
+2. *Extraction.* The LLM reads the text once (`papers.ask_model`, the only
+   model call) and proposes rows in the evidence-table shape, each with a
+   verbatim quote. It is told to report only the paper's own data and not to
+   guess clusters.
+3. *Checks*, recomputed whenever a row is shown: cluster names mapped to the
+   table's (`PPL1 cluster`, `DL1` → PPL1; `PPM1`, `PPM2` → PPM1/2); fly gene
+   spellings like `dPink1` mapped to the ortholog table's; quote found word
+   for word, with its PDF page; each cluster named in the quote or flagged;
+   gene missing from the ortholog table, unknown clusters, duplicates and
+   same-paper rows flagged; rows read by the backup model flagged; and the
+   confidence the row's seeds would get, by the formula above.
+4. *Approval gate.* Nothing is used until a person approves the row,
+   optionally after editing gene, fly gene, model, clusters, finding or tier
+   (edited fields are recorded). Pending rows wait in
+   `data/evidence_proposals.json` (gitignored). Approved rows are appended to
+   `data/evidence_approved.json` with an `extracted` block (model, file,
+   quote, page, whether the quote was found, edits, time) and
+   `verified_by_bio: false` until Bio checks the figures. They can be removed
+   again. Approving or removing a row clears the run cache.
+5. *Use.* On the next run of that gene, `resolve_seeds` treats an approved
+   row exactly like a hand-curated one. The mapping chain and the Overview's
+   "The evidence behind these seeds" mark it "uploaded paper" with its
+   quote. A gene that only an approved row mentions appears in the gene
+   picker but cannot be simulated until Bio adds its ortholog.
+
+Seed resolution needs the neuron table, not the engine math, so the API
+uses the real seeds even while it serves mock numbers (whenever
+`data/processed/` exists).
+
+---
+
 ## 2. The graph
 
 | Decision | Choice | Why |
@@ -257,7 +328,9 @@ to model settings." If not, the headline claims must be softened.
 - **Linear, unsigned, static.** No excitation vs inhibition, no dynamics,
   no compensation or plasticity.
 - **Seeds are only as good as the papers.** Different studies report
-  different clusters; that uncertainty is shown, not removed.
+  different clusters; that uncertainty is shown, not removed. Rows approved
+  from uploaded papers are read by an LLM and stay unverified until Bio
+  checks the figures.
 - **One brain.** FAFB is a single female fly; individual wiring varies.
 - **Fly, not human.** Results are hypotheses about fly circuits.
 
