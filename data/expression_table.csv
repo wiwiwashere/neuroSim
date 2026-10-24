@@ -1,0 +1,1654 @@
+experiment,cell_type,expression,gene,relative
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,2.0,Lrrk,0.008620689655172414
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,16.0,Lrrk,0.10919540229885058
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,15.0,Lrrk,0.10201149425287356
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,13.0,Lrrk,0.08764367816091954
+"Davis et al., 2020 - cell types - head",adult NPF neuron,41.0,Lrrk,0.2887931034482759
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,44.0,Lrrk,0.31034482758620696
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,10.0,Lrrk,0.06609195402298851
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,18.0,Lrrk,0.1235632183908046
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,17.0,Lrrk,0.1163793103448276
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,45.0,Lrrk,0.317528735632184
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,20.0,Lrrk,0.13793103448275862
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,89.0,Lrrk,0.6336206896551725
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,113.0,Lrrk,0.8060344827586208
+"Davis et al., 2020 - cell types - head",centrigufal neuron,114.0,Lrrk,0.8132183908045978
+"Davis et al., 2020 - cell types - head",cholinergic neuron,27.0,Lrrk,0.1882183908045977
+"Davis et al., 2020 - cell types - head",columnar neuron T1,140.0,Lrrk,1.0
+"Davis et al., 2020 - cell types - head",corazonin neuron,20.0,Lrrk,0.13793103448275862
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,34.0,Lrrk,0.23850574712643682
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,95.0,Lrrk,0.6767241379310346
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,63.0,Lrrk,0.44683908045977017
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,53.0,Lrrk,0.37500000000000006
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,29.0,Lrrk,0.20258620689655174
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,33.0,Lrrk,0.2313218390804598
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,13.0,Lrrk,0.08764367816091954
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,32.0,Lrrk,0.22413793103448276
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,21.0,Lrrk,0.14511494252873564
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,10.0,Lrrk,0.06609195402298851
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,20.0,Lrrk,0.13793103448275862
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,12.0,Lrrk,0.08045977011494253
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,16.0,Lrrk,0.10919540229885058
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,58.0,Lrrk,0.41091954022988514
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,6.0,Lrrk,0.03735632183908046
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,13.0,Lrrk,0.08764367816091954
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.8,Lrrk,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,33.0,Lrrk,0.2313218390804598
+"Davis et al., 2020 - cell types - head",GABAergic neuron,46.0,Lrrk,0.32471264367816094
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,36.0,Lrrk,0.25287356321839083
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,43.0,Lrrk,0.30316091954022995
+"Davis et al., 2020 - cell types - head",I-LNv neuron,7.0,Lrrk,0.04454022988505748
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,35.0,Lrrk,0.24568965517241384
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,95.0,Lrrk,0.6767241379310346
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,82.0,Lrrk,0.5833333333333334
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,121.0,Lrrk,0.8635057471264369
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,100.0,Lrrk,0.7126436781609197
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,114.0,Lrrk,0.8132183908045978
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,125.0,Lrrk,0.892241379310345
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,70.0,Lrrk,0.4971264367816093
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,91.0,Lrrk,0.6479885057471265
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,35.0,Lrrk,0.24568965517241384
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,25.0,Lrrk,0.17385057471264367
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,31.0,Lrrk,0.21695402298850577
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,29.0,Lrrk,0.20258620689655174
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,37.0,Lrrk,0.26005747126436785
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,16.0,Lrrk,0.10919540229885058
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,15.0,Lrrk,0.10201149425287356
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,43.0,Lrrk,0.30316091954022995
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,21.0,Lrrk,0.14511494252873564
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,28.0,Lrrk,0.19540229885057472
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,45.0,Lrrk,0.317528735632184
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,49.0,Lrrk,0.346264367816092
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,39.0,Lrrk,0.2744252873563219
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,81.0,Lrrk,0.5761494252873564
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,50.0,Lrrk,0.353448275862069
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,82.0,Lrrk,0.5833333333333334
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,32.0,Lrrk,0.22413793103448276
+"Davis et al., 2020 - cell types - head",muscle cell,14.0,Lrrk,0.09482758620689656
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,1.0,Lrrk,0.001436781609195402
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,37.0,Lrrk,0.26005747126436785
+"Davis et al., 2020 - cell types - head",Pdf neuron,23.0,Lrrk,0.15948275862068967
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,20.0,Lrrk,0.13793103448275862
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,50.0,Lrrk,0.353448275862069
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,42.0,Lrrk,0.29597701149425293
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,18.0,Lrrk,0.1235632183908046
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,33.0,Lrrk,0.2313218390804598
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,15.0,Lrrk,0.10201149425287356
+"Davis et al., 2020 - cell types - head",T neuron,44.0,Lrrk,0.31034482758620696
+"Davis et al., 2020 - cell types - head",T neuron T4,48.0,Lrrk,0.339080459770115
+"Davis et al., 2020 - cell types - head",T neuron T5,27.0,Lrrk,0.1882183908045977
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,52.0,Lrrk,0.36781609195402304
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,60.0,Lrrk,0.4252873563218391
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,38.0,Lrrk,0.26724137931034486
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,20.0,Lrrk,0.13793103448275862
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,93.0,Lrrk,0.6623563218390806
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,49.0,Lrrk,0.346264367816092
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,87.0,Lrrk,0.6192528735632185
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,98.0,Lrrk,0.6982758620689656
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,60.0,Lrrk,0.4252873563218391
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,11.0,Vps35,0.15492957746478872
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,13.0,Vps35,0.18309859154929578
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,29.0,Vps35,0.4084507042253521
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,41.0,Vps35,0.5774647887323944
+"Davis et al., 2020 - cell types - head",adult NPF neuron,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,16.0,Vps35,0.22535211267605634
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,1.0,Vps35,0.014084507042253521
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,10.0,Vps35,0.14084507042253522
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,12.0,Vps35,0.16901408450704225
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,33.0,Vps35,0.4647887323943662
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,12.0,Vps35,0.16901408450704225
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,52.0,Vps35,0.7323943661971831
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,66.0,Vps35,0.9295774647887324
+"Davis et al., 2020 - cell types - head",centrigufal neuron,61.0,Vps35,0.8591549295774648
+"Davis et al., 2020 - cell types - head",cholinergic neuron,4.0,Vps35,0.056338028169014086
+"Davis et al., 2020 - cell types - head",columnar neuron T1,61.0,Vps35,0.8591549295774648
+"Davis et al., 2020 - cell types - head",corazonin neuron,19.0,Vps35,0.2676056338028169
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,30.0,Vps35,0.4225352112676056
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,39.0,Vps35,0.5492957746478874
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,37.0,Vps35,0.5211267605633803
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,15.0,Vps35,0.2112676056338028
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,28.0,Vps35,0.39436619718309857
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,23.0,Vps35,0.323943661971831
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,16.0,Vps35,0.22535211267605634
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,15.0,Vps35,0.2112676056338028
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,37.0,Vps35,0.5211267605633803
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,5.0,Vps35,0.07042253521126761
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,14.0,Vps35,0.19718309859154928
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,14.0,Vps35,0.19718309859154928
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,45.0,Vps35,0.6338028169014085
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,15.0,Vps35,0.2112676056338028
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,1.0,Vps35,0.014084507042253521
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,8.0,Vps35,0.11267605633802817
+"Davis et al., 2020 - cell types - head",GABAergic neuron,20.0,Vps35,0.28169014084507044
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,Vps35,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,32.0,Vps35,0.4507042253521127
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,55.0,Vps35,0.7746478873239436
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,47.0,Vps35,0.6619718309859155
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,64.0,Vps35,0.9014084507042254
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,69.0,Vps35,0.971830985915493
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,55.0,Vps35,0.7746478873239436
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,57.0,Vps35,0.8028169014084507
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,39.0,Vps35,0.5492957746478874
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,48.0,Vps35,0.676056338028169
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,30.0,Vps35,0.4225352112676056
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,15.0,Vps35,0.2112676056338028
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,29.0,Vps35,0.4084507042253521
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,30.0,Vps35,0.4225352112676056
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,32.0,Vps35,0.4507042253521127
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,9.0,Vps35,0.1267605633802817
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,15.0,Vps35,0.2112676056338028
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,12.0,Vps35,0.16901408450704225
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,12.0,Vps35,0.16901408450704225
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,20.0,Vps35,0.28169014084507044
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,25.0,Vps35,0.352112676056338
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,29.0,Vps35,0.4084507042253521
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,64.0,Vps35,0.9014084507042254
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,39.0,Vps35,0.5492957746478874
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,66.0,Vps35,0.9295774647887324
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,18.0,Vps35,0.2535211267605634
+"Davis et al., 2020 - cell types - head",muscle cell,18.0,Vps35,0.2535211267605634
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,17.0,Vps35,0.23943661971830985
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,29.0,Vps35,0.4084507042253521
+"Davis et al., 2020 - cell types - head",Pdf neuron,21.0,Vps35,0.29577464788732394
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,6.0,Vps35,0.08450704225352113
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,24.0,Vps35,0.3380281690140845
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,30.0,Vps35,0.4225352112676056
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,6.0,Vps35,0.08450704225352113
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,20.0,Vps35,0.28169014084507044
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,42.0,Vps35,0.5915492957746479
+"Davis et al., 2020 - cell types - head",T neuron,27.0,Vps35,0.38028169014084506
+"Davis et al., 2020 - cell types - head",T neuron T4,27.0,Vps35,0.38028169014084506
+"Davis et al., 2020 - cell types - head",T neuron T5,17.0,Vps35,0.23943661971830985
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,32.0,Vps35,0.4507042253521127
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,57.0,Vps35,0.8028169014084507
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,33.0,Vps35,0.4647887323943662
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,17.0,Vps35,0.23943661971830985
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,65.0,Vps35,0.9154929577464789
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,25.0,Vps35,0.352112676056338
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,71.0,Vps35,1.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,71.0,Vps35,1.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,39.0,Vps35,0.5492957746478874
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,0.8,park,0.06153846153846154
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",adult NPF neuron,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,0.5,park,0.038461538461538464
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,1.0,park,0.07692307692307693
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,13.0,park,1.0
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,8.0,park,0.6153846153846154
+"Davis et al., 2020 - cell types - head",centrigufal neuron,8.0,park,0.6153846153846154
+"Davis et al., 2020 - cell types - head",cholinergic neuron,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",columnar neuron T1,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",corazonin neuron,7.0,park,0.5384615384615384
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,9.0,park,0.6923076923076923
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,0.5,park,0.038461538461538464
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,0.7,park,0.05384615384615384
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",GABAergic neuron,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,8.0,park,0.6153846153846154
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,11.0,park,0.8461538461538461
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,0.9,park,0.06923076923076923
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,12.0,park,0.9230769230769231
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,1.0,park,0.07692307692307693
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,7.0,park,0.5384615384615384
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,7.0,park,0.5384615384615384
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,6.0,park,0.46153846153846156
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",muscle cell,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,0.7,park,0.05384615384615384
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,10.0,park,0.7692307692307693
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,0.6,park,0.04615384615384615
+"Davis et al., 2020 - cell types - head",T neuron,2.0,park,0.15384615384615385
+"Davis et al., 2020 - cell types - head",T neuron T4,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",T neuron T5,1.0,park,0.07692307692307693
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,1.0,park,0.07692307692307693
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,0.0,park,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,3.0,park,0.23076923076923078
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,4.0,park,0.3076923076923077
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,5.0,park,0.38461538461538464
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,pink1,0.0
+"Davis et al., 2020 - cell types - appendage",adult CCAP neuron,,pink1,
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,17.0,pink1,0.0918918918918919
+"Davis et al., 2020 - cell types - appendage",adult extrinsic protocerebral bridge neuron,,pink1,
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,69.0,pink1,0.372972972972973
+"Davis et al., 2020 - cell types - appendage",adult lamina epithelial glial cell,,pink1,
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,87.0,pink1,0.4702702702702703
+"Davis et al., 2020 - cell types - appendage",adult lamina marginal glial cell,,pink1,
+"Davis et al., 2020 - cell types - head",adult NPF neuron,25.0,pink1,0.13513513513513514
+"Davis et al., 2020 - cell types - appendage",adult NPF neuron,,pink1,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,38.0,pink1,0.20540540540540542
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ anterior-posterior Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,17.0,pink1,0.0918918918918919
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ middle Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,11.0,pink1,0.05945945945945946
+"Davis et al., 2020 - cell types - appendage",alpha/beta core Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,6.0,pink1,0.032432432432432434
+"Davis et al., 2020 - cell types - appendage",alpha/beta Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,14.0,pink1,0.07567567567567568
+"Davis et al., 2020 - cell types - appendage",alpha/beta posterior Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,5.0,pink1,0.02702702702702703
+"Davis et al., 2020 - cell types - appendage",alpha/beta surface Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,33.0,pink1,0.1783783783783784
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C2,,pink1,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,48.0,pink1,0.2594594594594595
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C3,,pink1,
+"Davis et al., 2020 - cell types - head",centrigufal neuron,45.0,pink1,0.24324324324324326
+"Davis et al., 2020 - cell types - appendage",centrigufal neuron,,pink1,
+"Davis et al., 2020 - cell types - head",cholinergic neuron,31.0,pink1,0.16756756756756758
+"Davis et al., 2020 - cell types - appendage",cholinergic neuron,,pink1,
+"Davis et al., 2020 - cell types - head",columnar neuron T1,32.0,pink1,0.17297297297297298
+"Davis et al., 2020 - cell types - appendage",columnar neuron T1,,pink1,
+"Davis et al., 2020 - cell types - head",corazonin neuron,33.0,pink1,0.1783783783783784
+"Davis et al., 2020 - cell types - appendage",corazonin neuron,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,56.0,pink1,0.3027027027027027
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm1,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,77.0,pink1,0.41621621621621624
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm10,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,48.0,pink1,0.2594594594594595
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm11,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,87.0,pink1,0.4702702702702703
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm12,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,18.0,pink1,0.0972972972972973
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm3,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,32.0,pink1,0.17297297297297298
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm4,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,13.0,pink1,0.07027027027027027
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm8,,pink1,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,35.0,pink1,0.1891891891891892
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm9,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,21.0,pink1,0.11351351351351352
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 1,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,29.0,pink1,0.15675675675675677
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 2,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,40.0,pink1,0.21621621621621623
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 3,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,59.0,pink1,0.31891891891891894
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 4,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,12.0,pink1,0.06486486486486487
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 5,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,66.0,pink1,0.3567567567567568
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 6,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,13.0,pink1,0.07027027027027027
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 7,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,10.0,pink1,0.05405405405405406
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 8,,pink1,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,3.0,pink1,0.016216216216216217
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 9,,pink1,
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,45.0,pink1,0.24324324324324326
+"Davis et al., 2020 - cell types - appendage",Drosulfakinin neuron,,pink1,
+"Davis et al., 2020 - cell types - head",GABAergic neuron,26.0,pink1,0.14054054054054055
+"Davis et al., 2020 - cell types - appendage",GABAergic neuron,,pink1,
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,12.0,pink1,0.06486486486486487
+"Davis et al., 2020 - cell types - appendage",gamma dorsal Kenyon cell,,pink1,
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,32.0,pink1,0.17297297297297298
+"Davis et al., 2020 - cell types - appendage",glutamatergic neuron,,pink1,
+"Davis et al., 2020 - cell types - head",I-LNv neuron,44.0,pink1,0.23783783783783785
+"Davis et al., 2020 - cell types - appendage",I-LNv neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,37.0,pink1,0.2
+"Davis et al., 2020 - cell types - appendage",lamina intrinsic neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,61.0,pink1,0.32972972972972975
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,70.0,pink1,0.3783783783783784
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L1,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,55.0,pink1,0.2972972972972973
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L2,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,60.0,pink1,0.32432432432432434
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L3,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,36.0,pink1,0.1945945945945946
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L4,,pink1,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,88.0,pink1,0.4756756756756757
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L5,,pink1,
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,38.0,pink1,0.20540540540540542
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 1 neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,31.0,pink1,0.16756756756756758
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 2 neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,52.0,pink1,0.2810810810810811
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10a,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,48.0,pink1,0.2594594594594595
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10A,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,52.0,pink1,0.2810810810810811
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10b,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,45.0,pink1,0.24324324324324326
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10d,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,49.0,pink1,0.2648648648648649
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC16,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,10.0,pink1,0.05405405405405406
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC4,,pink1,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,18.0,pink1,0.0972972972972973
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC6,,pink1,
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,30.0,pink1,0.16216216216216217
+"Davis et al., 2020 - cell types - appendage",lobula plate columnar neuron LPC1,,pink1,
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,17.0,pink1,0.0918918918918919
+"Davis et al., 2020 - cell types - appendage",lobula plate intrinsic neuron LPi3-4,,pink1,
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,8.0,pink1,0.043243243243243246
+"Davis et al., 2020 - cell types - appendage",lobula plate tangential neuron,,pink1,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,38.0,pink1,0.20540540540540542
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC1,,pink1,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,44.0,pink1,0.23783783783783785
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC2,,pink1,
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,54.0,pink1,0.2918918918918919
+"Davis et al., 2020 - cell types - appendage",lobula-lobula plate columnar neuron LLPC1,,pink1,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,40.0,pink1,0.21621621621621623
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi1,,pink1,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,59.0,pink1,0.31891891891891894
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi15,,pink1,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,59.0,pink1,0.31891891891891894
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi4,,pink1,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,36.0,pink1,0.1945945945945946
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi9,,pink1,
+"Davis et al., 2020 - cell types - head",muscle cell,100.0,pink1,0.5405405405405406
+"Davis et al., 2020 - cell types - appendage",muscle cell,185.0,pink1,1.0
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,6.0,pink1,0.032432432432432434
+"Davis et al., 2020 - cell types - appendage",mushroom body output neuron,,pink1,
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,49.0,pink1,0.2648648648648649
+"Davis et al., 2020 - cell types - appendage",outer photoreceptor cell,,pink1,
+"Davis et al., 2020 - cell types - head",Pdf neuron,21.0,pink1,0.11351351351351352
+"Davis et al., 2020 - cell types - appendage",Pdf neuron,,pink1,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,18.0,pink1,0.0972972972972973
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R7,,pink1,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,65.0,pink1,0.35135135135135137
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of pale ommatidium,,pink1,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,58.0,pink1,0.31351351351351353
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of yellow ommatidium,,pink1,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,8.0,pink1,0.043243243243243246
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm3,,pink1,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,23.0,pink1,0.12432432432432433
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm4,,pink1,
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,89.0,pink1,0.4810810810810811
+"Davis et al., 2020 - cell types - appendage",pseudocartridge glial cell,,pink1,
+"Davis et al., 2020 - cell types - head",T neuron,34.0,pink1,0.1837837837837838
+"Davis et al., 2020 - cell types - appendage",T neuron,,pink1,
+"Davis et al., 2020 - cell types - head",T neuron T4,35.0,pink1,0.1891891891891892
+"Davis et al., 2020 - cell types - appendage",T neuron T4,,pink1,
+"Davis et al., 2020 - cell types - head",T neuron T5,33.0,pink1,0.1783783783783784
+"Davis et al., 2020 - cell types - appendage",T neuron T5,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,40.0,pink1,0.21621621621621623
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm1,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,37.0,pink1,0.2
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm2,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,44.0,pink1,0.23783783783783785
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm20,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,17.0,pink1,0.0918918918918919
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm29,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,59.0,pink1,0.31891891891891894
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TM3a,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,49.0,pink1,0.2648648648648649
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm3Y,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,51.0,pink1,0.2756756756756757
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm4,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,40.0,pink1,0.21621621621621623
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm9,,pink1,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,42.0,pink1,0.22702702702702704
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TmY5a,,pink1,
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",adult CCAP neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",adult extrinsic protocerebral bridge neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,18.0,DJ1beta,0.23684210526315788
+"Davis et al., 2020 - cell types - appendage",adult lamina epithelial glial cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,18.0,DJ1beta,0.23684210526315788
+"Davis et al., 2020 - cell types - appendage",adult lamina marginal glial cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",adult NPF neuron,5.0,DJ1beta,0.06578947368421052
+"Davis et al., 2020 - cell types - appendage",adult NPF neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,2.0,DJ1beta,0.02631578947368421
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ anterior-posterior Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,13.0,DJ1beta,0.17105263157894737
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ middle Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,23.0,DJ1beta,0.3026315789473684
+"Davis et al., 2020 - cell types - appendage",alpha/beta core Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,12.0,DJ1beta,0.15789473684210525
+"Davis et al., 2020 - cell types - appendage",alpha/beta Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,2.0,DJ1beta,0.02631578947368421
+"Davis et al., 2020 - cell types - appendage",alpha/beta posterior Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,3.0,DJ1beta,0.039473684210526314
+"Davis et al., 2020 - cell types - appendage",alpha/beta surface Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,17.0,DJ1beta,0.2236842105263158
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C2,,DJ1beta,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,42.0,DJ1beta,0.5526315789473685
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C3,,DJ1beta,
+"Davis et al., 2020 - cell types - head",centrigufal neuron,37.0,DJ1beta,0.4868421052631579
+"Davis et al., 2020 - cell types - appendage",centrigufal neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",cholinergic neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",cholinergic neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",columnar neuron T1,76.0,DJ1beta,1.0
+"Davis et al., 2020 - cell types - appendage",columnar neuron T1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",corazonin neuron,13.0,DJ1beta,0.17105263157894737
+"Davis et al., 2020 - cell types - appendage",corazonin neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,9.0,DJ1beta,0.11842105263157894
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,27.0,DJ1beta,0.35526315789473684
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm10,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,19.0,DJ1beta,0.25
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm11,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,4.0,DJ1beta,0.05263157894736842
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm12,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,5.0,DJ1beta,0.06578947368421052
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm3,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,15.0,DJ1beta,0.19736842105263158
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,6.0,DJ1beta,0.07894736842105263
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm8,,DJ1beta,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,8.0,DJ1beta,0.10526315789473684
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm9,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 2,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,0.8,DJ1beta,0.010526315789473684
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 3,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,5.0,DJ1beta,0.06578947368421052
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 5,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 6,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,19.0,DJ1beta,0.25
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 7,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,1.0,DJ1beta,0.013157894736842105
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 8,,DJ1beta,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 9,,DJ1beta,
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",Drosulfakinin neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",GABAergic neuron,9.0,DJ1beta,0.11842105263157894
+"Davis et al., 2020 - cell types - appendage",GABAergic neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,3.0,DJ1beta,0.039473684210526314
+"Davis et al., 2020 - cell types - appendage",gamma dorsal Kenyon cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,4.0,DJ1beta,0.05263157894736842
+"Davis et al., 2020 - cell types - appendage",glutamatergic neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",I-LNv neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,35.0,DJ1beta,0.4605263157894737
+"Davis et al., 2020 - cell types - appendage",lamina intrinsic neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,39.0,DJ1beta,0.5131578947368421
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,30.0,DJ1beta,0.39473684210526316
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,54.0,DJ1beta,0.7105263157894737
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L2,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,58.0,DJ1beta,0.7631578947368421
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L3,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,29.0,DJ1beta,0.3815789473684211
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,38.0,DJ1beta,0.5
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L5,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,21.0,DJ1beta,0.27631578947368424
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 1 neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,35.0,DJ1beta,0.4605263157894737
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 2 neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,6.0,DJ1beta,0.07894736842105263
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10a,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,5.0,DJ1beta,0.06578947368421052
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10A,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,11.0,DJ1beta,0.14473684210526316
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10b,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,6.0,DJ1beta,0.07894736842105263
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10d,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,10.0,DJ1beta,0.13157894736842105
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC16,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,2.0,DJ1beta,0.02631578947368421
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,7.0,DJ1beta,0.09210526315789473
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC6,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,16.0,DJ1beta,0.21052631578947367
+"Davis et al., 2020 - cell types - appendage",lobula plate columnar neuron LPC1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,0.6,DJ1beta,0.007894736842105263
+"Davis et al., 2020 - cell types - appendage",lobula plate intrinsic neuron LPi3-4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",lobula plate tangential neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,30.0,DJ1beta,0.39473684210526316
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,13.0,DJ1beta,0.17105263157894737
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC2,,DJ1beta,
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,21.0,DJ1beta,0.27631578947368424
+"Davis et al., 2020 - cell types - appendage",lobula-lobula plate columnar neuron LLPC1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,35.0,DJ1beta,0.4605263157894737
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,22.0,DJ1beta,0.2894736842105263
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi15,,DJ1beta,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,41.0,DJ1beta,0.5394736842105263
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,3.0,DJ1beta,0.039473684210526314
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi9,,DJ1beta,
+"Davis et al., 2020 - cell types - head",muscle cell,12.0,DJ1beta,0.15789473684210525
+"Davis et al., 2020 - cell types - appendage",muscle cell,11.0,DJ1beta,0.14473684210526316
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",mushroom body output neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,44.0,DJ1beta,0.5789473684210527
+"Davis et al., 2020 - cell types - appendage",outer photoreceptor cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",Pdf neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,7.0,DJ1beta,0.09210526315789473
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R7,,DJ1beta,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,5.0,DJ1beta,0.06578947368421052
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of pale ommatidium,,DJ1beta,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,76.0,DJ1beta,1.0
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of yellow ommatidium,,DJ1beta,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,0.0,DJ1beta,0.0
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm3,,DJ1beta,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,3.0,DJ1beta,0.039473684210526314
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,15.0,DJ1beta,0.19736842105263158
+"Davis et al., 2020 - cell types - appendage",pseudocartridge glial cell,,DJ1beta,
+"Davis et al., 2020 - cell types - head",T neuron,3.0,DJ1beta,0.039473684210526314
+"Davis et al., 2020 - cell types - appendage",T neuron,,DJ1beta,
+"Davis et al., 2020 - cell types - head",T neuron T4,8.0,DJ1beta,0.10526315789473684
+"Davis et al., 2020 - cell types - appendage",T neuron T4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",T neuron T5,21.0,DJ1beta,0.27631578947368424
+"Davis et al., 2020 - cell types - appendage",T neuron T5,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,14.0,DJ1beta,0.18421052631578946
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm1,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,15.0,DJ1beta,0.19736842105263158
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm2,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,14.0,DJ1beta,0.18421052631578946
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm20,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,0.7,DJ1beta,0.009210526315789473
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm29,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,33.0,DJ1beta,0.4342105263157895
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TM3a,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,23.0,DJ1beta,0.3026315789473684
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm3Y,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,70.0,DJ1beta,0.9210526315789473
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm4,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,24.0,DJ1beta,0.3157894736842105
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm9,,DJ1beta,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,16.0,DJ1beta,0.21052631578947367
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TmY5a,,DJ1beta,
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,DJ1alpha,0.0
+"Davis et al., 2020 - cell types - appendage",adult CCAP neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,4.0,DJ1alpha,0.005305039787798408
+"Davis et al., 2020 - cell types - appendage",adult extrinsic protocerebral bridge neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",adult lamina epithelial glial cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,0.9,DJ1alpha,0.001193633952254642
+"Davis et al., 2020 - cell types - appendage",adult lamina marginal glial cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",adult NPF neuron,21.0,DJ1alpha,0.027851458885941646
+"Davis et al., 2020 - cell types - appendage",adult NPF neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,114.0,DJ1alpha,0.15119363395225463
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ anterior-posterior Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,231.0,DJ1alpha,0.3063660477453581
+"Davis et al., 2020 - cell types - appendage",alpha’/beta’ middle Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,128.0,DJ1alpha,0.16976127320954906
+"Davis et al., 2020 - cell types - appendage",alpha/beta core Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,130.0,DJ1alpha,0.1724137931034483
+"Davis et al., 2020 - cell types - appendage",alpha/beta Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,57.0,DJ1alpha,0.07559681697612732
+"Davis et al., 2020 - cell types - appendage",alpha/beta posterior Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,80.0,DJ1alpha,0.10610079575596817
+"Davis et al., 2020 - cell types - appendage",alpha/beta surface Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,17.0,DJ1alpha,0.022546419098143235
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C2,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,9.0,DJ1alpha,0.011936339522546418
+"Davis et al., 2020 - cell types - appendage",centrifugal neuron C3,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",centrigufal neuron,14.0,DJ1alpha,0.01856763925729443
+"Davis et al., 2020 - cell types - appendage",centrigufal neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",cholinergic neuron,33.0,DJ1alpha,0.04376657824933687
+"Davis et al., 2020 - cell types - appendage",cholinergic neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",columnar neuron T1,2.0,DJ1alpha,0.002652519893899204
+"Davis et al., 2020 - cell types - appendage",columnar neuron T1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",corazonin neuron,16.0,DJ1alpha,0.021220159151193633
+"Davis et al., 2020 - cell types - appendage",corazonin neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,23.0,DJ1alpha,0.03050397877984085
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,8.0,DJ1alpha,0.010610079575596816
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm10,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,17.0,DJ1alpha,0.022546419098143235
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm11,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,2.0,DJ1alpha,0.002652519893899204
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm12,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,14.0,DJ1alpha,0.01856763925729443
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm3,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,33.0,DJ1alpha,0.04376657824933687
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,31.0,DJ1alpha,0.04111405835543767
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm8,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,68.0,DJ1alpha,0.09018567639257294
+"Davis et al., 2020 - cell types - appendage",distal medullary amacrine neuron Dm9,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,21.0,DJ1alpha,0.027851458885941646
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,13.0,DJ1alpha,0.017241379310344827
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 2,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,57.0,DJ1alpha,0.07559681697612732
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 3,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,19.0,DJ1alpha,0.025198938992042442
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,16.0,DJ1alpha,0.021220159151193633
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 5,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,47.0,DJ1alpha,0.0623342175066313
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 6,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,28.0,DJ1alpha,0.03713527851458886
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 7,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,36.0,DJ1alpha,0.04774535809018567
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 8,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,113.0,DJ1alpha,0.14986737400530503
+"Davis et al., 2020 - cell types - appendage",dopaminergic PAM neuron 9,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,754.0,DJ1alpha,1.0
+"Davis et al., 2020 - cell types - appendage",Drosulfakinin neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",GABAergic neuron,49.0,DJ1alpha,0.0649867374005305
+"Davis et al., 2020 - cell types - appendage",GABAergic neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,59.0,DJ1alpha,0.07824933687002653
+"Davis et al., 2020 - cell types - appendage",gamma dorsal Kenyon cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,26.0,DJ1alpha,0.034482758620689655
+"Davis et al., 2020 - cell types - appendage",glutamatergic neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,DJ1alpha,0.0
+"Davis et al., 2020 - cell types - appendage",I-LNv neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,28.0,DJ1alpha,0.03713527851458886
+"Davis et al., 2020 - cell types - appendage",lamina intrinsic neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,12.0,DJ1alpha,0.015915119363395226
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,9.0,DJ1alpha,0.011936339522546418
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L2,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,6.0,DJ1alpha,0.007957559681697613
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L3,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,5.0,DJ1alpha,0.006631299734748011
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,12.0,DJ1alpha,0.015915119363395226
+"Davis et al., 2020 - cell types - appendage",lamina monopolar neuron L5,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,14.0,DJ1alpha,0.01856763925729443
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 1 neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,38.0,DJ1alpha,0.050397877984084884
+"Davis et al., 2020 - cell types - appendage",lamina wide-field 2 neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,35.0,DJ1alpha,0.046419098143236075
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10a,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,9.0,DJ1alpha,0.011936339522546418
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10A,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,47.0,DJ1alpha,0.0623342175066313
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10b,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,37.0,DJ1alpha,0.04907161803713528
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC10d,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,45.0,DJ1alpha,0.05968169761273209
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC16,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,5.0,DJ1alpha,0.006631299734748011
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,52.0,DJ1alpha,0.06896551724137931
+"Davis et al., 2020 - cell types - appendage",lobula columnar neuron LC6,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,9.0,DJ1alpha,0.011936339522546418
+"Davis et al., 2020 - cell types - appendage",lobula plate columnar neuron LPC1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,11.0,DJ1alpha,0.014588859416445624
+"Davis et al., 2020 - cell types - appendage",lobula plate intrinsic neuron LPi3-4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,12.0,DJ1alpha,0.015915119363395226
+"Davis et al., 2020 - cell types - appendage",lobula plate tangential neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,18.0,DJ1alpha,0.023872679045092837
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,31.0,DJ1alpha,0.04111405835543767
+"Davis et al., 2020 - cell types - appendage",lobula plate-lobula columnar neuron LPLC2,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,29.0,DJ1alpha,0.038461538461538464
+"Davis et al., 2020 - cell types - appendage",lobula-lobula plate columnar neuron LLPC1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,22.0,DJ1alpha,0.029177718832891247
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi15,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,27.0,DJ1alpha,0.03580901856763926
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,8.0,DJ1alpha,0.010610079575596816
+"Davis et al., 2020 - cell types - appendage",medullary intrinsic neuron Mi9,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",muscle cell,8.0,DJ1alpha,0.010610079575596816
+"Davis et al., 2020 - cell types - appendage",muscle cell,0.5,DJ1alpha,0.000663129973474801
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,2.0,DJ1alpha,0.002652519893899204
+"Davis et al., 2020 - cell types - appendage",mushroom body output neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,7.0,DJ1alpha,0.009283819628647215
+"Davis et al., 2020 - cell types - appendage",outer photoreceptor cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,DJ1alpha,0.0
+"Davis et al., 2020 - cell types - appendage",Pdf neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,6.0,DJ1alpha,0.007957559681697613
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R7,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,15.0,DJ1alpha,0.01989389920424403
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of pale ommatidium,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,9.0,DJ1alpha,0.011936339522546418
+"Davis et al., 2020 - cell types - appendage",photoreceptor cell R8 of yellow ommatidium,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,23.0,DJ1alpha,0.03050397877984085
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm3,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,22.0,DJ1alpha,0.029177718832891247
+"Davis et al., 2020 - cell types - appendage",proximal medullary amacrine neuron Pm4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,3.0,DJ1alpha,0.003978779840848806
+"Davis et al., 2020 - cell types - appendage",pseudocartridge glial cell,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",T neuron,7.0,DJ1alpha,0.009283819628647215
+"Davis et al., 2020 - cell types - appendage",T neuron,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",T neuron T4,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",T neuron T4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",T neuron T5,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",T neuron T5,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,12.0,DJ1alpha,0.015915119363395226
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm1,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,41.0,DJ1alpha,0.054376657824933686
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm2,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,17.0,DJ1alpha,0.022546419098143235
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm20,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,18.0,DJ1alpha,0.023872679045092837
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm29,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,8.0,DJ1alpha,0.010610079575596816
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TM3a,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,35.0,DJ1alpha,0.046419098143236075
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm3Y,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,5.0,DJ1alpha,0.006631299734748011
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm4,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,10.0,DJ1alpha,0.013262599469496022
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron Tm9,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,46.0,DJ1alpha,0.0610079575596817
+"Davis et al., 2020 - cell types - appendage",transmedullary neuron TmY5a,,DJ1alpha,
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,197.0,anne,0.13432835820895522
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,304.0,anne,0.29402985074626864
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,271.0,anne,0.24477611940298508
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,218.0,anne,0.16567164179104477
+"Davis et al., 2020 - cell types - head",adult NPF neuron,481.0,anne,0.5582089552238806
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,429.0,anne,0.48059701492537316
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,259.0,anne,0.22686567164179106
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,251.0,anne,0.21492537313432836
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,201.0,anne,0.14029850746268657
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,444.0,anne,0.5029850746268657
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,251.0,anne,0.21492537313432836
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,173.0,anne,0.09850746268656717
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,328.0,anne,0.32985074626865674
+"Davis et al., 2020 - cell types - head",centrigufal neuron,287.0,anne,0.26865671641791045
+"Davis et al., 2020 - cell types - head",cholinergic neuron,451.0,anne,0.5134328358208955
+"Davis et al., 2020 - cell types - head",columnar neuron T1,206.0,anne,0.14776119402985075
+"Davis et al., 2020 - cell types - head",corazonin neuron,567.0,anne,0.6865671641791045
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,300.0,anne,0.2880597014925373
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,346.0,anne,0.3567164179104478
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,419.0,anne,0.46567164179104475
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,395.0,anne,0.4298507462686567
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,345.0,anne,0.35522388059701493
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,452.0,anne,0.5149253731343284
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,269.0,anne,0.2417910447761194
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,453.0,anne,0.5164179104477612
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,471.0,anne,0.5432835820895522
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,438.0,anne,0.49402985074626865
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,304.0,anne,0.29402985074626864
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,293.0,anne,0.27761194029850744
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,286.0,anne,0.2671641791044776
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,378.0,anne,0.4044776119402985
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,207.0,anne,0.14925373134328357
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,302.0,anne,0.291044776119403
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,107.0,anne,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,237.0,anne,0.19402985074626866
+"Davis et al., 2020 - cell types - head",GABAergic neuron,777.0,anne,1.0
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,375.0,anne,0.4
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,617.0,anne,0.7611940298507462
+"Davis et al., 2020 - cell types - head",I-LNv neuron,145.0,anne,0.056716417910447764
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,328.0,anne,0.32985074626865674
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,463.0,anne,0.5313432835820896
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,617.0,anne,0.7611940298507462
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,594.0,anne,0.7268656716417911
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,562.0,anne,0.6791044776119403
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,414.0,anne,0.4582089552238806
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,470.0,anne,0.5417910447761194
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,368.0,anne,0.3895522388059702
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,322.0,anne,0.3208955223880597
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,410.0,anne,0.45223880597014926
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,473.0,anne,0.5462686567164179
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,353.0,anne,0.36716417910447763
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,377.0,anne,0.40298507462686567
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,322.0,anne,0.3208955223880597
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,240.0,anne,0.19850746268656716
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,382.0,anne,0.41044776119402987
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,307.0,anne,0.29850746268656714
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,639.0,anne,0.7940298507462686
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,266.0,anne,0.2373134328358209
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,272.0,anne,0.2462686567164179
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,346.0,anne,0.3567164179104478
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,446.0,anne,0.5059701492537313
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,425.0,anne,0.4746268656716418
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,347.0,anne,0.3582089552238806
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,452.0,anne,0.5149253731343284
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,504.0,anne,0.5925373134328358
+"Davis et al., 2020 - cell types - head",muscle cell,313.0,anne,0.3074626865671642
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,236.0,anne,0.1925373134328358
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,176.0,anne,0.10298507462686567
+"Davis et al., 2020 - cell types - head",Pdf neuron,277.0,anne,0.2537313432835821
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,158.0,anne,0.07611940298507462
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,173.0,anne,0.09850746268656717
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,223.0,anne,0.17313432835820897
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,352.0,anne,0.3656716417910448
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,457.0,anne,0.5223880597014925
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,172.0,anne,0.09701492537313433
+"Davis et al., 2020 - cell types - head",T neuron,222.0,anne,0.17164179104477612
+"Davis et al., 2020 - cell types - head",T neuron T4,342.0,anne,0.35074626865671643
+"Davis et al., 2020 - cell types - head",T neuron T5,365.0,anne,0.3850746268656716
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,455.0,anne,0.5194029850746269
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,313.0,anne,0.3074626865671642
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,421.0,anne,0.46865671641791046
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,296.0,anne,0.282089552238806
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,337.0,anne,0.34328358208955223
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,472.0,anne,0.5447761194029851
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,375.0,anne,0.4
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,295.0,anne,0.28059701492537314
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,407.0,anne,0.44776119402985076
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,115.0,iPLAVIA,0.14145141451414514
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,16.0,iPLAVIA,0.01968019680196802
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,87.0,iPLAVIA,0.1070110701107011
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,157.0,iPLAVIA,0.1931119311193112
+"Davis et al., 2020 - cell types - head",adult NPF neuron,17.0,iPLAVIA,0.020910209102091022
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,38.0,iPLAVIA,0.046740467404674045
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,10.0,iPLAVIA,0.012300123001230012
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,24.0,iPLAVIA,0.02952029520295203
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,58.0,iPLAVIA,0.07134071340713408
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,91.0,iPLAVIA,0.11193111931119311
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,33.0,iPLAVIA,0.04059040590405904
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,129.0,iPLAVIA,0.15867158671586715
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,143.0,iPLAVIA,0.17589175891758918
+"Davis et al., 2020 - cell types - head",centrigufal neuron,110.0,iPLAVIA,0.13530135301353013
+"Davis et al., 2020 - cell types - head",cholinergic neuron,25.0,iPLAVIA,0.03075030750307503
+"Davis et al., 2020 - cell types - head",columnar neuron T1,338.0,iPLAVIA,0.4157441574415744
+"Davis et al., 2020 - cell types - head",corazonin neuron,17.0,iPLAVIA,0.020910209102091022
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,56.0,iPLAVIA,0.06888068880688807
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,59.0,iPLAVIA,0.07257072570725707
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,89.0,iPLAVIA,0.10947109471094711
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,23.0,iPLAVIA,0.028290282902829027
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,47.0,iPLAVIA,0.05781057810578106
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,22.0,iPLAVIA,0.02706027060270603
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,30.0,iPLAVIA,0.03690036900369004
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,33.0,iPLAVIA,0.04059040590405904
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,22.0,iPLAVIA,0.02706027060270603
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,14.0,iPLAVIA,0.017220172201722016
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,19.0,iPLAVIA,0.023370233702337023
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,76.0,iPLAVIA,0.09348093480934809
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,18.0,iPLAVIA,0.02214022140221402
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,22.0,iPLAVIA,0.02706027060270603
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,3.0,iPLAVIA,0.0036900369003690036
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,18.0,iPLAVIA,0.02214022140221402
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,3.0,iPLAVIA,0.0036900369003690036
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,0.0,iPLAVIA,0.0
+"Davis et al., 2020 - cell types - head",GABAergic neuron,37.0,iPLAVIA,0.04551045510455105
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,44.0,iPLAVIA,0.05412054120541206
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,45.0,iPLAVIA,0.055350553505535055
+"Davis et al., 2020 - cell types - head",I-LNv neuron,2.0,iPLAVIA,0.0024600246002460025
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,35.0,iPLAVIA,0.04305043050430504
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,259.0,iPLAVIA,0.31857318573185733
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,147.0,iPLAVIA,0.18081180811808117
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,363.0,iPLAVIA,0.44649446494464945
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,330.0,iPLAVIA,0.4059040590405904
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,813.0,iPLAVIA,1.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,167.0,iPLAVIA,0.2054120541205412
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,78.0,iPLAVIA,0.0959409594095941
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,199.0,iPLAVIA,0.24477244772447723
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,21.0,iPLAVIA,0.025830258302583026
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,26.0,iPLAVIA,0.03198031980319803
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,13.0,iPLAVIA,0.015990159901599015
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,42.0,iPLAVIA,0.05166051660516605
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,37.0,iPLAVIA,0.04551045510455105
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,11.0,iPLAVIA,0.013530135301353014
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,24.0,iPLAVIA,0.02952029520295203
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,33.0,iPLAVIA,0.04059040590405904
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,19.0,iPLAVIA,0.023370233702337023
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,29.0,iPLAVIA,0.03567035670356704
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,32.0,iPLAVIA,0.03936039360393604
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,21.0,iPLAVIA,0.025830258302583026
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,26.0,iPLAVIA,0.03198031980319803
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,73.0,iPLAVIA,0.0897908979089791
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,34.0,iPLAVIA,0.041820418204182044
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,80.0,iPLAVIA,0.0984009840098401
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,23.0,iPLAVIA,0.028290282902829027
+"Davis et al., 2020 - cell types - head",muscle cell,30.0,iPLAVIA,0.03690036900369004
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,24.0,iPLAVIA,0.02952029520295203
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,45.0,iPLAVIA,0.055350553505535055
+"Davis et al., 2020 - cell types - head",Pdf neuron,2.0,iPLAVIA,0.0024600246002460025
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,13.0,iPLAVIA,0.015990159901599015
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,26.0,iPLAVIA,0.03198031980319803
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,26.0,iPLAVIA,0.03198031980319803
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,8.0,iPLAVIA,0.00984009840098401
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,20.0,iPLAVIA,0.024600246002460024
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,82.0,iPLAVIA,0.1008610086100861
+"Davis et al., 2020 - cell types - head",T neuron,51.0,iPLAVIA,0.06273062730627306
+"Davis et al., 2020 - cell types - head",T neuron T4,33.0,iPLAVIA,0.04059040590405904
+"Davis et al., 2020 - cell types - head",T neuron T5,18.0,iPLAVIA,0.02214022140221402
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,35.0,iPLAVIA,0.04305043050430504
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,88.0,iPLAVIA,0.10824108241082411
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,30.0,iPLAVIA,0.03690036900369004
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,23.0,iPLAVIA,0.028290282902829027
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,86.0,iPLAVIA,0.1057810578105781
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,32.0,iPLAVIA,0.03936039360393604
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,73.0,iPLAVIA,0.0897908979089791
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,179.0,iPLAVIA,0.2201722017220172
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,46.0,iPLAVIA,0.056580565805658053
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,23.0,ntc,0.46
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,19.0,ntc,0.38
+"Davis et al., 2020 - cell types - head",adult NPF neuron,12.0,ntc,0.24
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,28.0,ntc,0.56
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,4.0,ntc,0.08
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,4.0,ntc,0.08
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,50.0,ntc,1.0
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,11.0,ntc,0.22
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,7.0,ntc,0.14
+"Davis et al., 2020 - cell types - head",centrigufal neuron,13.0,ntc,0.26
+"Davis et al., 2020 - cell types - head",cholinergic neuron,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",columnar neuron T1,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",corazonin neuron,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,5.0,ntc,0.1
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,9.0,ntc,0.18
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,7.0,ntc,0.14
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,4.0,ntc,0.08
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,5.0,ntc,0.1
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,0.6,ntc,0.012
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,24.0,ntc,0.48
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,14.0,ntc,0.28
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,27.0,ntc,0.54
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",GABAergic neuron,4.0,ntc,0.08
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,9.0,ntc,0.18
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,12.0,ntc,0.24
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,13.0,ntc,0.26
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,17.0,ntc,0.34
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,25.0,ntc,0.5
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,12.0,ntc,0.24
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,9.0,ntc,0.18
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,9.0,ntc,0.18
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,0.7,ntc,0.013999999999999999
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,2.0,ntc,0.04
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,5.0,ntc,0.1
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,2.0,ntc,0.04
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,1.0,ntc,0.02
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,13.0,ntc,0.26
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,4.0,ntc,0.08
+"Davis et al., 2020 - cell types - head",muscle cell,18.0,ntc,0.36
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,14.0,ntc,0.28
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,29.0,ntc,0.58
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,22.0,ntc,0.44
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,0.8,ntc,0.016
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,12.0,ntc,0.24
+"Davis et al., 2020 - cell types - head",T neuron,5.0,ntc,0.1
+"Davis et al., 2020 - cell types - head",T neuron T4,1.0,ntc,0.02
+"Davis et al., 2020 - cell types - head",T neuron T5,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,10.0,ntc,0.2
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,7.0,ntc,0.14
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,21.0,ntc,0.42
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,0.0,ntc,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,6.0,ntc,0.12
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,9.0,ntc,0.18
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,8.0,ntc,0.16
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,3.0,ntc,0.06
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,45.0,aux,0.06
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,89.0,aux,0.236
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,101.0,aux,0.284
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,105.0,aux,0.3
+"Davis et al., 2020 - cell types - head",adult NPF neuron,66.0,aux,0.144
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,131.0,aux,0.404
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,70.0,aux,0.16
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,133.0,aux,0.412
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,130.0,aux,0.4
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,181.0,aux,0.604
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,118.0,aux,0.352
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,215.0,aux,0.74
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,234.0,aux,0.816
+"Davis et al., 2020 - cell types - head",centrigufal neuron,220.0,aux,0.76
+"Davis et al., 2020 - cell types - head",cholinergic neuron,126.0,aux,0.384
+"Davis et al., 2020 - cell types - head",columnar neuron T1,236.0,aux,0.824
+"Davis et al., 2020 - cell types - head",corazonin neuron,66.0,aux,0.144
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,157.0,aux,0.508
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,232.0,aux,0.808
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,173.0,aux,0.572
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,136.0,aux,0.424
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,177.0,aux,0.588
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,94.0,aux,0.256
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,135.0,aux,0.42
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,97.0,aux,0.268
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,95.0,aux,0.26
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,77.0,aux,0.188
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,71.0,aux,0.164
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,125.0,aux,0.38
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,116.0,aux,0.344
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,197.0,aux,0.668
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,98.0,aux,0.272
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,61.0,aux,0.124
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,56.0,aux,0.104
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,45.0,aux,0.06
+"Davis et al., 2020 - cell types - head",GABAergic neuron,123.0,aux,0.372
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,125.0,aux,0.38
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,130.0,aux,0.4
+"Davis et al., 2020 - cell types - head",I-LNv neuron,30.0,aux,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,108.0,aux,0.312
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,219.0,aux,0.756
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,193.0,aux,0.652
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,266.0,aux,0.944
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,280.0,aux,1.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,243.0,aux,0.852
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,253.0,aux,0.892
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,180.0,aux,0.6
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,224.0,aux,0.776
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,139.0,aux,0.436
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,137.0,aux,0.428
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,151.0,aux,0.484
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,154.0,aux,0.496
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,211.0,aux,0.724
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,67.0,aux,0.148
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,136.0,aux,0.424
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,202.0,aux,0.688
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,87.0,aux,0.228
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,87.0,aux,0.228
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,138.0,aux,0.432
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,137.0,aux,0.428
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,151.0,aux,0.484
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,193.0,aux,0.652
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,196.0,aux,0.664
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,203.0,aux,0.692
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,129.0,aux,0.396
+"Davis et al., 2020 - cell types - head",muscle cell,90.0,aux,0.24
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,42.0,aux,0.048
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,257.0,aux,0.908
+"Davis et al., 2020 - cell types - head",Pdf neuron,89.0,aux,0.236
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,93.0,aux,0.252
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,146.0,aux,0.464
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,160.0,aux,0.52
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,108.0,aux,0.312
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,100.0,aux,0.28
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,85.0,aux,0.22
+"Davis et al., 2020 - cell types - head",T neuron,194.0,aux,0.656
+"Davis et al., 2020 - cell types - head",T neuron T4,164.0,aux,0.536
+"Davis et al., 2020 - cell types - head",T neuron T5,69.0,aux,0.156
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,144.0,aux,0.456
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,136.0,aux,0.424
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,205.0,aux,0.7
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,147.0,aux,0.468
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,233.0,aux,0.812
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,124.0,aux,0.376
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,235.0,aux,0.82
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,259.0,aux,0.916
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,182.0,aux,0.608
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,83.0,Synj,0.5925925925925926
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,81.0,Synj,0.5740740740740741
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,53.0,Synj,0.3148148148148148
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,71.0,Synj,0.48148148148148145
+"Davis et al., 2020 - cell types - head",adult NPF neuron,65.0,Synj,0.42592592592592593
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,95.0,Synj,0.7037037037037037
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,63.0,Synj,0.4074074074074074
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,95.0,Synj,0.7037037037037037
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,113.0,Synj,0.8703703703703703
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,97.0,Synj,0.7222222222222222
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,102.0,Synj,0.7685185185185185
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,85.0,Synj,0.6111111111111112
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,109.0,Synj,0.8333333333333334
+"Davis et al., 2020 - cell types - head",centrigufal neuron,106.0,Synj,0.8055555555555556
+"Davis et al., 2020 - cell types - head",cholinergic neuron,72.0,Synj,0.49074074074074076
+"Davis et al., 2020 - cell types - head",columnar neuron T1,127.0,Synj,1.0
+"Davis et al., 2020 - cell types - head",corazonin neuron,67.0,Synj,0.4444444444444444
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,104.0,Synj,0.7870370370370371
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,123.0,Synj,0.9629629629629629
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,113.0,Synj,0.8703703703703703
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,95.0,Synj,0.7037037037037037
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,93.0,Synj,0.6851851851851852
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,105.0,Synj,0.7962962962962963
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,99.0,Synj,0.7407407407407407
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,72.0,Synj,0.49074074074074076
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,70.0,Synj,0.4722222222222222
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,94.0,Synj,0.6944444444444444
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,67.0,Synj,0.4444444444444444
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,44.0,Synj,0.23148148148148148
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,91.0,Synj,0.6666666666666666
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,53.0,Synj,0.3148148148148148
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,105.0,Synj,0.7962962962962963
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,69.0,Synj,0.46296296296296297
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,69.0,Synj,0.46296296296296297
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,19.0,Synj,0.0
+"Davis et al., 2020 - cell types - head",GABAergic neuron,114.0,Synj,0.8796296296296297
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,102.0,Synj,0.7685185185185185
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,93.0,Synj,0.6851851851851852
+"Davis et al., 2020 - cell types - head",I-LNv neuron,106.0,Synj,0.8055555555555556
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,77.0,Synj,0.5370370370370371
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,103.0,Synj,0.7777777777777778
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,108.0,Synj,0.8240740740740741
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,100.0,Synj,0.75
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,108.0,Synj,0.8240740740740741
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,80.0,Synj,0.5648148148148148
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,118.0,Synj,0.9166666666666666
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,81.0,Synj,0.5740740740740741
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,72.0,Synj,0.49074074074074076
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,74.0,Synj,0.5092592592592593
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,88.0,Synj,0.6388888888888888
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,75.0,Synj,0.5185185185185185
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,97.0,Synj,0.7222222222222222
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,83.0,Synj,0.5925925925925926
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,59.0,Synj,0.37037037037037035
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,88.0,Synj,0.6388888888888888
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,102.0,Synj,0.7685185185185185
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,65.0,Synj,0.42592592592592593
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,69.0,Synj,0.46296296296296297
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,79.0,Synj,0.5555555555555556
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,67.0,Synj,0.4444444444444444
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,77.0,Synj,0.5370370370370371
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,89.0,Synj,0.6481481481481481
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,100.0,Synj,0.75
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,100.0,Synj,0.75
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,73.0,Synj,0.5
+"Davis et al., 2020 - cell types - head",muscle cell,44.0,Synj,0.23148148148148148
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,111.0,Synj,0.8518518518518519
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,91.0,Synj,0.6666666666666666
+"Davis et al., 2020 - cell types - head",Pdf neuron,77.0,Synj,0.5370370370370371
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,59.0,Synj,0.37037037037037035
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,116.0,Synj,0.8981481481481481
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,103.0,Synj,0.7777777777777778
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,51.0,Synj,0.2962962962962963
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,97.0,Synj,0.7222222222222222
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,42.0,Synj,0.21296296296296297
+"Davis et al., 2020 - cell types - head",T neuron,113.0,Synj,0.8703703703703703
+"Davis et al., 2020 - cell types - head",T neuron T4,103.0,Synj,0.7777777777777778
+"Davis et al., 2020 - cell types - head",T neuron T5,90.0,Synj,0.6574074074074074
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,100.0,Synj,0.75
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,77.0,Synj,0.5370370370370371
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,103.0,Synj,0.7777777777777778
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,76.0,Synj,0.5277777777777778
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,76.0,Synj,0.5277777777777778
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,99.0,Synj,0.7407407407407407
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,99.0,Synj,0.7407407407407407
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,76.0,Synj,0.5277777777777778
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,116.0,Synj,0.8981481481481481
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,50.0,Vps13,0.47058823529411764
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,13.0,Vps13,0.10784313725490197
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,73.0,Vps13,0.696078431372549
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,104.0,Vps13,1.0
+"Davis et al., 2020 - cell types - head",adult NPF neuron,29.0,Vps13,0.2647058823529412
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,19.0,Vps13,0.16666666666666666
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,15.0,Vps13,0.12745098039215685
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,10.0,Vps13,0.0784313725490196
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,13.0,Vps13,0.10784313725490197
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,29.0,Vps13,0.2647058823529412
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,8.0,Vps13,0.058823529411764705
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,100.0,Vps13,0.9607843137254902
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,84.0,Vps13,0.803921568627451
+"Davis et al., 2020 - cell types - head",centrigufal neuron,80.0,Vps13,0.7647058823529411
+"Davis et al., 2020 - cell types - head",cholinergic neuron,25.0,Vps13,0.22549019607843138
+"Davis et al., 2020 - cell types - head",columnar neuron T1,85.0,Vps13,0.8137254901960784
+"Davis et al., 2020 - cell types - head",corazonin neuron,33.0,Vps13,0.30392156862745096
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,48.0,Vps13,0.45098039215686275
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,57.0,Vps13,0.5392156862745098
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,56.0,Vps13,0.5294117647058824
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,21.0,Vps13,0.18627450980392157
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,23.0,Vps13,0.20588235294117646
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,36.0,Vps13,0.3333333333333333
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,11.0,Vps13,0.08823529411764706
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,34.0,Vps13,0.3137254901960784
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,41.0,Vps13,0.38235294117647056
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,11.0,Vps13,0.08823529411764706
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,12.0,Vps13,0.09803921568627451
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,39.0,Vps13,0.3627450980392157
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,19.0,Vps13,0.16666666666666666
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,17.0,Vps13,0.14705882352941177
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,3.0,Vps13,0.00980392156862745
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,15.0,Vps13,0.12745098039215685
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,2.0,Vps13,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,41.0,Vps13,0.38235294117647056
+"Davis et al., 2020 - cell types - head",GABAergic neuron,42.0,Vps13,0.39215686274509803
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,24.0,Vps13,0.21568627450980393
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,46.0,Vps13,0.43137254901960786
+"Davis et al., 2020 - cell types - head",I-LNv neuron,59.0,Vps13,0.5588235294117647
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,47.0,Vps13,0.4411764705882353
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,67.0,Vps13,0.6372549019607843
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,74.0,Vps13,0.7058823529411765
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,74.0,Vps13,0.7058823529411765
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,68.0,Vps13,0.6470588235294118
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,64.0,Vps13,0.6078431372549019
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,86.0,Vps13,0.8235294117647058
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,74.0,Vps13,0.7058823529411765
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,77.0,Vps13,0.7352941176470589
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,22.0,Vps13,0.19607843137254902
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,17.0,Vps13,0.14705882352941177
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,32.0,Vps13,0.29411764705882354
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,30.0,Vps13,0.27450980392156865
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,31.0,Vps13,0.28431372549019607
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,18.0,Vps13,0.1568627450980392
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,17.0,Vps13,0.14705882352941177
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,29.0,Vps13,0.2647058823529412
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,24.0,Vps13,0.21568627450980393
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,30.0,Vps13,0.27450980392156865
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,58.0,Vps13,0.5490196078431373
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,39.0,Vps13,0.3627450980392157
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,31.0,Vps13,0.28431372549019607
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,71.0,Vps13,0.6764705882352942
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,31.0,Vps13,0.28431372549019607
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,70.0,Vps13,0.6666666666666666
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,30.0,Vps13,0.27450980392156865
+"Davis et al., 2020 - cell types - head",muscle cell,40.0,Vps13,0.37254901960784315
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,12.0,Vps13,0.09803921568627451
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,38.0,Vps13,0.35294117647058826
+"Davis et al., 2020 - cell types - head",Pdf neuron,37.0,Vps13,0.3431372549019608
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,19.0,Vps13,0.16666666666666666
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,38.0,Vps13,0.35294117647058826
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,43.0,Vps13,0.4019607843137255
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,39.0,Vps13,0.3627450980392157
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,32.0,Vps13,0.29411764705882354
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,83.0,Vps13,0.7941176470588235
+"Davis et al., 2020 - cell types - head",T neuron,35.0,Vps13,0.3235294117647059
+"Davis et al., 2020 - cell types - head",T neuron T4,52.0,Vps13,0.49019607843137253
+"Davis et al., 2020 - cell types - head",T neuron T5,19.0,Vps13,0.16666666666666666
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,48.0,Vps13,0.45098039215686275
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,60.0,Vps13,0.5686274509803921
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,35.0,Vps13,0.3235294117647059
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,10.0,Vps13,0.0784313725490196
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,57.0,Vps13,0.5392156862745098
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,41.0,Vps13,0.38235294117647056
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,71.0,Vps13,0.6764705882352942
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,62.0,Vps13,0.5882352941176471
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,37.0,Vps13,0.3431372549019608
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,28.0,taf1,0.15827338129496402
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,21.0,taf1,0.1079136690647482
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,81.0,taf1,0.539568345323741
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,41.0,taf1,0.2517985611510791
+"Davis et al., 2020 - cell types - head",adult NPF neuron,55.0,taf1,0.35251798561151076
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,33.0,taf1,0.19424460431654678
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,30.0,taf1,0.17266187050359713
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,21.0,taf1,0.1079136690647482
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,8.0,taf1,0.014388489208633094
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,44.0,taf1,0.2733812949640288
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,9.0,taf1,0.02158273381294964
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,99.0,taf1,0.6690647482014388
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,65.0,taf1,0.4244604316546763
+"Davis et al., 2020 - cell types - head",centrigufal neuron,71.0,taf1,0.4676258992805755
+"Davis et al., 2020 - cell types - head",cholinergic neuron,77.0,taf1,0.5107913669064749
+"Davis et al., 2020 - cell types - head",columnar neuron T1,73.0,taf1,0.48201438848920863
+"Davis et al., 2020 - cell types - head",corazonin neuron,63.0,taf1,0.41007194244604317
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,63.0,taf1,0.41007194244604317
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,79.0,taf1,0.5251798561151079
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,81.0,taf1,0.539568345323741
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,44.0,taf1,0.2733812949640288
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,28.0,taf1,0.15827338129496402
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,39.0,taf1,0.23741007194244604
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,21.0,taf1,0.1079136690647482
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,58.0,taf1,0.37410071942446044
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,46.0,taf1,0.28776978417266186
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,22.0,taf1,0.11510791366906475
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,24.0,taf1,0.12949640287769784
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,43.0,taf1,0.26618705035971224
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,21.0,taf1,0.1079136690647482
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,56.0,taf1,0.3597122302158273
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,24.0,taf1,0.12949640287769784
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,9.0,taf1,0.02158273381294964
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,26.0,taf1,0.14388489208633093
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,24.0,taf1,0.12949640287769784
+"Davis et al., 2020 - cell types - head",GABAergic neuron,68.0,taf1,0.4460431654676259
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,36.0,taf1,0.2158273381294964
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,75.0,taf1,0.49640287769784175
+"Davis et al., 2020 - cell types - head",I-LNv neuron,145.0,taf1,1.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,41.0,taf1,0.2517985611510791
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,62.0,taf1,0.4028776978417266
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,66.0,taf1,0.4316546762589928
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,69.0,taf1,0.45323741007194246
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,73.0,taf1,0.48201438848920863
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,78.0,taf1,0.5179856115107914
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,65.0,taf1,0.4244604316546763
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,65.0,taf1,0.4244604316546763
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,62.0,taf1,0.4028776978417266
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,68.0,taf1,0.4460431654676259
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,32.0,taf1,0.18705035971223022
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,59.0,taf1,0.381294964028777
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,58.0,taf1,0.37410071942446044
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,46.0,taf1,0.28776978417266186
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,16.0,taf1,0.07194244604316546
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,20.0,taf1,0.10071942446043165
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,45.0,taf1,0.2805755395683453
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,40.0,taf1,0.2446043165467626
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,65.0,taf1,0.4244604316546763
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,73.0,taf1,0.48201438848920863
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,78.0,taf1,0.5179856115107914
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,69.0,taf1,0.45323741007194246
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,58.0,taf1,0.37410071942446044
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,61.0,taf1,0.39568345323741005
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,69.0,taf1,0.45323741007194246
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,56.0,taf1,0.3597122302158273
+"Davis et al., 2020 - cell types - head",muscle cell,50.0,taf1,0.31654676258992803
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,6.0,taf1,0.0
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,57.0,taf1,0.3669064748201439
+"Davis et al., 2020 - cell types - head",Pdf neuron,107.0,taf1,0.7266187050359713
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,27.0,taf1,0.1510791366906475
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,58.0,taf1,0.37410071942446044
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,53.0,taf1,0.3381294964028777
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,26.0,taf1,0.14388489208633093
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,38.0,taf1,0.2302158273381295
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,62.0,taf1,0.4028776978417266
+"Davis et al., 2020 - cell types - head",T neuron,41.0,taf1,0.2517985611510791
+"Davis et al., 2020 - cell types - head",T neuron T4,60.0,taf1,0.38848920863309355
+"Davis et al., 2020 - cell types - head",T neuron T5,39.0,taf1,0.23741007194244604
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,64.0,taf1,0.4172661870503597
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,58.0,taf1,0.37410071942446044
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,45.0,taf1,0.2805755395683453
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,15.0,taf1,0.06474820143884892
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,71.0,taf1,0.4676258992805755
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,79.0,taf1,0.5251798561151079
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,68.0,taf1,0.4460431654676259
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,78.0,taf1,0.5179856115107914
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,55.0,taf1,0.35251798561151076
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,12.0,Rab39,0.05853658536585366
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,65.0,Rab39,0.3170731707317073
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,120.0,Rab39,0.5853658536585366
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,177.0,Rab39,0.8634146341463415
+"Davis et al., 2020 - cell types - head",adult NPF neuron,51.0,Rab39,0.24878048780487805
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,66.0,Rab39,0.32195121951219513
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,89.0,Rab39,0.43414634146341463
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,72.0,Rab39,0.35121951219512193
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,65.0,Rab39,0.3170731707317073
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,78.0,Rab39,0.3804878048780488
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,49.0,Rab39,0.23902439024390243
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,28.0,Rab39,0.13658536585365855
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,58.0,Rab39,0.28292682926829266
+"Davis et al., 2020 - cell types - head",centrigufal neuron,56.0,Rab39,0.2731707317073171
+"Davis et al., 2020 - cell types - head",cholinergic neuron,47.0,Rab39,0.22926829268292684
+"Davis et al., 2020 - cell types - head",columnar neuron T1,91.0,Rab39,0.44390243902439025
+"Davis et al., 2020 - cell types - head",corazonin neuron,58.0,Rab39,0.28292682926829266
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,92.0,Rab39,0.44878048780487806
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,110.0,Rab39,0.5365853658536586
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,100.0,Rab39,0.4878048780487805
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,115.0,Rab39,0.5609756097560976
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,75.0,Rab39,0.36585365853658536
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,72.0,Rab39,0.35121951219512193
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,88.0,Rab39,0.4292682926829268
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,54.0,Rab39,0.2634146341463415
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,30.0,Rab39,0.14634146341463414
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,56.0,Rab39,0.2731707317073171
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,87.0,Rab39,0.424390243902439
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,83.0,Rab39,0.40487804878048783
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,54.0,Rab39,0.2634146341463415
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,48.0,Rab39,0.23414634146341465
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,88.0,Rab39,0.4292682926829268
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,101.0,Rab39,0.4926829268292683
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,79.0,Rab39,0.3853658536585366
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,8.0,Rab39,0.03902439024390244
+"Davis et al., 2020 - cell types - head",GABAergic neuron,63.0,Rab39,0.3073170731707317
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,80.0,Rab39,0.3902439024390244
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,77.0,Rab39,0.375609756097561
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,Rab39,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,27.0,Rab39,0.13170731707317074
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,57.0,Rab39,0.2780487804878049
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,49.0,Rab39,0.23902439024390243
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,65.0,Rab39,0.3170731707317073
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,80.0,Rab39,0.3902439024390244
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,53.0,Rab39,0.25853658536585367
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,51.0,Rab39,0.24878048780487805
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,68.0,Rab39,0.33170731707317075
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,88.0,Rab39,0.4292682926829268
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,59.0,Rab39,0.28780487804878047
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,72.0,Rab39,0.35121951219512193
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,94.0,Rab39,0.4585365853658537
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,72.0,Rab39,0.35121951219512193
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,111.0,Rab39,0.5414634146341464
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,27.0,Rab39,0.13170731707317074
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,89.0,Rab39,0.43414634146341463
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,97.0,Rab39,0.47317073170731705
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,44.0,Rab39,0.2146341463414634
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,28.0,Rab39,0.13658536585365855
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,44.0,Rab39,0.2146341463414634
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,70.0,Rab39,0.34146341463414637
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,79.0,Rab39,0.3853658536585366
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,57.0,Rab39,0.2780487804878049
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,114.0,Rab39,0.5560975609756098
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,67.0,Rab39,0.32682926829268294
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,86.0,Rab39,0.4195121951219512
+"Davis et al., 2020 - cell types - head",muscle cell,75.0,Rab39,0.36585365853658536
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,51.0,Rab39,0.24878048780487805
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,45.0,Rab39,0.21951219512195122
+"Davis et al., 2020 - cell types - head",Pdf neuron,205.0,Rab39,1.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,32.0,Rab39,0.15609756097560976
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,37.0,Rab39,0.18048780487804877
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,66.0,Rab39,0.32195121951219513
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,23.0,Rab39,0.11219512195121951
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,86.0,Rab39,0.4195121951219512
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,95.0,Rab39,0.4634146341463415
+"Davis et al., 2020 - cell types - head",T neuron,75.0,Rab39,0.36585365853658536
+"Davis et al., 2020 - cell types - head",T neuron T4,58.0,Rab39,0.28292682926829266
+"Davis et al., 2020 - cell types - head",T neuron T5,37.0,Rab39,0.18048780487804877
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,69.0,Rab39,0.33658536585365856
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,34.0,Rab39,0.16585365853658537
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,93.0,Rab39,0.45365853658536587
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,87.0,Rab39,0.424390243902439
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,67.0,Rab39,0.32682926829268294
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,48.0,Rab39,0.23414634146341465
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,75.0,Rab39,0.36585365853658536
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,48.0,Rab39,0.23414634146341465
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,86.0,Rab39,0.4195121951219512
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",adult NPF neuron,1.0,Gba1a,0.25
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,0.5,Gba1a,0.125
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,3.0,Gba1a,0.75
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,1.0,Gba1a,0.25
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",centrigufal neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",cholinergic neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",columnar neuron T1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",corazonin neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,1.0,Gba1a,0.25
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",GABAergic neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,0.6,Gba1a,0.15
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,0.5,Gba1a,0.125
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,2.0,Gba1a,0.5
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,1.0,Gba1a,0.25
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,0.5,Gba1a,0.125
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",muscle cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",T neuron,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",T neuron T4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",T neuron T5,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,4.0,Gba1a,1.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,0.0,Gba1a,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,1.0,Gba1a,0.25
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,0.6,Gba1a,0.15
+"Davis et al., 2020 - cell types - head",adult CCAP neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",adult extrinsic protocerebral bridge neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",adult lamina epithelial glial cell,0.7,Gba1b,0.0875
+"Davis et al., 2020 - cell types - head",adult lamina marginal glial cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",adult NPF neuron,4.0,Gba1b,0.5
+"Davis et al., 2020 - cell types - head",alpha’/beta’ anterior-posterior Kenyon cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",alpha’/beta’ middle Kenyon cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta core Kenyon cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta Kenyon cell,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",alpha/beta posterior Kenyon cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",alpha/beta surface Kenyon cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",centrifugal neuron C2,0.5,Gba1b,0.0625
+"Davis et al., 2020 - cell types - head",centrifugal neuron C3,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",centrigufal neuron,0.5,Gba1b,0.0625
+"Davis et al., 2020 - cell types - head",cholinergic neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",columnar neuron T1,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",corazonin neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm1,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm10,0.7,Gba1b,0.0875
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm11,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm12,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm3,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm8,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",distal medullary amacrine neuron Dm9,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 1,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 2,8.0,Gba1b,1.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 3,8.0,Gba1b,1.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 4,3.0,Gba1b,0.375
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 5,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 6,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 7,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 8,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",dopaminergic PAM neuron 9,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",Drosulfakinin neuron,3.0,Gba1b,0.375
+"Davis et al., 2020 - cell types - head",GABAergic neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",gamma dorsal Kenyon cell,2.0,Gba1b,0.25
+"Davis et al., 2020 - cell types - head",glutamatergic neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",I-LNv neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lamina intrinsic neuron,4.0,Gba1b,0.5
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L1,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L2,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L3,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lamina monopolar neuron L5,0.8,Gba1b,0.1
+"Davis et al., 2020 - cell types - head",lamina wide-field 1 neuron,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lamina wide-field 2 neuron,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10a,3.0,Gba1b,0.375
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10A,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10b,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC10d,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC16,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula columnar neuron LC6,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula plate columnar neuron LPC1,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lobula plate intrinsic neuron LPi3-4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",lobula plate tangential neuron,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC1,2.0,Gba1b,0.25
+"Davis et al., 2020 - cell types - head",lobula plate-lobula columnar neuron LPLC2,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",lobula-lobula plate columnar neuron LLPC1,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi1,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi15,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi4,2.0,Gba1b,0.25
+"Davis et al., 2020 - cell types - head",medullary intrinsic neuron Mi9,0.9,Gba1b,0.1125
+"Davis et al., 2020 - cell types - head",muscle cell,3.0,Gba1b,0.375
+"Davis et al., 2020 - cell types - head",mushroom body output neuron,4.0,Gba1b,0.5
+"Davis et al., 2020 - cell types - head",outer photoreceptor cell,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",Pdf neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R7,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of pale ommatidium,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",photoreceptor cell R8 of yellow ommatidium,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm3,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",proximal medullary amacrine neuron Pm4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",pseudocartridge glial cell,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",T neuron,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",T neuron T4,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",T neuron T5,0.6,Gba1b,0.075
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm1,0.8,Gba1b,0.1
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm2,2.0,Gba1b,0.25
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm20,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm29,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron TM3a,1.0,Gba1b,0.125
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm3Y,0.0,Gba1b,0.0
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm4,5.0,Gba1b,0.625
+"Davis et al., 2020 - cell types - head",transmedullary neuron Tm9,0.7,Gba1b,0.0875
+"Davis et al., 2020 - cell types - head",transmedullary neuron TmY5a,0.0,Gba1b,0.0

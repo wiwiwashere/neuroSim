@@ -1,5 +1,10 @@
 """Random-seed baseline (CS1). See docs/ENGINE_DESIGN.md, section 7.
 
+STATUS: placeholder. CS1 writes the null model and statistics. pipeline.py, the
+validation script and the API already call null_distributions, z_and_p and
+benjamini_hochberg with the signatures
+below, and the tests marked `needs_engine` turn green once they work.
+
 The question every result must answer: "is this more than you'd get from
 any random set of neurons like these?"
 
@@ -35,6 +40,8 @@ from dataclasses import dataclass
 
 import numpy as np
 
+from neurosim import config
+
 
 @dataclass
 class NullDistribution:
@@ -45,25 +52,46 @@ class NullDistribution:
 def draw_random_seeds(pool: np.ndarray, size: int, n_draws: int, rng: np.random.Generator) -> np.ndarray:
     """n_draws x size positions, each row sampled without replacement from pool.
     If size > len(pool), raise: the null is undefined."""
-    raise NotImplementedError
+    raise NotImplementedError("CS1: draw_random_seeds")
 
 
 def null_distribution(conn, seed_size: int, mode, strength: float, hops: int, decay: float,
-                      group_codes: np.ndarray, n_groups: int, pool: np.ndarray) -> NullDistribution:
+                      group_codes: np.ndarray, n_groups: int, pool: np.ndarray,
+                      n_draws: int = config.N_RANDOM_DRAWS, random_seed: int = config.RANDOM_SEED) -> NullDistribution:
     """Run the full perturbation + propagation + aggregation for every random draw.
 
     Use the same mode and strength as the real run, so the only difference
     between observed and null is WHICH neurons were seeded.
     """
-    raise NotImplementedError
+    means, disruption = null_distributions(conn, seed_size, mode, strength, hops, decay,
+                                           {"groups": (group_codes, n_groups)}, pool, n_draws, random_seed)
+    return NullDistribution(group_means=means["groups"], disruption=disruption)
+
+
+def null_distributions(conn, seed_size: int, mode, strength: float, hops: int, decay: float,
+                       groupings: dict, pool: np.ndarray, n_draws: int = config.N_RANDOM_DRAWS,
+                       random_seed: int = config.RANDOM_SEED) -> tuple[dict, np.ndarray]:
+    """null_distribution for several group levels from one set of draws.
+
+    groupings maps a key to (group_codes, n_groups). Returns ({key: n_groups x
+    n_draws group means}, n_draws disruption scores). The pipeline passes all
+    four GroupLevels at once; the validation script passes one target set.
+
+    Suggested shape: draw once with np.random.default_rng(random_seed), put
+    the seed deficit (as perturb.initial_deficit would) in one column per draw,
+    propagate a chunk of ~25 draws at a time (139k x 25 dense is ~30 MB per
+    hop), and aggregate each chunk with vulnerability.group_means_batch and
+    vulnerability.disruption_scores at every level.
+    """
+    raise NotImplementedError("CS1: null_distributions")
 
 
 def z_and_p(observed: np.ndarray, null: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """observed: n_groups; null: n_groups x n_draws. Returns (null_mean, null_sd, z, p)
     as defined in the module docstring."""
-    raise NotImplementedError
+    raise NotImplementedError("CS1: z_and_p")
 
 
 def benjamini_hochberg(p: np.ndarray) -> np.ndarray:
     """q-values. Ignore NaN (unrankable groups) and return NaN for them."""
-    raise NotImplementedError
+    raise NotImplementedError("CS1: benjamini_hochberg")

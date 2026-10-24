@@ -1,11 +1,54 @@
 {
   "_readme": "Hand-curated by Bio. Every row needs a citation. Set verified_by_bio to true only after checking the paper's figures, not just the abstract. Rows marked TODO are drafts from abstracts.",
   "orthologs": {
-    "PINK1": {"fly_genes": ["Pink1"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
-    "PRKN":  {"fly_genes": ["park"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
-    "PARK7": {"fly_genes": ["dj-1beta", "DJ-1alpha"], "relationship": "1:2", "diopt_score": null, "_todo": "fill DIOPT score; FlyBase lists both as DIOPT orthologs"},
-    "LRRK2": {"fly_genes": ["Lrrk"], "relationship": "1:1", "diopt_score": null, "_todo": "fill DIOPT score"},
-    "SNCA":  {"fly_genes": [], "relationship": "none", "diopt_score": null}
+    "_readme": "fly_genes, relationship and diopt_score are what the code reads. diopt_score is the best fly gene's score: how many of the diopt_max DIOPT methods call the pair orthologous. diopt_rank follows DIOPT: high = best match in both directions (or score >= 5), moderate = best in one direction, low otherwise. Numbers come from the Alliance of Genome Resources orthology API (DIOPT-based, 9 methods apply to human-fly) on the retrieved date. Bio sets verified_by_bio after checking them in DIOPT.",
+    "PINK1": {
+      "fly_genes": ["Pink1"], "relationship": "1:1", "diopt_score": 7,
+      "hgnc_id": "HGNC:14581",
+      "fly_orthologs": [
+        {"symbol": "Pink1", "flybase_id": "FBgn0029891", "diopt_score": 7, "diopt_max": 9, "best_forward": true, "best_reverse": true, "diopt_rank": "high"}
+      ],
+      "source_url": "https://www.alliancegenome.org/gene/HGNC:14581",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "PRKN": {
+      "fly_genes": ["park"], "relationship": "1:1", "diopt_score": 9,
+      "hgnc_id": "HGNC:8607",
+      "fly_orthologs": [
+        {"symbol": "park", "flybase_id": "FBgn0041100", "diopt_score": 9, "diopt_max": 9, "best_forward": true, "best_reverse": true, "diopt_rank": "high"}
+      ],
+      "source_url": "https://www.alliancegenome.org/gene/HGNC:8607",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "PARK7": {
+      "fly_genes": ["dj-1beta", "DJ-1alpha"], "relationship": "1:2", "diopt_score": 9,
+      "hgnc_id": "HGNC:16369",
+      "fly_orthologs": [
+        {"symbol": "dj-1beta", "flybase_symbol": "dj-1β", "flybase_id": "FBgn0039802", "diopt_score": 9, "diopt_max": 9, "best_forward": true, "best_reverse": true, "diopt_rank": "high"},
+        {"symbol": "DJ-1alpha", "flybase_symbol": "DJ-1α", "flybase_id": "FBgn0033885", "diopt_score": 9, "diopt_max": 9, "best_forward": true, "best_reverse": true, "diopt_rank": "high"}
+      ],
+      "_note": "Both paralogs score equally. dj-1beta is broadly expressed and is the usual PD model; DJ-1alpha is mostly testis-enriched.",
+      "source_url": "https://www.alliancegenome.org/gene/HGNC:16369",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "LRRK2": {
+      "fly_genes": ["Lrrk"], "relationship": "1:1", "diopt_score": 2,
+      "hgnc_id": "HGNC:18618",
+      "fly_orthologs": [
+        {"symbol": "Lrrk", "flybase_id": "FBgn0038816", "diopt_score": 2, "diopt_max": 9, "best_forward": true, "best_reverse": false, "diopt_rank": "moderate"}
+      ],
+      "_note": "Weak call: only OrthoInspector and PhylomeDB match, and Lrrk's best human match is not LRRK2 (fly has one Lrrk for human LRRK1 and LRRK2). PANTHER alone also lists Phlpp (FBgn0032749) and CG10307 (FBgn0034655); both are low rank and left out of fly_genes.",
+      "source_url": "https://www.alliancegenome.org/gene/HGNC:18618",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "SNCA": {
+      "fly_genes": [], "relationship": "none", "diopt_score": null,
+      "hgnc_id": "HGNC:11138",
+      "fly_orthologs": [],
+      "_note": "No-ortholog edge case: no method calls a Drosophila ortholog (Alliance lists only vertebrate orthologs). Fly PD models express human SNCA instead, so SNCA is a validation case, never a gene seed.",
+      "source_url": "https://www.alliancegenome.org/gene/HGNC:11138",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    }
   },
   "evidence": [
     {
@@ -71,12 +114,12 @@
   ],
   "cluster_to_cell_types": {
     "_readme": "Bio + CS1, built on day 1 by searching Codex. exact = the connectome names this cluster directly; inferred = matched by projection pattern.",
-    "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"]},
+    "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"], "_note": "The FlyWire v783 annotations (flywire_annotations v3.2.0) also have PPL107 and PPL108 (2 neurons each, dopamine). Bio to decide whether they belong here."},
     "PAM":  {"match": "exact", "cell_types": ["PAM01", "PAM02", "PAM03", "PAM04", "PAM05", "PAM06", "PAM07", "PAM08", "PAM09", "PAM10", "PAM11", "PAM12", "PAM13", "PAM14", "PAM15"]},
-    "PPL2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
-    "PPM1/2": {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
-    "PPM3": {"match": "inferred", "cell_types": [], "_todo": "central complex DA types; find in Codex"},
-    "PAL":  {"match": "inferred", "cell_types": [], "_todo": "find in Codex"},
-    "ALL_DA": {"match": "inferred", "cell_types": ["*"], "_note": "every neuron predicted dopaminergic"}
+    "PPL2": {"match": "exact", "cell_types": ["PPL201", "PPL202", "PPL203", "PPL204"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations (flywire_annotations v3.2.0): 8 neurons, 2 per type, all predicted and known dopamine."},
+    "PPM1/2": {"match": "exact", "cell_types": ["PPM1201", "PPM1202", "PPM1203", "PPM1204,PS139", "PPM1205"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations: 16 neurons. The hemibrain names PPM1 and PPM2 together as PPM12. PPM1204,PS139 is one type name in FlyWire; its 4 neurons are predicted glutamate but annotated known dopamine."},
+    "PPM3": {"match": "inferred", "cell_types": ["ExR2_1", "ExR2_2", "FB1C", "FB2A", "FB4L", "FB4M", "FB5H"], "verified_by_bio": false, "_note": "No FlyWire type is named PPM3. Picked central complex types whose known_nt lists dopamine from immunostaining or EASI-FISH, all but FB5H in the DM6 lineage. ExR2 likely corresponds to the PPM3 neurons that innervate the ellipsoid body (Hulse et al. 2021). FB6H and FB7B also stain for dopamine but are DL1-lineage glutamate neurons, so they are left out. 24 neurons; Bio to confirm each type."},
+    "PAL":  {"match": "exact", "cell_types": ["PAL01", "PAL02", "PAL03"], "verified_by_bio": false, "_note": "From the FlyWire v783 annotations: 6 neurons, 2 per type, all dopamine."},
+    "ALL_DA": {"match": "inferred", "cell_types": ["*"], "_note": "Every dopaminergic neuron, taking known_nt over the predicted top_nt: about 610 in FlyWire v783. top_nt alone calls about 5,170 Kenyon cells dopaminergic, but they are cholinergic, so never seed from top_nt alone."}
   }
 }
