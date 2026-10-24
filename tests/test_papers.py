@@ -41,7 +41,7 @@ def test_rows_wait_for_approval_and_then_seed_the_next_run(fake):
     sent = fake([_answer(_row(), _row(clusters=["PAM"], quote="not in the text at all, made up by the model"))])
     out = papers.extract(text=ABSTRACT)
 
-    assert ABSTRACT in sent.sent[0]["input"][0]["text"]
+    assert ABSTRACT in sent.sent[0]["input"]
     assert not config.APPROVED_EVIDENCE_PATH.exists()        # nothing saved before a decision
     first, second = out["rows"]
     assert first["human_gene"] == "PINK1" and first["status"] == "pending"
@@ -76,7 +76,7 @@ def test_pdf_quotes_are_found_on_their_page(fake, monkeypatch):
     sent = fake([_answer(_row(page=7))])
     out = papers.extract(b"%PDF-1.4 fake", "doe.pdf")
 
-    assert "[page 2]" in sent.sent[0]["input"][0]["text"]
+    assert "[page 2]" in sent.sent[0]["input"]
     assert out["rows"][0]["page"] == 2 and out["rows"][0]["quote_found"] is True
     assert out["file"] == "doe.pdf"
 
@@ -179,7 +179,7 @@ def test_doi_reads_the_open_access_full_text_and_keeps_the_real_citation(fake, m
     sent = fake([_answer(_row(), citation="Clark et al. 2006, Nature")])   # the model misreads the paper
     out = papers.extract(doi="https://doi.org/10.1016/j.celrep.2012.12.014")
 
-    assert ABSTRACT in sent.sent[0]["input"][0]["text"]
+    assert ABSTRACT in sent.sent[0]["input"]
     assert out["citation"] == "Riemensperger et al. 2013, Cell Rep"
     assert out["url"] == "https://doi.org/10.1016/j.celrep.2012.12.014"
     assert out["read"] == "full text" and out["note"] is None

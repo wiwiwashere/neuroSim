@@ -44,6 +44,8 @@ class FakeInteractions:
 
 @pytest.fixture
 def fake(monkeypatch):
+    monkeypatch.setattr(config, "LLM", "gemini")
+    monkeypatch.setattr(config, "LLM_NAME", "Gemini")
     monkeypatch.setattr(config, "USE_MOCKS", True)
     monkeypatch.setattr(gemini, "_fallback_until", 0.0)
     monkeypatch.setattr(gemini.time, "sleep", lambda s: None)
