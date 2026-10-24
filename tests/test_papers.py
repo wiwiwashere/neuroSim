@@ -125,6 +125,12 @@ def test_duplicates_of_the_table_are_flagged(fake):
     row = papers.extract(text=ABSTRACT)["rows"][0]
     assert row["checks"]["duplicate"] is True
 
+    # Same paper and gene with other clusters (Wang 2006 read live: the table's four plus PPL1).
+    fake([_answer(_row(clusters=["PAL", "PPM1/2", "PPM3", "PPL2", "PPL1"]), citation="Wang et al. 2006, PNAS")])
+    row = papers.extract(text=ABSTRACT)["rows"][0]
+    assert row["checks"]["duplicate"] is False
+    assert any("already has PINK1 from this paper (PAL, PPM1/2, PPM3, PPL2)" in p for p in row["checks"]["problems"])
+
 
 def test_proposals_survive_a_reload_and_approvals_can_be_removed(fake, monkeypatch):
     fake([_answer(_row())])

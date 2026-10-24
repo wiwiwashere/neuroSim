@@ -345,13 +345,18 @@ def check_row(row: dict) -> dict:
         confidence = round(ortholog["confidence"] * config.EVIDENCE_TIER_WEIGHT[row["tier"]] * best, 3)
 
     key = _citation_key(row["citation"])
-    duplicate = any(
-        r.human_gene == row["human_gene"] and set(r.clusters) == set(row["clusters"])
-        and key and _citation_key(r.citation) == key
-        for r in table["evidence"]
-    )
+    same_paper = [
+        r for r in table["evidence"]
+        if key and r.human_gene == row["human_gene"] and _citation_key(r.citation) == key
+        and not (r.extracted and r.extracted.id == row.get("id"))
+    ]
+    duplicate = any(set(r.clusters) == set(row["clusters"]) for r in same_paper)
     if duplicate:
         problems.append("The evidence table already has this gene, clusters and paper.")
+    elif same_paper:
+        listed = "; ".join(", ".join(r.clusters) or "no clusters" for r in same_paper)
+        problems.append(f"The evidence table already has {row['human_gene']} from this paper ({listed}). "
+                        "Approve only if this row adds something, or edit that row instead.")
     if row.get("extracted_by") == config.AGENT_FALLBACK_MODEL:
         problems.append(f"Read by the backup model ({config.AGENT_FALLBACK_MODEL}) because the main one was busy. "
                         "Check it more closely, or try the paper again in a minute.")
