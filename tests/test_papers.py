@@ -87,11 +87,11 @@ def test_real_pdf_text_is_read(fake):
 
 
 def test_problems_are_spelled_out(fake):
-    fake([_answer(_row(human_gene="VPS35", fly_gene="Vps35", clusters=["PPM1", "PPL9"]),
+    fake([_answer(_row(human_gene="VPS35", fly_gene="Vps35", clusters=["PPM1", "PPM2", "DL1 neurons", "PPL9"]),
                   _row(fly_gene="park"), _row(clusters=[]))])
     new_gene, wrong_fly, no_clusters = papers.extract(text=ABSTRACT)["rows"]
 
-    assert new_gene["clusters"] == ["PPM1/2", "PPL9"]
+    assert new_gene["clusters"] == ["PPM1/2", "PPL1", "PPL9"]
     problems = " ".join(new_gene["checks"]["problems"])
     assert "VPS35 isn't in the ortholog table" in problems and "Cluster PPL9" in problems
     assert new_gene["checks"]["can_seed"] is False

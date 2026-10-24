@@ -81,12 +81,14 @@ include findings the paper itself reports with data (not ones it cites from
 other work). If the paper has no such finding, return no rows. Quotes must be
 copied word for word from the text. Do not guess clusters the paper doesn't
 name; if it reports loss without naming clusters, say so in the finding,
-leave clusters empty and use tier low. Answer with JSON only, matching this
+leave clusters empty and use tier low. Name clusters as PPL1, PPL2, PPM1/2, PPM3, PAL or PAM (older
+papers call PPL1 "DL1" and PPL2 "DL2"). Answer with JSON only, matching this
 schema:
 """
 
 # Cluster names as papers write them -> the evidence table's names.
-CLUSTER_ALIASES = {"PPM1": "PPM1/2", "PPM2": "PPM1/2", "PPM12": "PPM1/2", "PPL2AB": "PPL2", "PPL2C": "PPL2",
+# DL1/DL2 are the older names (Nässel and Elekes 1992) still used in some PD papers.
+CLUSTER_ALIASES = {"DL1": "PPL1", "DL2": "PPL2", "PPM1": "PPM1/2", "PPM2": "PPM1/2", "PPM12": "PPM1/2", "PPL2AB": "PPL2", "PPL2C": "PPL2",
                    "ALL": "ALL_DA", "ALLDA": "ALL_DA", "TOTAL": "ALL_DA", "ALLDOPAMINERGIC": "ALL_DA"}
 
 
