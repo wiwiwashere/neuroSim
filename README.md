@@ -67,13 +67,12 @@ pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
 cp .env.example .env                             # then paste your Gemini key into .env
 (cd backend && uvicorn neurosim.api.main:app --reload \
-  --reload-dir neurosim/api --reload-dir neurosim/agent \
-  --reload-dir neurosim/bio --reload-dir neurosim/engine)  # API on :8000
+  --reload-dir neurosim --reload-exclude 'neurosim/prep/*')  # API on :8000
 pytest tests/                                    # toy-graph tests
 cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)
 ```
 
-The `--reload-dir` flags keep edits to `prep/` (the dataset build) from
-restarting the API mid-request. `--reload-exclude` would be simpler but needs
-`watchfiles`, which plain `uvicorn` doesn't install. Edits to the top-level
-`neurosim/config.py` or `models.py` aren't watched: restart the API by hand.
+`--reload-exclude` keeps edits to `prep/` (the dataset build) from restarting
+the API mid-request; every other file under `neurosim/`, `config.py` and
+`models.py` included, still reloads it. The exclude needs `watchfiles`, which
+is in requirements.txt (plain `uvicorn` ignores the flag without it).

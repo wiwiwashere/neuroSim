@@ -1,7 +1,6 @@
 """FastAPI app (CS2). Run from backend/:
-    uvicorn neurosim.api.main:app --reload --reload-dir neurosim/api
-        --reload-dir neurosim/agent --reload-dir neurosim/bio --reload-dir neurosim/engine
-(not prep/: dataset edits would restart the API mid-request; see README).
+    uvicorn neurosim.api.main:app --reload --reload-dir neurosim --reload-exclude 'neurosim/prep/*'
+(prep/ is excluded: dataset edits would restart the API mid-request; see README).
 
 Every endpoint is a thin wrapper over engine/pipeline.py or bio/evidence.py.
 No science happens here. While NEUROSIM_MOCKS=1 (the default until the engine

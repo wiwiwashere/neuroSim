@@ -6,6 +6,7 @@ networkx         # only for the small drawn subgraph
 fastapi
 python-multipart # paper PDF uploads (FastAPI UploadFile)
 uvicorn
+watchfiles       # lets uvicorn --reload-exclude skip prep/ (see README)
 pydantic>=2
 google-genai     # agent (Gemini)
 python-dotenv    # loads GEMINI_API_KEY from .env
