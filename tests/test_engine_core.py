@@ -101,3 +101,40 @@ def test_synthetic_brain_is_reproducible_and_has_a_mixed_da_pool():
     assert {"PAM02", "PPL101", "PPM3_syn"} <= da_types
     sums = np.asarray(a.A.sum(axis=1)).ravel()
     assert np.allclose(sums[a.in_strength > 0], 1.0)
+
+
+def _toy():
+    from test_engine_toy import NAMES, P, toy_W
+
+    neurons = pd.DataFrame({"cell_type": NAMES, "region": ["R1", "R0", "R1", "R1", "R1", "R2", "R2"],
+                            "super_region": ["top", "top", "top", "top", "top", "bottom", "bottom"]})
+    return build_connectome(toy_W(), neurons, np.arange(len(NAMES)) + 1), P
+
+
+def test_top_path_strength_is_the_product_of_input_fractions():
+    from neurosim.engine.subgraph import top_paths_with_strength
+
+    conn, P = _toy()
+    [(path, strength)] = top_paths_with_strength(conn, [P["S"]], P["D"], k=3, hops=3)
+    assert path == [P["S"], P["A"], P["B"], P["D"]]
+    assert strength == pytest.approx(0.375)  # equals h3[D] in the design doc table
+
+
+def test_subgraph_marks_seeds_and_lost_drive():
+    from neurosim.engine.perturb import initial_deficit
+    from neurosim.engine.propagate import propagate
+    from neurosim.engine.subgraph import neuron_subgraph
+    from neurosim.models import PerturbationMode
+
+    conn, P = _toy()
+    x0 = initial_deficit(conn.n, np.array([P["S"]]), PerturbationMode.KNOCKOUT)
+    prop = propagate(conn.A, x0, 3, 0.5)
+    sub = neuron_subgraph(conn, prop, np.array([P["S"]]), max_nodes=10, x0=x0)
+    nodes = {n.label: n for n in sub.nodes}
+    assert set(nodes) == {"S", "A", "B", "D"}  # seeds plus every neuron with impact > 0
+    assert nodes["S"].is_seed and not nodes["A"].is_seed
+    label = {n.id: n.label for n in sub.nodes}
+    edges = {(label[e.source], label[e.target]): e for e in sub.edges}
+    assert edges[("S", "A")].lost == pytest.approx(0.75)
+    assert edges[("A", "B")].lost == pytest.approx(0.5 * 0.75)
+    assert all(0 <= n.x <= 1000 and 0 <= n.y <= 1000 for n in sub.nodes)
