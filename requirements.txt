@@ -7,4 +7,5 @@ fastapi
 uvicorn
 pydantic>=2
 google-genai     # agent (Gemini)
+python-dotenv    # loads GEMINI_API_KEY from .env
 pytest

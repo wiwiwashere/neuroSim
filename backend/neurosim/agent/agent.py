@@ -6,8 +6,8 @@ until it answers in text. The server keeps the conversation, so we only pass
 the previous interaction id, not the whole history. We record every tool call
 so the UI can show "the agent ran these experiments" next to the answer.
 
-Credentials: the SDK reads GEMINI_API_KEY. Model and thinking level come from
-config.py.
+Credentials: the SDK reads GEMINI_API_KEY from the environment; config.py
+loads it from the repo-root .env. Model and thinking level come from config.py.
 
 TODO (CS2):
   * pull run ids out of run_simulation results into run_ids

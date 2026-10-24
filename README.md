@@ -62,7 +62,7 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
 ```
 pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
-export GEMINI_API_KEY=...                        # for the agent
+cp .env.example .env                             # then paste your Gemini key into .env
 uvicorn neurosim.api.main:app --reload           # API on :8000
 pytest tests/                                    # toy-graph tests
 cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)

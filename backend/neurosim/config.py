@@ -6,7 +6,13 @@ and the sensitivity check (docs/ENGINE_DESIGN.md, section 9) sweeps them.
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 ROOT = Path(__file__).resolve().parents[2]
+# Secrets such as GEMINI_API_KEY live in a gitignored .env at the repo root
+# (copy .env.example). Variables already set in the shell win over the file.
+load_dotenv(ROOT / ".env")
+
 RAW_DIR = ROOT / "data" / "raw"
 PROCESSED_DIR = ROOT / "data" / "processed"
 EVIDENCE_PATH = ROOT / "data" / "evidence.json"
