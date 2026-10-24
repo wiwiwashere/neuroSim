@@ -27,6 +27,17 @@ def test_gene_without_ortholog_is_listed_but_not_simulatable():
         evidence.resolve_seeds(SimulationRequest(human_gene="SNCA"))
 
 
+def test_genes_with_an_ortholog_but_no_evidence_are_listed_but_not_simulatable():
+    genes = {g["human_gene"]: g for g in evidence.list_genes("parkinsons")}
+    assert {"VPS35", "GBA1", "RAB39B", "SYNJ1"} <= set(genes)
+    assert genes["GBA1"]["fly_genes"] == ["Gba1a", "Gba1b"]
+    assert genes["VPS35"]["simulatable"] is False and genes["VPS35"]["why_not"] == "no_evidence"
+    assert genes["SNCA"]["why_not"] == "no_ortholog"
+    assert genes["PRKN"]["simulatable"] is True and genes["PRKN"]["why_not"] is None
+    with pytest.raises(evidence.SeedError, match="no paper in the evidence table"):
+        evidence.resolve_seeds(SimulationRequest(human_gene="VPS35"))
+
+
 def test_validation_row_is_never_a_gene_seed():
     assert all(not row.finding.startswith("VALIDATION") for row in evidence.evidence_for("SNCA"))
 

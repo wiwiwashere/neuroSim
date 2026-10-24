@@ -1,7 +1,7 @@
 {
   "_readme": "Hand-curated by Bio. Every row needs a citation. Set verified_by_bio to true only after checking the paper's figures, not just the abstract. Rows marked TODO are drafts from abstracts.",
   "orthologs": {
-    "_readme": "fly_genes, relationship and diopt_score are what the code reads. diopt_score is the best fly gene's score: how many of the diopt_max DIOPT methods call the pair orthologous. diopt_rank follows DIOPT: high = best match in both directions (or score >= 5), moderate = best in one direction, low otherwise. Numbers come from the Alliance of Genome Resources orthology API (DIOPT-based, 9 methods apply to human-fly) on the retrieved date. Bio sets verified_by_bio after checking them in DIOPT.",
+    "_readme": "fly_genes, relationship and diopt_score are what the code reads. diopt_score is the best fly gene's score: how many of the diopt_max DIOPT methods call the pair orthologous. diopt_rank follows DIOPT: high = best match in both directions (or score >= 5), moderate = best in one direction, low otherwise. Numbers come from the Alliance of Genome Resources orthology API (DIOPT-based, 9 methods apply to human-fly) on the retrieved date. Bio sets verified_by_bio after checking them in DIOPT. diseases puts a gene with no evidence row yet in that disease's gene picker, marked as having no cluster evidence.",
     "PINK1": {
       "fly_genes": ["Pink1"], "relationship": "1:1", "diopt_score": 7,
       "hgnc_id": "HGNC:14581",
@@ -47,6 +47,100 @@
       "fly_orthologs": [],
       "_note": "No-ortholog edge case: no method calls a Drosophila ortholog (Alliance lists only vertebrate orthologs). Fly PD models express human SNCA instead, so SNCA is a validation case, never a gene seed.",
       "source_url": "https://www.alliancegenome.org/gene/HGNC:11138",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "VPS35": {
+      "fly_genes": ["Vps35"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q96QK1",
+      "fly_orthologs": [
+        {"symbol": "Vps35", "flybase_id": "FBgn0034708", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "ATP13A2": {
+      "fly_genes": ["anne"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q9NQ11",
+      "fly_orthologs": [
+        {"symbol": "anne", "flybase_id": "FBgn0052000", "diopt_rank": "moderate"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "PLA2G6": {
+      "fly_genes": ["iPLA2-VIA"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O60733",
+      "fly_orthologs": [
+        {"symbol": "iPLA2-VIA", "flybase_id": "FBgn0036053", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "FBXO7": {
+      "fly_genes": ["ntc"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q9Y3I1",
+      "fly_orthologs": [
+        {"symbol": "ntc", "flybase_id": "FBgn0035461", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "DNAJC6": {
+      "fly_genes": ["aux"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O75061",
+      "fly_orthologs": [
+        {"symbol": "aux", "flybase_id": "FBgn0037218", "diopt_rank": "moderate"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "SYNJ1": {
+      "fly_genes": ["Synj"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O43426",
+      "fly_orthologs": [
+        {"symbol": "Synj", "flybase_id": "FBgn0034691", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "VPS13C": {
+      "fly_genes": ["Vps13"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q709C8",
+      "fly_orthologs": [
+        {"symbol": "Vps13", "flybase_id": "FBgn0033194", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "TAF1": {
+      "fly_genes": ["Taf1"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "P21675",
+      "fly_orthologs": [
+        {"symbol": "Taf1", "flybase_id": "FBgn0010355", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "RAB39B": {
+      "fly_genes": ["Rab39", "RabX4"], "relationship": "1:2", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q96DA2",
+      "fly_orthologs": [
+        {"symbol": "Rab39", "flybase_id": "FBgn0029959", "diopt_rank": "moderate"},
+        {"symbol": "RabX4", "flybase_id": "FBgn0051118", "diopt_rank": "moderate"}
+      ],
+      "_note": "Two moderate fly orthologs on Kait's list. RabX4 is not in her expression table (open question for Kait).",
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "GBA1": {
+      "fly_genes": ["Gba1a", "Gba1b"], "relationship": "1:2", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "P04062",
+      "fly_orthologs": [
+        {"symbol": "Gba1a", "flybase_id": "FBgn0051148", "diopt_rank": "high"},
+        {"symbol": "Gba1b", "flybase_id": "FBgn0051414", "diopt_rank": "high"}
+      ],
+      "_note": "Two fly paralogs; Gba1b is the one usually studied in fly GBA models. Gba1a is near-silent in the brain atlas (0 TPM in every PAM line).",
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
       "retrieved": "2026-10-24", "verified_by_bio": false
     }
   },
