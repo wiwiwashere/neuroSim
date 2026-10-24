@@ -8,7 +8,18 @@ import { api } from "@/lib/api";
 import { int } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { useWorkspace } from "@/lib/workspace";
-import { ConfidenceMeter, ErrorNote, evidenceKey, FlyGene, StepHeading, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
+import {
+  ConfidenceMeter,
+  ErrorNote,
+  evidenceKey,
+  ExpressionNote,
+  FlyGene,
+  StepHeading,
+  TierBadge,
+  tpm,
+  UploadedQuote,
+  uniqueEvidence,
+} from "./primitives";
 
 /** One link in the chain. The rail on the left joins the cards into a sequence. */
 function Link({ kicker, children, confidence, last }: { kicker: string; children: ReactNode; confidence?: number; last?: boolean }) {
@@ -38,6 +49,12 @@ export function MappingChain() {
     queryFn: () => api.chain(ws.gene!, ws.highConfidenceOnly),
     enabled: !!ws.gene && simulatable,
   });
+  // The atlas needs no evidence rows, so genes that can't be simulated yet still get it.
+  const expression = useQuery({
+    queryKey: ["expression", ws.gene],
+    queryFn: () => api.expression(ws.gene!),
+    enabled: !!ws.gene && option?.why_not === "no_evidence",
+  });
 
   if (!ws.gene || !option) return null;
 
@@ -52,6 +69,36 @@ export function MappingChain() {
       />
     </label>
   );
+
+  if (!simulatable && option.why_not === "no_evidence") {
+    return (
+      <section>
+        <StepHeading title="Why these neurons?" />
+        <div className="grid gap-2 rounded-lg border border-dashed bg-card px-3.5 py-3 text-[13px]">
+          <p className="font-medium">
+            No paper names the neurons <span className="font-mono">{ws.gene}</span> models lose yet.
+          </p>
+          <p className="text-muted-foreground">
+            {option.fly_genes.length > 1 ? "Its fly orthologs are" : "Its fly ortholog is"}{" "}
+            {option.fly_genes.map((f, i) => (
+              <span key={f}>
+                {i > 0 && " and "}
+                <FlyGene>{f}</FlyGene>
+              </span>
+            ))}
+            , but the evidence table has no fly study saying which dopamine clusters die, so there is nothing to seed and
+            neuroSim doesn’t guess. A paper upload that names the clusters would add one.
+          </p>
+          {expression.data && (
+            <div className="border-t pt-2">
+              <p className="mb-1 text-[12px] text-muted-foreground">Expression in fly neurons · atlas</p>
+              <ExpressionNote expression={expression.data} />
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
 
   if (!simulatable) {
     return (
@@ -122,11 +169,26 @@ export function MappingChain() {
             </ul>
           </Link>
 
+          {c.expression && (
+            <Link kicker="Expression in fly neurons · atlas">
+              <ExpressionNote expression={c.expression} seedClusters={clusters} />
+            </Link>
+          )}
+
           <Link kicker="Connectome cell types">
             <ul className="grid gap-1">
               {c.seed_types.map((t) => (
                 <li key={t.cell_type} className="grid grid-cols-[1fr_auto_auto] items-center gap-2.5 text-[12.5px]">
-                  <span className="font-mono">{t.cell_type}</span>
+                  <span className="font-mono">
+                    {t.cell_type}
+                    {t.expression && (
+                      <span className="ml-1.5 text-[11px] text-muted-foreground" title="Expression atlas, context only">
+                        {Object.entries(t.expression.tpm)
+                          .map(([f, v]) => `${f} ${tpm(v)} TPM`)
+                          .join(" · ")}
+                      </span>
+                    )}
+                  </span>
                   <span
                     className={cn(
                       "rounded px-1 text-[10.5px]",

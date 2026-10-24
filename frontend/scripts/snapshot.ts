@@ -53,8 +53,9 @@ const runIds = new Map<string, string>();
 for (const disease of diseases) {
   const genes = await save(`/diseases/${encodeURIComponent(disease)}/genes`);
   for (const g of genes) {
-    if (!g.simulatable) continue;
     const gene = g.human_gene as string;
+    await save(`/genes/${encodeURIComponent(gene)}/expression`);
+    if (!g.simulatable) continue;
     for (const hc of [false, true]) {
       const chain = await save(`/genes/${encodeURIComponent(gene)}/chain${hc ? "?high_confidence_only=true" : ""}`);
       const base = { human_gene: gene, high_confidence_only: hc };

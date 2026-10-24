@@ -28,10 +28,10 @@ from neurosim import config
 from neurosim.agent import agent, papers, summary
 from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
-from neurosim.bio import evidence
+from neurosim.bio import evidence, expression
 from neurosim.engine import pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
-from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
+from neurosim.models import Comparison, GeneExpression, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
 
 USE_SYNTHETIC = os.environ.get("NEUROSIM_SYNTHETIC") == "1"
 _MOCKS_ENV = os.environ.get("NEUROSIM_MOCKS")
@@ -107,6 +107,13 @@ def mapping_chain(human_gene: str, high_confidence_only: bool = False) -> dict:
     request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
     with _http_errors():
         return (mocks.mock_seeds(request) if USE_MOCKS else evidence.resolve_seeds(request)).model_dump()
+
+
+@app.get("/genes/{human_gene}/expression")
+def gene_expression(human_gene: str) -> GeneExpression | None:
+    """Kait's atlas values for the gene's fly orthologs (PAM only), or null.
+    From the evidence table, so it works for genes that can't be simulated yet."""
+    return expression.gene_expression(human_gene)
 
 
 @app.post("/simulate")

@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 
 from neurosim import config
+from neurosim.bio import expression
 from neurosim.models import EvidenceRow, Ortholog, SeedSet, SeedType, SimulationRequest
 
 ALL_DA = "*"
@@ -72,10 +73,15 @@ def list_diseases() -> list[str]:
 def list_genes(disease: str) -> list[dict]:
     """Genes for a disease with their ortholog and best evidence tier,
     for the gene picker. Include genes with no fly ortholog (SNCA) so the UI
-    can show them as 'no fly ortholog' instead of hiding them."""
-    rows = [row for row in load_evidence()["evidence"] if row.disease == disease]
+    can show them as 'no fly ortholog' instead of hiding them, and ortholog
+    entries listing this disease that have no evidence row yet, so the UI can
+    say no paper names their clusters. why_not says which, None if simulatable."""
+    table = load_evidence()
+    rows = [row for row in table["evidence"] if row.disease == disease]
+    listed = [gene for gene, entry in table["orthologs"].items()
+              if isinstance(entry, dict) and disease in entry.get("diseases", [])]
     genes = []
-    for gene in dict.fromkeys(row.human_gene for row in rows):
+    for gene in dict.fromkeys([row.human_gene for row in rows] + listed):
         try:
             ortholog = find_ortholog(gene)
         except SeedError:  # a gene only an uploaded paper mentions, not yet in the ortholog table
@@ -83,13 +89,19 @@ def list_genes(disease: str) -> list[dict]:
                                 relationship="not in the ortholog table", confidence=0.0)
         seeds = [row for row in rows if row.human_gene == gene and not _is_validation(row)]
         best = max((row.tier for row in seeds), key=TIER_ORDER.get, default=None)
+        why_not = None
+        if not ortholog.fly_genes:
+            why_not = "no_ortholog"
+        elif not seeds:
+            why_not = "no_evidence"
         genes.append({
             "human_gene": gene,
             "fly_genes": ortholog.fly_genes,
             "relationship": ortholog.relationship,
             "ortholog_confidence": ortholog.confidence,
             "best_tier": best,
-            "simulatable": bool(ortholog.fly_genes) and bool(seeds),
+            "simulatable": why_not is None,
+            "why_not": why_not,
         })
     return genes
 
@@ -201,7 +213,10 @@ def resolve_seeds(request: SimulationRequest) -> SeedSet:
         raise SeedError(f"{gene} has no fly ortholog, so it cannot be simulated in the fly connectome")
     rows = evidence_for(gene, request.high_confidence_only)
     if not rows:
-        raise SeedError(f"no evidence rows for {gene}" + (" at medium or high tier" if request.high_confidence_only else ""))
+        if request.high_confidence_only and evidence_for(gene):
+            raise SeedError(f"no evidence rows for {gene} at medium or high tier")
+        raise SeedError(f"{gene} has a fly ortholog ({', '.join(ortholog.fly_genes)}), but no paper in the evidence "
+                        "table names the dopamine clusters lost in its fly models yet, so there are no seed neurons")
     seed_types = _seed_types(rows, ortholog.confidence, request.high_confidence_only)
     if request.seed_cell_types:
         wanted = set(request.seed_cell_types)
@@ -212,7 +227,8 @@ def resolve_seeds(request: SimulationRequest) -> SeedSet:
                         "have no matched cell types" + (" after the filters" if request.seed_cell_types
                                                        or request.high_confidence_only else ""))
     disease = rows[0].disease
-    return SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types)
+    # Expression is an annotation on the seeds, applied after they are chosen.
+    return expression.annotate(SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types))
 
 
 def validation_seeds() -> SeedSet:

@@ -1,5 +1,6 @@
+import { ExternalLink } from "lucide-react";
 import type { ReactNode } from "react";
-import type { EvidenceRow, SeedSet } from "@/lib/types";
+import type { EvidenceRow, GeneExpression, SeedSet } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 /** Section heading used down the left column. */
@@ -121,5 +122,89 @@ export function UploadedQuote({ row }: { row: EvidenceRow }) {
         {x.edited?.length ? ` · edited by Bio: ${x.edited.join(", ")}` : ""}
       </span>
     </p>
+  );
+}
+
+/** TPM as the atlas gives it; bulk RNA-seq can't tell values under 1 from nothing. */
+export const tpm = (v: number) => (v < 1 ? "<1" : String(Math.round(v)));
+
+/**
+ * Kait's expression atlas for a gene's fly orthologs (Davis et al. 2020, PAM only).
+ * Context for the chain, never a filter: clusters the atlas didn't profile are
+ * "not measured", and nothing here changes a seed or its confidence.
+ */
+export function ExpressionNote({ expression: x, seedClusters }: { expression: GeneExpression; seedClusters?: string[] }) {
+  const measured = new Set(x.clusters_measured);
+  // ALL_DA pools every dopamine neuron, so the atlas covers part of it (the PAM ones).
+  const allDa = (seedClusters ?? []).includes("ALL_DA");
+  const unmeasured = (seedClusters ?? []).filter((c) => !measured.has(c) && c !== "ALL_DA");
+  const ranges = x.fly_genes.map((f) => {
+    const values = x.cell_types.map((c) => c.tpm[f]).filter((v): v is number => v !== undefined);
+    return { gene: f, lo: Math.min(...values), hi: Math.max(...values) };
+  });
+  return (
+    <div className="grid gap-1 text-[12px] leading-snug">
+      <p>
+        {ranges.map((r, i) => (
+          <span key={r.gene}>
+            {i > 0 && ", "}
+            <FlyGene>{r.gene}</FlyGene>{" "}
+            <span className="font-mono tabular">
+              {r.lo === r.hi ? tpm(r.lo) : `${tpm(r.lo)}–${tpm(r.hi)}`}
+            </span>{" "}
+            TPM
+          </span>
+        ))}{" "}
+        <span className="text-muted-foreground">
+          across {x.cell_types.length} {x.clusters_measured.join(", ")} cell types
+        </span>
+      </p>
+      {allDa && (
+        <p className="text-muted-foreground">
+          These seeds are every dopamine neuron; the atlas only profiled the {x.clusters_measured.join(", ")} ones.
+        </p>
+      )}
+      {unmeasured.length > 0 && (
+        <p className="text-muted-foreground">
+          The atlas didn’t profile {unmeasured.join(", ")}, so {unmeasured.length > 1 ? "those seeds are" : "that seed is"} not
+          measured here, which is not the same as not expressed.
+        </p>
+      )}
+      {x.missing_fly_genes.length > 0 && (
+        <p className="text-muted-foreground">
+          {x.missing_fly_genes.map((f, i) => (
+            <span key={f}>
+              {i > 0 && ", "}
+              <FlyGene>{f}</FlyGene>
+            </span>
+          ))}{" "}
+          isn’t in the atlas.
+        </p>
+      )}
+      <details className="text-muted-foreground">
+        <summary className="cursor-pointer text-[11.5px] select-none hover:text-foreground">Values per cell type</summary>
+        <ul className="mt-1 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[11.5px]">
+          {x.cell_types.map((c) => (
+            <li key={c.cell_type} className="contents">
+              <span className="font-mono">
+                {c.cell_type}
+                {c.match === "coarse" && <span className="text-faint" title={`From a driver line that pools several PAM types: ${c.atlas_labels.join(", ")}`}> *</span>}
+              </span>
+              <span className="font-mono tabular">{x.fly_genes.map((f) => `${f} ${c.tpm[f] === undefined ? "—" : tpm(c.tpm[f])}`).join(" · ")}</span>
+            </li>
+          ))}
+        </ul>
+        {x.cell_types.some((c) => c.match === "coarse") && (
+          <p className="mt-1 text-[11px] text-faint">* from a driver line that pools several PAM types</p>
+        )}
+      </details>
+      <p className="text-[11px] text-faint">
+        <a href={x.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline-offset-2 hover:underline">
+          {x.citation}
+          <ExternalLink className="size-3" />
+        </a>{" "}
+        · bulk RNA-seq · context only, it never removes a seed or changes its confidence
+      </p>
+    </div>
   );
 }

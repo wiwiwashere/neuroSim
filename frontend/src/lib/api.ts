@@ -15,6 +15,7 @@ import type {
   EvidenceExtraction,
   EvidenceProposal,
   EvidenceRow,
+  GeneExpression,
   GeneOption,
   GroupLevel,
   NeuronExplanation,
@@ -97,6 +98,7 @@ export const api = {
     request<SeedSet>(
       `/genes/${encodeURIComponent(gene)}/chain${q({ high_confidence_only: highConfidenceOnly || undefined })}`,
     ),
+  expression: (gene: string) => request<GeneExpression | null>(`/genes/${encodeURIComponent(gene)}/expression`),
   simulate: (body: SimulationRequest) =>
     request<SimulationResult>("/simulate", { method: "POST", body: JSON.stringify(body) }),
   run: (runId: string) => request<SimulationResult>(`/runs/${encodeURIComponent(runId)}`),

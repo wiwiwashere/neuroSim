@@ -1,7 +1,7 @@
 {
   "_readme": "Hand-curated by Bio. Every row needs a citation. Set verified_by_bio to true only after checking the paper's figures, not just the abstract. Rows marked TODO are drafts from abstracts.",
   "orthologs": {
-    "_readme": "fly_genes, relationship and diopt_score are what the code reads. diopt_score is the best fly gene's score: how many of the diopt_max DIOPT methods call the pair orthologous. diopt_rank follows DIOPT: high = best match in both directions (or score >= 5), moderate = best in one direction, low otherwise. Numbers come from the Alliance of Genome Resources orthology API (DIOPT-based, 9 methods apply to human-fly) on the retrieved date. Bio sets verified_by_bio after checking them in DIOPT.",
+    "_readme": "fly_genes, relationship and diopt_score are what the code reads. diopt_score is the best fly gene's score: how many of the diopt_max DIOPT methods call the pair orthologous. diopt_rank follows DIOPT: high = best match in both directions (or score >= 5), moderate = best in one direction, low otherwise. Numbers come from the Alliance of Genome Resources orthology API (DIOPT-based, 9 methods apply to human-fly) on the retrieved date. Bio sets verified_by_bio after checking them in DIOPT. diseases puts a gene with no evidence row yet in that disease's gene picker, marked as having no cluster evidence.",
     "PINK1": {
       "fly_genes": ["Pink1"], "relationship": "1:1", "diopt_score": 7,
       "hgnc_id": "HGNC:14581",
@@ -47,6 +47,100 @@
       "fly_orthologs": [],
       "_note": "No-ortholog edge case: no method calls a Drosophila ortholog (Alliance lists only vertebrate orthologs). Fly PD models express human SNCA instead, so SNCA is a validation case, never a gene seed.",
       "source_url": "https://www.alliancegenome.org/gene/HGNC:11138",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "VPS35": {
+      "fly_genes": ["Vps35"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q96QK1",
+      "fly_orthologs": [
+        {"symbol": "Vps35", "flybase_id": "FBgn0034708", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "ATP13A2": {
+      "fly_genes": ["anne"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q9NQ11",
+      "fly_orthologs": [
+        {"symbol": "anne", "flybase_id": "FBgn0052000", "diopt_rank": "moderate"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "PLA2G6": {
+      "fly_genes": ["iPLA2-VIA"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O60733",
+      "fly_orthologs": [
+        {"symbol": "iPLA2-VIA", "flybase_id": "FBgn0036053", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "FBXO7": {
+      "fly_genes": ["ntc"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q9Y3I1",
+      "fly_orthologs": [
+        {"symbol": "ntc", "flybase_id": "FBgn0035461", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "DNAJC6": {
+      "fly_genes": ["aux"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O75061",
+      "fly_orthologs": [
+        {"symbol": "aux", "flybase_id": "FBgn0037218", "diopt_rank": "moderate"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "SYNJ1": {
+      "fly_genes": ["Synj"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "O43426",
+      "fly_orthologs": [
+        {"symbol": "Synj", "flybase_id": "FBgn0034691", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "VPS13C": {
+      "fly_genes": ["Vps13"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q709C8",
+      "fly_orthologs": [
+        {"symbol": "Vps13", "flybase_id": "FBgn0033194", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "TAF1": {
+      "fly_genes": ["Taf1"], "relationship": "1:1", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "P21675",
+      "fly_orthologs": [
+        {"symbol": "Taf1", "flybase_id": "FBgn0010355", "diopt_rank": "high"}
+      ],
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "RAB39B": {
+      "fly_genes": ["Rab39", "RabX4"], "relationship": "1:2", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "Q96DA2",
+      "fly_orthologs": [
+        {"symbol": "Rab39", "flybase_id": "FBgn0029959", "diopt_rank": "moderate"},
+        {"symbol": "RabX4", "flybase_id": "FBgn0051118", "diopt_rank": "moderate"}
+      ],
+      "_note": "Two moderate fly orthologs on Kait's list. RabX4 is not in her expression table (open question for Kait).",
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
+      "retrieved": "2026-10-24", "verified_by_bio": false
+    },
+    "GBA1": {
+      "fly_genes": ["Gba1a", "Gba1b"], "relationship": "1:2", "diopt_score": null,
+      "diseases": ["parkinsons"], "uniprot": "P04062",
+      "fly_orthologs": [
+        {"symbol": "Gba1a", "flybase_id": "FBgn0051148", "diopt_rank": "high"},
+        {"symbol": "Gba1b", "flybase_id": "FBgn0051414", "diopt_rank": "high"}
+      ],
+      "_note": "Two fly paralogs; Gba1b is the one usually studied in fly GBA models. Gba1a is near-silent in the brain atlas (0 TPM in every PAM line).",
+      "source": "Kait's DIOPT ortholog list (DRSC DIOPT): FlyBase IDs and DIOPT rank, no numeric score, so confidence uses UNSCORED_ORTHOLOG_CONFIDENCE.",
       "retrieved": "2026-10-24", "verified_by_bio": false
     }
   },
@@ -112,6 +206,25 @@
       "verified_by_bio": false
     }
   ],
+  "expression": {
+    "_readme": "Bio (Kait). Bulk RNA-seq of genetically labelled cell types from data/expression_table.csv (head samples only), in TPM. An annotation on the mapping chain, never a seed filter: most PD genes are expressed broadly, bulk RNA-seq misses low transcripts, and this atlas profiled PAM only, so PPL1, PPL2, PPM1/2, PPM3 and PAL are 'not measured', not 'not expressed'. cell_types maps each atlas label to FlyWire types (crosswalk from Kait's table, PAM numbers per Li et al. 2020 and checked against MBON partners in FlyWire v783). inferred = one driver line per compartment; coarse = a line that pools several PAM types. fly_gene_names maps the table's spellings to fly_genes symbols.",
+    "citation": "Davis et al. 2020, eLife 9:e50901",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7034979/",
+    "experiment": "Davis et al., 2020 - cell types - head",
+    "verified_by_bio": false,
+    "fly_gene_names": {"pink1": "Pink1", "park": "park", "DJ1beta": "dj-1beta", "DJ1alpha": "DJ-1alpha", "Lrrk": "Lrrk", "Vps35": "Vps35", "anne": "anne", "iPLAVIA": "iPLA2-VIA", "ntc": "ntc", "aux": "aux", "Synj": "Synj", "Vps13": "Vps13", "taf1": "Taf1", "Rab39": "Rab39", "Gba1a": "Gba1a", "Gba1b": "Gba1b"},
+    "cell_types": {
+      "dopaminergic PAM neuron 1": {"cluster": "PAM", "match": "inferred", "compartments": "b'2a", "cell_types": ["PAM02"]},
+      "dopaminergic PAM neuron 2": {"cluster": "PAM", "match": "coarse", "compartments": "b'2a, g3, g4, g4<g1g2, g5", "cell_types": ["PAM02", "PAM12", "PAM08", "PAM07", "PAM01"]},
+      "dopaminergic PAM neuron 3": {"cluster": "PAM", "match": "inferred", "compartments": "b1, b2", "cell_types": ["PAM10", "PAM04"]},
+      "dopaminergic PAM neuron 4": {"cluster": "PAM", "match": "inferred", "compartments": "g4, g4<g1g2", "cell_types": ["PAM08", "PAM07"]},
+      "dopaminergic PAM neuron 5": {"cluster": "PAM", "match": "inferred", "compartments": "g5", "cell_types": ["PAM01"]},
+      "dopaminergic PAM neuron 6": {"cluster": "PAM", "match": "coarse", "compartments": "b'2m, g3, g4, g5", "cell_types": ["PAM06", "PAM12", "PAM08", "PAM01"]},
+      "dopaminergic PAM neuron 7": {"cluster": "PAM", "match": "inferred", "compartments": "a1", "cell_types": ["PAM11"]},
+      "dopaminergic PAM neuron 8": {"cluster": "PAM", "match": "inferred", "compartments": "g3", "cell_types": ["PAM12"]},
+      "dopaminergic PAM neuron 9": {"cluster": "PAM", "match": "inferred", "compartments": "b1", "cell_types": ["PAM10"]}
+    }
+  },
   "cluster_to_cell_types": {
     "_readme": "Bio + CS1, built on day 1 by searching Codex. exact = the connectome names this cluster directly; inferred = matched by projection pattern.",
     "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"], "_note": "The FlyWire v783 annotations (flywire_annotations v3.2.0) also have PPL107 and PPL108 (2 neurons each, dopamine). Bio to decide whether they belong here."},

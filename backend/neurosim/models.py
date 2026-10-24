@@ -55,6 +55,28 @@ class EvidenceRow(BaseModel):
     extracted: PaperSource | None = None # set on rows approved from a paper upload
 
 
+class CellTypeExpression(BaseModel):
+    """A fly gene's expression in one FlyWire cell type, from Kait's atlas table.
+    An annotation only: it never changes which neurons are seeds or their confidence."""
+
+    cell_type: str                       # "PAM08"
+    tpm: dict[str, float]                # fly gene -> TPM, mean over the atlas lines covering this type
+    atlas_labels: list[str]              # ["dopaminergic PAM neuron 4"]
+    match: str                           # "inferred" (one line per compartment) | "coarse" (a pooled line)
+
+
+class GeneExpression(BaseModel):
+    """What the expression atlas says about one gene's fly orthologs (bio/expression.py)."""
+
+    human_gene: str
+    fly_genes: list[str]                 # orthologs the atlas measured
+    missing_fly_genes: list[str]         # orthologs it has no rows for (RabX4)
+    clusters_measured: list[str]         # ["PAM"]: every other cluster is "not measured", which is neutral
+    cell_types: list[CellTypeExpression]
+    citation: str
+    url: str
+
+
 class SeedType(BaseModel):
     """A connectome cell type chosen as a starting point, and why."""
 
@@ -65,6 +87,7 @@ class SeedType(BaseModel):
     root_ids: list[int]
     confidence: float                    # ortholog x tier x match (see bio/evidence.py)
     evidence: list[EvidenceRow]
+    expression: CellTypeExpression | None = None   # PAM types only; None = not measured, never a veto
 
 
 class SeedSet(BaseModel):
@@ -72,6 +95,7 @@ class SeedSet(BaseModel):
     human_gene: str
     ortholog: Ortholog
     seed_types: list[SeedType]
+    expression: GeneExpression | None = None   # None when the atlas has none of the gene's orthologs
 
     @property
     def root_ids(self) -> list[int]:

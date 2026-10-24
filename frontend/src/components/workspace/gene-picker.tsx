@@ -82,7 +82,11 @@ export function GenePicker() {
                 )}
               </span>
               <span className="flex items-center gap-1.5">
-                {g.simulatable ? <TierBadge tier={g.best_tier} /> : <span className="text-[11px] text-faint">can’t simulate</span>}
+                {g.simulatable ? (
+                  <TierBadge tier={g.best_tier} />
+                ) : (
+                  <span className="text-[11px] text-faint">{g.why_not === "no_evidence" ? "no evidence yet" : "can’t simulate"}</span>
+                )}
                 <Check className={cn("size-3.5", active ? "text-foreground" : "invisible")} aria-label={active ? "selected" : undefined} />
               </span>
             </button>

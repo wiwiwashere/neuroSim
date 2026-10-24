@@ -91,3 +91,10 @@ def test_unhandled_error_is_json_with_a_readable_detail(monkeypatch):
     res = client.post("/agent/chat", json={"message": "Test PPL101 alone"})
     assert res.status_code == 500
     assert res.json() == {"detail": "neuroSim hit an internal error (RuntimeError). The API log has the traceback."}
+
+
+def test_expression_endpoint_works_for_genes_without_evidence(monkeypatch):
+    client = client_with(monkeypatch, NEUROSIM_MOCKS="1")
+    gba = client.get("/genes/GBA1/expression").json()
+    assert gba["fly_genes"] == ["Gba1a", "Gba1b"] and gba["clusters_measured"] == ["PAM"]
+    assert client.get("/genes/SNCA/expression").json() is None
