@@ -40,6 +40,9 @@ backend/neurosim/
   api/mocks.py         fixed sample payloads until the engine works        (CS2)
   agent/tools.py       tools the LLM may call (thin wrappers on pipeline)  (CS2)
   agent/agent.py       the agent loop (Gemini API)                         (CS2)
+  agent/gemini.py      Gemini client, rate-limit and overload fallback     (CS2)
+  agent/summary.py     structured run summary card (Gemini, JSON schema)   (CS2)
+  agent/papers.py      paper PDF -> proposed evidence rows for Bio         (CS2)
   agent/prompts.py     system prompt rules                                 (Bio)
 data/
   raw/                 downloads go here (not committed)

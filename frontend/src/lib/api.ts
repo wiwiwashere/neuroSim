@@ -9,11 +9,14 @@
 
 import type {
   AgentReply,
-  ChatMessage,
+  ChatRequest,
   Comparison,
+  EvidenceExtraction,
+  EvidenceProposal,
   GeneOption,
   GroupLevel,
   NeuronExplanation,
+  RunSummary,
   SankeyLink,
   SeedSet,
   SimulationRequest,
@@ -35,10 +38,18 @@ export class ApiError extends Error {
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const url = SNAPSHOT_MODE ? `/demo/${snapshotPath(path, init?.body as string | undefined)}` : `/api${path}`;
-  const res = await fetch(url, SNAPSHOT_MODE ? undefined : { ...init, headers: { "Content-Type": "application/json" } });
+  const json = typeof init?.body === "string";
+  const res = await fetch(url, SNAPSHOT_MODE ? undefined : { ...init, headers: json ? { "Content-Type": "application/json" } : undefined });
   if (!res.ok) {
-    const detail = SNAPSHOT_MODE ? "not in the demo snapshot" : await res.text().catch(() => "");
-    throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) ${detail}`.trim(), res.status);
+    if (SNAPSHOT_MODE) throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) not in the demo snapshot`, res.status);
+    const text = await res.text().catch(() => "");
+    // FastAPI's HTTPException carries a plain-words message in "detail": show that alone.
+    let detail: unknown = text;
+    try {
+      detail = (JSON.parse(text) as { detail?: unknown }).detail ?? text;
+    } catch {}
+    if (typeof detail === "string" && detail && (res.status < 500 || res.status === 503)) throw new ApiError(detail, res.status);
+    throw new ApiError(`${init?.method ?? "GET"} ${path} failed (${res.status}) ${text}`.trim(), res.status);
   }
   return res.json() as Promise<T>;
 }
@@ -66,8 +77,18 @@ export const api = {
     request<NeuronExplanation>(`/runs/${encodeURIComponent(runId)}/neurons/${rootId}/explain`),
   compare: (runA: string, runB: string, level: GroupLevel) =>
     request<Comparison>(`/compare${q({ run_a: runA, run_b: runB, level })}`),
-  agentChat: (messages: ChatMessage[]) =>
-    request<AgentReply>("/agent/chat", { method: "POST", body: JSON.stringify({ messages }) }),
+  agentChat: (body: ChatRequest) => request<AgentReply>("/agent/chat", { method: "POST", body: JSON.stringify(body) }),
+  runSummary: (runId: string) => request<RunSummary>(`/runs/${encodeURIComponent(runId)}/summary`, { method: "POST" }),
+  extractEvidence: (file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request<EvidenceExtraction>("/evidence/extract", { method: "POST", body: form });
+  },
+  decideEvidence: (rowId: string, approve: boolean) =>
+    request<EvidenceProposal>(`/evidence/rows/${encodeURIComponent(rowId)}/decision`, {
+      method: "POST",
+      body: JSON.stringify({ approve }),
+    }),
 };
 
 /** FlyWire Codex page for one neuron: the real 3D shape, no renderer of our own. */

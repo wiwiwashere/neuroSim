@@ -45,19 +45,17 @@ localStorage).
 
 | # | View | Where | Endpoint | Shows | Notes |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Disease | Left | `GET /diseases` | One card per disease, display name from `format.ts` | Generic list, never hard-coded. Picking one clears the gene |
-| 2 | Gene | Left | `GET /diseases/{d}/genes` | Gene (mono), fly ortholog(s) in italics, evidence tier badge | A gene with no fly ortholog (SNCA) stays listed in grey with "can't simulate"; picking it shows why in the chain slot |
-| 3 | Why these neurons? (mapping chain) | Left | `GET /genes/{g}/chain` | Linked cards on a rail: human gene → fly ortholog with DIOPT score, relationship and confidence meter → dopamine clusters lost, each finding with its citation link, model type and tier → connectome cell types with an exact/inferred tag and confidence meter → total seed neurons | "High-confidence only" switch re-fetches with `high_confidence_only=true` and is sent with the run |
-| 4 | Perturbation | Left, pinned to the bottom of the column | — | Knockout / Reduce output toggle and a Run button ("Run again" for a request already run). The "Output lost" slider (5–100%) appears only for Reduce output, with the note "results scale linearly with strength; rankings don't change" | Knockout always sends strength 1. The empty results area offers the same Run button |
-| 5 | Overview (hero) | Centre tab | `POST /simulate`, `GET /runs/{id}/sankey` | Headline: disruption as a multiple of chance ("3.2× chance"), its z and a plain reading ("far above chance"). Two equal tiles: seed disruption % vs random DA neurons of the same count. Seed and reached counts within N hops. Sankey "Where does the damage go?" from seed clusters to super regions. "Most dependent regions": top three by z with function label | Seeds orange, above-chance regions blue, the rest grey |
-| 6 | Ranked | Centre tab | from the `/simulate` result | "Which effects are real, and which are chance?" Horizontal bars of z vs random DA neurons, ±1.96 band shaded, bars that pass FDR (q < 0.05) blue, function label under each name. "Show table" adds group, function, neurons, strong hits, direct %, z, q | Level toggle: super region / region / cell type; a level the run didn't return is disabled |
-| 7 | Network | Centre tab | `GET /runs/{id}/subgraph`, `GET /runs/{id}/neurons/{rid}/explain` | Healthy and "With PRKN knockout" side by side at the same positions; lost drive dashed, seeds orange. The most-hit neuron starts selected; clicking one opens its impact, strongest paths from the seeds, and a "View in Codex (3D)" link | Positions come from the backend's x/y; without them, one column per region. At most `SUBGRAPH_MAX_NODES` (200) |
-| 8 | Compare | Centre tab | `POST /simulate`, `GET /compare?run_a&run_b&level` | The active run against a second one: pick an earlier run, or pick a gene and "Run and compare" (same mode and strength). Spearman ρ tile with a plain reading and the level, the summary sentence, chips for in both top lists / only A / only B, and a paired dot chart "Do they hit the same circuits?" (a row per region, a dot per gene, shared chance band) | The demo's high point: PINK1 vs PRKN. Falls back to super region if either run lacks the chosen level |
-| 9 | Ask neuroSim (agent) | Right | `POST /agent/chat`, `GET /runs/{id}` | Four suggested questions, then a chat. Each tool call is a chip ("ran simulation: PRKN, knockout", "compared the two runs", "read mapping chain: PINK1", "explained neuron …") that opens its result. Runs the agent makes load into the centre views (a comparison opens the Compare tab), so the screen changes when the agent runs something | If `/agent/chat` returns 5xx, or in snapshot mode, a scripted stand-in calls the same API tools; its replies are labelled "scripted stand-in" |
-
-Above the results, a "Showing" menu lists every run made this session, the
-agent's marked "(agent)", and switches the centre views between them. Before
-the first run the centre shows "Ready to perturb PRKN" with a Run button.
+| 1 | Pick disease | Left | `GET /diseases` | One card per disease | Generic list, never hard-coded |
+| 2 | Pick gene | Left | `GET /diseases/{d}/genes` | Gene, fly ortholog (italic), evidence tier | SNCA greyed: "no fly ortholog"; clicking it explains why it can't be simulated |
+| 3 | Mapping chain | Left | `GET /genes/{g}/chain` | Linked cards: human gene → fly gene (DIOPT) → clusters lost (finding, citation, tier) → connectome cell types (exact/inferred) → neuron count; confidence meter on each link | "High-confidence only" switch re-calls with `high_confidence_only=true` |
+| 4 | Perturbation | Left | — | Knockout / reduce output, strength slider, Run | Note under the slider: "results scale linearly with strength; rankings don't change" |
+| 5 | Overview (hero) | Centre tab | `POST /simulate`, `GET /runs/{id}/sankey` | Disruption score with its z and chance level, seed and reached counts; Sankey from seed clusters to super regions; top three regions | Seeds orange, above-chance regions blue, the rest grey |
+| 6 | Ranked | Centre tab | from `/simulate` result | Horizontal bars of z vs random DA neurons, chance range (±1.96) shaded, above-chance bars in the accent colour, function label under each name; table view toggle | Level toggle: super region / region / cell type |
+| 7 | Network | Centre tab | `GET /runs/{id}/subgraph`, `GET /runs/{id}/neurons/{rid}/explain` | Healthy and perturbed side by side at the backend's positions, grouped by region; lost drive drawn dashed; click a neuron for its top paths and its Codex link | ≤ 200 nodes |
+| 8 | Compare | Centre tab | `GET /compare?run_a&run_b&level` | Rank correlation with a plain-words reading, summary sentence, shared/only chips, one paired dot chart (a row per region, a dot per gene, shared chance band) | The demo's high point: PINK1 vs PRKN |
+| 9 | Agent panel | Right | `POST /agent/chat` | Chat with Gemini; each tool call is a chip ("ran simulation: PRKN, knockout") that opens its result. Runs in `run_ids` load into the centre views, so the screen changes when the agent runs something | The panel sends the run on screen as context, so "what if they lose half?" works. In snapshot mode a clearly labelled scripted stand-in calls the same API tools |
+| 10 | Run summary | Overview tab | `POST /runs/{id}/summary` | Gemini's card: headline, top circuits with the run's own z-scores, caveats, one next experiment with a Run button | Asked for on click to save free-tier quota; hidden in snapshot mode |
+| 11 | Evidence from a paper | Left | `POST /evidence/extract`, `POST /evidence/rows/{id}/decision` | Upload a PDF; Gemini proposes evidence rows with quote and page; Approve or Reject each | Approved rows go to `data/evidence_approved.json`, unverified until Bio checks the figures |
 
 Every results view ends with one line: "Structural dependency in the fly
 connectome, not a prediction of symptoms." (Bio writes the final wording, in
@@ -73,14 +71,10 @@ connectome, not a prediction of symptoms." (Bio writes the final wording, in
 | `src/lib/snapshot-keys.ts` | Request → `public/demo/` file name, shared with `scripts/snapshot.ts` |
 | `src/lib/api-types.ts` | Generated from OpenAPI; don't edit |
 | `src/lib/types.ts` | Friendly names for the generated types, plus the untyped endpoints |
-| `src/lib/workspace.tsx` | Shared state: picks, runs, active and compared run, tab. The agent writes here too |
-| `src/lib/standin-agent.ts` | Scripted stand-in for `/agent/chat` |
-| `src/lib/format.ts` | Number formats, plain readings of z and ρ, the scope line |
-| `src/lib/theme.tsx` | Light/dark, and the colour tokens resolved to hex for Plotly and Cytoscape |
-| `src/components/charts/` | `sankey`, `ranked-bars`, `paired-dots` (Plotly), `network` (Cytoscape), `plot` (shared Plotly setup) |
-| `src/components/workspace/` | `top-bar`, `gene-picker`, `mapping-chain`, `perturbation`, `results` (Overview, Ranked, Network, run switcher), `compare`, `agent-panel` |
-| `next.config.ts` | Proxies `/api/*` to FastAPI, so the backend needs no CORS |
-| `scripts/snapshot.ts` | Writes `public/demo/` for snapshot mode |
+| `src/lib/workspace.tsx` | Shared state: picks, runs, active tab. The agent writes here too |
+| `src/lib/standin-agent.ts` | Scripted stand-in for `/agent/chat`, snapshot mode only |
+| `src/components/charts/` | Plotly and Cytoscape wrappers |
+| `src/components/workspace/` | The views above |
 
 Colour: two data roles only, `--signal` (blue, above chance) and `--seed`
 (orange, the perturbed neurons), plus `--faint` / `--chance` greys, on a warm

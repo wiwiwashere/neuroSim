@@ -14,6 +14,7 @@ import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
 import { EmptyState, ErrorNote, StatTile } from "./primitives";
+import { RunSummaryCard } from "./run-summary";
 
 const DamageSankey = dynamic(() => import("@/components/charts/sankey").then((m) => m.DamageSankey), { ssr: false });
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
@@ -85,6 +86,8 @@ function Overview({ result }: { result: SimulationResult }) {
           {sankey.data && <DamageSankey links={sankey.data} groups={supers} />}
         </div>
       </Panel>
+
+      <RunSummaryCard result={result} />
 
       {top.length > 0 && (
         <Panel title="Most dependent regions">

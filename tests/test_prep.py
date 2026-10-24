@@ -1,0 +1,151 @@
+"""Tests for the offline prep (prep/build_dataset.py) on a tiny fake FlyWire
+table. The real run is checked by its printed summary, not here."""
+
+import json
+
+import numpy as np
+import pandas as pd
+import pyarrow as pa
+import pyarrow.feather as feather
+import pytest
+import scipy.sparse as sp
+
+from neurosim.prep import build_dataset as bd
+
+# Neuron 1 is dopaminergic, 2 is cholinergic, 9 and 8 only receive input.
+# Pair 1->9 has 3 + 3 synapses in two neuropils (kept, 6). Pair 2->8 has
+# 2 + 2 (dropped, 4). Pair 2->9 has 5 in one neuropil (kept).
+ROWS = [
+    # pre, post, neuropil, syn, ach, da
+    (1, 9, "MB_CA_R", 3, 0.1, 0.9),
+    (1, 9, "MB_ML_R", 3, 0.1, 0.9),
+    (2, 8, "LH_R", 2, 0.8, 0.0),
+    (2, 8, "SLP_R", 2, 0.8, 0.0),
+    (2, 9, "MB_ML_R", 5, 0.8, 0.0),
+]
+
+
+def fake_conn() -> pd.DataFrame:
+    pre, post, neuropil, syn, ach, da = zip(*ROWS)
+    df = pd.DataFrame({bd.PRE: pre, bd.POST: post, "neuropil": neuropil, "syn_count": syn})
+    for col in bd.NT_COLUMNS:
+        df[col] = 0.0
+    df["ach_avg"], df["da_avg"] = ach, da
+    for col in ("gaba_avg", "glut_avg", "oct_avg", "ser_avg"):
+        df[col] = (1.0 - df["ach_avg"] - df["da_avg"]) / 4
+    return df
+
+
+def test_aggregate_pairs_sums_then_thresholds():
+    pairs = bd.aggregate_pairs(fake_conn(), threshold=5)
+    assert pairs[["pre", "post", "syn_count"]].values.tolist() == [[1, 9, 6], [2, 9, 5]]
+
+
+def test_primary_input_region_uses_all_input_before_threshold():
+    region = bd.primary_input_region(fake_conn())
+    # 9 gets 3 (MB_CA_R) + 3 + 5 (MB_ML_R); 8 gets 2 + 2, tie broken alphabetically.
+    assert region.to_dict() == {8: "LH_R", 9: "MB_ML_R"}
+
+
+def test_neuron_transmitter_is_synapse_weighted():
+    nt = bd.neuron_transmitter(fake_conn())
+    assert nt.loc[1, "nt_type"] == "DA"
+    assert nt.loc[1, "nt_type_score"] == pytest.approx(0.9)
+    assert nt.loc[2, "nt_type"] == "ACH"
+    assert 9 not in nt.index  # no output synapses, no vote
+
+
+def test_neuron_transmitter_skips_rows_without_prediction():
+    conn = fake_conn()
+    conn.loc[len(conn)] = {**conn.iloc[0].to_dict(), bd.PRE: 3, "syn_count": 7}
+    conn.loc[len(conn) - 1, list(bd.NT_COLUMNS)] = np.nan
+    conn.loc[0, list(bd.NT_COLUMNS)] = np.nan  # one of neuron 1's two rows
+    nt = bd.neuron_transmitter(conn)
+    assert 3 not in nt.index
+    assert nt.loc[1, "nt_type"] == "DA" and nt.loc[1, "nt_type_score"] == pytest.approx(0.9)
+
+
+def test_build_matrix_follows_root_id_order():
+    pairs = bd.aggregate_pairs(fake_conn(), threshold=5)
+    root_ids = np.array([1, 2, 8, 9])
+    W = bd.build_matrix(pairs, root_ids)
+    assert W.shape == (4, 4)
+    assert W[0, 3] == 6 and W[1, 3] == 5 and W.nnz == 2
+
+
+def test_build_matrix_rejects_unknown_ids():
+    pairs = pd.DataFrame({"pre": [1], "post": [7], "syn_count": [5]})
+    with pytest.raises(ValueError):
+        bd.build_matrix(pairs, np.array([1, 2]))
+
+
+def test_region_table_covers_every_v783_neuropil():
+    names = ["AL_L", "MB_ML_R", "FB", "GNG", "UNASGD", "AME_R", "OCG"]
+    table = bd.build_region_table(names)
+    assert table["MB_ML_R"] == {"super_region": "mushroom body", "function": "learning and memory", "side": "right"}
+    assert table["FB"]["super_region"] == "central complex" and table["FB"]["side"] is None
+    assert table["UNASGD"]["super_region"] == "unassigned"
+    assert all(v["super_region"] != "unassigned" for k, v in table.items() if k != "UNASGD")
+
+
+def test_load_annotations_maps_columns(tmp_path):
+    path = tmp_path / bd.ANNOTATIONS_FILE
+    pd.DataFrame({
+        "root_id": ["720575940600000001", "720575940600000002", "720575940600000003"],
+        "super_class": ["central", "central", "central"],
+        "cell_class": ["DAN", None, "Kenyon_Cell"],
+        "cell_type": ["PPL101", None, "KCab"],
+        "side": ["right", "left", "left"],
+        "top_nt": ["dopamine", np.nan, "dopamine"],
+        "top_nt_conf": [0.95, np.nan, 0.6],
+        "known_nt": [np.nan, np.nan, "acetylcholine; sNPF; acetylcholine, sNPF"],
+        "status": ["", "", ""],
+    }).to_csv(path, sep="\t", index=False)
+    labels = bd.load_annotations(path)
+    assert labels["root_id"].dtype == "int64"
+    assert labels.loc[0, "root_id"] == 720575940600000001  # not rounded through float
+    assert labels.loc[0, "class"] == "DAN" and labels.loc[0, "nt_type"] == "DA"
+    assert labels.loc[0, "nt_source"] == "predicted" and labels.loc[0, "nt_type_score"] == 0.95
+    # Kenyon cells are predicted dopaminergic but known to be cholinergic.
+    assert labels.loc[2, "nt_type"] == "ACH" and labels.loc[2, "nt_source"] == "known"
+    assert pd.isna(labels.loc[1, "cell_type"])  # kept, not dropped
+    assert "status" not in labels
+
+
+def test_load_annotations_missing_file_is_none(tmp_path):
+    assert bd.load_annotations(tmp_path / "nope.tsv") is None
+
+
+def test_build_end_to_end(tmp_path):
+    raw, out = tmp_path / "raw", tmp_path / "processed"
+    raw.mkdir()
+    feather.write_feather(pa.Table.from_pandas(fake_conn(), preserve_index=False), raw / bd.CONNECTIONS_FILE)
+    pd.DataFrame({
+        "root_id": [1, 2, 9, 5],  # 5 is annotated but has no connections
+        "super_class": ["central"] * 4,
+        "cell_class": ["DAN", None, "MBON", None],
+        "cell_type": ["PPL101", None, "MBON01", "PAM01"],
+        "side": ["right"] * 4,
+        "top_nt": ["dopamine", np.nan, "acetylcholine", "dopamine"],
+        "top_nt_conf": [0.9, np.nan, 0.8, 0.7],
+    }).to_csv(raw / bd.ANNOTATIONS_FILE, sep="\t", index=False)
+
+    summary = bd.build(raw, out, threshold=5)
+
+    root_ids = np.load(out / "index.npy")
+    assert root_ids.tolist() == [1, 2, 5, 8, 9]
+    W = sp.load_npz(out / "edges.npz")
+    assert W.shape == (5, 5) and W.sum() == 11
+    neurons = pd.read_parquet(out / "neurons.parquet")
+    assert neurons.index.tolist() == [0, 1, 2, 3, 4]
+    n = neurons.set_index("root_id")
+    assert n.loc[9, "region"] == "MB_ML_R" and n.loc[9, "super_region"] == "mushroom body"
+    assert n.loc[9, "in_syn"] == 11 and n.loc[1, "out_syn"] == 6
+    assert n.loc[1, "nt_type"] == "DA" and n.loc[1, "nt_source"] == "predicted"
+    assert n.loc[2, "nt_type"] == "ACH" and n.loc[2, "nt_source"] == "synapses"
+    assert pd.isna(n.loc[5, "region"]) and n.loc[5, "nt_type"] == "DA"
+    assert n.loc[8, "side"] == "right"  # unannotated: side of its input neuropil (LH_R)
+    regions = json.loads((out / "regions.json").read_text())
+    assert set(regions) == {"MB_CA_R", "MB_ML_R", "LH_R", "SLP_R"}
+    assert summary["dopaminergic"] == 2
+    assert summary["ppl1_types"] == ["PPL101"] and summary["pam_types"] == ["PAM01"]

@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowUp, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { api, ApiError, SNAPSHOT_MODE } from "@/lib/api";
+import { api, SNAPSHOT_MODE } from "@/lib/api";
 import { standInChat } from "@/lib/standin-agent";
-import type { ChatMessage, SimulationRequest, SimulationResult, ToolCall } from "@/lib/types";
+import type { SimulationRequest, SimulationResult, ToolCall } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { requestKey, runLabel, useWorkspace } from "@/lib/workspace";
 
@@ -26,7 +26,7 @@ const SUGGESTIONS = [
 ];
 
 function chipText(call: ToolCall): string {
-  const i = call.input as Record<string, unknown>;
+  const i = call.arguments;
   switch (call.name) {
     case "run_simulation": {
       const req = { human_gene: String(i.human_gene), mode: i.mode, strength: i.strength, seed_cell_types: i.seed_cell_types } as SimulationRequest;
@@ -57,6 +57,8 @@ export function AgentPanel() {
   const qc = useQueryClient();
   const [turns, setTurns] = useState<Turn[]>([]);
   const [draft, setDraft] = useState("");
+  // Gemini keeps the conversation; we only carry the id of the last turn.
+  const [interactionId, setInteractionId] = useState<string | null>(null);
   const scroller = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -83,24 +85,23 @@ export function AgentPanel() {
   };
 
   const chat = useMutation({
-    mutationFn: async (history: ChatMessage[]) => {
-      if (!SNAPSHOT_MODE) {
-        try {
-          const reply = await api.agentChat(history);
-          const results = await Promise.all(
-            reply.run_ids.map((id) => qc.fetchQuery({ queryKey: ["run", id], queryFn: () => api.run(id) })),
-          );
-          return { ...reply, results, standIn: false };
-        } catch (e) {
-          // Only fall back while the endpoint is unimplemented, not on real agent errors.
-          if (!(e instanceof ApiError && e.status >= 500)) throw e;
-        }
-      }
-      return { ...(await standInChat(history, ws.activeRun?.result.request ?? null)), standIn: true };
+    mutationFn: async (message: string) => {
+      const active = ws.activeRun?.result.request ?? null;
+      if (SNAPSHOT_MODE) return { ...(await standInChat(message, active)), standIn: true };
+      const reply = await api.agentChat({
+        message,
+        interaction_id: interactionId,
+        context: ws.activeRun ? { active_run: { run_id: ws.activeRun.result.run_id, label: ws.activeRun.label, ...active } } : null,
+      });
+      const results = await Promise.all(
+        reply.run_ids.map((id) => qc.fetchQuery({ queryKey: ["run", id], queryFn: () => api.run(id) })),
+      );
+      return { ...reply, results, standIn: false };
     },
     onSuccess: (reply) => {
+      if (reply.interaction_id) setInteractionId(reply.interaction_id);
       setTurns((t) => [...t, { role: "assistant", content: reply.reply, toolCalls: reply.tool_calls, standIn: reply.standIn }]);
-      loadResults(reply.results, reply.tool_calls.some((c) => c.name === "compare_runs"));
+      loadResults(reply.results, reply.tool_calls.some((c) => c.name === "compare_runs" && !c.error));
     },
     onError: (e) => setTurns((t) => [...t, { role: "assistant", content: e instanceof Error ? e.message : String(e), error: true }]),
   });
@@ -108,21 +109,21 @@ export function AgentPanel() {
   const send = (text: string) => {
     const content = text.trim();
     if (!content || chat.isPending) return;
-    const next = [...turns.filter((t) => !t.error), { role: "user" as const, content }];
     setTurns((t) => [...t, { role: "user", content }]);
     setDraft("");
-    chat.mutate(next.map(({ role, content }) => ({ role, content })));
+    chat.mutate(content);
   };
 
   const openChip = (call: ToolCall) => {
+    if (call.error) return;
     if (call.name === "run_simulation") {
-      const i = call.input as unknown as SimulationRequest;
+      const i = call.arguments as unknown as SimulationRequest;
       const key = requestKey(i);
       if (ws.runs.some((r) => r.key === key)) ws.set({ activeKey: key, tab: "overview" });
     } else if (call.name === "compare_runs") {
       ws.set({ tab: "compare" });
     } else if (call.name === "get_gene_chain") {
-      ws.set({ gene: String((call.input as Record<string, unknown>).human_gene) });
+      ws.set({ gene: String(call.arguments.human_gene) });
     }
   };
 
@@ -170,25 +171,30 @@ export function AgentPanel() {
                       <button
                         key={j}
                         onClick={() => openChip(c)}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-signal/40 bg-signal-soft px-2.5 py-1 text-[11.5px] text-foreground transition-colors hover:border-signal"
+                        title={c.error ?? undefined}
+                        className={cn(
+                          "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] transition-colors",
+                          c.error
+                            ? "cursor-default border-dashed border-foreground/25 text-muted-foreground"
+                            : "border-signal/40 bg-signal-soft text-foreground hover:border-signal",
+                        )}
                       >
-                        <Icon className="size-3 text-signal" />
+                        <Icon className={cn("size-3", c.error ? "text-muted-foreground" : "text-signal")} />
                         {chipText(c)}
+                        {c.error && <span className="text-faint">· failed</span>}
                       </button>
                     );
                   })}
                 </div>
               )}
-              <p className={cn("text-[13px] leading-relaxed", t.error && "text-destructive")}>{t.content}</p>
+              <p className={cn("text-[13px] leading-relaxed whitespace-pre-line", t.error && "text-destructive")}>{t.content}</p>
               {t.standIn && (
                 <Tooltip>
                   <TooltipTrigger className="text-[10.5px] text-faint underline decoration-dotted underline-offset-2">
                     scripted stand-in
                   </TooltipTrigger>
                   <TooltipContent className="max-w-64">
-                    {SNAPSHOT_MODE
-                      ? "Snapshot mode: replies come from a scripted stand-in that reads the saved demo results."
-                      : "POST /agent/chat isn’t implemented yet, so a scripted stand-in called the same API tools instead of the LLM."}
+                    Snapshot mode: replies come from a scripted stand-in that reads the saved demo results, not from Gemini.
                   </TooltipContent>
                 </Tooltip>
               )}

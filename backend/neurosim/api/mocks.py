@@ -32,11 +32,22 @@ _EVIDENCE = EvidenceRow(
 )
 
 
+def mock_genes() -> list[dict]:
+    return [
+        {"human_gene": "PINK1", "fly_genes": ["Pink1"], "best_tier": "medium", "simulatable": True},
+        {"human_gene": "PRKN", "fly_genes": ["park"], "best_tier": "medium", "simulatable": True},
+        {"human_gene": "PARK7", "fly_genes": ["dj-1beta", "DJ-1alpha"], "best_tier": "low", "simulatable": True},
+        {"human_gene": "LRRK2", "fly_genes": ["Lrrk"], "best_tier": "low", "simulatable": True},
+        {"human_gene": "SNCA", "fly_genes": [], "best_tier": None, "simulatable": False},
+    ]
+
+
 def mock_seeds(gene: str = "PRKN") -> SeedSet:
+    fly = next((g["fly_genes"] for g in mock_genes() if g["human_gene"] == gene), ["park"])
     return SeedSet(
         disease="parkinsons",
         human_gene=gene,
-        ortholog=Ortholog(human_gene=gene, fly_genes=["park"], diopt_score=15, relationship="1:1", confidence=0.9),
+        ortholog=Ortholog(human_gene=gene, fly_genes=fly, diopt_score=15, relationship="1:1", confidence=0.9),
         seed_types=[
             SeedType(cell_type="PPL101", cluster="PPL1", match="exact", n_neurons=2,
                      root_ids=[720575940000000001, 720575940000000002], confidence=0.63, evidence=[_EVIDENCE]),
@@ -53,13 +64,32 @@ def _group(name: str, z: float, label: str) -> GroupScore:
                       above_chance=z > 2, function_label=label)
 
 
+# Runs made this session, so GET /runs/{id} returns what was asked for.
+_RUNS: dict[str, SimulationResult] = {}
+
+
+def _mock_run_id(request: SimulationRequest) -> str:
+    # Deterministic from the request, like pipeline.run_id_for.
+    parts = ["mock", request.human_gene.lower(), request.mode.value]
+    if request.mode.value == "reduce_output":
+        parts.append(f"{round(request.strength * 100)}")
+    if request.high_confidence_only:
+        parts.append("hc")
+    if request.seed_cell_types:
+        parts.append("+".join(sorted(request.seed_cell_types)))
+    return "-".join(parts)
+
+
 def mock_result(request: SimulationRequest | None = None) -> SimulationResult:
     request = request or SimulationRequest(human_gene="PRKN")
-    return SimulationResult(
-        run_id="mock-prkn-knockout",
+    seeds = mock_seeds(request.human_gene)
+    if request.seed_cell_types:
+        seeds.seed_types = [t for t in seeds.seed_types if t.cell_type in request.seed_cell_types]
+    result = SimulationResult(
+        run_id=_mock_run_id(request),
         request=request,
-        seeds=mock_seeds(request.human_gene),
-        n_seed_neurons=4,
+        seeds=seeds,
+        n_seed_neurons=len(seeds.root_ids),
         n_reached=5321,
         disruption_score=0.004,
         disruption_null_mean=0.002,
@@ -78,6 +108,12 @@ def mock_result(request: SimulationRequest | None = None) -> SimulationResult:
         ],
         assumptions={"synapse_threshold": 5, "hops": 3, "decay": 0.5, "null": "random DA neurons x200"},
     )
+    _RUNS[result.run_id] = result
+    return result
+
+
+def mock_run(run_id: str) -> SimulationResult:
+    return _RUNS.get(run_id) or mock_result()
 
 
 def mock_subgraph() -> Subgraph:
@@ -102,8 +138,10 @@ def mock_sankey() -> list[SankeyLink]:
     ]
 
 
-def mock_comparison() -> Comparison:
-    return Comparison(run_a="mock-pink1-knockout", run_b="mock-prkn-knockout", level=GroupLevel.SUPER_REGION,
+def mock_comparison(run_a: str = "mock-pink1-knockout", run_b: str = "mock-prkn-knockout") -> Comparison:
+    gene_a = _RUNS[run_a].request.human_gene if run_a in _RUNS else "PINK1"
+    gene_b = _RUNS[run_b].request.human_gene if run_b in _RUNS else "PRKN"
+    return Comparison(run_a=run_a, run_b=run_b, level=GroupLevel.SUPER_REGION,
                       spearman_rho=0.41, shared_top=["mushroom body"], only_a=["central complex"],
                       only_b=["lateral horn"],
-                      summary="FAKE: PINK1 and PRKN share 1 of their top regions (rank correlation 0.41).")
+                      summary=f"FAKE: {gene_a} and {gene_b} share 1 of their top regions (rank correlation 0.41).")

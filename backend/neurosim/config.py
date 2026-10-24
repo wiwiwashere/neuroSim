@@ -4,6 +4,7 @@ Change a value here, never inline. The UI shows these as "model assumptions",
 and the sensitivity check (docs/ENGINE_DESIGN.md, section 9) sweeps them.
 """
 
+import os
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -16,6 +17,13 @@ load_dotenv(ROOT / ".env")
 RAW_DIR = ROOT / "data" / "raw"
 PROCESSED_DIR = ROOT / "data" / "processed"
 EVIDENCE_PATH = ROOT / "data" / "evidence.json"
+# Rows Bio approved from paper uploads (agent/papers.py). Kept apart from the
+# hand-curated table so a live approval never rewrites evidence.json.
+APPROVED_EVIDENCE_PATH = ROOT / "data" / "evidence_approved.json"
+
+# Serve api/mocks.py payloads instead of the engine until the engine works.
+# The API and the agent's tools both read this, so they always agree.
+USE_MOCKS = os.environ.get("NEUROSIM_MOCKS", "1") == "1"
 
 # --- Graph construction (CS1) -------------------------------------------------
 
@@ -69,3 +77,19 @@ AGENT_FALLBACK_MODEL = "gemini-3.5-flash-lite"
 AGENT_THINKING_LEVEL = "medium"
 # Caps thinking AND the answer together, so keep it generous.
 AGENT_MAX_OUTPUT_TOKENS = 16000
+# Tool rounds per user turn before we stop and answer with what we have.
+# A full "compare two genes" turn takes 4 (two chains, two runs, one compare).
+AGENT_MAX_TOOL_ROUNDS = 8
+# On a 429 we wait what the API suggests, but never longer than this, then
+# retry once before switching to AGENT_FALLBACK_MODEL.
+AGENT_RETRY_MAX_WAIT_S = 20
+# Per-request timeout. When Flash is overloaded it can hang or return 503;
+# either way we move to the fallback instead of leaving the user waiting.
+AGENT_REQUEST_TIMEOUT_S = 30
+# After a switch to the fallback, stay on it this long before trying Flash again.
+AGENT_FALLBACK_COOLDOWN_S = 300
+
+# Paper upload: PDFs larger than this are refused before they reach Gemini.
+PAPER_MAX_BYTES = 20 * 1024 * 1024
+# Reading a whole paper takes longer than an agent step.
+PAPER_TIMEOUT_S = 150

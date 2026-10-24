@@ -1,6 +1,7 @@
 import { AgentPanel } from "@/components/workspace/agent-panel";
 import { DiseasePicker, GenePicker } from "@/components/workspace/gene-picker";
 import { MappingChain } from "@/components/workspace/mapping-chain";
+import { PaperEvidence } from "@/components/workspace/paper-evidence";
 import { Perturbation } from "@/components/workspace/perturbation";
 import { Results } from "@/components/workspace/results";
 import { TopBar } from "@/components/workspace/top-bar";
@@ -16,6 +17,7 @@ export default function Workspace() {
           <DiseasePicker />
           <GenePicker />
           <MappingChain />
+          <PaperEvidence />
           <Perturbation />
         </aside>
         <main className="min-h-[70vh] lg:min-h-0">
