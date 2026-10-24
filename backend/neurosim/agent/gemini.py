@@ -1,11 +1,13 @@
-"""One place that talks to Gemini (CS2): the client, and the free-tier guards
-every call shares (agent turns, run summaries, paper extraction).
+"""One place that talks to the Gemini API (CS2): the client, and the free-tier
+guards every call shares (agent turns, run summaries, paper extraction). The
+same API serves both model families in config.LLM, Gemma and Gemini, with the
+same key, so the guards apply to both.
 
 On a 429 (rate limit) we wait the delay the API suggests, retry once, then
 switch to config.AGENT_FALLBACK_MODEL. An overloaded model (503, 500 or a
 timeout) switches to the fallback straight away, and later calls stay on the
 fallback for config.AGENT_FALLBACK_COOLDOWN_S so each turn doesn't wait for
-Flash to time out again. Any other API error becomes a
+the main model to time out again. Any other API error becomes a
 GeminiUnavailable with a message a person can act on, which the API turns
 into a 503.
 """
@@ -27,7 +29,7 @@ _fallback_until = 0.0   # time.monotonic() until which calls skip AGENT_MODEL
 
 
 class GeminiUnavailable(RuntimeError):
-    """Gemini refused or failed the call; the message says why in plain words."""
+    """The API refused or failed the call; the message says why in plain words."""
 
     def __init__(self, message: str, status: int | None = None):
         super().__init__(message)
@@ -79,17 +81,17 @@ def _retry_delay(err: Exception) -> float:
 
 
 def _plain(err: Exception, status: int | None) -> str:
-    text = str(err)
+    text, name = str(err), config.LLM_NAME
     if status == 402 or "prepayment credits" in text:
-        return ("Gemini refused the key: its AI Studio project has billing on and no credit left. "
+        return (f"{name} refused the key: its AI Studio project has billing on and no credit left. "
                 "Use a key from a project without billing to stay on the free tier.")
     if status in (401, 403) or "API key" in text:
-        return "Gemini rejected the API key. Check GEMINI_API_KEY in .env."
+        return f"{name} rejected the API key. Check GEMINI_API_KEY in .env."
     if status == 429:
-        return "Gemini's free-tier rate limit is used up on both models. Try again in a minute."
-    if status in (500, 503) or status is None:
-        return "Gemini is overloaded or not responding on both models right now. Try again in a minute."
-    return f"Gemini call failed ({status or 'no status'}): {text[:300]}"
+        return f"{name}'s free-tier rate limit is used up on both models. Try again in a minute."
+    if status in (500, 503, 504) or status is None:
+        return f"{name} is overloaded or not responding on both models right now. Try again in a minute."
+    return f"{name} call failed ({status or 'no status'}): {text[:300]}"
 
 
 def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
@@ -115,7 +117,8 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
                 retried = True
                 time.sleep(min(_retry_delay(err), config.AGENT_RETRY_MAX_WAIT_S))
                 continue
-            overloaded = status in (500, 503) or timed_out
+            # 504: the API ran out of the deadline we sent it (our timeout).
+            overloaded = status in (500, 503, 504) or timed_out
             if (status == 429 or overloaded) and model != config.AGENT_FALLBACK_MODEL:
                 model = state["model"] = config.AGENT_FALLBACK_MODEL
                 _fallback_until = time.monotonic() + config.AGENT_FALLBACK_COOLDOWN_S

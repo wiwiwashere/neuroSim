@@ -5,6 +5,7 @@ import { ArrowUp, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sp
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { api, SNAPSHOT_MODE } from "@/lib/api";
+import { useLlm } from "@/lib/llm";
 import { standInChat } from "@/lib/standin-agent";
 import type { SimulationRequest, SimulationResult, ToolCall } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -57,9 +58,10 @@ export function AgentPanel() {
   const qc = useQueryClient();
   const [turns, setTurns] = useState<Turn[]>([]);
   const [draft, setDraft] = useState("");
-  // Gemini keeps the conversation; we only carry the id of the last turn.
+  // The backend keeps the conversation; we only carry the id of the last turn.
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const scroller = useRef<HTMLDivElement>(null);
+  const llm = useLlm();
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: "smooth" });
@@ -132,7 +134,9 @@ export function AgentPanel() {
       <div className="flex items-center gap-2 border-b px-4 py-3">
         <Sparkles className="size-4 text-signal" />
         <h2 className="text-[13px] font-medium">Ask neuroSim</h2>
-        <span className="ml-auto text-[11px] text-faint">answers only from tool results</span>
+        <span className="ml-auto text-[11px] text-faint">
+          {SNAPSHOT_MODE ? "" : `${llm.model ?? llm.name} · `}answers only from tool results
+        </span>
       </div>
 
       <div ref={scroller} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4">
@@ -194,7 +198,7 @@ export function AgentPanel() {
                     scripted stand-in
                   </TooltipTrigger>
                   <TooltipContent className="max-w-64">
-                    Snapshot mode: replies come from a scripted stand-in that reads the saved demo results, not from Gemini.
+                    Snapshot mode: replies come from a scripted stand-in that reads the saved demo results, not from {llm.name}.
                   </TooltipContent>
                 </Tooltip>
               )}

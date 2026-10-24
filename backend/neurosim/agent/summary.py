@@ -1,7 +1,7 @@
-"""Structured run summary (CS2): Gemini fills a fixed JSON schema for one run,
-and the UI renders it as a card.
+"""Structured run summary (CS2): the model (Gemma or Gemini, see config.LLM)
+fills a fixed JSON schema for one run, and the UI renders it as a card.
 
-Gemini only picks and explains. Every number on the card (z-scores, above
+The model only picks and explains. Every number on the card (z-scores, above
 chance) is copied from the run afterwards, and circuits the run doesn't
 contain are dropped, so the card can't show a number the engine didn't make.
 """
@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 
 from neurosim import config
-from neurosim.agent import gemini
+from neurosim.agent import gemini, llm
 from neurosim.agent.tools import summarize_result
 from neurosim.models import GroupLevel, SimulationResult
 
@@ -86,13 +86,23 @@ def _context(result: SimulationResult) -> str:
     return json.dumps(data, default=str)
 
 
+def _reduce_strength(strength) -> float:
+    """reduce_output needs a share strictly between 0 and 1. Gemma suggested
+    strength 0 (a run that changes nothing), so anything outside gets half."""
+    try:
+        value = float(strength)
+    except (TypeError, ValueError):
+        return 0.5
+    return value if 0.0 < value < 1.0 else 0.5
+
+
 def _ground(raw: dict, result: SimulationResult) -> dict:
     """Attach real numbers and drop anything the run doesn't contain."""
     by_name = {
         (level.value, g.group): g for level, groups in result.groups.items() for g in groups
     }
     circuits = []
-    for c in raw.get("top_circuits", []):
+    for c in raw.get("top_circuits", [])[:3]:
         g = by_name.get((c.get("level"), c.get("group"))) or next(
             (g for (lvl, name), g in by_name.items() if name == c.get("group")), None
         )
@@ -114,7 +124,7 @@ def _ground(raw: dict, result: SimulationResult) -> dict:
             request = {
                 "human_gene": nxt["human_gene"].upper(),
                 "mode": nxt["mode"],
-                "strength": min(1.0, max(0.0, float(strength))) if nxt["mode"] == "reduce_output" and strength is not None else 1.0,
+                "strength": _reduce_strength(strength) if nxt["mode"] == "reduce_output" else 1.0,
                 "seed_cell_types": wanted,
             }
     return {
@@ -129,23 +139,24 @@ def _ground(raw: dict, result: SimulationResult) -> dict:
 def summarize_run(result: SimulationResult) -> dict:
     if result.run_id in _CACHE:
         return _CACHE[result.run_id]
-    state: dict = {}
-    interaction = gemini.call(
-        lambda model: gemini.client().interactions.create(
-            model=model,
-            input=_context(result),
-            system_instruction=INSTRUCTION,
-            response_format={"type": "text", "mime_type": "application/json", "schema": SCHEMA},
-            generation_config={"thinking_level": "low", "max_output_tokens": 4000},
-            store=False,
+    # Live, the 26B MoE either garbled words (thinking off) or ran out its 60s
+    # (thinking on), while 31B wrote clean cards in 17-18s, so Gemma
+    # summaries start there and skip the switch.
+    state: dict = {"model": config.AGENT_FALLBACK_MODEL} if config.LLM == "gemma" else {}
+    raw = llm.parse_json(gemini.call(
+        lambda model: llm.json_reply(
+            model,
+            system=INSTRUCTION,
+            schema=SCHEMA,
+            prompt=_context(result),
+            # Gemma without thinking garbled words in the card ("thedependency",
+            # stray characters); with it the card takes a few seconds longer.
+            thinking_level="medium" if config.LLM == "gemma" else "low",
+            max_output_tokens=4000,
             timeout=config.AGENT_REQUEST_TIMEOUT_S,
         ),
         state,
-    )
-    try:
-        raw = json.loads(interaction.output_text or "")
-    except json.JSONDecodeError as err:
-        raise gemini.GeminiUnavailable(f"Gemini returned a summary that isn't valid JSON: {err}") from err
+    ), "a summary")
     summary = {**_ground(raw, result), "model": state["model"]}
     _CACHE[result.run_id] = summary
     return summary

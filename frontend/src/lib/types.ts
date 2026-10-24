@@ -43,10 +43,18 @@ export interface NeuronExplanation {
   paths: { neurons: string[]; strength: number }[];
 }
 
+/** GET /agent/llm: the model family behind the agent (NEUROSIM_LLM). */
+export interface LlmInfo {
+  family: "gemma" | "gemini";
+  name: string;
+  model: string;
+  fallback_model: string;
+}
+
 /** POST /agent/chat */
 export interface ChatRequest {
   message: string;
-  /** The last reply's interaction_id; Gemini keeps the history behind it. */
+  /** The last reply's interaction_id; the backend (or Gemini's server) keeps the history behind it. */
   interaction_id: string | null;
   /** What the results view shows, so "what if they lose half?" has a subject. */
   context: { active_run: Record<string, unknown> } | null;
@@ -67,7 +75,7 @@ export interface AgentReply {
   model?: string;
 }
 
-/** POST /runs/{id}/summary. Every number is copied from the run, not written by Gemini. */
+/** POST /runs/{id}/summary. Every number is copied from the run, not written by the model. */
 export interface RunSummary {
   run_id: string;
   headline: string;

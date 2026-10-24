@@ -169,19 +169,28 @@ class ChatRequest(BaseModel):
     context: dict | None = None          # {"active_run": {"run_id", "human_gene", "mode", ...}}
 
 
+@app.get("/agent/llm")
+def agent_llm() -> dict:
+    """Which model family answers the agent, summaries and paper extraction
+    (NEUROSIM_LLM), so the UI can name it."""
+    return {"family": config.LLM, "name": config.LLM_NAME, "model": config.AGENT_MODEL,
+            "fallback_model": config.AGENT_FALLBACK_MODEL}
+
+
 @app.post("/agent/chat")
 async def agent_chat(body: ChatRequest) -> dict:
     """{"message", "interaction_id": str | None, "context": {...} | None} in,
     {"reply", "tool_calls": [{"name", "arguments", "error"}], "run_ids",
     "interaction_id", "model"} out.
-    The frontend keeps only the latest interaction_id (Gemini holds the history)
+    The frontend keeps only the latest interaction_id (Gemini's server or, for
+    Gemma, agent.py holds the history)
     and shows tool_calls so users see the agent used real results."""
     return await run_in_threadpool(_gemini, agent.chat, body.message, body.interaction_id, body.context)
 
 
 @app.post("/runs/{run_id}/summary")
 async def run_summary(run_id: str) -> dict:
-    """Gemini's structured summary card for one run (cached per run): headline,
+    """The model's structured summary card for one run (cached per run): headline,
     top circuits with the run's own z-scores, caveats, one next experiment."""
     if USE_MOCKS:
         result = mocks.mock_run(run_id)

@@ -34,7 +34,7 @@ from datetime import datetime, timezone
 import httpx
 
 from neurosim import config
-from neurosim.agent import gemini
+from neurosim.agent import gemini, llm
 from neurosim.bio import evidence
 
 ROW_FIELDS = ["disease", "human_gene", "fly_gene", "model_type", "clusters", "finding", "tier", "tier_reason", "quote", "page"]
@@ -209,20 +209,19 @@ def ask_model(paper: str) -> tuple[dict, str]:
         left = deadline - time.monotonic()
         if left <= 0:
             raise gemini.GeminiUnavailable(
-                f"Gemini couldn't read the paper within {config.PAPER_DEADLINE_S / 60:g} minutes. Try again in a minute."
+                f"{config.LLM_NAME} couldn't read the paper within {config.PAPER_DEADLINE_S / 60:g} minutes. Try again in a minute."
             )
-        return gemini.client().interactions.create(
-            model=model,
-            input=[{"type": "text", "text": f"Extract the evidence rows from this paper.\n\n{paper}"}],
-            system_instruction=INSTRUCTION + json.dumps(SCHEMA),
-            response_format={"type": "text", "mime_type": "application/json", "schema": SCHEMA},
-            generation_config={"thinking_level": "medium", "max_output_tokens": 12000},
-            store=False,
+        return llm.json_reply(
+            model,
+            system=INSTRUCTION + json.dumps(SCHEMA),
+            schema=SCHEMA,
+            prompt=f"Extract the evidence rows from this paper.\n\n{paper}",
+            thinking_level="medium",
+            max_output_tokens=12000,
             timeout=min(config.PAPER_TIMEOUT_S, left),
         )
 
-    interaction = gemini.call(create, state)
-    return parse_json(interaction.output_text or ""), state["model"]
+    return parse_json(gemini.call(create, state)), state["model"]
 
 
 def parse_json(text: str) -> dict:
@@ -408,7 +407,8 @@ def extract(pdf: bytes | None = None, filename: str = "paper.pdf", text: str | N
     url = meta["url"] if meta else raw.get("url", "")
 
     rows = []
-    for r in raw.get("rows", []):
+    # Gemma's schema goes without maxItems (agent/gemma.py), so cap here.
+    for r in (raw.get("rows") or [])[:SCHEMA["properties"]["rows"]["maxItems"]]:
         if not isinstance(r, dict):
             continue
         found, page = find_quote(r.get("quote", ""), pages)

@@ -18,6 +18,7 @@ import type {
   GeneExpression,
   GeneOption,
   GroupLevel,
+  LlmInfo,
   NeuronExplanation,
   PaperInput,
   RunSummary,
@@ -108,6 +109,7 @@ export const api = {
     request<NeuronExplanation>(`/runs/${encodeURIComponent(runId)}/neurons/${rootId}/explain`),
   compare: (runA: string, runB: string, level: GroupLevel) =>
     request<Comparison>(`/compare${q({ run_a: runA, run_b: runB, level })}`),
+  llm: () => request<LlmInfo>("/agent/llm"),
   agentChat: (body: ChatRequest) => request<AgentReply>("/agent/chat", { method: "POST", body: JSON.stringify(body) }),
   runSummary: (runId: string) => request<RunSummary>(`/runs/${encodeURIComponent(runId)}/summary`, { method: "POST" }),
   extractEvidence: (input: PaperInput) => {
