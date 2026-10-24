@@ -24,6 +24,8 @@ from neurosim.engine.vulnerability import disruption_score, group_table
 from neurosim.models import GroupLevel, PerturbationMode
 from neurosim.prep.build_dataset import aggregate_pairs
 
+from engine_status import needs_engine
+
 NAMES = ["S", "X", "A", "C", "B", "D", "E"]
 P = {name: i for i, name in enumerate(NAMES)}
 EDGES = [("S", "A", 30), ("X", "A", 10), ("A", "B", 20), ("C", "B", 20), ("B", "D", 10), ("X", "E", 10)]
@@ -56,6 +58,7 @@ def test_threshold_applies_after_summing_neuropils():
     assert pairs.iloc[0]["syn_count"] == 6
 
 
+@needs_engine
 def test_rows_of_A_sum_to_one_or_zero():
     A, in_strength = input_normalize(toy_W())
     sums = np.asarray(A.sum(axis=1)).ravel()
@@ -64,6 +67,7 @@ def test_rows_of_A_sum_to_one_or_zero():
     assert A[P["A"], P["S"]] == pytest.approx(0.75)
 
 
+@needs_engine
 def test_toy_hops_match_design_doc():
     prop = knockout_S()
     h1, h2, h3 = prop.per_hop
@@ -76,6 +80,7 @@ def test_toy_hops_match_design_doc():
     assert prop.impact[P["E"]] == 0.0  # the 4-synapse edge was never in the graph
 
 
+@needs_engine
 def test_reduce_output_is_exactly_proportional():
     A, _ = input_normalize(toy_W())
     seeds = np.array([P["S"]])
@@ -84,6 +89,7 @@ def test_reduce_output_is_exactly_proportional():
     assert np.allclose(half.impact, 0.5 * full.impact)
 
 
+@needs_engine
 def test_batched_propagation_matches_single_runs():
     A, _ = input_normalize(toy_W())
     x0 = np.zeros((len(NAMES), 2))
@@ -94,11 +100,13 @@ def test_batched_propagation_matches_single_runs():
     assert np.allclose(batch.impact[:, 0], single.impact)
 
 
+@needs_engine
 def test_empty_seed_set_is_an_error():
     with pytest.raises(ValueError):
         initial_deficit(len(NAMES), np.array([], dtype=int), PerturbationMode.KNOCKOUT)
 
 
+@needs_engine
 def test_group_mean_excludes_seeds():
     prop = knockout_S()
     neurons = pd.DataFrame({"region": ["R1", "R0", "R1", "R1", "R1", "R2", "R2"]}, index=range(len(NAMES)))
@@ -108,6 +116,7 @@ def test_group_mean_excludes_seeds():
     assert table.loc["R1", "n_strong_hits"] == 1  # only A has direct >= 0.10
 
 
+@needs_engine
 def test_disruption_score_matches_design_doc():
     A, in_strength = input_normalize(toy_W())
     prop = knockout_S()

@@ -1,11 +1,21 @@
 """FastAPI app (CS2). Run: uvicorn neurosim.api.main:app --reload
 
 Every endpoint is a thin wrapper over engine/pipeline.py or bio/evidence.py.
-No science happens here. While NEUROSIM_MOCKS=1 (the default until the engine
-works) endpoints return api/mocks.py payloads so the frontend is never blocked.
+No science happens here.
+
+Data source, decided once at startup:
+    NEUROSIM_MOCKS=1        api/mocks.py payloads (fake numbers, "mock-" run IDs)
+    NEUROSIM_MOCKS=0        the real pipeline on data/processed
+    unset                   real pipeline once data/processed exists AND the
+                            engine is implemented (pipeline.engine_ready), else mocks
+    NEUROSIM_SYNTHETIC=1    the real pipeline on the made-up test brain
+                            (engine/synthetic.py), handy before prep has run
 """
 
 from __future__ import annotations
+
+import os
+from contextlib import contextmanager
 
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.concurrency import run_in_threadpool
@@ -15,6 +25,9 @@ from neurosim import config
 from neurosim.agent import agent, papers, summary
 from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
+from neurosim.bio import evidence
+from neurosim.engine import pipeline
+from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import Comparison, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
 
 USE_MOCKS = config.USE_MOCKS
@@ -38,7 +51,7 @@ def diseases() -> list[str]:
     """Diseases in the evidence table (just Parkinson's for the MVP)."""
     if USE_MOCKS:
         return ["parkinsons"]
-    raise NotImplementedError  # bio.evidence.list_diseases()
+    return evidence.list_diseases()
 
 
 @app.get("/diseases/{disease}/genes")
@@ -55,7 +68,10 @@ def mapping_chain(human_gene: str, high_confidence_only: bool = False) -> dict:
     clusters, cell types, neuron counts, confidence at every link."""
     if USE_MOCKS:
         return mocks.mock_seeds(human_gene).model_dump()
-    raise NotImplementedError  # bio.evidence.resolve_seeds(...)
+    with _http_errors():
+        return evidence.resolve_seeds(
+            SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
+        ).model_dump()
 
 
 @app.post("/simulate")
@@ -63,7 +79,8 @@ def simulate(request: SimulationRequest) -> SimulationResult:
     """Run (or fetch from cache) one experiment."""
     if USE_MOCKS:
         return mocks.mock_result(request)
-    raise NotImplementedError  # pipeline.run_simulation(request)
+    with _http_errors():
+        return pipeline.run_simulation(request)
 
 
 @app.get("/runs/{run_id}")
@@ -77,21 +94,24 @@ def run(run_id: str) -> SimulationResult:
 def sankey(run_id: str) -> list[SankeyLink]:
     if USE_MOCKS:
         return mocks.mock_sankey()
-    raise NotImplementedError  # pipeline.get_sankey(run_id)
+    with _http_errors():
+        return pipeline.get_sankey(run_id)
 
 
 @app.get("/runs/{run_id}/subgraph")
 def subgraph(run_id: str) -> Subgraph:
     if USE_MOCKS:
         return mocks.mock_subgraph()
-    raise NotImplementedError  # pipeline.get_subgraph(run_id)
+    with _http_errors():
+        return pipeline.get_subgraph(run_id)
 
 
 @app.get("/runs/{run_id}/neurons/{root_id}/explain")
 def explain(run_id: str, root_id: int) -> dict:
     if USE_MOCKS:
         return {"root_id": root_id, "paths": [{"neurons": ["PPL101", "MBON01"], "strength": 0.41}]}
-    raise NotImplementedError  # pipeline.explain_neuron(run_id, root_id)
+    with _http_errors():
+        return pipeline.explain_neuron(run_id, root_id)
 
 
 @app.get("/compare")

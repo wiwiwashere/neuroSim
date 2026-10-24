@@ -67,6 +67,20 @@ pip install -r requirements.txt
 python -m neurosim.prep.build_dataset            # once, ~minutes
 cp .env.example .env                             # then paste your Gemini key into .env
 uvicorn neurosim.api.main:app --reload           # API on :8000
-pytest tests/                                    # toy-graph tests
+pytest tests/                                    # engine, pipeline and API tests
+cd backend && python -m neurosim.engine.validation   # PAM -> mushroom body check
 cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)
 ```
+
+The API picks its data source at startup: the real pipeline when
+`data/processed/` exists, otherwise mocks. `NEUROSIM_MOCKS=1` or `=0` forces
+either. `NEUROSIM_SYNTHETIC=1` runs the real engine on a small made-up brain
+(`engine/synthetic.py`), so the full pipeline can be tried before prep has run.
+Its numbers mean nothing biologically.
+
+**Engine status.** The simulation math is CS1's to write and currently raises
+`NotImplementedError`: `input_normalize` in `engine/graph.py`, and
+`engine/perturb.py`, `propagate.py`, `vulnerability.py` and `baseline.py`.
+Everything around it is in place (pipeline, seed resolution, Sankey/subgraph,
+comparison, validation script, API), and the tests marked `needs_engine` are
+expected to fail until the math exists. The API stays on mocks until then.
