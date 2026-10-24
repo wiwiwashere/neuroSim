@@ -259,14 +259,46 @@ def _positions(root_ids: np.ndarray, ids: np.ndarray) -> np.ndarray:
     return pos
 
 
-def build_region_table() -> dict:
+# Super regions follow the standard neuropil groups (Ito et al. 2014) that
+# FlyWire uses. Function labels are short, textbook-level summaries; Bio owns
+# the wording, so edit them here and re-run prep.
+SUPER_REGIONS = {
+    "optic lobe": (["LA", "ME", "AME", "LO", "LOP"], "vision"),
+    "ocellar ganglion": (["OCG"], "light sensing by the ocelli"),
+    "mushroom body": (["MB_CA", "MB_PED", "MB_VL", "MB_ML"], "learning and memory"),
+    "central complex": (["FB", "EB", "PB", "NO"], "navigation and locomotor control"),
+    "lateral complex": (["LAL", "BU", "GA"], "steering, central complex output"),
+    "antennal lobe": (["AL"], "smell, first relay"),
+    "lateral horn": (["LH"], "innate responses to odors"),
+    "superior neuropils": (["SLP", "SIP", "SMP"], "integration, incl. mushroom body output"),
+    "inferior neuropils": (["CRE", "SCL", "ICL", "IB", "ATL"], "multisensory integration"),
+    "ventrolateral neuropils": (["AOTU", "AVLP", "PVLP", "PLP", "WED"], "higher visual and auditory processing"),
+    "ventromedial neuropils": (["VES", "EPA", "GOR", "SPS", "IPS"], "premotor and descending control"),
+    "periesophageal neuropils": (["SAD", "AMMC", "FLA", "CAN", "PRW"], "hearing, touch, taste and feeding"),
+    "gnathal ganglia": (["GNG"], "taste, feeding, mouth and neck motor output"),
+}
+UNASSIGNED = {"super_region": "unassigned", "function": "synapses outside any named neuropil"}
+
+
+def build_region_table(neuropils: list[str]) -> dict:
     """Map each FlyWire neuropil to a super region and a plain-language label.
 
     Example: "MB_ML_R" -> {"super_region": "mushroom body",
-                            "function": "learning and memory"}.
-    Bio writes the function labels; keep them short and defensible.
+                            "function": "learning and memory", "side": "right"}.
+    Anything not in SUPER_REGIONS (only UNASGD in v783) maps to "unassigned".
     """
-    raise NotImplementedError
+    by_base = {base: (sr, fn) for sr, (bases, fn) in SUPER_REGIONS.items() for base in bases}
+    table = {}
+    for name in sorted(neuropils):
+        base, side = name, None
+        if name.endswith(("_L", "_R")):
+            base, side = name[:-2], "left" if name.endswith("_L") else "right"
+        if base in by_base:
+            sr, fn = by_base[base]
+            table[name] = {"super_region": sr, "function": fn, "side": side}
+        else:
+            table[name] = {**UNASSIGNED, "side": side}
+    return table
 
 
 def main() -> None:

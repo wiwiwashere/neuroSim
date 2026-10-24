@@ -74,6 +74,15 @@ def test_build_matrix_rejects_unknown_ids():
         bd.build_matrix(pairs, np.array([1, 2]))
 
 
+def test_region_table_covers_every_v783_neuropil():
+    names = ["AL_L", "MB_ML_R", "FB", "GNG", "UNASGD", "AME_R", "OCG"]
+    table = bd.build_region_table(names)
+    assert table["MB_ML_R"] == {"super_region": "mushroom body", "function": "learning and memory", "side": "right"}
+    assert table["FB"]["super_region"] == "central complex" and table["FB"]["side"] is None
+    assert table["UNASGD"]["super_region"] == "unassigned"
+    assert all(v["super_region"] != "unassigned" for k, v in table.items() if k != "UNASGD")
+
+
 def test_load_annotations_maps_columns(tmp_path):
     path = tmp_path / bd.ANNOTATIONS_FILE
     pd.DataFrame({
