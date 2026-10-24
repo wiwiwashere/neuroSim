@@ -25,6 +25,20 @@ class Ortholog(BaseModel):
     confidence: float                    # 0..1, from the DIOPT score
 
 
+class PaperSource(BaseModel):
+    """Where an approved paper-upload row came from (agent/papers.py)."""
+
+    id: str                              # the proposal id, used to remove the row again
+    by: str                              # Gemini model that proposed it
+    file: str                            # uploaded file name, "pasted text" or the DOI
+    quote: str                           # verbatim sentence behind the row
+    page: int | None = None              # PDF page of the quote; None for text and DOIs
+    quote_found: bool | None = None      # quote found word for word in the source; None if unchecked
+    tier_reason: str = ""
+    edited: list[str] = []               # fields Bio changed before approving
+    approved_at: str
+
+
 class EvidenceRow(BaseModel):
     """One published finding: in this fly model, these DA clusters were lost."""
 
@@ -38,6 +52,7 @@ class EvidenceRow(BaseModel):
     url: str
     tier: str                            # "high" | "medium" | "low"
     verified_by_bio: bool = False        # flipped once Bio checks the paper figures
+    extracted: PaperSource | None = None # set on rows approved from a paper upload
 
 
 class SeedType(BaseModel):

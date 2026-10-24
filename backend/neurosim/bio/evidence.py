@@ -44,7 +44,23 @@ def load_evidence() -> dict:
     in config.APPROVED_EVIDENCE_PATH if that file exists (same row shape, with
     an extra "extracted" block). Validate every evidence row against
     EvidenceRow and fail loudly on a row without a citation."""
-    raise NotImplementedError
+    data = json.loads(config.EVIDENCE_PATH.read_text())
+    raw_rows = [(config.EVIDENCE_PATH.name, raw) for raw in data.get("evidence", [])]
+    if config.APPROVED_EVIDENCE_PATH.exists():
+        approved = json.loads(config.APPROVED_EVIDENCE_PATH.read_text())
+        raw_rows += [(config.APPROVED_EVIDENCE_PATH.name, raw) for raw in approved.get("evidence", [])]
+    rows = []
+    for i, (source, raw) in enumerate(raw_rows):
+        row = EvidenceRow(**raw)
+        if not row.citation.strip():
+            raise ValueError(f"evidence row {i} in {source} ({row.human_gene}, {row.clusters}) has no citation")
+        rows.append(row)
+    data["evidence"] = rows
+    return data
+
+
+def _is_validation(row: EvidenceRow) -> bool:
+    return row.finding.strip().upper().startswith("VALIDATION")
 
 
 def list_diseases() -> list[str]:
