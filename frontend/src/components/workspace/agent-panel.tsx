@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowUp, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sparkles } from "lucide-react";
+import { ArrowUp, FlaskConical, GitCompareArrows, Loader2, Microscope, RotateCcw, Route, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { api, SNAPSHOT_MODE } from "@/lib/api";
@@ -61,6 +61,7 @@ export function AgentPanel() {
   // The backend keeps the conversation; we only carry the id of the last turn.
   const [interactionId, setInteractionId] = useState<string | null>(null);
   const scroller = useRef<HTMLDivElement>(null);
+  const input = useRef<HTMLTextAreaElement>(null);
   const llm = useLlm();
 
   useEffect(() => {
@@ -106,6 +107,8 @@ export function AgentPanel() {
       loadResults(reply.results, reply.tool_calls.some((c) => c.name === "compare_runs" && !c.error));
     },
     onError: (e) => setTurns((t) => [...t, { role: "assistant", content: e instanceof Error ? e.message : String(e), error: true }]),
+    // Hand the box back after every answer or error, so the next question is one keystroke away.
+    onSettled: () => input.current?.focus(),
   });
 
   const send = (text: string) => {
@@ -115,6 +118,26 @@ export function AgentPanel() {
     setDraft("");
     chat.mutate(content);
   };
+
+  // Resend the question an error answered, in place of the error.
+  const retry = () => {
+    const last = turns.at(-1);
+    const question = turns.findLast((t) => t.role === "user")?.content;
+    if (!last?.error || !question || chat.isPending) return;
+    setTurns((t) => t.slice(0, -1));
+    chat.mutate(question);
+  };
+
+  const newChat = () => {
+    if (chat.isPending) return;
+    setTurns([]);
+    setInteractionId(null);
+    input.current?.focus();
+  };
+
+  // Suggestions stay offered after the first answer, minus the ones already asked.
+  const asked = new Set(turns.filter((t) => t.role === "user").map((t) => t.content));
+  const followUps = SUGGESTIONS.filter((s) => !asked.has(s));
 
   const openChip = (call: ToolCall) => {
     if (call.error) return;
@@ -137,6 +160,15 @@ export function AgentPanel() {
         <span className="ml-auto text-[11px] text-faint">
           {SNAPSHOT_MODE ? "" : `${llm.model ?? llm.name} · `}answers only from tool results
         </span>
+        {turns.length > 0 && (
+          <button
+            onClick={newChat}
+            disabled={chat.isPending}
+            className="text-[11px] text-muted-foreground underline-offset-2 hover:text-foreground hover:underline disabled:opacity-40"
+          >
+            New chat
+          </button>
+        )}
       </div>
 
       <div ref={scroller} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-4">
@@ -192,6 +224,14 @@ export function AgentPanel() {
                 </div>
               )}
               <p className={cn("text-[13px] leading-relaxed whitespace-pre-line", t.error && "text-destructive")}>{t.content}</p>
+              {t.error && i === turns.length - 1 && !chat.isPending && (
+                <button
+                  onClick={retry}
+                  className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11.5px] hover:bg-secondary"
+                >
+                  <RotateCcw className="size-3" /> Try again
+                </button>
+              )}
               {t.standIn && (
                 <Tooltip>
                   <TooltipTrigger className="text-[10.5px] text-faint underline decoration-dotted underline-offset-2">
@@ -210,6 +250,19 @@ export function AgentPanel() {
             <Loader2 className="size-3.5 animate-spin" /> running tools…
           </p>
         )}
+        {turns.length > 0 && !chat.isPending && followUps.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {followUps.map((s) => (
+              <button
+                key={s}
+                onClick={() => send(s)}
+                className="rounded-full border px-2.5 py-1 text-[11.5px] text-muted-foreground transition-colors hover:border-foreground/25 hover:text-foreground"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <form
@@ -221,6 +274,7 @@ export function AgentPanel() {
       >
         <div className="flex items-end gap-2 rounded-xl border bg-background px-3 py-2 focus-within:border-ring focus-within:ring-2 focus-within:ring-ring/20">
           <textarea
+            ref={input}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={(e) => {
