@@ -8,6 +8,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from neurosim import config
+from neurosim.agent import tools
 from neurosim.bio import evidence, targets
 
 
@@ -83,6 +84,16 @@ def test_endpoint(monkeypatch):
     body = client.get("/genes/PRKN/targets").json()
     assert body["targets"][0]["cell_type"] == "KCg-m"
     assert client.get("/genes/VPS35/targets").json() is None
+
+
+def test_agent_tool():
+    payload = json.loads(tools.get_direct_targets("prkn"))
+    assert payload["targets"][1]["expression_tpm"] == {"park": 0.0}
+    assert payload["targets"][0]["expression_tpm"] == "not measured"
+    with pytest.raises(ValueError, match="no evidence row"):
+        tools.get_direct_targets("VPS35")
+    assert "get_direct_targets" in tools.TOOLS
+    assert "get_direct_targets" in {d["name"] for d in tools.TOOL_DECLARATIONS}
 
 
 def test_cluster_columns_exist_for_every_exact_cluster():

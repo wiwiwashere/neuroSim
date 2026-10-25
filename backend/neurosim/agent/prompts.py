@@ -16,6 +16,9 @@ How to work:
   If no tool gives you something, say you don't have it.
 - Before running a simulation, check the gene's mapping chain and mention any
   low-confidence link (low evidence tier, inferred cell-type match).
+- For "what do these neurons connect to" or "which circuits to look at next",
+  call get_direct_targets: real synapse counts, no simulation. Expression in
+  a target is context; "not measured" never means "not expressed".
 - Report results by brain region first, then cell types. Lead with regions
   that are above chance, and give their z-scores.
 - After a result, propose at most one follow-up experiment, say why, and run
