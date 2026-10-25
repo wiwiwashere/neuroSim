@@ -29,9 +29,18 @@ from neurosim.agent import agent, papers, summary
 from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
 from neurosim.bio import evidence, expression
-from neurosim.engine import pipeline
+from neurosim.engine import degeneration, pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
-from neurosim.models import Comparison, GeneExpression, GroupLevel, SankeyLink, SimulationRequest, SimulationResult, Subgraph
+from neurosim.models import (
+    Comparison,
+    DegenerationSeries,
+    GeneExpression,
+    GroupLevel,
+    SankeyLink,
+    SimulationRequest,
+    SimulationResult,
+    Subgraph,
+)
 
 USE_SYNTHETIC = os.environ.get("NEUROSIM_SYNTHETIC") == "1"
 _MOCKS_ENV = os.environ.get("NEUROSIM_MOCKS")
@@ -145,6 +154,17 @@ def subgraph(run_id: str) -> Subgraph:
         return mocks.mock_subgraph()
     with _http_errors():
         return pipeline.get_subgraph(run_id)
+
+
+@app.get("/runs/{run_id}/dynamics")
+async def dynamics(run_id: str, n_regions: int = 10, T: float = 10.0) -> DegenerationSeries:
+    """neurolib / Wilson–Cowan time-series: how activity in the top affected
+    regions evolves as seed neurons lose function over simulated time T.
+    CPU-bound; runs off the event loop."""
+    if USE_MOCKS:
+        return mocks.mock_dynamics(run_id, n_regions, T)
+    with _http_errors():
+        return await run_in_threadpool(degeneration.run_dynamics, run_id, n_regions, T)
 
 
 @app.get("/runs/{run_id}/neurons/{root_id}/explain")

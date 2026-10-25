@@ -21,6 +21,7 @@ import { RunSummaryCard } from "./run-summary";
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
 const NetworkGraph = dynamic(() => import("@/components/charts/network").then((m) => m.NetworkGraph), { ssr: false });
 const DamageFlow = dynamic(() => import("@/components/charts/damage-flow").then((m) => m.DamageFlow), { ssr: false });
+const Network3D = dynamic(() => import("@/components/charts/network-3d").then((m) => m.Network3D), { ssr: false });
 
 export const LEVELS: GroupLevel[] = ["super_region", "region", "cell_type"];
 
@@ -287,7 +288,7 @@ function GroupTable({ groups }: { groups: GroupScore[] }) {
 
 // --- Network ----------------------------------------------------------------
 
-type NetworkView = "flow" | "side_by_side";
+type NetworkView = "flow" | "side_by_side" | "3d";
 
 function Network({ result }: { result: SimulationResult }) {
   const graph = useQuery({ queryKey: ["subgraph", result.run_id], queryFn: () => api.subgraph(result.run_id) });
@@ -319,11 +320,14 @@ function Network({ result }: { result: SimulationResult }) {
           <ToggleGroupItem value="side_by_side" className="h-7 px-2.5 text-[12px]">
             Healthy vs perturbed
           </ToggleGroupItem>
+          <ToggleGroupItem value="3d" className="h-7 px-2.5 text-[12px]">
+            3D Connectome
+          </ToggleGroupItem>
         </ToggleGroup>
         <span className="text-[11.5px] text-muted-foreground">{counts}</span>
       </div>
 
-      {view === "flow" ? (
+      {view === "flow" && (
         <Panel
           title={`How ${gene} ${perturbLabel} spreads, one synapse at a time`}
           aside={
@@ -357,7 +361,8 @@ function Network({ result }: { result: SimulationResult }) {
             )}
           </div>
         </Panel>
-      ) : (
+      )}
+      {view === "side_by_side" && (
         <div className="grid gap-4 md:grid-cols-2">
           {(["healthy", "perturbed"] as const).map((variant) => (
             <Panel
@@ -385,13 +390,40 @@ function Network({ result }: { result: SimulationResult }) {
           ))}
         </div>
       )}
+      {view === "3d" && (
+        <Panel
+          title={`Connectome as ${gene} ${perturbLabel} unfolds`}
+          aside={
+            <span className="flex shrink-0 items-center gap-3 text-[11.5px] whitespace-nowrap text-muted-foreground">
+              <Legend swatch="bg-seed" label="seed" />
+              <Legend swatch="bg-foreground/70" label="healthy" />
+              <Legend swatch="bg-signal" label="above chance" />
+            </span>
+          }
+        >
+          <div className="h-[600px]">
+            {graph.error && <ErrorNote error={graph.error} />}
+            {graph.data && (
+              <Network3D
+                graph={graph.data}
+                aboveChance={aboveChance}
+                result={result}
+                selectedId={selected?.id ?? null}
+                onSelect={setSelected}
+              />
+            )}
+          </div>
+        </Panel>
+      )}
       {selected ? (
         <NeuronDetail node={selected} result={result} onClose={() => setSelected(null)} />
       ) : (
         <p className="px-1 text-[12.5px] text-muted-foreground">
           {view === "flow"
             ? "Each column is one more synapse from the seeds. Hover a row to trace its path; click it to see the strongest paths into its most hit neuron."
-            : "Same neurons, same positions. Click a neuron to see the paths that carry the loss to it."}
+            : view === "3d"
+              ? "Orbit the graph. Replay walks from healthy (t=0) to degenerated. Hover a neuron for its label; click it for paths."
+              : "Same neurons, same positions. Click a neuron to see the paths that carry the loss to it."}
         </p>
       )}
     </div>

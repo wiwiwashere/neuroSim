@@ -1,0 +1,30 @@
+{
+  "evidence": [
+    {
+      "disease": "parkinsons",
+      "human_gene": "PINK1",
+      "fly_gene": "Pink1",
+      "model_type": "RNAi",
+      "clusters": [
+        "PPL1",
+        "PPM1/2"
+      ],
+      "finding": "In dPink1 RNAi flies, there is a significant reduction in the PPL1 cluster and a modest reduction in the PPM cluster.",
+      "citation": "Yang et al. 2006, Proceedings of the National Academy of Sciences of the United States of America",
+      "url": "https://doi.org/10.1073/pnas.0602493103",
+      "tier": "high",
+      "verified_by_bio": false,
+      "extracted": {
+        "id": "61a77e4ca2f0",
+        "by": "gemma-4-26b-a4b-it",
+        "file": "zpq10793.pdf",
+        "quote": "As shown in Fig. 4 B, 25-day-old dPink1 RNAi flies raised at 29\u00b0C showed a significant reduction of TH+ neurons in the lateral protocerebral posterior (PPL1) cluster. The dorso-medial protocerebral posterior (PPM) cluster [also known as dorsomedial cluster (DMC)] also showed a modest reduction of neuronal number, whereas the other clusters were relatively unaffected (Fig. 4F).",
+        "page": 4,
+        "quote_found": true,
+        "tier_reason": "Counted per cluster with stats provided in text and Figure 4.",
+        "edited": [],
+        "approved_at": "2026-10-25T02:18:28+00:00"
+      }
+    }
+  ]
+}

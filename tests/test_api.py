@@ -93,6 +93,17 @@ def test_unhandled_error_is_json_with_a_readable_detail(monkeypatch):
     assert res.json() == {"detail": "neuroSim hit an internal error (RuntimeError). The API log has the traceback."}
 
 
+def test_mock_dynamics_endpoint(monkeypatch):
+    client = client_with(monkeypatch, NEUROSIM_MOCKS="1")
+    run_id = client.post("/simulate", json={"human_gene": "PRKN"}).json()["run_id"]
+    series = client.get(f"/runs/{run_id}/dynamics").json()
+    assert series["run_id"] == run_id
+    assert series["model"] == "WCModel"
+    assert len(series["frames"]) == 60
+    assert series["frames"][0]["seed_health"] == 1.0
+    assert series["frames"][-1]["seed_health"] == 0.0
+
+
 def test_expression_endpoint_works_for_genes_without_evidence(monkeypatch):
     client = client_with(monkeypatch, NEUROSIM_MOCKS="1")
     gba = client.get("/genes/GBA1/expression").json()

@@ -1,5 +1,6 @@
 numpy
 scipy
+neurolib         # Wilson–Cowan / ALN neural masses for degeneration time-series
 pandas
 pyarrow          # reads the FlyWire .feather file
 networkx         # only for the small drawn subgraph

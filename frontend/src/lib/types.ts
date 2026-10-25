@@ -43,6 +43,22 @@ export interface NeuronExplanation {
   paths: { neurons: string[]; strength: number }[];
 }
 
+/** GET /runs/{id}/dynamics — one Wilson–Cowan / neurolib snapshot. */
+export interface DegenerationFrame {
+  t: number;
+  region_activity: Record<string, number>;
+  seed_health: number;
+}
+
+export interface DegenerationSeries {
+  run_id: string;
+  frames: DegenerationFrame[];
+  dt: number;
+  total_t: number;
+  n_regions: number;
+  model: string;
+}
+
 /** GET /agent/llm: the model family behind the agent (NEUROSIM_LLM). */
 export interface LlmInfo {
   family: "gemma" | "gemini";

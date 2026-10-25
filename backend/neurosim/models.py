@@ -198,6 +198,21 @@ class SankeyLink(BaseModel):
     value: float                         # summed impact
 
 
+class DegenerationFrame(BaseModel):
+    t: float                             # simulated time in seconds
+    region_activity: dict[str, float]    # region name → mean activity (0..1 normalised)
+    seed_health: float                   # 1.0 at t=0, approaches 0.0
+
+
+class DegenerationSeries(BaseModel):
+    run_id: str
+    frames: list[DegenerationFrame]
+    dt: float                            # seconds per frame
+    total_t: float
+    n_regions: int
+    model: str                           # "WCModel" (Wilson–Cowan; ALN is slower)
+
+
 # --- Comparison (CS1) ---------------------------------------------------------------
 
 

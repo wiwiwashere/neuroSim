@@ -11,6 +11,7 @@ import type {
   AgentReply,
   ChatRequest,
   Comparison,
+  DegenerationSeries,
   EvidenceEdits,
   EvidenceExtraction,
   EvidenceProposal,
@@ -105,6 +106,10 @@ export const api = {
   run: (runId: string) => request<SimulationResult>(`/runs/${encodeURIComponent(runId)}`),
   sankey: (runId: string) => request<SankeyLink[]>(`/runs/${encodeURIComponent(runId)}/sankey`),
   subgraph: (runId: string) => request<Subgraph>(`/runs/${encodeURIComponent(runId)}/subgraph`),
+  dynamics: (runId: string, nRegions = 10, T = 10) =>
+    request<DegenerationSeries>(
+      `/runs/${encodeURIComponent(runId)}/dynamics${q({ n_regions: String(nRegions), T: String(T) })}`,
+    ),
   explain: (runId: string, rootId: number) =>
     request<NeuronExplanation>(`/runs/${encodeURIComponent(runId)}/neurons/${rootId}/explain`),
   compare: (runA: string, runB: string, level: GroupLevel) =>
