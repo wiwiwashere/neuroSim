@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertTriangle, Check, Download, FileUp, Loader2, Plus, Trash2, X } from "lucide-react";
+import { AlertTriangle, Check, Download, FileUp, Loader2, Plus, Sparkles, Trash2, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -130,8 +130,21 @@ export function CustomDiseasePanel({ onClose, onSaved }: { onClose: () => void; 
     preview.mutate({ file: f, disease: name || undefined });
   };
   const check = () => preview.mutate({ rows: rows.map(toInput), disease: name || undefined });
+  // "Use the example": the server's example rows (real FlyWire names that pass
+  // every check) fill the form and are checked at once, so Save is one click away.
+  const example = useMutation({
+    mutationFn: async () => {
+      const tmpl = await api.customTemplate();
+      const drafts = tmpl.rows.map((r) => ({ ...blank(), ...r, affected: r.affected.join("; "), tier: r.tier || "medium", model_type: r.model_type || "other" }) as Draft);
+      setName(tmpl.disease);
+      setFile("example");
+      setRows(drafts);
+      return api.previewCustom({ rows: drafts.map(toInput), disease: tmpl.disease });
+    },
+    onSuccess: applyPreview,
+  });
 
-  const busy = preview.isPending || save.isPending;
+  const busy = preview.isPending || save.isPending || example.isPending;
   const rowProblems = rows.some((r) => r.checks?.problems.length);
   const canSave = !stale && !busy && problems.length === 0 && !rowProblems && rows.every((r) => r.checks?.can_seed);
 
@@ -185,7 +198,26 @@ export function CustomDiseasePanel({ onClose, onSaved }: { onClose: () => void; 
         <FileUp className="size-4" />
         Drop a CSV or JSON file here, or type the rows below
         <span className="flex items-center gap-2 text-[11px] text-faint">
-          Template:
+          <span
+            role="button"
+            tabIndex={0}
+            className="inline-flex items-center gap-0.5 text-seed underline-offset-2 hover:underline"
+            title="Fill the form with example rows (Huntington's disease, HTT → htt, real FlyWire names) and check them"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!busy) example.mutate();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!busy) example.mutate();
+              }
+            }}
+          >
+            {example.isPending ? <Loader2 className="size-3 animate-spin" /> : <Sparkles className="size-3" />} Use the example
+          </span>
+          · Template:
           <a href={customTemplateUrl("csv")} download className="inline-flex items-center gap-0.5 underline-offset-2 hover:text-foreground hover:underline" onClick={(e) => e.stopPropagation()}>
             <Download className="size-3" /> CSV
           </a>
@@ -237,6 +269,7 @@ export function CustomDiseasePanel({ onClose, onSaved }: { onClose: () => void; 
         </ul>
       )}
       {preview.error && <ErrorNote error={preview.error} />}
+      {example.error && <ErrorNote error={example.error} />}
       {save.error && <ErrorNote error={save.error} />}
 
       <div className="flex items-center gap-1.5">

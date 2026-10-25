@@ -105,6 +105,14 @@ def run_simulation(request: SimulationRequest, seeds: SeedSet | None = None) -> 
     prop = propagate(conn.A, x0, request.hops, request.decay)
 
     pool = conn.dopaminergic()
+    if len(seed_positions) > len(pool):
+        # baseline.draw_random_seeds samples without replacement, so a seed set
+        # bigger than the pool has no null. User-added cell types can be that
+        # big (KCg-m alone is ~2,200 neurons); bio/custom.py refuses them at
+        # check time, and this keeps a saved one from becoming a 500.
+        raise evidence.SeedError(
+            f"{len(seed_positions):,} seed neurons is more than the {len(pool):,} dopamine neurons the random "
+            "baseline draws from, so there is no chance level to compare against. Name fewer or smaller cell types.")
     groupings, tables = {}, {}
     for level in GroupLevel:
         codes, names = vulnerability.group_codes(conn.neurons, level)

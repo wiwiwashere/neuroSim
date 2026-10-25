@@ -15,6 +15,7 @@ import type {
   CustomInput,
   CustomPreview,
   CustomRowInput,
+  CustomTemplate,
   DegenerationSeries,
   DirectTargets,
   EvidenceEdits,
@@ -156,6 +157,7 @@ export const api = {
     request<CustomDisease>("/custom/diseases", { method: "POST", body: JSON.stringify(body) }),
   removeCustom: (id: string) => request<{ removed: string }>(`/custom/diseases/${encodeURIComponent(id)}`, { method: "DELETE" }),
   customNames: (query: string) => request<NameMatch[]>(`/custom/names${q({ q: query })}`),
+  customTemplate: () => request<CustomTemplate>("/custom/template.json"),
 };
 
 /** Downloadable templates for a user-supplied disease table (served by the API). */

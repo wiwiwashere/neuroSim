@@ -229,6 +229,12 @@ export interface CustomRow {
   checks: CustomRowChecks;
 }
 
+/** GET /custom/template.json: example rows that pass every check, for "Use the example" and the downloads. */
+export interface CustomTemplate {
+  disease: string;
+  rows: (Omit<CustomRowInput, "affected"> & { affected: string[] })[];
+}
+
 export interface CustomPreview {
   disease: { id: string; name: string };
   file: string;

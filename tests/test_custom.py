@@ -22,9 +22,11 @@ def synthetic_brain():
 
 
 def _a_cell_type() -> tuple[str, int]:
-    """A non-dopamine cell type of the synthetic brain and its size."""
-    name, info = max(((n, i) for n, i in custom.cell_type_catalogue().items() if i["n_dopamine"] == 0),
-                     key=lambda x: x[1]["n_neurons"])
+    """The largest non-dopamine cell type of the synthetic brain that, with PAM,
+    still fits in the random baseline's pool, and its size."""
+    room = custom.baseline_pool_size() - custom.resolve_name("PAM")["n_neurons"]
+    name, info = max(((n, i) for n, i in custom.cell_type_catalogue().items()
+                      if i["n_dopamine"] == 0 and i["n_neurons"] <= room), key=lambda x: x[1]["n_neurons"])
     return name, info["n_neurons"]
 
 
@@ -126,7 +128,7 @@ def test_json_upload_and_templates_round_trip():
     tmpl = custom.template_json()
     data = json.dumps({"disease": tmpl["disease"], "rows": tmpl["rows"]}).encode()
     rows = custom.parse_upload("t.json", data)
-    assert rows[0]["disease"] == "Huntington's disease" and rows[0]["affected"] == ["PAM", "MBON01"]
+    assert rows[0]["disease"] == custom.EXAMPLE_DISEASE and rows[0]["affected"] == ["PAM", "PPL1"]
     csv_rows = custom.parse_upload("t.csv", custom.template_csv().encode())
     assert [r["affected"] for r in csv_rows] == [r["affected"] for r in rows]
     with pytest.raises(custom.CustomError, match="header"):
@@ -201,3 +203,78 @@ def test_api_round_trip_in_mock_mode(monkeypatch):
     assert client.delete("/custom/diseases/huntingtons-disease").json() == {"removed": "huntingtons-disease"}
     assert client.delete("/custom/diseases/huntingtons-disease").status_code == 404
     assert client.get("/diseases").json() == ["parkinsons"]
+
+
+def _non_dopamine_types() -> list[tuple[str, int]]:
+    """Synthetic cell types with no dopamine neurons, largest first."""
+    return sorted(((n, i["n_neurons"]) for n, i in custom.cell_type_catalogue().items() if i["n_dopamine"] == 0),
+                  key=lambda x: -x[1])
+
+
+def test_more_seeds_than_the_baseline_pool_is_a_problem():
+    """The null draws seed-set-sized samples from the dopamine pool without
+    replacement, so a gene whose rows name more neurons than the pool can't be
+    scored: the check says so and the save is refused. Alone or across rows."""
+    pool = custom.baseline_pool_size()
+    types = _non_dopamine_types()
+    big = next(n for n, size in types if size > pool)
+    small = [n for n, size in types if size <= pool]
+    a, b = next((a, b) for a, sa in types for b, sb in types if a != b and sa <= pool and sb <= pool and sa + sb > pool)
+
+    out = custom.preview([{"human_gene": "HTT", "fly_gene": "htt", "affected": big}], "Big")
+    assert not out["ok"] and not out["rows"][0]["checks"]["can_seed"]
+    assert f"HTT names" in out["rows"][0]["checks"]["problems"][0] and f"{pool:,} dopamine" in out["rows"][0]["checks"]["problems"][0]
+    with pytest.raises(custom.CustomError, match="dopamine neurons the random baseline"):
+        custom.save([{"human_gene": "HTT", "fly_gene": "htt", "affected": big}], "Big")
+
+    rows = [{"human_gene": "HTT", "fly_gene": "htt", "affected": a}, {"human_gene": "HTT", "fly_gene": "htt", "affected": b}]
+    out = custom.preview(rows, "Together")
+    assert not out["ok"] and all("rows together name" in r["checks"]["problems"][0] for r in out["rows"])
+    # Two genes with the same names are two seed sets, so each is judged alone.
+    rows[1]["human_gene"], rows[1]["fly_gene"] = "PRKN", ""
+    assert custom.preview(rows, "Apart")["ok"]
+    # A cluster and one of its cell types overlap; neurons count once.
+    affected = custom.preview([{"human_gene": "PRKN", "affected": f"PAM; {small[0]}"}], "Overlap")["rows"][0]["checks"]["affected"]
+    assert custom.seed_count(affected) == custom.resolve_name("PAM")["n_neurons"] + custom.resolve_name(small[0])["n_neurons"]
+    assert custom.seed_count(affected + [custom.resolve_name("PAM")]) == custom.seed_count(affected)
+
+
+def test_run_refuses_a_seed_set_bigger_than_the_pool():
+    """A disease saved before the check existed (or edited on disk) must be a
+    422, not a 500, when it reaches the engine."""
+    from neurosim.engine import pipeline
+    from neurosim.engine.graph import load_connectome
+    from neurosim.models import Ortholog, SeedSet, SeedType
+
+    conn = load_connectome()
+    big, size = _non_dopamine_types()[0]
+    members = conn.neurons[evidence.type_mask(conn.neurons, [big])]
+    assert len(members) > len(conn.dopaminergic())
+    seeds = SeedSet(disease="big", human_gene="HTT",
+                    ortholog=Ortholog(human_gene="HTT", fly_genes=["htt"], diopt_score=None, relationship="user-supplied", confidence=0.5),
+                    seed_types=[SeedType(cell_type=big, cluster=big, match="exact", n_neurons=size,
+                                         root_ids=[int(r) for r in members["root_id"]], confidence=0.5, evidence=[])])
+    with pytest.raises(evidence.SeedError, match="more than the"):
+        pipeline.run_simulation(SimulationRequest(human_gene="HTT", disease="big"), seeds=seeds)
+
+
+def test_example_rows_pass_the_checks():
+    """The template is the "Use the example" button's data, so it has to come
+    through clean: a name, every row seedable, no problems. On the real
+    connectome when data/processed is here, else on the synthetic brain's names."""
+    from neurosim.engine.graph import processed_data_available
+
+    if processed_data_available():
+        set_connectome(None)
+        custom._catalogue_for.cache_clear()
+    tmpl = custom.template_json()
+    rows = [{**r, "affected": "; ".join(r["affected"])} for r in tmpl["rows"]]
+    out = custom.preview(rows, tmpl["disease"], "template.json")
+    if not processed_data_available():
+        pytest.skip("the example names are FlyWire types; the synthetic brain has only some of them")
+    assert out["ok"], [r["checks"]["problems"] for r in out["rows"]]
+    assert out["disease"]["id"] not in custom.builtin_diseases()
+    assert all(r["checks"]["can_seed"] for r in out["rows"])
+    assert all(custom.EXAMPLE_CITATION == r["citation"] for r in out["rows"])
+    csv_rows = custom.parse_upload("template.csv", custom.template_csv().encode())
+    assert custom.preview(csv_rows, filename="template.csv")["ok"]

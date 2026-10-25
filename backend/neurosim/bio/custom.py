@@ -32,6 +32,8 @@ import uuid
 from datetime import datetime, timezone
 from functools import lru_cache
 
+import numpy as np
+
 from neurosim import config
 from neurosim.bio import evidence
 
@@ -53,12 +55,20 @@ MAX_ROWS = 50
 MAX_BYTES = 2 * 1024 * 1024
 SEPARATORS = re.compile(r"[;|]")
 
+# Example rows: real FlyWire v783 names that pass every check, so a person can
+# load them with "Use the example" (or download them as the CSV/JSON template)
+# and run them. They are illustrations of the format, not reviewed findings.
+EXAMPLE_DISEASE = "Huntington's disease (example)"
+EXAMPLE_CITATION = "Example rows, not a reviewed finding"
 TEMPLATE_ROWS = [
-    {"disease": "Huntington's disease", "human_gene": "HTT", "fly_gene": "htt", "affected": "PAM; MBON01",
-     "model_type": "overexpression", "finding": "Expanded-repeat HTT expressed in dopamine neurons caused PAM loss.",
-     "citation": "Your source, e.g. Smith et al. 2020, J Neurosci", "url": "https://doi.org/...", "tier": "medium"},
-    {"disease": "Huntington's disease", "human_gene": "HTT", "fly_gene": "htt", "affected": "KCg-m",
-     "model_type": "other", "finding": "Replace this row with your own, or delete it.", "citation": "", "url": "", "tier": "low"},
+    {"disease": EXAMPLE_DISEASE, "human_gene": "HTT", "fly_gene": "htt", "affected": "PAM; PPL1",
+     "model_type": "overexpression",
+     "finding": "Expanded-repeat HTT expressed in dopamine neurons leads to PAM and PPL1 loss.",
+     "citation": EXAMPLE_CITATION, "url": "", "tier": "high"},
+    {"disease": EXAMPLE_DISEASE, "human_gene": "HTT", "fly_gene": "htt", "affected": "MBON01; MBON03",
+     "model_type": "other",
+     "finding": "Two mushroom body output neuron types, to show a cell type that is not dopaminergic.",
+     "citation": EXAMPLE_CITATION, "url": "", "tier": "low"},
 ]
 FIELD_HELP = {
     "disease": "Disease name, the same on every row (Huntington's disease).",
@@ -171,6 +181,34 @@ def _cluster_size(cluster: str) -> int | None:
     if cell_types == [evidence.ALL_DA]:
         return int(neurons["nt_type"].astype("string").str.lower().isin({"da", "dopamine"}).fillna(False).sum())
     return int(evidence.type_mask(neurons, cell_types).sum())
+
+
+def baseline_pool_size() -> int | None:
+    """How many neurons the engine's random baseline draws from (the dopamine
+    neurons, engine/graph.Connectome.dopaminergic); None without a connectome."""
+    from neurosim.engine import graph
+
+    if not graph.connectome_available():
+        return None
+    return int(len(graph.load_connectome().dopaminergic()))
+
+
+def seed_count(affected: list[dict]) -> int | None:
+    """Neurons the checked names would seed together, counted once each (a
+    cluster and one of its cell types overlap); None when a name is unchecked."""
+    neurons = _connectome_neurons()
+    if neurons is None or any(a["kind"] == "unchecked" for a in affected):
+        return None
+    cell_types: list[str] = []
+    for a in affected:
+        if a["kind"] == "cluster":
+            cell_types += evidence.cluster_cell_types(a["name"])[1]
+        elif a["kind"] == "cell_type":
+            cell_types.append(a["name"])
+    mask = evidence.type_mask(neurons, list(dict.fromkeys(cell_types))) if cell_types else np.zeros(len(neurons), bool)
+    if evidence.ALL_DA in cell_types:
+        mask = mask | neurons["nt_type"].astype("string").str.lower().isin({"da", "dopamine"}).fillna(False).to_numpy()
+    return int(np.asarray(mask).sum())
 
 
 def search_names(query: str, limit: int = 12) -> list[dict]:
@@ -379,8 +417,34 @@ def preview(rows: list[dict], disease_name: str | None = None, filename: str = "
         r = {**r, "disease": name}
         r["checks"] = check_row(r, disease_id, keys)
         checked.append(r)
+    _check_pool(checked)
     ok = not problems and all(not r["checks"]["problems"] for r in checked)
     return {"disease": {"id": disease_id, "name": name}, "file": filename, "rows": checked, "ok": ok, "problems": problems}
+
+
+def _check_pool(checked: list[dict]) -> None:
+    """A gene's rows seed together, and the random baseline draws that many
+    neurons from the dopamine pool without replacement, so more seeds than the
+    pool has (KCg-m alone is ~2,200 neurons against 610) can't be scored.
+    Flag every row of such a gene; pipeline.run_simulation refuses it too."""
+    pool = baseline_pool_size()
+    if pool is None:
+        return
+    by_gene: dict[str, list[dict]] = {}
+    for r in checked:
+        if r["human_gene"]:
+            by_gene.setdefault(r["human_gene"], []).append(r)
+    for gene, rows in by_gene.items():
+        affected = [a for r in rows for a in r["checks"]["affected"]]
+        total = seed_count(affected)
+        if total is not None and total > pool:
+            who = f"{gene} names" if len(rows) == 1 else f"{gene}'s rows together name"
+            for r in rows:
+                r["checks"]["problems"].append(
+                    f"{who} {total:,} neurons, more than the {pool:,} dopamine neurons the random "
+                    "baseline draws from, so the engine has no chance level to compare against. "
+                    "Name fewer or smaller cell types.")
+                r["checks"]["can_seed"] = False
 
 
 def builtin_diseases() -> set[str]:
