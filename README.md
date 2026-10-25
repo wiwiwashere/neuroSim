@@ -233,18 +233,11 @@ tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
    neurotransmitter predictions, and Berg et al. 2026 (Cell) for the v3
    annotations.
 
-## Running (once implemented)
+## Running
 
-```
-pip install -r requirements.txt
-python -m neurosim.prep.build_dataset            # once, ~minutes
-cp .env.example .env                             # then paste your Gemini API key into .env
-(cd backend && uvicorn neurosim.api.main:app --reload \
-  --reload-dir neurosim --reload-exclude 'neurosim/prep/*')  # API on :8000
-pytest tests/                                    # engine, pipeline and API tests
-cd backend && python -m neurosim.engine.validation   # PAM -> mushroom body check
-cd frontend && npm install && npm run dev        # app on :3000 (see frontend/SCREENS.md)
-```
+Setup and the run commands, for macOS and Windows, are in
+[Set up on your machine](#set-up-on-your-machine). Notes on what the
+commands do:
 
 `--reload-exclude` keeps edits to `prep/` (the dataset build) from restarting
 the API mid-request; every other file under `neurosim/`, `config.py` and
