@@ -171,6 +171,7 @@ backend/neurosim/
   prep/build_dataset.py  offline: raw FlyWire files -> data/processed/*   (CS1)
   prep/download_labels.py  fetch FlyWire cell type / region / NT labels into data/raw/
   bio/evidence.py      gene -> ortholog -> clusters -> seed neurons        (Bio + CS1)
+  bio/custom.py        user-supplied diseases: parse, check, save rows     (CS2)
   engine/
     graph.py           load connectome, input-normalized weight matrix     (CS1)
     perturb.py         perturbation modes -> initial deficit vector        (CS1)
@@ -196,6 +197,7 @@ data/
   evidence.json        hand-curated evidence table (committed)
   evidence_approved.json  rows approved from paper uploads (written by the app; not committed yet)
   evidence_proposals.json paper rows waiting for review (written by the app; gitignored)
+  custom_diseases.json diseases added through the app, user-supplied (gitignored)
 docs/ENGINE_DESIGN.md  how the simulation and vulnerability model work, and why
 frontend/               Next.js workspace app (CS2); SCREENS.md maps each view to its endpoint
 tests/test_engine_toy.py  6-neuron toy graph with hand-checked answers
@@ -297,3 +299,34 @@ share one client (`agent/gemini.py`) and the free-tier guards in
 `papers.ask_model`, which sends the paper's text through `llm.json_reply`.
 That is Gemma 4 by default and Gemini Flash with `NEUROSIM_LLM=gemini` (see
 above); both use the same `GEMINI_API_KEY`.
+
+## Your own disease
+
+"Add your own" next to the Disease heading takes a disease table and runs
+it through the same pipeline as Parkinson's. One row per gene:
+
+| Column | Meaning |
+| --- | --- |
+| `disease` | Disease name, the same on every row |
+| `human_gene` | Human gene symbol (HTT) |
+| `fly_gene` | Fly ortholog. Only needed when the gene isn't in `data/evidence.json`'s ortholog table; the table's call wins otherwise |
+| `affected` | Fly neurons lost or affected: dopamine clusters (`PPL1`, `PPL2`, `PPM1/2`, `PPM3`, `PAL`, `PAM`, `ALL_DA`) and/or FlyWire v783 cell types (`MBON01`, `KCg-m`), separated by `;` |
+| `model_type` | `mutant`, `RNAi`, `overexpression` or `other` (optional) |
+| `finding`, `citation`, `url` | What was found and where it comes from (optional) |
+| `tier` | `high`, `medium` (default) or `low` |
+
+Drop a CSV or JSON file in that shape (templates download from the panel:
+`GET /custom/template.csv` and `.json`), or type the rows in. Every row is
+checked like a paper row (`bio/custom.py`): the ortholog, each affected
+name resolved to a cluster or a cell type with its neuron count and "did
+you mean" suggestions, duplicates, and the confidence its seeds would get;
+a cell type that isn't dopaminergic gets a note, because the engine's
+random baseline draws dopamine neurons. Fix or drop the rows with problems,
+then Save. Saved diseases go to `data/custom_diseases.json` (gitignored,
+never into the curated table), appear in the picker tagged "your data" with
+a remove button, and run like any other disease; the chain, the Overview
+and the agent label their rows "user-supplied, not reviewed by Bio". A
+cell type becomes a one-type cluster in the merged table, so nothing
+downstream has a special case. Endpoints: `POST /custom/preview`,
+`GET`/`POST /custom/diseases`, `DELETE /custom/diseases/{id}`,
+`GET /custom/names?q=`.
