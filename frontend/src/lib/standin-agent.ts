@@ -85,6 +85,34 @@ export async function standInChat(text: string, context: SimulationRequest | nul
     };
   }
 
+  // "What am I looking at in the 3D view?"
+  if (/\b3d\b|three.?d|network view|connectome view/i.test(text)) {
+    const r = await api.simulate({ ...base, seed_cell_types: base.seed_cell_types ?? null });
+    tool_calls.push({ name: "describe_network_view", arguments: { run_id: r.run_id } });
+    const graph = await api.subgraph(r.run_id);
+    const seeds = [...new Set(graph.nodes.filter((n) => n.is_seed).map((n) => n.label))];
+    const regions = [...new Set(graph.nodes.map((n) => n.group))];
+    const blue = Object.values(r.groups)
+      .flat()
+      .filter((g) => g.above_chance && regions.includes(g.group))
+      .map((g) => g.group);
+    const hit = graph.nodes.filter((n) => !n.is_seed).sort((a, b) => b.impact - a.impact)[0];
+    return {
+      reply:
+        `The 3D Connectome view (Network tab) draws ${graph.nodes.length} neurons and ${graph.edges.length} connections from the ${r.request.human_gene} run, ` +
+        `one sphere per neuron and one slab of depth per brain region (${regions.join(", ")}). ` +
+        `The larger, glowing orange spheres are the seeds (${seeds.join(", ")}); the others fade from light grey to dark red as their impact grows, ` +
+        `and dashed lines are connections that lost drive. ` +
+        (blue.length ? `Blue boxes mark regions above chance: ${blue.join(", ")}. ` : "No box is blue: no drawn region is above chance. ") +
+        (hit ? `The most hit neuron drawn is ${hit.label} in ${hit.group} (impact ${hit.impact.toFixed(2)}). ` : "") +
+        "Replay walks the colours from healthy to degenerated.",
+      tool_calls,
+      run_ids: [],
+      interaction_id: null,
+      results,
+    };
+  }
+
   // "Why these neurons?" / "Show the chain for PRKN"
   if (/\bwhy\b|\bchain\b|\bevidence\b/i.test(text)) {
     const gene = mentioned[0] ?? base.human_gene;
