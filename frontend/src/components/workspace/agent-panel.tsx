@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowUp, Box, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sparkles } from "lucide-react";
+import { ArrowUp, Box, FlaskConical, GitCompareArrows, Loader2, Microscope, RotateCcw, Route, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { api, SNAPSHOT_MODE } from "@/lib/api";
