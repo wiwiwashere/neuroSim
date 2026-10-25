@@ -43,7 +43,8 @@ export interface GeneOption {
 
 /** GET /runs/{id}/neurons/{rid}/explain */
 export interface NeuronExplanation {
-  root_id: number;
+  /** FlyWire root ids are strings end to end: past 2^53 a JS number rounds them. */
+  root_id: string;
   paths: { neurons: string[]; strength: number }[];
 }
 

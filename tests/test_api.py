@@ -68,7 +68,11 @@ def test_synthetic_flag_runs_the_real_pipeline_end_to_end(monkeypatch):
     assert client.get(f"/runs/{run_id}/sankey").json()
     assert client.get(f"/runs/{run_id}/subgraph").json()["nodes"]
     neuron = run["top_neurons"][0]["root_id"]
-    assert client.get(f"/runs/{run_id}/neurons/{neuron}/explain").json()["paths"]
+    # Root IDs travel as strings: a JavaScript number would round FlyWire's 18-digit IDs.
+    assert isinstance(neuron, str) and all(isinstance(r, str) for r in run["seeds"]["seed_types"][0]["root_ids"])
+    explained = client.get(f"/runs/{run_id}/neurons/{neuron}/explain").json()
+    assert explained["paths"] and explained["root_id"] == neuron
+    assert all(isinstance(r, str) for r in explained["paths"][0]["root_ids"])
     other = client.post("/simulate", json={"human_gene": "LRRK2"}).json()["run_id"]
     assert "summary" in client.get("/compare", params={"run_a": run_id, "run_b": other}).json()
 

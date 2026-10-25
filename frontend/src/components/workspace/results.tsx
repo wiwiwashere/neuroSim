@@ -452,10 +452,11 @@ function Network({ result }: { result: SimulationResult }) {
 }
 
 function NeuronDetail({ node, result, onClose }: { node: GraphNode; result: SimulationResult; onClose: () => void }) {
-  // Subgraph ids are strings; explain needs a FlyWire root id. Use the id when
-  // it is one, else match the node's cell type against the run's top neurons.
+  // Subgraph ids are FlyWire root ids as strings; keep them strings, since a
+  // JS number rounds 18-digit ids. Otherwise match the node's cell type
+  // against the run's top neurons.
   const rootId = useMemo(() => {
-    if (/^\d{6,}$/.test(node.id)) return Number(node.id);
+    if (/^\d{6,}$/.test(node.id)) return node.id;
     return result.top_neurons.find((n) => n.cell_type === node.label)?.root_id ?? null;
   }, [node, result]);
   const explain = useQuery({

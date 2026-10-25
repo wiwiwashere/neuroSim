@@ -121,7 +121,7 @@ export const api = {
     request<DegenerationSeries>(
       `/runs/${encodeURIComponent(runId)}/dynamics${q({ n_regions: String(nRegions), T: String(T) })}`,
     ),
-  explain: (runId: string, rootId: number) =>
+  explain: (runId: string, rootId: string) =>
     request<NeuronExplanation>(`/runs/${encodeURIComponent(runId)}/neurons/${rootId}/explain`),
   compare: (runA: string, runB: string, level: GroupLevel) =>
     request<Comparison>(`/compare${q({ run_a: runA, run_b: runB, level })}`),
@@ -167,5 +167,5 @@ export const customTemplateUrl = (format: "csv" | "json") => `/api/custom/templa
 export const flybaseTermUrl = (fbbt: string) => `https://flybase.org/reports/${fbbt.replace("_", ":")}`;
 
 /** FlyWire Codex page for one neuron: the real 3D shape, no renderer of our own. */
-export const codexUrl = (rootId: number | string) =>
+export const codexUrl = (rootId: string) =>
   `https://codex.flywire.ai/app/cell_details?root_id=${rootId}&data_version=783`;
