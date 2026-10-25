@@ -1,9 +1,5 @@
 """The connectome as matrices (CS1). See docs/ENGINE_DESIGN.md, sections 2-3.
 
-STATUS: placeholder. CS1 writes input_normalize (section 3). pipeline.py, the
-validation script and the API already call it with the signatures
-below, and the tests marked `needs_engine` turn green once it works.
-
 Two matrices matter:
 
     W   raw synapse counts, W[i, j] = synapses from neuron i onto neuron j.

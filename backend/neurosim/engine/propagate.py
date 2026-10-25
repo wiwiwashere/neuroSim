@@ -1,9 +1,5 @@
 """Multi-hop impact propagation (CS1). See docs/ENGINE_DESIGN.md, section 5.
 
-STATUS: placeholder. CS1 writes propagate. pipeline.py, the
-validation script and the API already call it with the signatures
-below, and the tests marked `needs_engine` turn green once it works.
-
     hop 1:  h1 = A @ x0              share of each neuron's input lost directly
     hop k:  hk = A @ h(k-1)          share of input coming from already-hit neurons
     impact  I  = sum_k decay**(k-1) * hk     for k = 1..hops
