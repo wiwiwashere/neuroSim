@@ -18,6 +18,150 @@ on day one.
 | CS1 | `backend/neurosim/prep/`, `backend/neurosim/engine/`, `tests/` | Data prep, graph, perturbation, propagation, vulnerability scoring, random baseline, subgraph, comparison. **Read `docs/ENGINE_DESIGN.md` first.** |
 | CS2 | `backend/neurosim/api/`, `backend/neurosim/agent/`, `frontend/` | FastAPI, caching, the agent loop, all screens. |
 
+## Set up on your machine
+
+Works on macOS and Windows. You need **Python 3.11+** (`python3 --version` on
+macOS, `python --version` on Windows), **Node 18+** (`node --version`) and git.
+
+Two habits prevent most setup problems:
+
+- Activate the virtual environment in **every new terminal** before running
+  any Python command. The prompt then starts with `(.venv)`.
+- Always type `python -m pip` and `python -m uvicorn`, never bare `pip` or
+  `uvicorn`. The bare commands can belong to a different Python, which installs
+  packages where the app can't see them.
+
+### 1. Python environment (from the repo root)
+
+| | macOS (Terminal) | Windows (PowerShell) |
+| --- | --- | --- |
+| Create the venv (once) | `python3 -m venv .venv` | `python -m venv .venv` |
+| Activate it (every terminal) | `source .venv/bin/activate` | `.venv\Scripts\activate` |
+| Install packages | `python -m pip install -r requirements.txt` | `python -m pip install -r requirements.txt` |
+
+On Windows, if PowerShell refuses to run the activate script, run
+`Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once and try again. In
+the old `cmd.exe` the activate command is `.venv\Scripts\activate.bat`.
+
+Rerun the install line after pulling a change to `requirements.txt`. It
+includes `neurolib`, which `engine/degeneration.py` uses for the 3D view's
+degeneration time-series; if it won't install on your machine, that code
+falls back to a plain numpy version.
+
+### 2. API key
+
+| macOS | Windows |
+| --- | --- |
+| `cp .env.example .env` | `copy .env.example .env` |
+
+Open `.env` and paste the team's free-tier key after `GEMINI_API_KEY=` (ask
+rafael for it in a direct message), or make your own free key at
+https://aistudio.google.com/apikey. The same key serves Gemma and Gemini.
+`.env` is gitignored: never commit it, paste it in a chat, or put it in code.
+The key is only needed for the agent chat, the run summary and paper upload;
+everything else works without it. Restart the API after editing `.env`.
+
+### 3. Data (optional to run the app)
+
+**You can skip this step.** Until `data/processed/` exists, the API serves
+mock numbers, so every screen works on a fresh clone. The data is needed to
+build `data/processed/` and run the real engine.
+
+Everything in `data/raw/` and `data/processed/` is gitignored, so a fresh
+clone has none of it and each person downloads their own copy:
+
+| File in `data/raw/` | Size | How to get it |
+| --- | --- | --- |
+| `proofread_connections_783.feather` | 852 MB | Download by hand from [Zenodo record 10676866](https://zenodo.org/records/10676866) and move it into `data/raw/` |
+| `flywire_neuron_annotations_783.tsv` | 32 MB | The download script below |
+| `per_neuron_neuropil_count_pre_783.feather` and `per_neuron_neuropil_count_post_783.feather` | | The download script below (same Zenodo record) |
+
+Then, with the venv active (same on macOS and Windows):
+
+```
+cd backend
+python -m neurosim.prep.download_labels   # annotations + both region files, checksums verified
+python -m neurosim.prep.build_dataset     # needs the connections file; writes data/processed/ in a few minutes
+```
+
+`build_dataset` needs the connections file and reads the annotations for cell
+types; it doesn't read the two region files yet. More detail on each file is
+in [Data to download](#data-to-download-before-the-event).
+
+### 4. Run it
+
+Use two terminals. In the first, with the venv active, start the API on :8000
+(one line, same on macOS and Windows):
+
+```
+cd backend
+python -m uvicorn neurosim.api.main:app --reload --reload-dir neurosim --reload-exclude "neurosim/prep/*"
+```
+
+In the second, start the app on :3000:
+
+```
+cd frontend
+npm install    # first time, and after every pull that changes package.json
+npm run dev
+```
+
+If you installed before the 3D view landed, run `npm install` again: it
+added `three` and the `@react-three/*` packages. Use npm (the repo's
+`package-lock.json`), not pnpm.
+
+Open http://localhost:3000. The API's own docs are at
+http://127.0.0.1:8000/docs. Run the tests from the repo root with
+`python -m pytest tests/`; 23 of them are expected to show as `xfailed` until
+the engine math exists (next section).
+
+### For the engine owner (CS1)
+
+- **Where the placeholders are.** The simulation math raises
+  `NotImplementedError` in `input_normalize` in
+  `backend/neurosim/engine/graph.py`, and in `engine/perturb.py`,
+  `propagate.py`, `vulnerability.py` and `baseline.py`. Read
+  `docs/ENGINE_DESIGN.md` first; every tunable constant is in
+  `backend/neurosim/config.py`. `engine/degeneration.py` (the 3D view's
+  Wilson–Cowan time-series) is separate and already runs.
+- **The checklist.** The 23 tests marked `@needs_engine`
+  (`tests/engine_status.py`) are the to-do list. `python -m pytest tests/ -rxX`
+  lists them at the end. When one shows `XPASS`, your code makes it pass:
+  remove its `@needs_engine` marker.
+- **Try it before the data exists.** `python -m neurosim.engine.validation --synthetic`
+  (from `backend/`) runs the PAM → mushroom body check on a small made-up
+  brain. Starting the API with `NEUROSIM_SYNTHETIC=1` runs the whole app on
+  that brain. Its numbers mean nothing biologically.
+- **Switch the app to the real engine.** Build `data/processed/` (step 3),
+  then start the API with `NEUROSIM_MOCKS=0`:
+  - macOS: `NEUROSIM_MOCKS=0 python -m uvicorn neurosim.api.main:app --reload --reload-dir neurosim --reload-exclude "neurosim/prep/*"`
+  - Windows (PowerShell): `$env:NEUROSIM_MOCKS="0"` first, then the usual uvicorn line in the same terminal.
+
+  `python -m neurosim.engine.validation` without `--synthetic` runs the
+  validation on the real data.
+
+### Troubleshooting
+
+- **`Address already in use`** (`[Errno 48]` on macOS, `[WinError 10048]` on
+  Windows): an old API is still running on :8000. macOS:
+  `lsof -ti :8000 | xargs kill`. Windows: `netstat -ano | findstr :8000`, then
+  `taskkill /PID <the number in the last column> /F`. The same works for :3000;
+  if 3000 is busy, `npm run dev` quietly moves to 3001, so check the URL it prints.
+- **`ModuleNotFoundError: No module named 'google.genai'`** (or `fastapi`,
+  `pyarrow`, ...): the venv isn't active, or pip installed somewhere else.
+  Activate the venv and rerun `python -m pip install -r requirements.txt`.
+  `python -c "import sys; print(sys.prefix)"` should print a path ending in `.venv`.
+- **`No module named 'neurosim'`**: run backend commands from `backend/` (the
+  tests run from the repo root).
+- **`FileNotFoundError` mentioning `proofread_connections_783.feather`**:
+  `build_dataset` can't find the connections file. Download it into
+  `data/raw/` (step 3), or skip `build_dataset`: the app runs on mock numbers
+  without it.
+- **The chat panel says "Can't reach the neuroSim API on :8000"**: the API
+  isn't running or crashed; look at its terminal.
+- **The agent says the key was rejected**: `.env` is missing or the key is
+  empty or wrong. Fix it and restart the API.
+
 ## Layout
 
 ```
