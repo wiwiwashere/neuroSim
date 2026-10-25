@@ -1,0 +1,86 @@
+cluster,fbbt_id
+adult CCAP neuron,FBbt_00111316
+adult extrinsic protocerebral bridge neuron,FBbt_00003663
+adult lamina epithelial glial cell,FBbt_00100513
+adult lamina marginal glial cell,FBbt_00005722
+alpha'/beta' anterior-posterior Kenyon cell,FBbt_00100250z
+alpha' /beta' middle Kenyon cell,FBbt_00100253
+alpha/beta Kenyon cell,FBbt_00100248
+alpha/beta posterior Kenyon cell,FBbt_00110931
+alpha/beta surface Kenyon cell,FBbt_00110930
+centrifugal neuron C2,FBbt_00003743
+centrifugal neuron C3,FBbt_00003744
+centrifugal neuron,FBbt_00049661
+cholinergic neuron,FBbt_00058205
+columnar neuron T1,FBbt_00003727
+corazonin neuron,FBbt_00051053
+distal medullary amacrine neuron Dm1,FBbt_00003768
+distal medullary amacrine neuron Dm10,FBbt_00110135
+distal medullary amacrine neuron Dm11,FBbt_00111272
+distal medullary amacrine neuron Dm12,FBbt_00111273
+distal medullary amacrine neuron Dm3,FBbt_00003770
+distal medullary amacrine neuron Dm4,FBbt_00003771
+distal medullary amacrine neuron Dm8,FBbt_00013774
+distal medullary amacrine neuron Dm9,FBbt_00111271
+dopaminergic PAM neuron 1,FBbt_00111015
+dopaminergic PAM neuron 2,FBbt_00111016
+dopaminergic PAM neuron 3,FBbt_00100231
+dopaminergic PAM neuron 4,FBbt_00110993
+dopaminergic PAM neuron 5,FBbt_00111017
+dopaminergic PAM neuron 6,FBbt_00111018
+dopaminergic PAM neuron 7,FBbt_00111019
+dopaminergic PAM neuron 8,FBbt_00111020
+dopaminergic PAM neuron 9,FBbt_00111021
+Drosulfakinin neuron,FBbt_00048999
+GABAergic neuron,FBbt_00058207
+gamma dorsal Kenyon cell,FBbt_00110932
+glutamatergic neuron,FBbt_00058208
+I-LNv neuron,FBbt_00003763
+lamina intrinsic neuron,FBbt_00003746
+lamina monopolar neuron,FBbt_00003718
+lamina monopolar neuron L1,FBbt_00003719
+lamina monopolar neuron L2,FBbt_00003720
+lamina monopolar neuron L3,FBbt_00003721
+lamina monopolar neuron L4,FBbt_00003722
+lamina monopolar neuron L5,FBbt_00003725
+lamina wide-field 1 neuron,FBbt_00003741
+lamina wide-field 2 neuron,FBbt_00110065
+lobula columnar neuron LC10a,FBbt_00111747
+lobula columnar neuron LC10A,FBbt_00110933
+lobula columnar neuron LC10b,FBbt_00111745
+lobula columnar neuron LC10d,FBbt_00111748
+lobula columnar neuron LC16,FBbt_00111751
+lobula columnar neuron LC4,FBbt_00003874
+lobula columnar neuron LC6,FBbt_00003876
+lobula plate columnar neuron LPC1,FBbt_00111767
+lobula plate intrinsic neuron LPi3-4,FBbt_00111289
+lobula plate tangential neuron,FBbt_00003907
+lobula plate-lobula columnar neuron LPLC1,FBbt_00111762
+lobula plate-lobula columnar neuron LPLC2,FBbt_00111763
+lobula-lobula plate columnar neuron LLPC1,FBbt_00058227
+medullary intrinsic neuron Mi1,FBbt_00003776
+medullary intrinsic neuron Mi15,FBbt_00111285
+medullary intrinsic neuron Mi4,FBbt_00003779
+medullary intrinsic neuron Mi9,FBbt_00003784
+muscle cell,FBbt_00058230
+mushroom body output neuron,FBbt_00047955
+outer photoreceptor cell,FBbt_00006007
+Pdf neuron,FBbt_00100171
+photoreceptor cell R7,FBbt_00004225
+photoreceptor cell R8 of pale ommatidium,FBbt_02000004
+photoreceptor cell R8 of yellow ommatidium,FBbt_02000003
+proximal medullary amacrine neuron Pm3,FBbt_00110066
+proximal medullary amacrine neuron Pm4,FBbt_00111282
+pseudocartridge glial cell,FBbt_00100520
+T neuron,FBbt_00003726
+T neuron T4,FBbt_00003731
+T neuron T5,FBbt_00003736
+transmedullary neuron Tm1,FBbt_00003789
+transmedullary neuron Tm2,FBbt_00003790
+transmedullary neuron Tm20,FBbt_00003808
+transmedullary neuron Tm29,FBbt_00049916
+transmedullary neuron TM3a,FBbt_00003791
+transmedullary neuron Tm3Y,FBbt_00003830
+transmedullary neuron Tm4,FBbt_00003792
+transmedullary neuron Tm9,FBbt_00003797
+transmedullary neuron TmY5a,FBbt_00003823
