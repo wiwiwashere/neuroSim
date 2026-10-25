@@ -78,7 +78,15 @@ export interface ChatRequest {
   /** The last reply's interaction_id; the backend (or Gemini's server) keeps the history behind it. */
   interaction_id: string | null;
   /** What the results view shows, so "what if they lose half?" has a subject. */
-  context: { active_run: Record<string, unknown> } | null;
+  context: {
+    active_run: Record<string, unknown>;
+    /** Open tab, Network view and picked neuron, so "the 3D thing" has a referent too. */
+    view?: {
+      tab: string;
+      network_view: string;
+      selected_neuron: { label: string; region: string; is_seed: boolean; impact: number } | null;
+    };
+  } | null;
 }
 
 export interface ToolCall {

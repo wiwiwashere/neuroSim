@@ -8,6 +8,15 @@ import { createContext, useCallback, useContext, useMemo, useState, type ReactNo
 import type { GroupLevel, PerturbationMode, SimulationRequest, SimulationResult } from "./types";
 
 export type Tab = "overview" | "ranked" | "network" | "compare";
+export type NetworkView = "flow" | "side_by_side" | "3d";
+
+/** The neuron picked in the Network tab, as the agent panel reports it to the agent. */
+export interface SelectedNeuron {
+  label: string;
+  region: string;
+  is_seed: boolean;
+  impact: number;
+}
 
 export interface RunEntry {
   key: string; // request signature; mock runs share a run_id, so we key on what was asked
@@ -40,6 +49,8 @@ interface WorkspaceState {
   strength: number;
   level: GroupLevel;
   tab: Tab;
+  networkView: NetworkView;
+  selectedNeuron: SelectedNeuron | null;
   runs: RunEntry[];
   activeKey: string | null;
   compareKey: string | null;
@@ -63,6 +74,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     strength: 0.5,
     level: "super_region",
     tab: "overview",
+    networkView: "flow",
+    selectedNeuron: null,
     runs: [],
     activeKey: null,
     compareKey: null,

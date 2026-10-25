@@ -1,10 +1,10 @@
-# neuroSim engine design (CS1)
+# neuroSim engine design
 
-This is the guide for whoever builds the simulation and vulnerability model.
-It explains what the engine computes, how, and why each choice was made, so
-you can defend every number in front of a judge and change a decision
-knowingly. The code stubs in `backend/neurosim/engine/` follow this document
-section by section.
+This document explains what the simulation and vulnerability model computes,
+how, and why each choice was made, so every number on screen can be
+explained and every decision changed knowingly. The code in
+`backend/neurosim/engine/` follows it section by section; section 11 maps
+each section to its file and its tests.
 
 **One-paragraph version.** We treat the fly brain as a weighted, directed
 graph of ~139k neurons. We remove (or weaken) the output of the "seed"
@@ -33,7 +33,7 @@ gene ──► seed neurons ──► deficit x0 ──► propagate over A (3 h
 That is **structural dependency**. It is not activity, behaviour, or disease
 progression. Every design choice below keeps the answer to that question
 honest, simple, and reproducible. When a choice would make the model "more
-realistic" but harder to explain or check, we skip it for the MVP and note it
+realistic" but harder to explain or check, we leave it out and note it
 in section 10.
 
 ---
@@ -77,7 +77,7 @@ After the seeds are chosen it attaches TPM values to the seed set and to
 each PAM seed type. It never removes a seed or changes a confidence. The
 atlas profiled PAM only, so PPL1, PPL2, PPM1/2, PPM3 and PAL are "not
 measured", which must never count against them. Whether expression should
-become a confidence factor is open for Bio and CS1.
+become a confidence factor is an open question.
 
 **Genes without evidence yet.** An `orthologs` entry with
 `"diseases": ["parkinsons"]` and no evidence row is listed in the gene
@@ -98,19 +98,19 @@ and the engine see nothing new. `SimulationRequest.disease` restricts
 a user-added disease from mixing the two. Rows are checked before saving
 (ortholog, every name resolved with its neuron count, duplicates,
 confidence); nothing is reviewed by Bio, and every view says so.
-**Open for CS1:** the null draws random dopamine neurons (section 7), so a
+**Open question:** the null draws random dopamine neurons (section 7), so a
 user-added disease whose seeds are not dopaminergic is compared against a
 pool its seeds don't come from. `check_row` warns about it; whether the
-pool should follow the seeds' neurotransmitter or super class is CS1's call.
-Two things the app layer already enforces around that pool: a gene whose
-rows would seed more neurons than the pool holds is refused at check time
-(`custom._check_pool`) and at run time (`pipeline.run_simulation` raises
-`SeedError`, a 422), because `draw_random_seeds` samples without
-replacement; and very small seed sets (two MBON01 neurons) still run, but
-their null for a sparsely hit group has a near-zero spread, which the
-`1e-9` floor in `z_and_p` turns into z-scores in the hundreds. Whether to
-floor the spread differently, or to require a minimum seed-set size, is
-CS1's call too.
+pool should follow the seeds' neurotransmitter or super class is still to
+be decided. Two things the app layer already enforces around that pool: a
+gene whose rows would seed more neurons than the pool holds (610 in v783)
+is refused at check time (`custom._check_pool`) and at run time
+(`pipeline.run_simulation` raises `SeedError`, a 422), because
+`draw_random_seeds` samples without replacement; and very small seed sets
+(two MBON01 neurons) still run, but their null for a sparsely hit group has
+a near-zero spread, which the `1e-9` floor in `z_and_p` turns into z-scores
+in the hundreds. Whether to floor the spread differently, or to require a
+minimum seed-set size, is also open.
 
 **Adding evidence from a paper** (`agent/papers.py`, the "Evidence from a
 paper" panel):
@@ -146,10 +146,6 @@ paper" panel):
    quote. A gene that only an approved row mentions appears in the gene
    picker but cannot be simulated until Bio adds its ortholog.
 
-Seed resolution needs the neuron table, not the engine math, so the API
-uses the real seeds even while it serves mock numbers (whenever
-`data/processed/` exists).
-
 ---
 
 ## 2. The graph
@@ -161,7 +157,7 @@ uses the real seeds even while it serves mock numbers (whenever
 | Edge weight | Synapse count, summed over all neuropils for the pair | The feather file splits a pair by neuropil. A pair with 3 + 3 synapses in two neuropils is a real 6-synapse connection. |
 | Threshold | Keep pairs with ≥ 5 synapses, applied **after** summing | FlyWire convention: below ~5, many connections are detection errors. Summing first avoids dropping real, spread-out connections. |
 | Proofread only | Yes (`proofread_connections_783`) | Unproofread fragments add noise and are not real neurons. |
-| Sign | Ignored in the MVP | See section 5. Kept in the data for the stretch. |
+| Sign | Ignored | See section 5. The predicted transmitter is kept in the neuron table for a signed model. |
 
 Each neuron's **region** is the neuropil where it receives the most
 synapses (computed before thresholding). Why input, not output: a
@@ -199,13 +195,13 @@ is non-zero only at seeds.
 | --- | --- | --- |
 | Knockout | 1 | Yes |
 | Reduce output by s | s | Yes |
-| Reduce overall connectivity (inputs and outputs) | same as reduce output | **Dropped.** In a linear model nothing downstream sees a seed's inputs, so it always gives the same answer as "reduce output". Two buttons with identical results would confuse users and judges. |
-| Synaptic impairment by edge class | needs signed edges | Stretch, with section 5's signed model. |
+| Reduce overall connectivity (inputs and outputs) | same as reduce output | **Dropped.** In a linear model nothing downstream sees a seed's inputs, so it always gives the same answer as "reduce output". Two buttons with identical results would only confuse. |
+| Synaptic impairment by edge class | needs signed edges | Not built; it needs section 5's signed model. |
 
 Because the model is linear (section 5), reducing output by 50% halves every
 impact score exactly. That is a property to state, not a bug: the ranking of
-regions does not change with strength, only the magnitude. The UI should say
-so.
+regions does not change with strength, only the magnitude. The UI says so
+under the strength slider.
 
 ---
 
@@ -243,12 +239,12 @@ counts for less because it is further away.
 
 | Decision | Choice | Why | Revisit if |
 | --- | --- | --- | --- |
-| Model type | Linear propagation | Transparent (a judge can follow the table above), fast (one sparse multiply per hop), no fitted parameters to defend. | You add the spiking stretch, which replaces this with dynamics. |
+| Model type | Linear propagation | Transparent (anyone can follow the table above), fast (one sparse multiply per hop), no fitted parameters to defend. | A spiking or rate model replaces this with dynamics. |
 | Hops K | 3 | Most of the effect is within 2–3 steps; beyond that, everything in the brain is a little connected to everything and scores flatten. 3 is also easy to say. | Sensitivity check (section 9) shows rankings change a lot between K = 3 and 4. |
 | Decay d | 0.5 | Distant effects should count less. 0.5 is a simple halving, easy to explain. | Same as above. |
 | Bound | Each hk is in [0, 1] | Rows of A sum to ≤ 1, x0 ≤ 1, so averaging can never exceed 1. I is at most 1 + 0.5 + 0.25 = 1.75. | Never; if you see a value above that, there is a bug. |
 | Seeds | Kept in the matrix, excluded from all reported scores | Excluding them from reports avoids trivial "the seeds are hit" results. Keeping them in the matrix keeps the model linear; loops back through seeds are rare and weak. | — |
-| Sign | Ignored (MVP) | We measure dependency, not excitation. With dopamine (modulatory) seeds, a sign at the first step is not even defined. | Signed stretch: split A into excitatory (acetylcholine) and inhibitory (GABA, glutamate as a simplification) parts and report both losses separately, never netted. |
+| Sign | Ignored | We measure dependency, not excitation. With dopamine (modulatory) seeds, a sign at the first step is not even defined. | A signed model: split A into excitatory (acetylcholine) and inhibitory (GABA, glutamate as a simplification) parts and report both losses separately, never netted. |
 
 ---
 
@@ -291,9 +287,9 @@ strength, hops, decay).
 
 | Null | What a high z then means | Use |
 | --- | --- | --- |
-| Random neurons of any type | "Hit more than random neurons would" | Shown as a secondary "vs whole brain" number. Weak: dopamine neurons as a class project heavily to the mushroom body, so every PD gene would "discover" it. |
+| Random neurons of any type | "Hit more than random neurons would" | Secondary check in the validation script (section 9). Weak: dopamine neurons as a class project heavily to the mushroom body, so every PD gene would "discover" it. |
 | **Random DA neurons (chosen)** | "Hit more than dopamine neurons in general" | Headline. This isolates what is specific to the clusters this gene kills. |
-| Degree-matched random neurons | Controls for seeds being unusually well connected | Stretch, if a judge asks. |
+| Degree-matched random neurons | Controls for seeds being unusually well connected | Not built; the next null to add. |
 
 **Statistics per group:**
 
@@ -307,8 +303,8 @@ above chance  ⇔  q < 0.05 and z > 0
 Why FDR: there are ~80 regions and thousands of cell types. At p < 0.05,
 several would light up by luck; BH keeps the expected share of false hits at
 5%. With 200 draws the smallest possible p is 1/201 ≈ 0.005, which is enough
-to pass FDR for a handful of strong groups. If a judge asks for more
-precision, raise draws to 1000; it is still seconds.
+to pass FDR for a handful of strong groups. For more precision, raise
+`N_RANDOM_DRAWS` in `config.py` to 1000; it is still seconds.
 
 **Speed:** stack the 200 deficit vectors as columns of one sparse matrix
 (n × 200) and propagate once. Each hop is a single sparse–dense multiply.
@@ -331,20 +327,35 @@ Fix the random seed so reruns are identical.
   **z-scores**, plus shared and unique above-chance groups. Compare z-scores,
   not raw impact, because PINK1 and PRKN seed different numbers of neurons
   and raw impact grows with seed count.
-- **Leave-one-cluster-out (stretch):** rerun without each seed cluster; the
-  one whose removal drops the top z-scores most is the bottleneck. This is
-  the agent's natural follow-up experiment.
+- **Leave-one-cluster-out:** rerun without each seed cluster; the one whose
+  removal drops the top z-scores most is the bottleneck.
+  `compare.leave_one_cluster_out` computes it; it is not yet exposed in the
+  API, the screens or the agent's tools.
+- **Degeneration over time (the 3D view):** `degeneration.py` takes a
+  finished run's subgraph, builds a small region-to-region coupling matrix
+  from its edges (Sankey inflows as the fallback) for the 10 most affected
+  regions, and runs a Wilson–Cowan neural mass model (neurolib's `WCModel`,
+  or a numpy integrator with the same contract when neurolib is missing).
+  Over 60 frames the excitatory drive to seed regions fades linearly from
+  full to zero, and each frame reports every region's normalised activity
+  (`GET /runs/{id}/dynamics`). It animates the 3D view only; no score,
+  ranking or z-value depends on it.
 
 ---
 
 ## 9. Validation and sanity checks
 
-**Built-in validation (hours 20–32, with Bio).** Seed with the PAM neurons
-from Riemensperger et al. 2013, where α-synuclein in ~15 PAM neurons per
-hemisphere weakens their input to the mushroom body β′ lobe, which is needed
-for climbing. Check that β′-lobe regions and their output neurons rank high
-above chance. If yes: "the engine recovers a known Parkinson's-model result."
-If no: find out why before the demo (wrong cell types? region labels?).
+**Built-in validation.** Seed with the PAM neurons from Riemensperger et al.
+2013, where α-synuclein in ~15 PAM neurons per hemisphere weakens their
+input to the mushroom body β′ lobe, which is needed for climbing. Check that
+the β′-lobe output neurons (MBONs) come out far above chance against random
+dopamine neurons, and the mushroom body above chance against random neurons
+of any type. If yes: "the engine recovers a known Parkinson's-model result."
+If no, the cell types or region labels are the first suspects. Run it from
+`backend/` with `python -m neurosim.engine.validation` (real data) or
+`--synthetic` (the made-up test brain). The MBONs are scored as one
+pre-registered set because FlyWire neuropils don't split the medial lobe
+into compartments and every MBON type has fewer than 5 neurons (section 12).
 
 **Sensitivity check.** Rerun PINK1 with threshold ∈ {5, 10}, decay ∈ {0.3,
 0.5, 0.7}, hops ∈ {2, 3, 4}. Report the Spearman correlation of super-region
@@ -362,7 +373,7 @@ to model settings." If not, the headline claims must be softened.
 
 ---
 
-## 10. Known limitations (say them before a judge does)
+## 10. Known limitations
 
 - **Dopamine is partly volume transmission.** It can act on cells it has no
   synapse with. Synapse counts understate and mislocate its reach.
@@ -380,16 +391,26 @@ to model settings." If not, the headline claims must be softened.
 
 ---
 
-## 11. Build order for CS1
+## 11. Where each part lives
 
-| Hours | Build | Checkpoint |
+All paths are under `backend/neurosim/`; tests are in `tests/`.
+
+| Section | Code | Tests |
 | --- | --- | --- |
-| 0–4 | `prep/build_dataset.py`, `engine/graph.py` | Matrix loaded; row-sum test passes; PPL1 and PAM types found |
-| 4–8 | `perturb.py`, `propagate.py`, toy tests | Toy table reproduced; a hand-picked PPL1 seed set gives a non-empty impact vector |
-| 8–14 | `vulnerability.py`, `baseline.py`, `pipeline.run_simulation` | PINK1 run returns ranked super regions with z-scores, end to end in a script |
-| 14–20 | Integrate with CS2's API; caching | Full PINK1 run from the UI by hour 20 |
-| 20–32 | `subgraph.py`, `compare.py`, validation + sensitivity checks | Sankey and subgraph live; PINK1 vs PRKN comparison; PAM validation result known |
-| 32–40 | Signed stretch or leave-one-cluster-out, only if ahead | Feature freeze at 40 |
+| 1b Seeds | `bio/evidence.py`, `bio/custom.py`, `bio/expression.py` | `test_evidence.py`, `test_custom.py`, `test_expression.py` |
+| 2 Graph | `prep/build_dataset.py`, `engine/graph.py` (`load_connectome`) | `test_prep.py` |
+| 3 Input normalization | `engine/graph.py` (`input_normalize`) | `test_engine_toy.py`, `test_engine_core.py` |
+| 4 Perturbation | `engine/perturb.py` | `test_engine_toy.py` |
+| 5 Propagation | `engine/propagate.py` | `test_engine_toy.py` |
+| 6 Group scores, disruption | `engine/vulnerability.py` | `test_engine_toy.py`, `test_engine_core.py` |
+| 7 Random baseline | `engine/baseline.py` | `test_engine_core.py` |
+| 8 Outputs | `engine/subgraph.py`, `engine/compare.py`, `engine/degeneration.py` | `test_pipeline.py`, `test_degeneration.py` |
+| 9 Validation | `engine/validation.py`, `engine/synthetic.py` | `test_validation.py` |
+| All of it, cached | `engine/pipeline.py` (`run_simulation`) | `test_pipeline.py`, `test_api.py` |
+
+Every constant named above (threshold, hops, decay, group size, strong-hit
+level, draws, random seed, FDR level, confidence weights) is in `config.py`,
+and each run reports the values it used in `SimulationResult.assumptions`.
 
 ---
 
@@ -404,11 +425,12 @@ stay in sync.
 | Threshold | ≥ 5 synapses, after summing neuropils | 0, 10 | FlyWire convention | Sensitivity check fails |
 | Weights | Input-normalized | Raw, output-normalized | Answers the dependency question; bounded | — |
 | Perturbation modes | Knockout, reduce output | + reduce connectivity | Third is identical in a linear model | Model becomes nonlinear |
-| Propagation | Linear, 3 hops, decay 0.5 | Personalized PageRank, spiking model | Explainable, fast | Spiking stretch |
-| Sign | Unsigned | Signed | Dependency, not activity | Signed stretch |
+| Propagation | Linear, 3 hops, decay 0.5 | Personalized PageRank, spiking model | Explainable, fast | A dynamic model is added |
+| Sign | Unsigned | Signed | Dependency, not activity | A signed model is added |
 | Group score | Mean + strong-hit count | Sum, max | Size-independent | — |
-| Null | Random DA neurons, size-matched, 200 | Random neurons, degree-matched | Isolates gene-specific signal | Judge asks for degree control |
+| Null | Random DA neurons, size-matched, 200 | Random neurons, degree-matched | Isolates gene-specific signal | Degree control is needed |
 | Multiple testing | BH FDR 5% | Bonferroni, none | Standard, not over-strict | — |
 | Validation target | Beta-prime MBONs as one pre-registered neuron set, scored against the same nulls | Region or cell-type rank | FlyWire neuropils do not split the medial lobe into compartments, and every MBON type has fewer than 5 neurons, so neither appears in the ranked lists | Real-data run shows the set is too small to reach p < 0.05 |
 | Secondary "vs whole brain" null | Only in the validation script for now | In every GroupScore | Keeps the result contract unchanged | UI wants it next to each group |
-| User-supplied diseases | Extra rows merged into the evidence table, cell types as one-type clusters, labelled everywhere | A separate "custom seeds" request path | No second pipeline to keep in sync; the data-driven chain already takes any disease | CS1 decides whether the null pool should follow non-dopamine seeds |
+| User-supplied diseases | Extra rows merged into the evidence table, cell types as one-type clusters, labelled everywhere | A separate "custom seeds" request path | No second pipeline to keep in sync; the data-driven chain already takes any disease | The null pool is made to follow non-dopamine seeds |
+| 3D degeneration view | Wilson–Cowan neural mass over the 10 most affected regions, seed drive fading linearly, display only | ALN model, per-neuron dynamics | Fast enough to compute on request; keeps the scored results linear and checkable | Dynamics become part of the scoring |
