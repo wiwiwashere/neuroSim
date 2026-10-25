@@ -149,7 +149,7 @@ export function Network3D({
             selectedId={selectedId ?? null}
             onSelect={onSelect}
           />
-          <OrbitControls enablePan makeDefault minDistance={6} maxDistance={48} />
+          <OrbitControls enablePan makeDefault minDistance={6} maxDistance={100} />
           <EffectComposer>
             <Bloom luminanceThreshold={0.45} intensity={0.85} mipmapBlur />
           </EffectComposer>
