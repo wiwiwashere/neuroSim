@@ -101,6 +101,26 @@ def test_overload_falls_back_and_stays_there(fake):
     assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL, config.AGENT_FALLBACK_MODEL]
 
 
+def test_failing_fallback_tries_the_main_model_again(fake):
+    # One overload puts later turns on the fallback. When the fallback fails
+    # too, a follow-up question still gets an answer from the main model.
+    sent = fake([StatusError(503), _interaction("i1", text="ok"), StatusError(500), _interaction("i2", text="ok"),
+                 _interaction("i3", text="ok")])
+    agent.chat("hi")
+    out = agent.chat("again", "i1")
+    agent.chat("and again", "i2")
+    assert out["reply"] == "ok" and out["model"] == config.AGENT_MODEL
+    assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL,
+                                               config.AGENT_FALLBACK_MODEL, config.AGENT_MODEL, config.AGENT_MODEL]
+
+
+def test_gives_up_after_both_models_fail(fake):
+    sent = fake([StatusError(503), StatusError(503)])
+    with pytest.raises(gemini.GeminiUnavailable, match="overloaded"):
+        agent.chat("hi")
+    assert [s["model"] for s in sent.sent] == [config.AGENT_MODEL, config.AGENT_FALLBACK_MODEL]
+
+
 @pytest.mark.parametrize("timeout", [httpx.ReadTimeout("The read operation timed out"), TimeoutError()])
 def test_timeout_falls_back_straight_away(fake, timeout):
     sent = fake([timeout, _interaction("i1", text="ok")])
