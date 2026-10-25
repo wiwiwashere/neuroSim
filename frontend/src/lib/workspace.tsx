@@ -23,6 +23,7 @@ export const requestKey = (r: SimulationRequest) =>
     r.mode === "reduce_output" ? (r.strength ?? 1).toFixed(2) : "1.00",
     r.high_confidence_only ? "hc" : "all",
     (r.seed_cell_types ?? []).slice().sort().join("+"),
+    r.disease ?? "",
   ].join("|");
 
 export function runLabel(r: SimulationRequest): string {

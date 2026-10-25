@@ -15,7 +15,18 @@ import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { DamageBars, regionShares } from "@/components/charts/damage-bars";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
-import { EmptyState, ErrorNote, evidenceKey, ExpressionNote, StatTile, TierBadge, UploadedQuote, uniqueEvidence } from "./primitives";
+import {
+  EmptyState,
+  ErrorNote,
+  evidenceKey,
+  ExpressionNote,
+  StatTile,
+  TierBadge,
+  UploadedQuote,
+  uniqueEvidence,
+  UserSuppliedBadge,
+  UserSuppliedNote,
+} from "./primitives";
 import { RunSummaryCard } from "./run-summary";
 
 const RankedBars = dynamic(() => import("@/components/charts/ranked-bars").then((m) => m.RankedBars), { ssr: false });
@@ -54,6 +65,13 @@ function Overview({ result }: { result: SimulationResult }) {
 
   return (
     <div className="grid gap-4">
+      {result.seeds.user_supplied && (
+        <p className="flex flex-wrap items-center gap-1.5 rounded-lg border border-dashed border-seed/60 bg-card px-4 py-2 text-[12px] leading-snug text-muted-foreground">
+          <UserSuppliedBadge />
+          The seeds come from a disease table someone added in this app. Nobody on the team has checked it, and the
+          random baseline still draws dopamine neurons.
+        </p>
+      )}
       {/* One panel: the claim in a sentence, the two numbers behind it, then where it lands. */}
       <Panel className="landed">
         <div className="grid gap-5 border-b px-5 pt-5 pb-5 lg:grid-cols-[1fr_minmax(16rem,22rem)] lg:gap-10">
@@ -109,6 +127,7 @@ function EvidenceBehind({ result }: { result: SimulationResult }) {
   const rows = uniqueEvidence(result.seeds);
   if (!rows.length) return null;
   const uploaded = rows.filter((r) => r.extracted).length;
+  const supplied = rows.filter((r) => r.user_supplied).length;
   return (
     <Panel
       title="The evidence behind these seeds"
@@ -116,6 +135,7 @@ function EvidenceBehind({ result }: { result: SimulationResult }) {
         <span className="text-[11.5px] text-muted-foreground">
           {rows.length} row{rows.length > 1 ? "s" : ""}
           {uploaded ? ` · ${uploaded} from uploaded papers` : ""}
+          {supplied ? ` · ${supplied} user-supplied` : ""}
         </span>
       }
     >
@@ -140,6 +160,7 @@ function EvidenceBehind({ result }: { result: SimulationResult }) {
               </span>
             </div>
             <UploadedQuote row={e} />
+            <UserSuppliedNote row={e} />
           </li>
         ))}
       </ul>

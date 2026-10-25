@@ -8,6 +8,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { api } from "@/lib/api";
 import type { PerturbationMode, SimulationRequest } from "@/lib/types";
 import { requestKey, runLabel, useWorkspace } from "@/lib/workspace";
+import { useCustomDiseaseId } from "./custom-disease";
 import { ErrorNote, StepHeading } from "./primitives";
 
 export function useSimulate(source: "you" | "agent" = "you") {
@@ -22,6 +23,7 @@ export function Perturbation() {
   const ws = useWorkspace();
   const genes = useQuery({ queryKey: ["genes", ws.disease], queryFn: () => api.genes(ws.disease!), enabled: !!ws.disease });
   const simulate = useSimulate();
+  const customId = useCustomDiseaseId();
   const option = genes.data?.find((g) => g.human_gene === ws.gene);
   if (!ws.gene || !option?.simulatable) return null;
 
@@ -30,6 +32,7 @@ export function Perturbation() {
     mode: ws.mode,
     strength: ws.mode === "knockout" ? 1 : ws.strength,
     high_confidence_only: ws.highConfidenceOnly,
+    ...(customId ? { disease: customId } : {}),
   };
   const already = ws.activeKey === requestKey(req);
 
@@ -88,6 +91,7 @@ export function RunCta() {
   const ws = useWorkspace();
   const genes = useQuery({ queryKey: ["genes", ws.disease], queryFn: () => api.genes(ws.disease!), enabled: !!ws.disease });
   const simulate = useSimulate();
+  const customId = useCustomDiseaseId();
   const option = genes.data?.find((g) => g.human_gene === ws.gene);
   if (!ws.gene || !option?.simulatable) return null;
   const req: SimulationRequest = {
@@ -95,6 +99,7 @@ export function RunCta() {
     mode: ws.mode,
     strength: ws.mode === "knockout" ? 1 : ws.strength,
     high_confidence_only: ws.highConfidenceOnly,
+    ...(customId ? { disease: customId } : {}),
   };
   return (
     <Button size="lg" onClick={() => simulate.mutate(req)} disabled={simulate.isPending} className="mt-4">
