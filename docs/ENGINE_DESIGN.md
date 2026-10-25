@@ -102,6 +102,15 @@ confidence); nothing is reviewed by Bio, and every view says so.
 user-added disease whose seeds are not dopaminergic is compared against a
 pool its seeds don't come from. `check_row` warns about it; whether the
 pool should follow the seeds' neurotransmitter or super class is CS1's call.
+Two things the app layer already enforces around that pool: a gene whose
+rows would seed more neurons than the pool holds is refused at check time
+(`custom._check_pool`) and at run time (`pipeline.run_simulation` raises
+`SeedError`, a 422), because `draw_random_seeds` samples without
+replacement; and very small seed sets (two MBON01 neurons) still run, but
+their null for a sparsely hit group has a near-zero spread, which the
+`1e-9` floor in `z_and_p` turns into z-scores in the hundreds. Whether to
+floor the spread differently, or to require a minimum seed-set size, is
+CS1's call too.
 
 **Adding evidence from a paper** (`agent/papers.py`, the "Evidence from a
 paper" panel):

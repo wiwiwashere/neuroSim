@@ -315,14 +315,22 @@ it through the same pipeline as Parkinson's. One row per gene:
 | `finding`, `citation`, `url` | What was found and where it comes from (optional) |
 | `tier` | `high`, `medium` (default) or `low` |
 
-Drop a CSV or JSON file in that shape (templates download from the panel:
-`GET /custom/template.csv` and `.json`), or type the rows in. Every row is
-checked like a paper row (`bio/custom.py`): the ortholog, each affected
-name resolved to a cluster or a cell type with its neuron count and "did
-you mean" suggestions, duplicates, and the confidence its seeds would get;
-a cell type that isn't dopaminergic gets a note, because the engine's
-random baseline draws dopamine neurons. Fix or drop the rows with problems,
-then Save. Saved diseases go to `data/custom_diseases.json` (gitignored,
+Drop a CSV or JSON file in that shape, or type the rows in. "Use the
+example" fills the form with two ready-made rows (Huntington's disease,
+HTT → htt, affecting `PAM; PPL1` and `MBON01; MBON03`, real FlyWire names
+that pass every check) and checks them, so Save and Run are one click
+each; the same rows download as the CSV/JSON template (`GET
+/custom/template.csv` and `.json`). They illustrate the format and are not
+a reviewed finding. Every row is checked like a paper row
+(`bio/custom.py`): the ortholog, each affected name resolved to a cluster
+or a cell type with its neuron count and "did you mean" suggestions,
+duplicates, and the confidence its seeds would get; a cell type that isn't
+dopaminergic gets a note, because the engine's random baseline draws
+dopamine neurons. A gene whose rows name more neurons than that pool has
+(610 on FlyWire v783; `KCg-m` alone is about 2,200) is refused, because the
+baseline samples without replacement and would have no chance level to
+offer; `pipeline.run_simulation` turns the same case into a 422 for rows
+saved before the check. Fix or drop the rows with problems, then Save. Saved diseases go to `data/custom_diseases.json` (gitignored,
 never into the curated table), appear in the picker tagged "your data" with
 a remove button, and run like any other disease; the chain, the Overview
 and the agent label their rows "user-supplied, not reviewed by Bio". A
