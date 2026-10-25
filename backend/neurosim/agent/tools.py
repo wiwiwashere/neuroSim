@@ -17,12 +17,57 @@ from neurosim import config
 from neurosim.api import mocks
 from neurosim.bio import custom, evidence, targets
 from neurosim.engine import pipeline
-from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SimulationRequest, SimulationResult
+from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SimulationRequest, SimulationResult, Subgraph
 
 # Sent with every result while the API serves mocks, so the agent says so.
 _SAMPLE_NOTE = "Sample numbers: the engine isn't built yet, so these are fixed placeholder values, not real results."
 TOP_GROUPS = 5
 TOP_NEURONS = 5
+VIEW_TOP_NEURONS = 8
+VIEW_TOP_REGIONS = 8
+
+# What the Network tab's "3D Connectome" view (charts/network-3d.tsx) draws, in
+# words. The agent cannot see pixels, so this is how it answers "what does the
+# orange ball mean". Keep it in step with the component.
+VIEW_LEGEND = {
+    "what_is_drawn": "The run's subgraph: the seed neurons plus the neurons most affected by the perturbation "
+                     "(at most 200), the same neurons as the other two Network views.",
+    "sphere": "One sphere per neuron. Seeds are larger (radius 0.8 vs 0.4) and glow orange; every sphere pulses "
+              "slightly while its region is still active.",
+    "sphere_colour": "Seeds: orange once the perturbation starts. Other neurons fade from light grey (healthy) to "
+                     "dark red as their impact score, or their region's loss of activity during the replay, grows.",
+    "line": "One line per connection drawn, grey; its opacity scales with the input fraction (weight). A dashed line "
+            "is a connection that lost drive because of the perturbation.",
+    "box": "A translucent box around each brain region's neurons. Blue means the Ranked tab calls that region or "
+           "cell type above chance; grey means within chance.",
+    "layout": "Neurons keep the x/y positions of the 2D network view; depth (z) separates brain regions, one slab "
+              "per region, so you can orbit between them.",
+    "replay": "The Replay button and slider walk from healthy (t=0) to degenerated, and the footer shows seed "
+              "health. With the degeneration series the colours follow each region's simulated activity "
+              "(Wilson-Cowan neural mass model); without it, they follow impact at 1, 2 and 3 synapses "
+              "from the seeds.",
+    "selection": "A blue wireframe halo marks the selected neuron; hovering shows its label, region and impact. "
+                 "Clicking opens the strongest paths from the seeds to it.",
+}
+
+
+def _hops_from_seeds(graph: Subgraph) -> dict[str, int]:
+    """Synapses from the nearest seed along the drawn edges (both directions), like the Flow view."""
+    nbrs: dict[str, set[str]] = {}
+    for e in graph.edges:
+        nbrs.setdefault(e.source, set()).add(e.target)
+        nbrs.setdefault(e.target, set()).add(e.source)
+    hops = {n.id: 0 for n in graph.nodes if n.is_seed}
+    frontier = list(hops)
+    while frontier:
+        nxt = []
+        for node in frontier:
+            for other in nbrs.get(node, ()):
+                if other not in hops:
+                    hops[other] = hops[node] + 1
+                    nxt.append(other)
+        frontier = nxt
+    return hops
 
 
 def _dump(payload: dict) -> str:
@@ -185,6 +230,76 @@ def explain_neuron(run_id: str, root_id: int) -> str:
     return _dump(pipeline.explain_neuron(run_id, int(root_id)))
 
 
+def describe_network_view(run_id: str) -> str:
+    """The data behind the Network tab's 3D Connectome view for one run, plus its legend."""
+    if config.USE_MOCKS:
+        result, graph = mocks.mock_run(run_id), mocks.mock_subgraph()
+    else:
+        try:
+            result, graph = pipeline.get_result(run_id), pipeline.get_subgraph(run_id)
+        except KeyError:
+            raise ValueError(f"No run {run_id} in this session. Use the run id from the workspace note or "
+                             "run_simulation first.") from None
+
+    # Blue boxes: cell types or regions the Ranked tab calls above chance (same rule as results.tsx).
+    above = {g.group for level in (GroupLevel.CELL_TYPE, GroupLevel.REGION)
+             for g in result.groups.get(level, []) if g.above_chance}
+    hops = _hops_from_seeds(graph)
+    by_root = {str(n.root_id): n for n in result.top_neurons}
+    by_type = {n.cell_type: n for n in result.top_neurons if n.cell_type}
+
+    regions: dict[str, dict] = {}
+    for n in graph.nodes:
+        r = regions.setdefault(n.group, {"region": n.group, "n_neurons": 0, "n_seeds": 0, "max_impact": 0.0,
+                                         "above_chance": n.group in above, "cell_types": set()})
+        r["n_neurons"] += 1
+        r["n_seeds"] += n.is_seed
+        if not n.is_seed:
+            r["max_impact"] = max(r["max_impact"], n.impact)
+        r["cell_types"].add(n.label)
+    for r in regions.values():
+        r["cell_types"] = sorted(r["cell_types"])[:6]
+        r["max_impact"] = round(r["max_impact"], 3)
+    ranked_regions = sorted(regions.values(), key=lambda r: (-r["n_seeds"], -r["max_impact"]))
+
+    seeds: dict[str, dict] = {}
+    for n in graph.nodes:
+        if n.is_seed:
+            s = seeds.setdefault(n.label, {"cell_type": n.label, "region": n.group, "n_drawn": 0})
+            s["n_drawn"] += 1
+
+    most_hit = []
+    for n in sorted((n for n in graph.nodes if not n.is_seed), key=lambda n: -n.impact)[:VIEW_TOP_NEURONS]:
+        scored = by_root.get(n.id) or by_type.get(n.label)
+        most_hit.append({
+            "label": n.label, "region": n.group, "impact": round(n.impact, 3),
+            "synapses_from_seeds": hops.get(n.id),
+            "above_chance": n.label in above or n.group in above,
+            **({"root_id": scored.root_id, "direct": round(scored.direct, 3)} if scored else {}),
+        })
+
+    payload = {
+        "run_id": result.run_id,
+        "human_gene": result.request.human_gene,
+        "mode": result.request.mode.value,
+        "strength": result.request.strength,
+        "n_neurons_drawn": len(graph.nodes),
+        "n_seed_neurons_drawn": sum(n.is_seed for n in graph.nodes),
+        "n_connections_drawn": len(graph.edges),
+        "n_connections_with_lost_drive": sum(e.lost > 0 for e in graph.edges),
+        "seeds_drawn": list(seeds.values()),
+        "regions_drawn": ranked_regions[:VIEW_TOP_REGIONS],
+        "n_regions_drawn": len(regions),
+        "blue_boxes": sorted(above & set(regions)),
+        "most_hit_neurons": most_hit,
+        "legend": VIEW_LEGEND,
+        # Not "note": _dump uses that key for the sample-numbers warning in mock mode.
+        "caveat": "This is the data the 3D view is drawn from, not the picture: you cannot see the camera angle or "
+                  "where the replay slider is. Hop counts come from the drawn connections only.",
+    }
+    return _dump(payload)
+
+
 TOOLS = {
     "list_diseases": list_diseases,
     "get_gene_chain": get_gene_chain,
@@ -192,6 +307,7 @@ TOOLS = {
     "run_simulation": run_simulation,
     "compare_runs": compare_runs,
     "explain_neuron": explain_neuron,
+    "describe_network_view": describe_network_view,
 }
 
 
@@ -282,5 +398,15 @@ TOOL_DECLARATIONS = [
             "root_id": {"type": "integer", "description": "FlyWire root id of the neuron."},
         },
         ["run_id", "root_id"],
+    ),
+    _fn(
+        "describe_network_view",
+        "Describe what the Network tab's 3D Connectome view (the 3D graph) shows for a run: "
+        "the neurons and brain regions drawn, which are seeds, which boxes are blue (above "
+        "chance), the most hit neurons with their distance in synapses from the seeds, and the "
+        "legend for spheres, colours, lines, boxes and the replay. Call this when the user asks "
+        "about the 3D view or anything they see in it.",
+        {"run_id": _RUN},
+        ["run_id"],
     ),
 ]

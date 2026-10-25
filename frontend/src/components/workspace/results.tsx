@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, X } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { api, codexUrl } from "@/lib/api";
@@ -11,7 +11,7 @@ import type { FlowGrouping } from "@/lib/flow";
 import { int, LEVEL_LABEL, pct, SCOPE_LINE, zPhrase } from "@/lib/format";
 import type { GraphNode, GroupLevel, GroupScore, SimulationResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { runLabel, type Tab, useWorkspace } from "@/lib/workspace";
+import { type NetworkView, runLabel, type Tab, useWorkspace } from "@/lib/workspace";
 import { DamageBars, regionShares } from "@/components/charts/damage-bars";
 import { CompareTab } from "./compare";
 import { RunCta } from "./perturbation";
@@ -309,12 +309,12 @@ function GroupTable({ groups }: { groups: GroupScore[] }) {
 
 // --- Network ----------------------------------------------------------------
 
-type NetworkView = "flow" | "side_by_side" | "3d";
-
 function Network({ result }: { result: SimulationResult }) {
   const graph = useQuery({ queryKey: ["subgraph", result.run_id], queryFn: () => api.subgraph(result.run_id) });
   const [picked, setPicked] = useState<GraphNode | null | undefined>(undefined);
-  const [view, setView] = useState<NetworkView>("flow");
+  // The view lives in the workspace so the agent panel can tell the agent what is open.
+  const { networkView: view, set: setWorkspace } = useWorkspace();
+  const setView = (v: NetworkView) => setWorkspace({ networkView: v });
   const [grouping, setGrouping] = useState<FlowGrouping>("cell_type");
   const mostHit = useMemo(
     () => graph.data?.nodes.filter((n) => !n.is_seed).sort((x, y) => y.impact - x.impact)[0] ?? null,
@@ -327,6 +327,11 @@ function Network({ result }: { result: SimulationResult }) {
   );
   const selected = picked === undefined ? mostHit : picked;
   const setSelected = setPicked;
+  useEffect(() => {
+    setWorkspace({
+      selectedNeuron: selected ? { label: selected.label, region: selected.group, is_seed: selected.is_seed, impact: selected.impact } : null,
+    });
+  }, [selected, setWorkspace]);
   const gene = result.request.human_gene;
   const perturbLabel = result.request.mode === "reduce_output" ? `output −${Math.round((result.request.strength ?? 1) * 100)}%` : "knockout";
   const counts = graph.data ? `${graph.data.nodes.length} neurons · ${graph.data.edges.length} connections` : "";
