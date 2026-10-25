@@ -374,6 +374,8 @@ function RowEditor({
 function ApprovedList({ rows }: { rows: EvidenceRow[] }) {
   const changed = useEvidenceChanged();
   const remove = useMutation({ mutationFn: (id: string) => api.removeEvidence(id), onSuccess: changed });
+  // One stray click on the bin changed the next run's seeds, so ask first.
+  const [confirming, setConfirming] = useState<string | null>(null);
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-1.5 border-t pt-2.5">
@@ -386,18 +388,34 @@ function ApprovedList({ rows }: { rows: EvidenceRow[] }) {
             <span className="font-mono">{r.human_gene}</span> · <span className="font-mono">{r.clusters.join(", ") || "no clusters"}</span>{" "}
             <span className="text-muted-foreground">· {r.citation}</span>
           </span>
-          {r.extracted && (
+          {r.extracted && confirming === r.extracted.id ? (
+            <span className="flex shrink-0 items-center gap-1">
+              <span className="text-muted-foreground">Remove?</span>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="h-6 px-2 text-destructive"
+                disabled={remove.isPending}
+                onClick={() => remove.mutate(r.extracted!.id, { onSettled: () => setConfirming(null) })}
+              >
+                Yes
+              </Button>
+              <Button size="sm" variant="ghost" className="h-6 px-2" onClick={() => setConfirming(null)}>
+                Cancel
+              </Button>
+            </span>
+          ) : r.extracted ? (
             <Button
               size="icon-xs"
               variant="ghost"
               title="Take this row out of the evidence table"
               aria-label="Remove"
               disabled={remove.isPending}
-              onClick={() => remove.mutate(r.extracted!.id)}
+              onClick={() => setConfirming(r.extracted!.id)}
             >
               <Trash2 />
             </Button>
-          )}
+          ) : null}
         </div>
       ))}
       {remove.error && <ErrorNote error={remove.error} />}
