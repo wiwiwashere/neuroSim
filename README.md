@@ -46,9 +46,9 @@ Built in 48 hours by a team of three.
 
 | Who | Role | Folder | What |
 | --- | --- | --- | --- |
-| Kait | Biology | `data/evidence.json`, `data/*.csv`, `backend/neurosim/bio/`, `backend/neurosim/agent/prompts.py` | Gene → fly gene → dying DA clusters → connectome cell types, with citations and confidence; the expression and one-hop target tables; agent rules and disclaimers |
-| Mohana | Simulation engine | `backend/neurosim/prep/`, `backend/neurosim/engine/`, `tests/` | Data prep, graph, perturbation, propagation, vulnerability scoring, random baseline, the 3D view and its degeneration dynamics. **Read `docs/ENGINE_DESIGN.md` first.** |
-| Winnie | App and agent | `backend/neurosim/api/`, `backend/neurosim/agent/`, `frontend/` | FastAPI, caching, the Gemma agent, paper upload, custom diseases, all screens |
+| Kait | Biology data | `data/evidence.json`, `data/*.csv` | The evidence table (gene → fly gene → dying DA clusters → connectome cell types, with citations), the expression atlas and the one-hop target tables |
+| Mohana | Simulation | `backend/neurosim/engine/` (`graph.py`, `perturb.py`, `propagate.py`, `vulnerability.py`, `baseline.py`, `degeneration.py`), `frontend/src/components/charts/network-3d.tsx` | The simulation math (input normalization, perturbation, propagation, vulnerability scoring, random baseline), the 3D view and its degeneration dynamics. **Read `docs/ENGINE_DESIGN.md` first.** |
+| Winnie | Infrastructure | `backend/neurosim/prep/`, `backend/neurosim/bio/`, `backend/neurosim/engine/` (`pipeline.py`, `subgraph.py`, `compare.py`, `validation.py`, `synthetic.py`), `backend/neurosim/api/`, `backend/neurosim/agent/`, `frontend/`, `tests/` | Everything else: data prep, seed resolution, the pipeline and caching, validation, FastAPI, the Gemma agent, paper upload, custom diseases, all screens and the tests |
 
 ## Set up on your machine
 
