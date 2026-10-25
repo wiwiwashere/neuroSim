@@ -198,3 +198,26 @@ def test_sdk_does_not_retry_on_its_own():
             assert len(hits) == before + 1
     finally:
         server.shutdown()
+
+
+def test_describe_network_view_gives_the_legend_and_the_drawn_neurons(fake):
+    from neurosim.agent import tools
+
+    out = json.loads(tools.describe_network_view("mock-prkn-knockout"))
+    assert out["n_neurons_drawn"] == 8 and out["n_seed_neurons_drawn"] == 2
+    assert [s["cell_type"] for s in out["seeds_drawn"]] == ["PPL101", "PPL102"]
+    top = out["most_hit_neurons"][0]
+    assert top["label"] == "MBON01" and top["synapses_from_seeds"] == 1 and top["root_id"] == 720575940000000100
+    assert "orange" in out["legend"]["sphere_colour"] and "Blue" in out["legend"]["box"]
+    assert out["note"].startswith("Sample numbers")                   # mock mode is flagged like every tool
+    assert "describe_network_view" in {d["name"] for d in tools.TOOL_DECLARATIONS}
+
+
+def test_workspace_note_names_the_open_view_and_the_selected_neuron():
+    view = {"tab": "network", "network_view": "3d", "selected_neuron": {"label": "MBON01", "region": "MB_ML_R"}}
+    note = agent._with_context("what is the 3D thing?", {"active_run": {"run_id": "r1"}, "view": view})
+    assert "run r1" in note and "3D Connectome" in note and "MBON01" in note
+    assert note.endswith("\n\nwhat is the 3D thing?")
+    # Another tab: the network view and selection are not on screen, so they are left out.
+    other = agent._with_context("hi", {"active_run": {"run_id": "r1"}, "view": {**view, "tab": "overview"}})
+    assert "open tab: overview" in other and "3D" not in other and "MBON01" not in other

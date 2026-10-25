@@ -66,15 +66,26 @@ def _create(input, previous_interaction_id: str | None, state: dict, deadline: f
     return gemini.call(create, state)
 
 
+# Network tab views as results.tsx names them, so "the 3D thing" has a referent.
+_VIEW_NAMES = {"flow": "Flow by synapse", "side_by_side": "Healthy vs perturbed", "3d": "3D Connectome (the 3D view)"}
+
+
 def _with_context(message: str, context: dict | None) -> str:
     """Tell the model what is on screen, so "what if they lose half?" has a subject."""
-    run = (context or {}).get("active_run")
+    context = context or {}
+    run = context.get("active_run")
     if not run:
         return message
-    return (
-        f"[Workspace context, not typed by the user: the results view shows run {run.get('run_id')} "
-        f"({json.dumps({k: v for k, v in run.items() if k != 'run_id'})}).]\n\n{message}"
-    )
+    note = (f"the results view shows run {run.get('run_id')} "
+            f"({json.dumps({k: v for k, v in run.items() if k != 'run_id'})})")
+    view = context.get("view") or {}
+    if view.get("tab"):
+        note += f"; open tab: {view['tab']}"
+    if view.get("tab") == "network" and view.get("network_view"):
+        note += f"; network view: {_VIEW_NAMES.get(view['network_view'], view['network_view'])}"
+        if view.get("selected_neuron"):
+            note += f"; selected neuron: {json.dumps(view['selected_neuron'])}"
+    return f"[Workspace context, not typed by the user: {note}.]\n\n{message}"
 
 
 def _run_tool(name: str, args: dict) -> tuple[str, bool]:
