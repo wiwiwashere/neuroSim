@@ -1,0 +1,849 @@
+human_gene,fly_gene,flybase_id,ortholog_rating,flywire_type,davis_cell_type,fbbt_id,expression,relative_expression,perturbation,syn_from_seeds,n_partner_neurons,n_seed_neurons,impact,pd_score,syn_from_PAL,syn_from_PAM,syn_from_PPL1,syn_from_PPL2,syn_from_PPM
+ATP13A2,anne,FBgn0052000,moderate/low,KCapbp-m,alpha’/beta’ middle Kenyon cell,,259.0,0.226865671641791,0.226865671641791,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,444.0,0.5029850746268657,0.5029850746268657,3300,126,21,326.7772,0.099,0,2731,569,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,429.0,0.4805970149253731,0.4805970149253731,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,429.0,0.4805970149253731,0.4805970149253731,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON07,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1876,4,19,13.703,0.0073,0,1863,0,0,13
+ATP13A2,anne,FBgn0052000,moderate/low,MBON03,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON06,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON05,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON11,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1472,2,8,10.752,0.0073,0,21,1451,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON04,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON26,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,953,2,34,6.961,0.0073,0,903,41,0,9
+ATP13A2,anne,FBgn0052000,moderate/low,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,251.0,0.2149253731343283,0.2149253731343283,873,149,26,91.0427,0.1043,0,142,731,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON09,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,816,4,45,5.9603,0.0073,0,816,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,375.0,0.4,0.4,757,102,12,89.2212,0.1179,0,64,693,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON12,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,588,4,5,4.295,0.0073,0,0,588,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON14,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,542,4,2,3.959,0.0073,0,0,542,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON35,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,512,2,13,3.7398,0.0073,24,10,478,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,cL22b,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,457,2,6,199.0012,0.4355,0,0,0,0,457
+ATP13A2,anne,FBgn0052000,moderate/low,MBON13,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,416,2,2,3.0386,0.0073,0,0,416,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON32,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,408,2,7,2.9802,0.0073,0,10,393,0,5
+ATP13A2,anne,FBgn0052000,moderate/low,MBON02,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,398,2,27,2.9071,0.0073,0,398,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON01,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,363,2,32,2.6515,0.0073,6,357,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON24,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,353,2,22,2.5784,0.0073,0,348,5,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON31,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,335,2,2,2.447,0.0073,0,0,335,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON21,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,282,2,31,2.0598,0.0073,0,282,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON29,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,270,2,13,1.9722,0.0073,0,270,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON16,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,237,2,2,1.7311,0.0073,0,0,237,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON18,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,212,2,4,1.5485,0.0073,0,0,201,11,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON20,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,196,2,8,1.4317,0.0073,0,0,49,0,147
+ATP13A2,anne,FBgn0052000,moderate/low,MBON27,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,192,2,20,1.4024,0.0073,0,181,11,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON30,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,187,2,6,1.3659,0.0073,0,0,187,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON33,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,156,2,10,1.1395,0.0073,0,22,134,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON15-like,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,144,5,6,1.0518,0.0073,0,0,144,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON23,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,128,2,2,0.935,0.0073,0,0,128,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON28,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,124,2,4,0.9057,0.0073,0,0,124,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,108,5,4,0.7889,0.0073,0,0,108,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON17,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,96,2,2,0.7012,0.0073,0,0,96,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON19,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,65,4,2,0.4748,0.0073,0,0,65,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON22,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,55,2,4,0.4017,0.0073,0,0,0,55,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON15,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,47,2,4,0.3433,0.0073,0,0,47,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,cL21,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,36,3,2,15.6762,0.4355,0,0,0,0,36
+ATP13A2,anne,FBgn0052000,moderate/low,MBON17-like,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,32,2,2,0.2337,0.0073,0,0,32,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,MBON10,mushroom body output neuron,FBbt_00047955,236.0,0.1925373134328358,0.1925373134328358,19,3,3,0.1388,0.0073,0,6,13,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,NPFL1-I,adult NPF neuron,,481.0,0.5582089552238806,0.5582089552238806,15,1,2,2.245,0.1497,15,0,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,DSKMP3,Drosulfakinin neuron,FBbt_00048999,237.0,0.1940298507462686,0.1940298507462686,13,1,2,3.8339,0.2949,13,0,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,LT39,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,8,1,1,3.4836,0.4355,8,0,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,LT56,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,7,1,1,3.0482,0.4355,0,0,0,0,7
+ATP13A2,anne,FBgn0052000,moderate/low,LC10d,lobula columnar neuron LC10d,FBbt_00111748,377.0,0.4029850746268656,0.4029850746268656,7,1,1,1.2342,0.1763,7,0,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,cL16,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,6,1,1,2.6127,0.4355,0,0,0,0,6
+ATP13A2,anne,FBgn0052000,moderate/low,cL14,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,6,1,1,2.6127,0.4355,6,0,0,0,0
+ATP13A2,anne,FBgn0052000,moderate/low,cML01,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,6,1,1,2.6127,0.4355,0,0,0,0,6
+ATP13A2,anne,FBgn0052000,moderate/low,LT41,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,6,1,1,2.6127,0.4355,0,0,0,0,6
+ATP13A2,anne,FBgn0052000,moderate/low,OA-ASM1,centrigufal neuron,,287.0,0.2686567164179104,0.2686567164179104,5,1,1,2.1773,0.4355,0,0,0,0,5
+DNAJC6,aux,FBgn0037218,moderate/low,KCapbp-m,alpha’/beta’ middle Kenyon cell,,70.0,0.16,0.16,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,181.0,0.604,0.604,3300,126,21,326.7772,0.099,0,2731,569,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,131.0,0.404,0.404,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,131.0,0.404,0.404,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON07,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1876,4,19,13.703,0.0073,0,1863,0,0,13
+DNAJC6,aux,FBgn0037218,moderate/low,MBON03,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON06,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON05,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON11,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1472,2,8,10.752,0.0073,0,21,1451,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON04,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON26,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,953,2,34,6.961,0.0073,0,903,41,0,9
+DNAJC6,aux,FBgn0037218,moderate/low,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,125.5,0.382,0.382,873,149,26,91.0427,0.1043,0,142,731,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON09,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,816,4,45,5.9603,0.0073,0,816,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,125.0,0.38,0.38,757,102,12,89.2212,0.1179,0,64,693,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON12,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,588,4,5,4.295,0.0073,0,0,588,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON14,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,542,4,2,3.959,0.0073,0,0,542,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON35,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,512,2,13,3.7398,0.0073,24,10,478,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,cL22b,centrigufal neuron,,220.0,0.76,0.76,457,2,6,199.0012,0.4355,0,0,0,0,457
+DNAJC6,aux,FBgn0037218,moderate/low,MBON13,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,416,2,2,3.0386,0.0073,0,0,416,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON32,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,408,2,7,2.9802,0.0073,0,10,393,0,5
+DNAJC6,aux,FBgn0037218,moderate/low,MBON02,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,398,2,27,2.9071,0.0073,0,398,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON01,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,363,2,32,2.6515,0.0073,6,357,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON24,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,353,2,22,2.5784,0.0073,0,348,5,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON31,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,335,2,2,2.447,0.0073,0,0,335,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON21,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,282,2,31,2.0598,0.0073,0,282,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON29,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,270,2,13,1.9722,0.0073,0,270,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON16,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,237,2,2,1.7311,0.0073,0,0,237,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON18,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,212,2,4,1.5485,0.0073,0,0,201,11,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON20,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,196,2,8,1.4317,0.0073,0,0,49,0,147
+DNAJC6,aux,FBgn0037218,moderate/low,MBON27,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,192,2,20,1.4024,0.0073,0,181,11,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON30,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,187,2,6,1.3659,0.0073,0,0,187,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON33,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,156,2,10,1.1395,0.0073,0,22,134,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON15-like,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,144,5,6,1.0518,0.0073,0,0,144,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON23,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,128,2,2,0.935,0.0073,0,0,128,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON28,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,124,2,4,0.9057,0.0073,0,0,124,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,108,5,4,0.7889,0.0073,0,0,108,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON17,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,96,2,2,0.7012,0.0073,0,0,96,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON19,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,65,4,2,0.4748,0.0073,0,0,65,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON22,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,55,2,4,0.4017,0.0073,0,0,0,55,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON15,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,47,2,4,0.3433,0.0073,0,0,47,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,cL21,centrigufal neuron,,220.0,0.76,0.76,36,3,2,15.6762,0.4355,0,0,0,0,36
+DNAJC6,aux,FBgn0037218,moderate/low,MBON17-like,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,32,2,2,0.2337,0.0073,0,0,32,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,MBON10,mushroom body output neuron,FBbt_00047955,42.0,0.048,0.048,19,3,3,0.1388,0.0073,0,6,13,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,NPFL1-I,adult NPF neuron,,66.0,0.144,0.144,15,1,2,2.245,0.1497,15,0,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,DSKMP3,Drosulfakinin neuron,FBbt_00048999,45.0,0.06,0.06,13,1,2,3.8339,0.2949,13,0,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,LT39,centrigufal neuron,,220.0,0.76,0.76,8,1,1,3.4836,0.4355,8,0,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,LT56,centrigufal neuron,,220.0,0.76,0.76,7,1,1,3.0482,0.4355,0,0,0,0,7
+DNAJC6,aux,FBgn0037218,moderate/low,LC10d,lobula columnar neuron LC10d,FBbt_00111748,154.0,0.496,0.496,7,1,1,1.2342,0.1763,7,0,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,cL16,centrigufal neuron,,220.0,0.76,0.76,6,1,1,2.6127,0.4355,0,0,0,0,6
+DNAJC6,aux,FBgn0037218,moderate/low,cL14,centrigufal neuron,,220.0,0.76,0.76,6,1,1,2.6127,0.4355,6,0,0,0,0
+DNAJC6,aux,FBgn0037218,moderate/low,cML01,centrigufal neuron,,220.0,0.76,0.76,6,1,1,2.6127,0.4355,0,0,0,0,6
+DNAJC6,aux,FBgn0037218,moderate/low,LT41,centrigufal neuron,,220.0,0.76,0.76,6,1,1,2.6127,0.4355,0,0,0,0,6
+DNAJC6,aux,FBgn0037218,moderate/low,OA-ASM1,centrigufal neuron,,220.0,0.76,0.76,5,1,1,2.1773,0.4355,0,0,0,0,5
+FBXO7,ntc,FBgn0035461,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,28.0,0.56,0.56,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+FBXO7,ntc,FBgn0035461,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,50.0,1.0,1.0,3300,126,21,326.7772,0.099,0,2731,569,0,0
+FBXO7,ntc,FBgn0035461,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,6.0,0.12,0.12,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+FBXO7,ntc,FBgn0035461,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,6.0,0.12,0.12,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+FBXO7,ntc,FBgn0035461,high,MBON07,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1876,4,19,13.703,0.0073,0,1863,0,0,13
+FBXO7,ntc,FBgn0035461,high,MBON03,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+FBXO7,ntc,FBgn0035461,high,MBON06,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+FBXO7,ntc,FBgn0035461,high,MBON05,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+FBXO7,ntc,FBgn0035461,high,MBON11,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1472,2,8,10.752,0.0073,0,21,1451,0,0
+FBXO7,ntc,FBgn0035461,high,MBON04,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+FBXO7,ntc,FBgn0035461,high,MBON26,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,953,2,34,6.961,0.0073,0,903,41,0,9
+FBXO7,ntc,FBgn0035461,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,7.5,0.15,0.15,873,149,26,91.0427,0.1043,0,142,731,0,0
+FBXO7,ntc,FBgn0035461,high,MBON09,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,816,4,45,5.9603,0.0073,0,816,0,0,0
+FBXO7,ntc,FBgn0035461,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,6.0,0.12,0.12,757,102,12,89.2212,0.1179,0,64,693,0,0
+FBXO7,ntc,FBgn0035461,high,MBON12,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,588,4,5,4.295,0.0073,0,0,588,0,0
+FBXO7,ntc,FBgn0035461,high,MBON14,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,542,4,2,3.959,0.0073,0,0,542,0,0
+FBXO7,ntc,FBgn0035461,high,MBON35,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,512,2,13,3.7398,0.0073,24,10,478,0,0
+FBXO7,ntc,FBgn0035461,high,cL22b,centrigufal neuron,,13.0,0.26,0.26,457,2,6,199.0012,0.4355,0,0,0,0,457
+FBXO7,ntc,FBgn0035461,high,MBON13,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,416,2,2,3.0386,0.0073,0,0,416,0,0
+FBXO7,ntc,FBgn0035461,high,MBON32,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,408,2,7,2.9802,0.0073,0,10,393,0,5
+FBXO7,ntc,FBgn0035461,high,MBON02,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,398,2,27,2.9071,0.0073,0,398,0,0,0
+FBXO7,ntc,FBgn0035461,high,MBON01,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,363,2,32,2.6515,0.0073,6,357,0,0,0
+FBXO7,ntc,FBgn0035461,high,MBON24,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,353,2,22,2.5784,0.0073,0,348,5,0,0
+FBXO7,ntc,FBgn0035461,high,MBON31,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,335,2,2,2.447,0.0073,0,0,335,0,0
+FBXO7,ntc,FBgn0035461,high,MBON21,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,282,2,31,2.0598,0.0073,0,282,0,0,0
+FBXO7,ntc,FBgn0035461,high,MBON29,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,270,2,13,1.9722,0.0073,0,270,0,0,0
+FBXO7,ntc,FBgn0035461,high,MBON16,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,237,2,2,1.7311,0.0073,0,0,237,0,0
+FBXO7,ntc,FBgn0035461,high,MBON18,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,212,2,4,1.5485,0.0073,0,0,201,11,0
+FBXO7,ntc,FBgn0035461,high,MBON20,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,196,2,8,1.4317,0.0073,0,0,49,0,147
+FBXO7,ntc,FBgn0035461,high,MBON27,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,192,2,20,1.4024,0.0073,0,181,11,0,0
+FBXO7,ntc,FBgn0035461,high,MBON30,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,187,2,6,1.3659,0.0073,0,0,187,0,0
+FBXO7,ntc,FBgn0035461,high,MBON33,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,156,2,10,1.1395,0.0073,0,22,134,0,0
+FBXO7,ntc,FBgn0035461,high,MBON15-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,144,5,6,1.0518,0.0073,0,0,144,0,0
+FBXO7,ntc,FBgn0035461,high,MBON23,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,128,2,2,0.935,0.0073,0,0,128,0,0
+FBXO7,ntc,FBgn0035461,high,MBON28,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,124,2,4,0.9057,0.0073,0,0,124,0,0
+FBXO7,ntc,FBgn0035461,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,108,5,4,0.7889,0.0073,0,0,108,0,0
+FBXO7,ntc,FBgn0035461,high,MBON17,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,96,2,2,0.7012,0.0073,0,0,96,0,0
+FBXO7,ntc,FBgn0035461,high,MBON19,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,65,4,2,0.4748,0.0073,0,0,65,0,0
+FBXO7,ntc,FBgn0035461,high,MBON22,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,55,2,4,0.4017,0.0073,0,0,0,55,0
+FBXO7,ntc,FBgn0035461,high,MBON15,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,47,2,4,0.3433,0.0073,0,0,47,0,0
+FBXO7,ntc,FBgn0035461,high,cL21,centrigufal neuron,,13.0,0.26,0.26,36,3,2,15.6762,0.4355,0,0,0,0,36
+FBXO7,ntc,FBgn0035461,high,MBON17-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,32,2,2,0.2337,0.0073,0,0,32,0,0
+FBXO7,ntc,FBgn0035461,high,MBON10,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,19,3,3,0.1388,0.0073,0,6,13,0,0
+FBXO7,ntc,FBgn0035461,high,NPFL1-I,adult NPF neuron,,12.0,0.24,0.24,15,1,2,2.245,0.1497,15,0,0,0,0
+FBXO7,ntc,FBgn0035461,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,0.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+FBXO7,ntc,FBgn0035461,high,LT39,centrigufal neuron,,13.0,0.26,0.26,8,1,1,3.4836,0.4355,8,0,0,0,0
+FBXO7,ntc,FBgn0035461,high,LT56,centrigufal neuron,,13.0,0.26,0.26,7,1,1,3.0482,0.4355,0,0,0,0,7
+FBXO7,ntc,FBgn0035461,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,3.0,0.06,0.06,7,1,1,1.2342,0.1763,7,0,0,0,0
+FBXO7,ntc,FBgn0035461,high,cL16,centrigufal neuron,,13.0,0.26,0.26,6,1,1,2.6127,0.4355,0,0,0,0,6
+FBXO7,ntc,FBgn0035461,high,cL14,centrigufal neuron,,13.0,0.26,0.26,6,1,1,2.6127,0.4355,6,0,0,0,0
+FBXO7,ntc,FBgn0035461,high,cML01,centrigufal neuron,,13.0,0.26,0.26,6,1,1,2.6127,0.4355,0,0,0,0,6
+FBXO7,ntc,FBgn0035461,high,LT41,centrigufal neuron,,13.0,0.26,0.26,6,1,1,2.6127,0.4355,0,0,0,0,6
+FBXO7,ntc,FBgn0035461,high,OA-ASM1,centrigufal neuron,,13.0,0.26,0.26,5,1,1,2.1773,0.4355,0,0,0,0,5
+GBA1,Gba1a,FBgn0051148,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,0.0,0.0,0.0,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+GBA1,Gba1a,FBgn0051148,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,3.0,0.75,0.75,3300,126,21,326.7772,0.099,0,2731,569,0,0
+GBA1,Gba1a,FBgn0051148,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,0.0,0.0,0.0,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+GBA1,Gba1a,FBgn0051148,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,0.0,0.0,0.0,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON07,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1876,4,19,13.703,0.0073,0,1863,0,0,13
+GBA1,Gba1a,FBgn0051148,high,MBON03,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON06,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON05,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON11,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1472,2,8,10.752,0.0073,0,21,1451,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON04,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON26,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,953,2,34,6.961,0.0073,0,903,41,0,9
+GBA1,Gba1a,FBgn0051148,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,0.5,0.125,0.125,873,149,26,91.0427,0.1043,0,142,731,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON09,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,816,4,45,5.9603,0.0073,0,816,0,0,0
+GBA1,Gba1a,FBgn0051148,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,0.6,0.15,0.15,757,102,12,89.2212,0.1179,0,64,693,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON12,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,588,4,5,4.295,0.0073,0,0,588,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON14,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,542,4,2,3.959,0.0073,0,0,542,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON35,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,512,2,13,3.7398,0.0073,24,10,478,0,0
+GBA1,Gba1a,FBgn0051148,high,cL22b,centrigufal neuron,,0.0,0.0,0.0,457,2,6,199.0012,0.4355,0,0,0,0,457
+GBA1,Gba1a,FBgn0051148,high,MBON13,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,416,2,2,3.0386,0.0073,0,0,416,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON32,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,408,2,7,2.9802,0.0073,0,10,393,0,5
+GBA1,Gba1a,FBgn0051148,high,MBON02,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,398,2,27,2.9071,0.0073,0,398,0,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON01,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,363,2,32,2.6515,0.0073,6,357,0,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON24,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,353,2,22,2.5784,0.0073,0,348,5,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON31,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,335,2,2,2.447,0.0073,0,0,335,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON21,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,282,2,31,2.0598,0.0073,0,282,0,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON29,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,270,2,13,1.9722,0.0073,0,270,0,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON16,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,237,2,2,1.7311,0.0073,0,0,237,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON18,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,212,2,4,1.5485,0.0073,0,0,201,11,0
+GBA1,Gba1a,FBgn0051148,high,MBON20,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,196,2,8,1.4317,0.0073,0,0,49,0,147
+GBA1,Gba1a,FBgn0051148,high,MBON27,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,192,2,20,1.4024,0.0073,0,181,11,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON30,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,187,2,6,1.3659,0.0073,0,0,187,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON33,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,156,2,10,1.1395,0.0073,0,22,134,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON15-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,144,5,6,1.0518,0.0073,0,0,144,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON23,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,128,2,2,0.935,0.0073,0,0,128,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON28,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,124,2,4,0.9057,0.0073,0,0,124,0,0
+GBA1,Gba1a,FBgn0051148,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,108,5,4,0.7889,0.0073,0,0,108,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON17,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,96,2,2,0.7012,0.0073,0,0,96,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON19,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,65,4,2,0.4748,0.0073,0,0,65,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON22,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,55,2,4,0.4017,0.0073,0,0,0,55,0
+GBA1,Gba1a,FBgn0051148,high,MBON15,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,47,2,4,0.3433,0.0073,0,0,47,0,0
+GBA1,Gba1a,FBgn0051148,high,cL21,centrigufal neuron,,0.0,0.0,0.0,36,3,2,15.6762,0.4355,0,0,0,0,36
+GBA1,Gba1a,FBgn0051148,high,MBON17-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,32,2,2,0.2337,0.0073,0,0,32,0,0
+GBA1,Gba1a,FBgn0051148,high,MBON10,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,19,3,3,0.1388,0.0073,0,6,13,0,0
+GBA1,Gba1a,FBgn0051148,high,NPFL1-I,adult NPF neuron,,1.0,0.25,0.25,15,1,2,2.245,0.1497,15,0,0,0,0
+GBA1,Gba1a,FBgn0051148,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,0.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+GBA1,Gba1a,FBgn0051148,high,LT39,centrigufal neuron,,0.0,0.0,0.0,8,1,1,3.4836,0.4355,8,0,0,0,0
+GBA1,Gba1a,FBgn0051148,high,LT56,centrigufal neuron,,0.0,0.0,0.0,7,1,1,3.0482,0.4355,0,0,0,0,7
+GBA1,Gba1a,FBgn0051148,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,0.0,0.0,0.0,7,1,1,1.2342,0.1763,7,0,0,0,0
+GBA1,Gba1a,FBgn0051148,high,cL16,centrigufal neuron,,0.0,0.0,0.0,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1a,FBgn0051148,high,cL14,centrigufal neuron,,0.0,0.0,0.0,6,1,1,2.6127,0.4355,6,0,0,0,0
+GBA1,Gba1a,FBgn0051148,high,cML01,centrigufal neuron,,0.0,0.0,0.0,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1a,FBgn0051148,high,LT41,centrigufal neuron,,0.0,0.0,0.0,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1a,FBgn0051148,high,OA-ASM1,centrigufal neuron,,0.0,0.0,0.0,5,1,1,2.1773,0.4355,0,0,0,0,5
+GBA1,Gba1b,FBgn0051414,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,0.0,0.0,0.0,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+GBA1,Gba1b,FBgn0051414,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,0.0,0.0,0.0,3300,126,21,326.7772,0.099,0,2731,569,0,0
+GBA1,Gba1b,FBgn0051414,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,0.0,0.0,0.0,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+GBA1,Gba1b,FBgn0051414,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,0.0,0.0,0.0,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON07,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1876,4,19,13.703,0.0073,0,1863,0,0,13
+GBA1,Gba1b,FBgn0051414,high,MBON03,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON06,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON05,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON11,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1472,2,8,10.752,0.0073,0,21,1451,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON04,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON26,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,953,2,34,6.961,0.0073,0,903,41,0,9
+GBA1,Gba1b,FBgn0051414,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,0.0,0.0,0.0,873,149,26,91.0427,0.1043,0,142,731,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON09,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,816,4,45,5.9603,0.0073,0,816,0,0,0
+GBA1,Gba1b,FBgn0051414,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,2.0,0.25,0.25,757,102,12,89.2212,0.1179,0,64,693,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON12,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,588,4,5,4.295,0.0073,0,0,588,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON14,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,542,4,2,3.959,0.0073,0,0,542,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON35,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,512,2,13,3.7398,0.0073,24,10,478,0,0
+GBA1,Gba1b,FBgn0051414,high,cL22b,centrigufal neuron,,0.5,0.0625,0.0625,457,2,6,199.0012,0.4355,0,0,0,0,457
+GBA1,Gba1b,FBgn0051414,high,MBON13,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,416,2,2,3.0386,0.0073,0,0,416,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON32,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,408,2,7,2.9802,0.0073,0,10,393,0,5
+GBA1,Gba1b,FBgn0051414,high,MBON02,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,398,2,27,2.9071,0.0073,0,398,0,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON01,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,363,2,32,2.6515,0.0073,6,357,0,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON24,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,353,2,22,2.5784,0.0073,0,348,5,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON31,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,335,2,2,2.447,0.0073,0,0,335,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON21,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,282,2,31,2.0598,0.0073,0,282,0,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON29,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,270,2,13,1.9722,0.0073,0,270,0,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON16,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,237,2,2,1.7311,0.0073,0,0,237,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON18,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,212,2,4,1.5485,0.0073,0,0,201,11,0
+GBA1,Gba1b,FBgn0051414,high,MBON20,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,196,2,8,1.4317,0.0073,0,0,49,0,147
+GBA1,Gba1b,FBgn0051414,high,MBON27,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,192,2,20,1.4024,0.0073,0,181,11,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON30,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,187,2,6,1.3659,0.0073,0,0,187,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON33,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,156,2,10,1.1395,0.0073,0,22,134,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON15-like,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,144,5,6,1.0518,0.0073,0,0,144,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON23,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,128,2,2,0.935,0.0073,0,0,128,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON28,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,124,2,4,0.9057,0.0073,0,0,124,0,0
+GBA1,Gba1b,FBgn0051414,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,108,5,4,0.7889,0.0073,0,0,108,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON17,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,96,2,2,0.7012,0.0073,0,0,96,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON19,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,65,4,2,0.4748,0.0073,0,0,65,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON22,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,55,2,4,0.4017,0.0073,0,0,0,55,0
+GBA1,Gba1b,FBgn0051414,high,MBON15,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,47,2,4,0.3433,0.0073,0,0,47,0,0
+GBA1,Gba1b,FBgn0051414,high,cL21,centrigufal neuron,,0.5,0.0625,0.0625,36,3,2,15.6762,0.4355,0,0,0,0,36
+GBA1,Gba1b,FBgn0051414,high,MBON17-like,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,32,2,2,0.2337,0.0073,0,0,32,0,0
+GBA1,Gba1b,FBgn0051414,high,MBON10,mushroom body output neuron,FBbt_00047955,4.0,0.5,0.5,19,3,3,0.1388,0.0073,0,6,13,0,0
+GBA1,Gba1b,FBgn0051414,high,NPFL1-I,adult NPF neuron,,4.0,0.5,0.5,15,1,2,2.245,0.1497,15,0,0,0,0
+GBA1,Gba1b,FBgn0051414,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,3.0,0.375,0.375,13,1,2,3.8339,0.2949,13,0,0,0,0
+GBA1,Gba1b,FBgn0051414,high,LT39,centrigufal neuron,,0.5,0.0625,0.0625,8,1,1,3.4836,0.4355,8,0,0,0,0
+GBA1,Gba1b,FBgn0051414,high,LT56,centrigufal neuron,,0.5,0.0625,0.0625,7,1,1,3.0482,0.4355,0,0,0,0,7
+GBA1,Gba1b,FBgn0051414,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,1.0,0.125,0.125,7,1,1,1.2342,0.1763,7,0,0,0,0
+GBA1,Gba1b,FBgn0051414,high,cL16,centrigufal neuron,,0.5,0.0625,0.0625,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1b,FBgn0051414,high,cL14,centrigufal neuron,,0.5,0.0625,0.0625,6,1,1,2.6127,0.4355,6,0,0,0,0
+GBA1,Gba1b,FBgn0051414,high,cML01,centrigufal neuron,,0.5,0.0625,0.0625,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1b,FBgn0051414,high,LT41,centrigufal neuron,,0.5,0.0625,0.0625,6,1,1,2.6127,0.4355,0,0,0,0,6
+GBA1,Gba1b,FBgn0051414,high,OA-ASM1,centrigufal neuron,,0.5,0.0625,0.0625,5,1,1,2.1773,0.4355,0,0,0,0,5
+LRRK2,Lrrk,FBgn0038816,moderate,KCapbp-m,alpha’/beta’ middle Kenyon cell,,10.0,0.0660919540229885,0.0660919540229885,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,45.0,0.317528735632184,0.317528735632184,3300,126,21,326.7772,0.099,0,2731,569,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,44.0,0.3103448275862069,0.3103448275862069,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,44.0,0.3103448275862069,0.3103448275862069,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON07,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1876,4,19,13.703,0.0073,0,1863,0,0,13
+LRRK2,Lrrk,FBgn0038816,moderate,MBON03,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON06,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON05,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON11,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1472,2,8,10.752,0.0073,0,21,1451,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON04,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON26,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,953,2,34,6.961,0.0073,0,903,41,0,9
+LRRK2,Lrrk,FBgn0038816,moderate,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,19.0,0.1307471264367816,0.1307471264367816,873,149,26,91.0427,0.1043,0,142,731,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON09,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,816,4,45,5.9603,0.0073,0,816,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,36.0,0.2528735632183908,0.2528735632183908,757,102,12,89.2212,0.1179,0,64,693,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON12,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,588,4,5,4.295,0.0073,0,0,588,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON14,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,542,4,2,3.959,0.0073,0,0,542,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON35,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,512,2,13,3.7398,0.0073,24,10,478,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,cL22b,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,457,2,6,199.0012,0.4355,0,0,0,0,457
+LRRK2,Lrrk,FBgn0038816,moderate,MBON13,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,416,2,2,3.0386,0.0073,0,0,416,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON32,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,408,2,7,2.9802,0.0073,0,10,393,0,5
+LRRK2,Lrrk,FBgn0038816,moderate,MBON02,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,398,2,27,2.9071,0.0073,0,398,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON01,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,363,2,32,2.6515,0.0073,6,357,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON24,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,353,2,22,2.5784,0.0073,0,348,5,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON31,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,335,2,2,2.447,0.0073,0,0,335,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON21,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,282,2,31,2.0598,0.0073,0,282,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON29,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,270,2,13,1.9722,0.0073,0,270,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON16,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,237,2,2,1.7311,0.0073,0,0,237,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON18,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,212,2,4,1.5485,0.0073,0,0,201,11,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON20,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,196,2,8,1.4317,0.0073,0,0,49,0,147
+LRRK2,Lrrk,FBgn0038816,moderate,MBON27,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,192,2,20,1.4024,0.0073,0,181,11,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON30,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,187,2,6,1.3659,0.0073,0,0,187,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON33,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,156,2,10,1.1395,0.0073,0,22,134,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON15-like,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,144,5,6,1.0518,0.0073,0,0,144,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON23,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,128,2,2,0.935,0.0073,0,0,128,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON28,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,124,2,4,0.9057,0.0073,0,0,124,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,108,5,4,0.7889,0.0073,0,0,108,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON17,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,96,2,2,0.7012,0.0073,0,0,96,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON19,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,65,4,2,0.4748,0.0073,0,0,65,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON22,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,55,2,4,0.4017,0.0073,0,0,0,55,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON15,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,47,2,4,0.3433,0.0073,0,0,47,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,cL21,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,36,3,2,15.6762,0.4355,0,0,0,0,36
+LRRK2,Lrrk,FBgn0038816,moderate,MBON17-like,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,32,2,2,0.2337,0.0073,0,0,32,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,MBON10,mushroom body output neuron,FBbt_00047955,1.0,0.0014367816091954,0.0014367816091954,19,3,3,0.1388,0.0073,0,6,13,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,NPFL1-I,adult NPF neuron,,41.0,0.2887931034482759,0.2887931034482759,15,1,2,2.245,0.1497,15,0,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,DSKMP3,Drosulfakinin neuron,FBbt_00048999,33.0,0.2313218390804598,0.2313218390804598,13,1,2,3.8339,0.2949,13,0,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,LT39,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,8,1,1,3.4836,0.4355,8,0,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,LT56,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,7,1,1,3.0482,0.4355,0,0,0,0,7
+LRRK2,Lrrk,FBgn0038816,moderate,LC10d,lobula columnar neuron LC10d,FBbt_00111748,29.0,0.2025862068965517,0.2025862068965517,7,1,1,1.2342,0.1763,7,0,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,cL16,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,6,1,1,2.6127,0.4355,0,0,0,0,6
+LRRK2,Lrrk,FBgn0038816,moderate,cL14,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,6,1,1,2.6127,0.4355,6,0,0,0,0
+LRRK2,Lrrk,FBgn0038816,moderate,cML01,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,6,1,1,2.6127,0.4355,0,0,0,0,6
+LRRK2,Lrrk,FBgn0038816,moderate,LT41,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,6,1,1,2.6127,0.4355,0,0,0,0,6
+LRRK2,Lrrk,FBgn0038816,moderate,OA-ASM1,centrigufal neuron,,114.0,0.8132183908045978,0.8132183908045978,5,1,1,2.1773,0.4355,0,0,0,0,5
+PARK7,DJ1alpha,FBgn0033885,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,231.0,0.3063660477453581,0.3063660477453581,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+PARK7,DJ1alpha,FBgn0033885,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,57.0,0.0755968169761273,0.0755968169761273,3300,126,21,326.7772,0.099,0,2731,569,0,0
+PARK7,DJ1alpha,FBgn0033885,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,114.0,0.1511936339522546,0.1511936339522546,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+PARK7,DJ1alpha,FBgn0033885,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,114.0,0.1511936339522546,0.1511936339522546,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON07,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1876,4,19,13.703,0.0073,0,1863,0,0,13
+PARK7,DJ1alpha,FBgn0033885,high,MBON03,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON06,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON05,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON11,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1472,2,8,10.752,0.0073,0,21,1451,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON04,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON26,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,953,2,34,6.961,0.0073,0,903,41,0,9
+PARK7,DJ1alpha,FBgn0033885,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,104.0,0.13793103448275856,0.13793103448275856,873,149,26,91.0427,0.1043,0,142,731,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON09,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,816,4,45,5.9603,0.0073,0,816,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,59.0,0.0782493368700265,0.0782493368700265,757,102,12,89.2212,0.1179,0,64,693,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON12,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,588,4,5,4.295,0.0073,0,0,588,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON14,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,542,4,2,3.959,0.0073,0,0,542,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON35,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,512,2,13,3.7398,0.0073,24,10,478,0,0
+PARK7,DJ1alpha,FBgn0033885,high,cL22b,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,457,2,6,199.0012,0.4355,0,0,0,0,457
+PARK7,DJ1alpha,FBgn0033885,high,MBON13,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,416,2,2,3.0386,0.0073,0,0,416,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON32,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,408,2,7,2.9802,0.0073,0,10,393,0,5
+PARK7,DJ1alpha,FBgn0033885,high,MBON02,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,398,2,27,2.9071,0.0073,0,398,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON01,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,363,2,32,2.6515,0.0073,6,357,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON24,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,353,2,22,2.5784,0.0073,0,348,5,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON31,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,335,2,2,2.447,0.0073,0,0,335,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON21,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,282,2,31,2.0598,0.0073,0,282,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON29,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,270,2,13,1.9722,0.0073,0,270,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON16,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,237,2,2,1.7311,0.0073,0,0,237,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON18,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,212,2,4,1.5485,0.0073,0,0,201,11,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON20,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,196,2,8,1.4317,0.0073,0,0,49,0,147
+PARK7,DJ1alpha,FBgn0033885,high,MBON27,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,192,2,20,1.4024,0.0073,0,181,11,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON30,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,187,2,6,1.3659,0.0073,0,0,187,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON33,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,156,2,10,1.1395,0.0073,0,22,134,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON15-like,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,144,5,6,1.0518,0.0073,0,0,144,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON23,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,128,2,2,0.935,0.0073,0,0,128,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON28,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,124,2,4,0.9057,0.0073,0,0,124,0,0
+PARK7,DJ1alpha,FBgn0033885,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,108,5,4,0.7889,0.0073,0,0,108,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON17,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,96,2,2,0.7012,0.0073,0,0,96,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON19,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,65,4,2,0.4748,0.0073,0,0,65,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON22,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,55,2,4,0.4017,0.0073,0,0,0,55,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON15,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,47,2,4,0.3433,0.0073,0,0,47,0,0
+PARK7,DJ1alpha,FBgn0033885,high,cL21,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,36,3,2,15.6762,0.4355,0,0,0,0,36
+PARK7,DJ1alpha,FBgn0033885,high,MBON17-like,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,32,2,2,0.2337,0.0073,0,0,32,0,0
+PARK7,DJ1alpha,FBgn0033885,high,MBON10,mushroom body output neuron,FBbt_00047955,2.0,0.0026525198938992,0.0026525198938992,19,3,3,0.1388,0.0073,0,6,13,0,0
+PARK7,DJ1alpha,FBgn0033885,high,NPFL1-I,adult NPF neuron,,21.0,0.0278514588859416,0.0278514588859416,15,1,2,2.245,0.1497,15,0,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,754.0,1.0,1.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,LT39,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,8,1,1,3.4836,0.4355,8,0,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,LT56,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,7,1,1,3.0482,0.4355,0,0,0,0,7
+PARK7,DJ1alpha,FBgn0033885,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,37.0,0.0490716180371352,0.0490716180371352,7,1,1,1.2342,0.1763,7,0,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,cL16,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1alpha,FBgn0033885,high,cL14,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,6,1,1,2.6127,0.4355,6,0,0,0,0
+PARK7,DJ1alpha,FBgn0033885,high,cML01,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1alpha,FBgn0033885,high,LT41,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1alpha,FBgn0033885,high,OA-ASM1,centrigufal neuron,,14.0,0.0185676392572944,0.0185676392572944,5,1,1,2.1773,0.4355,0,0,0,0,5
+PARK7,DJ1beta,FBgn0039802,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,13.0,0.1710526315789473,0.1710526315789473,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+PARK7,DJ1beta,FBgn0039802,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,2.0,0.0263157894736842,0.0263157894736842,3300,126,21,326.7772,0.099,0,2731,569,0,0
+PARK7,DJ1beta,FBgn0039802,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,2.0,0.0263157894736842,0.0263157894736842,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+PARK7,DJ1beta,FBgn0039802,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,2.0,0.0263157894736842,0.0263157894736842,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON07,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1876,4,19,13.703,0.0073,0,1863,0,0,13
+PARK7,DJ1beta,FBgn0039802,high,MBON03,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON06,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON05,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON11,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1472,2,8,10.752,0.0073,0,21,1451,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON04,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON26,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,953,2,34,6.961,0.0073,0,903,41,0,9
+PARK7,DJ1beta,FBgn0039802,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,13.0,0.17105263157894735,0.17105263157894735,873,149,26,91.0427,0.1043,0,142,731,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON09,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,816,4,45,5.9603,0.0073,0,816,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,3.0,0.0394736842105263,0.0394736842105263,757,102,12,89.2212,0.1179,0,64,693,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON12,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,588,4,5,4.295,0.0073,0,0,588,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON14,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,542,4,2,3.959,0.0073,0,0,542,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON35,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,512,2,13,3.7398,0.0073,24,10,478,0,0
+PARK7,DJ1beta,FBgn0039802,high,cL22b,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,457,2,6,199.0012,0.4355,0,0,0,0,457
+PARK7,DJ1beta,FBgn0039802,high,MBON13,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,416,2,2,3.0386,0.0073,0,0,416,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON32,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,408,2,7,2.9802,0.0073,0,10,393,0,5
+PARK7,DJ1beta,FBgn0039802,high,MBON02,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,398,2,27,2.9071,0.0073,0,398,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON01,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,363,2,32,2.6515,0.0073,6,357,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON24,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,353,2,22,2.5784,0.0073,0,348,5,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON31,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,335,2,2,2.447,0.0073,0,0,335,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON21,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,282,2,31,2.0598,0.0073,0,282,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON29,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,270,2,13,1.9722,0.0073,0,270,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON16,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,237,2,2,1.7311,0.0073,0,0,237,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON18,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,212,2,4,1.5485,0.0073,0,0,201,11,0
+PARK7,DJ1beta,FBgn0039802,high,MBON20,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,196,2,8,1.4317,0.0073,0,0,49,0,147
+PARK7,DJ1beta,FBgn0039802,high,MBON27,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,192,2,20,1.4024,0.0073,0,181,11,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON30,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,187,2,6,1.3659,0.0073,0,0,187,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON33,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,156,2,10,1.1395,0.0073,0,22,134,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON15-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,144,5,6,1.0518,0.0073,0,0,144,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON23,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,128,2,2,0.935,0.0073,0,0,128,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON28,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,124,2,4,0.9057,0.0073,0,0,124,0,0
+PARK7,DJ1beta,FBgn0039802,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,108,5,4,0.7889,0.0073,0,0,108,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON17,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,96,2,2,0.7012,0.0073,0,0,96,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON19,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,65,4,2,0.4748,0.0073,0,0,65,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON22,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,55,2,4,0.4017,0.0073,0,0,0,55,0
+PARK7,DJ1beta,FBgn0039802,high,MBON15,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,47,2,4,0.3433,0.0073,0,0,47,0,0
+PARK7,DJ1beta,FBgn0039802,high,cL21,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,36,3,2,15.6762,0.4355,0,0,0,0,36
+PARK7,DJ1beta,FBgn0039802,high,MBON17-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,32,2,2,0.2337,0.0073,0,0,32,0,0
+PARK7,DJ1beta,FBgn0039802,high,MBON10,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,19,3,3,0.1388,0.0073,0,6,13,0,0
+PARK7,DJ1beta,FBgn0039802,high,NPFL1-I,adult NPF neuron,,5.0,0.0657894736842105,0.0657894736842105,15,1,2,2.245,0.1497,15,0,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,0.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,LT39,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,8,1,1,3.4836,0.4355,8,0,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,LT56,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,7,1,1,3.0482,0.4355,0,0,0,0,7
+PARK7,DJ1beta,FBgn0039802,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,6.0,0.0789473684210526,0.0789473684210526,7,1,1,1.2342,0.1763,7,0,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,cL16,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1beta,FBgn0039802,high,cL14,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,6,1,1,2.6127,0.4355,6,0,0,0,0
+PARK7,DJ1beta,FBgn0039802,high,cML01,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1beta,FBgn0039802,high,LT41,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,6,1,1,2.6127,0.4355,0,0,0,0,6
+PARK7,DJ1beta,FBgn0039802,high,OA-ASM1,centrigufal neuron,,37.0,0.4868421052631579,0.4868421052631579,5,1,1,2.1773,0.4355,0,0,0,0,5
+PINK1,pink1,FBgn0029891,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,17.0,0.0918918918918919,0.0918918918918919,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+PINK1,pink1,FBgn0029891,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,14.0,0.0756756756756756,0.0756756756756756,3300,126,21,326.7772,0.099,0,2731,569,0,0
+PINK1,pink1,FBgn0029891,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,38.0,0.2054054054054054,0.2054054054054054,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+PINK1,pink1,FBgn0029891,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,38.0,0.2054054054054054,0.2054054054054054,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+PINK1,pink1,FBgn0029891,high,MBON07,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1876,4,19,13.703,0.0073,0,1863,0,0,13
+PINK1,pink1,FBgn0029891,high,MBON03,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+PINK1,pink1,FBgn0029891,high,MBON06,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+PINK1,pink1,FBgn0029891,high,MBON05,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+PINK1,pink1,FBgn0029891,high,MBON11,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1472,2,8,10.752,0.0073,0,21,1451,0,0
+PINK1,pink1,FBgn0029891,high,MBON04,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+PINK1,pink1,FBgn0029891,high,MBON26,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,953,2,34,6.961,0.0073,0,903,41,0,9
+PINK1,pink1,FBgn0029891,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,8.0,0.043243243243243204,0.043243243243243204,873,149,26,91.0427,0.1043,0,142,731,0,0
+PINK1,pink1,FBgn0029891,high,MBON09,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,816,4,45,5.9603,0.0073,0,816,0,0,0
+PINK1,pink1,FBgn0029891,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,12.0,0.0648648648648648,0.0648648648648648,757,102,12,89.2212,0.1179,0,64,693,0,0
+PINK1,pink1,FBgn0029891,high,MBON12,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,588,4,5,4.295,0.0073,0,0,588,0,0
+PINK1,pink1,FBgn0029891,high,MBON14,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,542,4,2,3.959,0.0073,0,0,542,0,0
+PINK1,pink1,FBgn0029891,high,MBON35,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,512,2,13,3.7398,0.0073,24,10,478,0,0
+PINK1,pink1,FBgn0029891,high,cL22b,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,457,2,6,199.0012,0.4355,0,0,0,0,457
+PINK1,pink1,FBgn0029891,high,MBON13,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,416,2,2,3.0386,0.0073,0,0,416,0,0
+PINK1,pink1,FBgn0029891,high,MBON32,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,408,2,7,2.9802,0.0073,0,10,393,0,5
+PINK1,pink1,FBgn0029891,high,MBON02,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,398,2,27,2.9071,0.0073,0,398,0,0,0
+PINK1,pink1,FBgn0029891,high,MBON01,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,363,2,32,2.6515,0.0073,6,357,0,0,0
+PINK1,pink1,FBgn0029891,high,MBON24,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,353,2,22,2.5784,0.0073,0,348,5,0,0
+PINK1,pink1,FBgn0029891,high,MBON31,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,335,2,2,2.447,0.0073,0,0,335,0,0
+PINK1,pink1,FBgn0029891,high,MBON21,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,282,2,31,2.0598,0.0073,0,282,0,0,0
+PINK1,pink1,FBgn0029891,high,MBON29,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,270,2,13,1.9722,0.0073,0,270,0,0,0
+PINK1,pink1,FBgn0029891,high,MBON16,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,237,2,2,1.7311,0.0073,0,0,237,0,0
+PINK1,pink1,FBgn0029891,high,MBON18,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,212,2,4,1.5485,0.0073,0,0,201,11,0
+PINK1,pink1,FBgn0029891,high,MBON20,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,196,2,8,1.4317,0.0073,0,0,49,0,147
+PINK1,pink1,FBgn0029891,high,MBON27,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,192,2,20,1.4024,0.0073,0,181,11,0,0
+PINK1,pink1,FBgn0029891,high,MBON30,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,187,2,6,1.3659,0.0073,0,0,187,0,0
+PINK1,pink1,FBgn0029891,high,MBON33,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,156,2,10,1.1395,0.0073,0,22,134,0,0
+PINK1,pink1,FBgn0029891,high,MBON15-like,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,144,5,6,1.0518,0.0073,0,0,144,0,0
+PINK1,pink1,FBgn0029891,high,MBON23,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,128,2,2,0.935,0.0073,0,0,128,0,0
+PINK1,pink1,FBgn0029891,high,MBON28,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,124,2,4,0.9057,0.0073,0,0,124,0,0
+PINK1,pink1,FBgn0029891,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,108,5,4,0.7889,0.0073,0,0,108,0,0
+PINK1,pink1,FBgn0029891,high,MBON17,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,96,2,2,0.7012,0.0073,0,0,96,0,0
+PINK1,pink1,FBgn0029891,high,MBON19,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,65,4,2,0.4748,0.0073,0,0,65,0,0
+PINK1,pink1,FBgn0029891,high,MBON22,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,55,2,4,0.4017,0.0073,0,0,0,55,0
+PINK1,pink1,FBgn0029891,high,MBON15,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,47,2,4,0.3433,0.0073,0,0,47,0,0
+PINK1,pink1,FBgn0029891,high,cL21,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,36,3,2,15.6762,0.4355,0,0,0,0,36
+PINK1,pink1,FBgn0029891,high,MBON17-like,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,32,2,2,0.2337,0.0073,0,0,32,0,0
+PINK1,pink1,FBgn0029891,high,MBON10,mushroom body output neuron,FBbt_00047955,6.0,0.0324324324324324,0.0324324324324324,19,3,3,0.1388,0.0073,0,6,13,0,0
+PINK1,pink1,FBgn0029891,high,NPFL1-I,adult NPF neuron,,25.0,0.1351351351351351,0.1351351351351351,15,1,2,2.245,0.1497,15,0,0,0,0
+PINK1,pink1,FBgn0029891,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,45.0,0.2432432432432432,0.2432432432432432,13,1,2,3.8339,0.2949,13,0,0,0,0
+PINK1,pink1,FBgn0029891,high,LT39,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,8,1,1,3.4836,0.4355,8,0,0,0,0
+PINK1,pink1,FBgn0029891,high,LT56,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,7,1,1,3.0482,0.4355,0,0,0,0,7
+PINK1,pink1,FBgn0029891,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,45.0,0.2432432432432432,0.2432432432432432,7,1,1,1.2342,0.1763,7,0,0,0,0
+PINK1,pink1,FBgn0029891,high,cL16,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,6,1,1,2.6127,0.4355,0,0,0,0,6
+PINK1,pink1,FBgn0029891,high,cL14,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,6,1,1,2.6127,0.4355,6,0,0,0,0
+PINK1,pink1,FBgn0029891,high,cML01,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,6,1,1,2.6127,0.4355,0,0,0,0,6
+PINK1,pink1,FBgn0029891,high,LT41,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,6,1,1,2.6127,0.4355,0,0,0,0,6
+PINK1,pink1,FBgn0029891,high,OA-ASM1,centrigufal neuron,,45.0,0.2432432432432432,0.2432432432432432,5,1,1,2.1773,0.4355,0,0,0,0,5
+PLA2G6,iPLAVIA,FBgn0036053,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,10.0,0.01230012300123,0.01230012300123,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,91.0,0.1119311193111931,0.1119311193111931,3300,126,21,326.7772,0.099,0,2731,569,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,38.0,0.046740467404674,0.046740467404674,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,38.0,0.046740467404674,0.046740467404674,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON07,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1876,4,19,13.703,0.0073,0,1863,0,0,13
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON03,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON06,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON05,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON11,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1472,2,8,10.752,0.0073,0,21,1451,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON04,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON26,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,953,2,34,6.961,0.0073,0,903,41,0,9
+PLA2G6,iPLAVIA,FBgn0036053,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,28.5,0.0350553505535055,0.0350553505535055,873,149,26,91.0427,0.1043,0,142,731,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON09,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,816,4,45,5.9603,0.0073,0,816,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,44.0,0.054120541205412,0.054120541205412,757,102,12,89.2212,0.1179,0,64,693,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON12,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,588,4,5,4.295,0.0073,0,0,588,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON14,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,542,4,2,3.959,0.0073,0,0,542,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON35,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,512,2,13,3.7398,0.0073,24,10,478,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,cL22b,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,457,2,6,199.0012,0.4355,0,0,0,0,457
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON13,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,416,2,2,3.0386,0.0073,0,0,416,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON32,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,408,2,7,2.9802,0.0073,0,10,393,0,5
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON02,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,398,2,27,2.9071,0.0073,0,398,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON01,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,363,2,32,2.6515,0.0073,6,357,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON24,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,353,2,22,2.5784,0.0073,0,348,5,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON31,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,335,2,2,2.447,0.0073,0,0,335,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON21,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,282,2,31,2.0598,0.0073,0,282,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON29,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,270,2,13,1.9722,0.0073,0,270,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON16,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,237,2,2,1.7311,0.0073,0,0,237,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON18,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,212,2,4,1.5485,0.0073,0,0,201,11,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON20,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,196,2,8,1.4317,0.0073,0,0,49,0,147
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON27,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,192,2,20,1.4024,0.0073,0,181,11,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON30,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,187,2,6,1.3659,0.0073,0,0,187,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON33,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,156,2,10,1.1395,0.0073,0,22,134,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON15-like,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,144,5,6,1.0518,0.0073,0,0,144,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON23,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,128,2,2,0.935,0.0073,0,0,128,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON28,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,124,2,4,0.9057,0.0073,0,0,124,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,108,5,4,0.7889,0.0073,0,0,108,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON17,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,96,2,2,0.7012,0.0073,0,0,96,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON19,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,65,4,2,0.4748,0.0073,0,0,65,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON22,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,55,2,4,0.4017,0.0073,0,0,0,55,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON15,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,47,2,4,0.3433,0.0073,0,0,47,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,cL21,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,36,3,2,15.6762,0.4355,0,0,0,0,36
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON17-like,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,32,2,2,0.2337,0.0073,0,0,32,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,MBON10,mushroom body output neuron,FBbt_00047955,24.0,0.029520295202952,0.029520295202952,19,3,3,0.1388,0.0073,0,6,13,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,NPFL1-I,adult NPF neuron,,17.0,0.020910209102091,0.020910209102091,15,1,2,2.245,0.1497,15,0,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,0.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,LT39,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,8,1,1,3.4836,0.4355,8,0,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,LT56,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,7,1,1,3.0482,0.4355,0,0,0,0,7
+PLA2G6,iPLAVIA,FBgn0036053,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,42.0,0.051660516605166,0.051660516605166,7,1,1,1.2342,0.1763,7,0,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,cL16,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,6,1,1,2.6127,0.4355,0,0,0,0,6
+PLA2G6,iPLAVIA,FBgn0036053,high,cL14,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,6,1,1,2.6127,0.4355,6,0,0,0,0
+PLA2G6,iPLAVIA,FBgn0036053,high,cML01,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,6,1,1,2.6127,0.4355,0,0,0,0,6
+PLA2G6,iPLAVIA,FBgn0036053,high,LT41,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,6,1,1,2.6127,0.4355,0,0,0,0,6
+PLA2G6,iPLAVIA,FBgn0036053,high,OA-ASM1,centrigufal neuron,,110.0,0.1353013530135301,0.1353013530135301,5,1,1,2.1773,0.4355,0,0,0,0,5
+PRKN,park,FBgn0041100,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,0.0,0.0,0.0,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+PRKN,park,FBgn0041100,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,0.0,0.0,0.0,3300,126,21,326.7772,0.099,0,2731,569,0,0
+PRKN,park,FBgn0041100,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,0.5,0.0384615384615384,0.0384615384615384,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+PRKN,park,FBgn0041100,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,0.5,0.0384615384615384,0.0384615384615384,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+PRKN,park,FBgn0041100,high,MBON07,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1876,4,19,13.703,0.0073,0,1863,0,0,13
+PRKN,park,FBgn0041100,high,MBON03,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+PRKN,park,FBgn0041100,high,MBON06,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+PRKN,park,FBgn0041100,high,MBON05,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+PRKN,park,FBgn0041100,high,MBON11,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1472,2,8,10.752,0.0073,0,21,1451,0,0
+PRKN,park,FBgn0041100,high,MBON04,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+PRKN,park,FBgn0041100,high,MBON26,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,953,2,34,6.961,0.0073,0,903,41,0,9
+PRKN,park,FBgn0041100,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,0.5,0.03846153846153845,0.03846153846153845,873,149,26,91.0427,0.1043,0,142,731,0,0
+PRKN,park,FBgn0041100,high,MBON09,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,816,4,45,5.9603,0.0073,0,816,0,0,0
+PRKN,park,FBgn0041100,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,2.0,0.1538461538461538,0.1538461538461538,757,102,12,89.2212,0.1179,0,64,693,0,0
+PRKN,park,FBgn0041100,high,MBON12,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,588,4,5,4.295,0.0073,0,0,588,0,0
+PRKN,park,FBgn0041100,high,MBON14,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,542,4,2,3.959,0.0073,0,0,542,0,0
+PRKN,park,FBgn0041100,high,MBON35,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,512,2,13,3.7398,0.0073,24,10,478,0,0
+PRKN,park,FBgn0041100,high,cL22b,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,457,2,6,199.0012,0.4355,0,0,0,0,457
+PRKN,park,FBgn0041100,high,MBON13,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,416,2,2,3.0386,0.0073,0,0,416,0,0
+PRKN,park,FBgn0041100,high,MBON32,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,408,2,7,2.9802,0.0073,0,10,393,0,5
+PRKN,park,FBgn0041100,high,MBON02,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,398,2,27,2.9071,0.0073,0,398,0,0,0
+PRKN,park,FBgn0041100,high,MBON01,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,363,2,32,2.6515,0.0073,6,357,0,0,0
+PRKN,park,FBgn0041100,high,MBON24,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,353,2,22,2.5784,0.0073,0,348,5,0,0
+PRKN,park,FBgn0041100,high,MBON31,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,335,2,2,2.447,0.0073,0,0,335,0,0
+PRKN,park,FBgn0041100,high,MBON21,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,282,2,31,2.0598,0.0073,0,282,0,0,0
+PRKN,park,FBgn0041100,high,MBON29,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,270,2,13,1.9722,0.0073,0,270,0,0,0
+PRKN,park,FBgn0041100,high,MBON16,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,237,2,2,1.7311,0.0073,0,0,237,0,0
+PRKN,park,FBgn0041100,high,MBON18,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,212,2,4,1.5485,0.0073,0,0,201,11,0
+PRKN,park,FBgn0041100,high,MBON20,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,196,2,8,1.4317,0.0073,0,0,49,0,147
+PRKN,park,FBgn0041100,high,MBON27,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,192,2,20,1.4024,0.0073,0,181,11,0,0
+PRKN,park,FBgn0041100,high,MBON30,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,187,2,6,1.3659,0.0073,0,0,187,0,0
+PRKN,park,FBgn0041100,high,MBON33,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,156,2,10,1.1395,0.0073,0,22,134,0,0
+PRKN,park,FBgn0041100,high,MBON15-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,144,5,6,1.0518,0.0073,0,0,144,0,0
+PRKN,park,FBgn0041100,high,MBON23,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,128,2,2,0.935,0.0073,0,0,128,0,0
+PRKN,park,FBgn0041100,high,MBON28,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,124,2,4,0.9057,0.0073,0,0,124,0,0
+PRKN,park,FBgn0041100,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,108,5,4,0.7889,0.0073,0,0,108,0,0
+PRKN,park,FBgn0041100,high,MBON17,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,96,2,2,0.7012,0.0073,0,0,96,0,0
+PRKN,park,FBgn0041100,high,MBON19,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,65,4,2,0.4748,0.0073,0,0,65,0,0
+PRKN,park,FBgn0041100,high,MBON22,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,55,2,4,0.4017,0.0073,0,0,0,55,0
+PRKN,park,FBgn0041100,high,MBON15,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,47,2,4,0.3433,0.0073,0,0,47,0,0
+PRKN,park,FBgn0041100,high,cL21,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,36,3,2,15.6762,0.4355,0,0,0,0,36
+PRKN,park,FBgn0041100,high,MBON17-like,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,32,2,2,0.2337,0.0073,0,0,32,0,0
+PRKN,park,FBgn0041100,high,MBON10,mushroom body output neuron,FBbt_00047955,0.0,0.0,0.0,19,3,3,0.1388,0.0073,0,6,13,0,0
+PRKN,park,FBgn0041100,high,NPFL1-I,adult NPF neuron,,3.0,0.2307692307692307,0.2307692307692307,15,1,2,2.245,0.1497,15,0,0,0,0
+PRKN,park,FBgn0041100,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,0.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+PRKN,park,FBgn0041100,high,LT39,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,8,1,1,3.4836,0.4355,8,0,0,0,0
+PRKN,park,FBgn0041100,high,LT56,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,7,1,1,3.0482,0.4355,0,0,0,0,7
+PRKN,park,FBgn0041100,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,4.0,0.3076923076923077,0.3076923076923077,7,1,1,1.2342,0.1763,7,0,0,0,0
+PRKN,park,FBgn0041100,high,cL16,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,6,1,1,2.6127,0.4355,0,0,0,0,6
+PRKN,park,FBgn0041100,high,cL14,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,6,1,1,2.6127,0.4355,6,0,0,0,0
+PRKN,park,FBgn0041100,high,cML01,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,6,1,1,2.6127,0.4355,0,0,0,0,6
+PRKN,park,FBgn0041100,high,LT41,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,6,1,1,2.6127,0.4355,0,0,0,0,6
+PRKN,park,FBgn0041100,high,OA-ASM1,centrigufal neuron,,8.0,0.6153846153846154,0.6153846153846154,5,1,1,2.1773,0.4355,0,0,0,0,5
+RAB39B,Rab39,FBgn0029959,moderate,KCapbp-m,alpha’/beta’ middle Kenyon cell,,89.0,0.4341463414634146,0.4341463414634146,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+RAB39B,Rab39,FBgn0029959,moderate,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,78.0,0.3804878048780488,0.3804878048780488,3300,126,21,326.7772,0.099,0,2731,569,0,0
+RAB39B,Rab39,FBgn0029959,moderate,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,66.0,0.3219512195121951,0.3219512195121951,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+RAB39B,Rab39,FBgn0029959,moderate,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,66.0,0.3219512195121951,0.3219512195121951,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON07,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1876,4,19,13.703,0.0073,0,1863,0,0,13
+RAB39B,Rab39,FBgn0029959,moderate,MBON03,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON06,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON05,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON11,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1472,2,8,10.752,0.0073,0,21,1451,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON04,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON26,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,953,2,34,6.961,0.0073,0,903,41,0,9
+RAB39B,Rab39,FBgn0029959,moderate,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,60.5,0.2951219512195121,0.2951219512195121,873,149,26,91.0427,0.1043,0,142,731,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON09,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,816,4,45,5.9603,0.0073,0,816,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,80.0,0.3902439024390244,0.3902439024390244,757,102,12,89.2212,0.1179,0,64,693,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON12,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,588,4,5,4.295,0.0073,0,0,588,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON14,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,542,4,2,3.959,0.0073,0,0,542,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON35,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,512,2,13,3.7398,0.0073,24,10,478,0,0
+RAB39B,Rab39,FBgn0029959,moderate,cL22b,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,457,2,6,199.0012,0.4355,0,0,0,0,457
+RAB39B,Rab39,FBgn0029959,moderate,MBON13,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,416,2,2,3.0386,0.0073,0,0,416,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON32,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,408,2,7,2.9802,0.0073,0,10,393,0,5
+RAB39B,Rab39,FBgn0029959,moderate,MBON02,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,398,2,27,2.9071,0.0073,0,398,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON01,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,363,2,32,2.6515,0.0073,6,357,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON24,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,353,2,22,2.5784,0.0073,0,348,5,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON31,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,335,2,2,2.447,0.0073,0,0,335,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON21,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,282,2,31,2.0598,0.0073,0,282,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON29,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,270,2,13,1.9722,0.0073,0,270,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON16,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,237,2,2,1.7311,0.0073,0,0,237,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON18,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,212,2,4,1.5485,0.0073,0,0,201,11,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON20,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,196,2,8,1.4317,0.0073,0,0,49,0,147
+RAB39B,Rab39,FBgn0029959,moderate,MBON27,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,192,2,20,1.4024,0.0073,0,181,11,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON30,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,187,2,6,1.3659,0.0073,0,0,187,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON33,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,156,2,10,1.1395,0.0073,0,22,134,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON15-like,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,144,5,6,1.0518,0.0073,0,0,144,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON23,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,128,2,2,0.935,0.0073,0,0,128,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON28,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,124,2,4,0.9057,0.0073,0,0,124,0,0
+RAB39B,Rab39,FBgn0029959,moderate,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,108,5,4,0.7889,0.0073,0,0,108,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON17,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,96,2,2,0.7012,0.0073,0,0,96,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON19,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,65,4,2,0.4748,0.0073,0,0,65,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON22,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,55,2,4,0.4017,0.0073,0,0,0,55,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON15,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,47,2,4,0.3433,0.0073,0,0,47,0,0
+RAB39B,Rab39,FBgn0029959,moderate,cL21,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,36,3,2,15.6762,0.4355,0,0,0,0,36
+RAB39B,Rab39,FBgn0029959,moderate,MBON17-like,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,32,2,2,0.2337,0.0073,0,0,32,0,0
+RAB39B,Rab39,FBgn0029959,moderate,MBON10,mushroom body output neuron,FBbt_00047955,51.0,0.248780487804878,0.248780487804878,19,3,3,0.1388,0.0073,0,6,13,0,0
+RAB39B,Rab39,FBgn0029959,moderate,NPFL1-I,adult NPF neuron,,51.0,0.248780487804878,0.248780487804878,15,1,2,2.245,0.1497,15,0,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,DSKMP3,Drosulfakinin neuron,FBbt_00048999,8.0,0.0390243902439024,0.0390243902439024,13,1,2,3.8339,0.2949,13,0,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,LT39,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,8,1,1,3.4836,0.4355,8,0,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,LT56,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,7,1,1,3.0482,0.4355,0,0,0,0,7
+RAB39B,Rab39,FBgn0029959,moderate,LC10d,lobula columnar neuron LC10d,FBbt_00111748,72.0,0.3512195121951219,0.3512195121951219,7,1,1,1.2342,0.1763,7,0,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,cL16,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,6,1,1,2.6127,0.4355,0,0,0,0,6
+RAB39B,Rab39,FBgn0029959,moderate,cL14,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,6,1,1,2.6127,0.4355,6,0,0,0,0
+RAB39B,Rab39,FBgn0029959,moderate,cML01,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,6,1,1,2.6127,0.4355,0,0,0,0,6
+RAB39B,Rab39,FBgn0029959,moderate,LT41,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,6,1,1,2.6127,0.4355,0,0,0,0,6
+RAB39B,Rab39,FBgn0029959,moderate,OA-ASM1,centrigufal neuron,,56.0,0.2731707317073171,0.2731707317073171,5,1,1,2.1773,0.4355,0,0,0,0,5
+SYNJ1,Synj,FBgn0034691,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,63.0,0.4074074074074074,0.4074074074074074,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+SYNJ1,Synj,FBgn0034691,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,97.0,0.7222222222222222,0.7222222222222222,3300,126,21,326.7772,0.099,0,2731,569,0,0
+SYNJ1,Synj,FBgn0034691,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,95.0,0.7037037037037037,0.7037037037037037,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+SYNJ1,Synj,FBgn0034691,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,95.0,0.7037037037037037,0.7037037037037037,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON07,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1876,4,19,13.703,0.0073,0,1863,0,0,13
+SYNJ1,Synj,FBgn0034691,high,MBON03,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON06,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON05,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON11,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1472,2,8,10.752,0.0073,0,21,1451,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON04,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON26,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,953,2,34,6.961,0.0073,0,903,41,0,9
+SYNJ1,Synj,FBgn0034691,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,98.5,0.7361111111111112,0.7361111111111112,873,149,26,91.0427,0.1043,0,142,731,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON09,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,816,4,45,5.9603,0.0073,0,816,0,0,0
+SYNJ1,Synj,FBgn0034691,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,102.0,0.7685185185185185,0.7685185185185185,757,102,12,89.2212,0.1179,0,64,693,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON12,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,588,4,5,4.295,0.0073,0,0,588,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON14,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,542,4,2,3.959,0.0073,0,0,542,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON35,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,512,2,13,3.7398,0.0073,24,10,478,0,0
+SYNJ1,Synj,FBgn0034691,high,cL22b,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,457,2,6,199.0012,0.4355,0,0,0,0,457
+SYNJ1,Synj,FBgn0034691,high,MBON13,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,416,2,2,3.0386,0.0073,0,0,416,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON32,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,408,2,7,2.9802,0.0073,0,10,393,0,5
+SYNJ1,Synj,FBgn0034691,high,MBON02,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,398,2,27,2.9071,0.0073,0,398,0,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON01,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,363,2,32,2.6515,0.0073,6,357,0,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON24,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,353,2,22,2.5784,0.0073,0,348,5,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON31,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,335,2,2,2.447,0.0073,0,0,335,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON21,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,282,2,31,2.0598,0.0073,0,282,0,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON29,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,270,2,13,1.9722,0.0073,0,270,0,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON16,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,237,2,2,1.7311,0.0073,0,0,237,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON18,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,212,2,4,1.5485,0.0073,0,0,201,11,0
+SYNJ1,Synj,FBgn0034691,high,MBON20,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,196,2,8,1.4317,0.0073,0,0,49,0,147
+SYNJ1,Synj,FBgn0034691,high,MBON27,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,192,2,20,1.4024,0.0073,0,181,11,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON30,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,187,2,6,1.3659,0.0073,0,0,187,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON33,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,156,2,10,1.1395,0.0073,0,22,134,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON15-like,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,144,5,6,1.0518,0.0073,0,0,144,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON23,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,128,2,2,0.935,0.0073,0,0,128,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON28,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,124,2,4,0.9057,0.0073,0,0,124,0,0
+SYNJ1,Synj,FBgn0034691,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,108,5,4,0.7889,0.0073,0,0,108,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON17,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,96,2,2,0.7012,0.0073,0,0,96,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON19,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,65,4,2,0.4748,0.0073,0,0,65,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON22,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,55,2,4,0.4017,0.0073,0,0,0,55,0
+SYNJ1,Synj,FBgn0034691,high,MBON15,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,47,2,4,0.3433,0.0073,0,0,47,0,0
+SYNJ1,Synj,FBgn0034691,high,cL21,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,36,3,2,15.6762,0.4355,0,0,0,0,36
+SYNJ1,Synj,FBgn0034691,high,MBON17-like,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,32,2,2,0.2337,0.0073,0,0,32,0,0
+SYNJ1,Synj,FBgn0034691,high,MBON10,mushroom body output neuron,FBbt_00047955,111.0,0.8518518518518519,0.8518518518518519,19,3,3,0.1388,0.0073,0,6,13,0,0
+SYNJ1,Synj,FBgn0034691,high,NPFL1-I,adult NPF neuron,,65.0,0.4259259259259259,0.4259259259259259,15,1,2,2.245,0.1497,15,0,0,0,0
+SYNJ1,Synj,FBgn0034691,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,19.0,0.0,0.0,13,1,2,3.8339,0.2949,13,0,0,0,0
+SYNJ1,Synj,FBgn0034691,high,LT39,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,8,1,1,3.4836,0.4355,8,0,0,0,0
+SYNJ1,Synj,FBgn0034691,high,LT56,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,7,1,1,3.0482,0.4355,0,0,0,0,7
+SYNJ1,Synj,FBgn0034691,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,97.0,0.7222222222222222,0.7222222222222222,7,1,1,1.2342,0.1763,7,0,0,0,0
+SYNJ1,Synj,FBgn0034691,high,cL16,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,6,1,1,2.6127,0.4355,0,0,0,0,6
+SYNJ1,Synj,FBgn0034691,high,cL14,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,6,1,1,2.6127,0.4355,6,0,0,0,0
+SYNJ1,Synj,FBgn0034691,high,cML01,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,6,1,1,2.6127,0.4355,0,0,0,0,6
+SYNJ1,Synj,FBgn0034691,high,LT41,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,6,1,1,2.6127,0.4355,0,0,0,0,6
+SYNJ1,Synj,FBgn0034691,high,OA-ASM1,centrigufal neuron,,106.0,0.8055555555555556,0.8055555555555556,5,1,1,2.1773,0.4355,0,0,0,0,5
+TAF1,taf1,FBgn0010355,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,30.0,0.1726618705035971,0.1726618705035971,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+TAF1,taf1,FBgn0010355,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,44.0,0.2733812949640288,0.2733812949640288,3300,126,21,326.7772,0.099,0,2731,569,0,0
+TAF1,taf1,FBgn0010355,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,33.0,0.1942446043165467,0.1942446043165467,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+TAF1,taf1,FBgn0010355,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,33.0,0.1942446043165467,0.1942446043165467,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+TAF1,taf1,FBgn0010355,high,MBON07,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1876,4,19,13.703,0.0073,0,1863,0,0,13
+TAF1,taf1,FBgn0010355,high,MBON03,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+TAF1,taf1,FBgn0010355,high,MBON06,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+TAF1,taf1,FBgn0010355,high,MBON05,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+TAF1,taf1,FBgn0010355,high,MBON11,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1472,2,8,10.752,0.0073,0,21,1451,0,0
+TAF1,taf1,FBgn0010355,high,MBON04,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+TAF1,taf1,FBgn0010355,high,MBON26,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,953,2,34,6.961,0.0073,0,903,41,0,9
+TAF1,taf1,FBgn0010355,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,15.0,0.06474820143884889,0.06474820143884889,873,149,26,91.0427,0.1043,0,142,731,0,0
+TAF1,taf1,FBgn0010355,high,MBON09,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,816,4,45,5.9603,0.0073,0,816,0,0,0
+TAF1,taf1,FBgn0010355,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,36.0,0.2158273381294964,0.2158273381294964,757,102,12,89.2212,0.1179,0,64,693,0,0
+TAF1,taf1,FBgn0010355,high,MBON12,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,588,4,5,4.295,0.0073,0,0,588,0,0
+TAF1,taf1,FBgn0010355,high,MBON14,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,542,4,2,3.959,0.0073,0,0,542,0,0
+TAF1,taf1,FBgn0010355,high,MBON35,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,512,2,13,3.7398,0.0073,24,10,478,0,0
+TAF1,taf1,FBgn0010355,high,cL22b,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,457,2,6,199.0012,0.4355,0,0,0,0,457
+TAF1,taf1,FBgn0010355,high,MBON13,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,416,2,2,3.0386,0.0073,0,0,416,0,0
+TAF1,taf1,FBgn0010355,high,MBON32,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,408,2,7,2.9802,0.0073,0,10,393,0,5
+TAF1,taf1,FBgn0010355,high,MBON02,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,398,2,27,2.9071,0.0073,0,398,0,0,0
+TAF1,taf1,FBgn0010355,high,MBON01,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,363,2,32,2.6515,0.0073,6,357,0,0,0
+TAF1,taf1,FBgn0010355,high,MBON24,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,353,2,22,2.5784,0.0073,0,348,5,0,0
+TAF1,taf1,FBgn0010355,high,MBON31,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,335,2,2,2.447,0.0073,0,0,335,0,0
+TAF1,taf1,FBgn0010355,high,MBON21,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,282,2,31,2.0598,0.0073,0,282,0,0,0
+TAF1,taf1,FBgn0010355,high,MBON29,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,270,2,13,1.9722,0.0073,0,270,0,0,0
+TAF1,taf1,FBgn0010355,high,MBON16,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,237,2,2,1.7311,0.0073,0,0,237,0,0
+TAF1,taf1,FBgn0010355,high,MBON18,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,212,2,4,1.5485,0.0073,0,0,201,11,0
+TAF1,taf1,FBgn0010355,high,MBON20,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,196,2,8,1.4317,0.0073,0,0,49,0,147
+TAF1,taf1,FBgn0010355,high,MBON27,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,192,2,20,1.4024,0.0073,0,181,11,0,0
+TAF1,taf1,FBgn0010355,high,MBON30,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,187,2,6,1.3659,0.0073,0,0,187,0,0
+TAF1,taf1,FBgn0010355,high,MBON33,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,156,2,10,1.1395,0.0073,0,22,134,0,0
+TAF1,taf1,FBgn0010355,high,MBON15-like,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,144,5,6,1.0518,0.0073,0,0,144,0,0
+TAF1,taf1,FBgn0010355,high,MBON23,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,128,2,2,0.935,0.0073,0,0,128,0,0
+TAF1,taf1,FBgn0010355,high,MBON28,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,124,2,4,0.9057,0.0073,0,0,124,0,0
+TAF1,taf1,FBgn0010355,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,108,5,4,0.7889,0.0073,0,0,108,0,0
+TAF1,taf1,FBgn0010355,high,MBON17,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,96,2,2,0.7012,0.0073,0,0,96,0,0
+TAF1,taf1,FBgn0010355,high,MBON19,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,65,4,2,0.4748,0.0073,0,0,65,0,0
+TAF1,taf1,FBgn0010355,high,MBON22,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,55,2,4,0.4017,0.0073,0,0,0,55,0
+TAF1,taf1,FBgn0010355,high,MBON15,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,47,2,4,0.3433,0.0073,0,0,47,0,0
+TAF1,taf1,FBgn0010355,high,cL21,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,36,3,2,15.6762,0.4355,0,0,0,0,36
+TAF1,taf1,FBgn0010355,high,MBON17-like,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,32,2,2,0.2337,0.0073,0,0,32,0,0
+TAF1,taf1,FBgn0010355,high,MBON10,mushroom body output neuron,FBbt_00047955,6.0,0.0,0.0,19,3,3,0.1388,0.0073,0,6,13,0,0
+TAF1,taf1,FBgn0010355,high,NPFL1-I,adult NPF neuron,,55.0,0.3525179856115107,0.3525179856115107,15,1,2,2.245,0.1497,15,0,0,0,0
+TAF1,taf1,FBgn0010355,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,24.0,0.1294964028776978,0.1294964028776978,13,1,2,3.8339,0.2949,13,0,0,0,0
+TAF1,taf1,FBgn0010355,high,LT39,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,8,1,1,3.4836,0.4355,8,0,0,0,0
+TAF1,taf1,FBgn0010355,high,LT56,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,7,1,1,3.0482,0.4355,0,0,0,0,7
+TAF1,taf1,FBgn0010355,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,58.0,0.3741007194244604,0.3741007194244604,7,1,1,1.2342,0.1763,7,0,0,0,0
+TAF1,taf1,FBgn0010355,high,cL16,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,6,1,1,2.6127,0.4355,0,0,0,0,6
+TAF1,taf1,FBgn0010355,high,cL14,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,6,1,1,2.6127,0.4355,6,0,0,0,0
+TAF1,taf1,FBgn0010355,high,cML01,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,6,1,1,2.6127,0.4355,0,0,0,0,6
+TAF1,taf1,FBgn0010355,high,LT41,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,6,1,1,2.6127,0.4355,0,0,0,0,6
+TAF1,taf1,FBgn0010355,high,OA-ASM1,centrigufal neuron,,71.0,0.4676258992805755,0.4676258992805755,5,1,1,2.1773,0.4355,0,0,0,0,5
+VPS13C,Vps13,FBgn0033194,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,15.0,0.1274509803921568,0.1274509803921568,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+VPS13C,Vps13,FBgn0033194,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,29.0,0.2647058823529412,0.2647058823529412,3300,126,21,326.7772,0.099,0,2731,569,0,0
+VPS13C,Vps13,FBgn0033194,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,19.0,0.1666666666666666,0.1666666666666666,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+VPS13C,Vps13,FBgn0033194,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,19.0,0.1666666666666666,0.1666666666666666,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON07,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1876,4,19,13.703,0.0073,0,1863,0,0,13
+VPS13C,Vps13,FBgn0033194,high,MBON03,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON06,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON05,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON11,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1472,2,8,10.752,0.0073,0,21,1451,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON04,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON26,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,953,2,34,6.961,0.0073,0,903,41,0,9
+VPS13C,Vps13,FBgn0033194,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,9.0,0.06862745098039215,0.06862745098039215,873,149,26,91.0427,0.1043,0,142,731,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON09,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,816,4,45,5.9603,0.0073,0,816,0,0,0
+VPS13C,Vps13,FBgn0033194,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,24.0,0.2156862745098039,0.2156862745098039,757,102,12,89.2212,0.1179,0,64,693,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON12,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,588,4,5,4.295,0.0073,0,0,588,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON14,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,542,4,2,3.959,0.0073,0,0,542,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON35,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,512,2,13,3.7398,0.0073,24,10,478,0,0
+VPS13C,Vps13,FBgn0033194,high,cL22b,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,457,2,6,199.0012,0.4355,0,0,0,0,457
+VPS13C,Vps13,FBgn0033194,high,MBON13,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,416,2,2,3.0386,0.0073,0,0,416,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON32,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,408,2,7,2.9802,0.0073,0,10,393,0,5
+VPS13C,Vps13,FBgn0033194,high,MBON02,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,398,2,27,2.9071,0.0073,0,398,0,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON01,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,363,2,32,2.6515,0.0073,6,357,0,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON24,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,353,2,22,2.5784,0.0073,0,348,5,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON31,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,335,2,2,2.447,0.0073,0,0,335,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON21,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,282,2,31,2.0598,0.0073,0,282,0,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON29,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,270,2,13,1.9722,0.0073,0,270,0,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON16,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,237,2,2,1.7311,0.0073,0,0,237,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON18,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,212,2,4,1.5485,0.0073,0,0,201,11,0
+VPS13C,Vps13,FBgn0033194,high,MBON20,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,196,2,8,1.4317,0.0073,0,0,49,0,147
+VPS13C,Vps13,FBgn0033194,high,MBON27,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,192,2,20,1.4024,0.0073,0,181,11,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON30,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,187,2,6,1.3659,0.0073,0,0,187,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON33,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,156,2,10,1.1395,0.0073,0,22,134,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON15-like,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,144,5,6,1.0518,0.0073,0,0,144,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON23,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,128,2,2,0.935,0.0073,0,0,128,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON28,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,124,2,4,0.9057,0.0073,0,0,124,0,0
+VPS13C,Vps13,FBgn0033194,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,108,5,4,0.7889,0.0073,0,0,108,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON17,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,96,2,2,0.7012,0.0073,0,0,96,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON19,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,65,4,2,0.4748,0.0073,0,0,65,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON22,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,55,2,4,0.4017,0.0073,0,0,0,55,0
+VPS13C,Vps13,FBgn0033194,high,MBON15,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,47,2,4,0.3433,0.0073,0,0,47,0,0
+VPS13C,Vps13,FBgn0033194,high,cL21,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,36,3,2,15.6762,0.4355,0,0,0,0,36
+VPS13C,Vps13,FBgn0033194,high,MBON17-like,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,32,2,2,0.2337,0.0073,0,0,32,0,0
+VPS13C,Vps13,FBgn0033194,high,MBON10,mushroom body output neuron,FBbt_00047955,12.0,0.0980392156862745,0.0980392156862745,19,3,3,0.1388,0.0073,0,6,13,0,0
+VPS13C,Vps13,FBgn0033194,high,NPFL1-I,adult NPF neuron,,29.0,0.2647058823529412,0.2647058823529412,15,1,2,2.245,0.1497,15,0,0,0,0
+VPS13C,Vps13,FBgn0033194,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,41.0,0.3823529411764705,0.3823529411764705,13,1,2,3.8339,0.2949,13,0,0,0,0
+VPS13C,Vps13,FBgn0033194,high,LT39,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,8,1,1,3.4836,0.4355,8,0,0,0,0
+VPS13C,Vps13,FBgn0033194,high,LT56,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,7,1,1,3.0482,0.4355,0,0,0,0,7
+VPS13C,Vps13,FBgn0033194,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,30.0,0.2745098039215686,0.2745098039215686,7,1,1,1.2342,0.1763,7,0,0,0,0
+VPS13C,Vps13,FBgn0033194,high,cL16,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS13C,Vps13,FBgn0033194,high,cL14,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,6,1,1,2.6127,0.4355,6,0,0,0,0
+VPS13C,Vps13,FBgn0033194,high,cML01,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS13C,Vps13,FBgn0033194,high,LT41,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS13C,Vps13,FBgn0033194,high,OA-ASM1,centrigufal neuron,,80.0,0.7647058823529411,0.7647058823529411,5,1,1,2.1773,0.4355,0,0,0,0,5
+VPS35,Vps35,FBgn0034708,high,KCapbp-m,alpha’/beta’ middle Kenyon cell,,1.0,0.0140845070422535,0.0140845070422535,4514,304,34,573.6414,0.1271,0,1388,3126,0,0
+VPS35,Vps35,FBgn0034708,high,KCab-p,alpha/beta posterior Kenyon cell,FBbt_00110931,33.0,0.4647887323943662,0.4647887323943662,3300,126,21,326.7772,0.099,0,2731,569,0,0
+VPS35,Vps35,FBgn0034708,high,KCapbp-ap2,alpha’/beta’ anterior-posterior Kenyon cell,,16.0,0.2253521126760563,0.2253521126760563,2073,221,34,303.3716,0.1463,0,881,1192,0,0
+VPS35,Vps35,FBgn0034708,high,KCapbp-ap1,alpha’/beta’ anterior-posterior Kenyon cell,,16.0,0.2253521126760563,0.2253521126760563,1943,195,30,284.3469,0.1463,0,1076,867,0,0
+VPS35,Vps35,FBgn0034708,high,MBON07,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1876,4,19,13.703,0.0073,0,1863,0,0,13
+VPS35,Vps35,FBgn0034708,high,MBON03,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1849,2,53,13.5057,0.0073,0,1849,0,0,0
+VPS35,Vps35,FBgn0034708,high,MBON06,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1697,2,32,12.3955,0.0073,0,1676,21,0,0
+VPS35,Vps35,FBgn0034708,high,MBON05,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1601,2,71,11.6943,0.0073,0,1584,17,0,0
+VPS35,Vps35,FBgn0034708,high,MBON11,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1472,2,8,10.752,0.0073,0,21,1451,0,0
+VPS35,Vps35,FBgn0034708,high,MBON04,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,1458,2,62,10.6497,0.0073,0,1210,248,0,0
+VPS35,Vps35,FBgn0034708,high,MBON26,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,953,2,34,6.961,0.0073,0,903,41,0,9
+VPS35,Vps35,FBgn0034708,high,KCab,alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell,FBbt_00110930,11.0,0.1549295774647887,0.1549295774647887,873,149,26,91.0427,0.1043,0,142,731,0,0
+VPS35,Vps35,FBgn0034708,high,MBON09,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,816,4,45,5.9603,0.0073,0,816,0,0,0
+VPS35,Vps35,FBgn0034708,high,KCg-d,gamma dorsal Kenyon cell,FBbt_00110932,21.0,0.2957746478873239,0.2957746478873239,757,102,12,89.2212,0.1179,0,64,693,0,0
+VPS35,Vps35,FBgn0034708,high,MBON12,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,588,4,5,4.295,0.0073,0,0,588,0,0
+VPS35,Vps35,FBgn0034708,high,MBON14,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,542,4,2,3.959,0.0073,0,0,542,0,0
+VPS35,Vps35,FBgn0034708,high,MBON35,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,512,2,13,3.7398,0.0073,24,10,478,0,0
+VPS35,Vps35,FBgn0034708,high,cL22b,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,457,2,6,199.0012,0.4355,0,0,0,0,457
+VPS35,Vps35,FBgn0034708,high,MBON13,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,416,2,2,3.0386,0.0073,0,0,416,0,0
+VPS35,Vps35,FBgn0034708,high,MBON32,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,408,2,7,2.9802,0.0073,0,10,393,0,5
+VPS35,Vps35,FBgn0034708,high,MBON02,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,398,2,27,2.9071,0.0073,0,398,0,0,0
+VPS35,Vps35,FBgn0034708,high,MBON01,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,363,2,32,2.6515,0.0073,6,357,0,0,0
+VPS35,Vps35,FBgn0034708,high,MBON24,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,353,2,22,2.5784,0.0073,0,348,5,0,0
+VPS35,Vps35,FBgn0034708,high,MBON31,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,335,2,2,2.447,0.0073,0,0,335,0,0
+VPS35,Vps35,FBgn0034708,high,MBON21,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,282,2,31,2.0598,0.0073,0,282,0,0,0
+VPS35,Vps35,FBgn0034708,high,MBON29,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,270,2,13,1.9722,0.0073,0,270,0,0,0
+VPS35,Vps35,FBgn0034708,high,MBON16,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,237,2,2,1.7311,0.0073,0,0,237,0,0
+VPS35,Vps35,FBgn0034708,high,MBON18,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,212,2,4,1.5485,0.0073,0,0,201,11,0
+VPS35,Vps35,FBgn0034708,high,MBON20,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,196,2,8,1.4317,0.0073,0,0,49,0,147
+VPS35,Vps35,FBgn0034708,high,MBON27,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,192,2,20,1.4024,0.0073,0,181,11,0,0
+VPS35,Vps35,FBgn0034708,high,MBON30,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,187,2,6,1.3659,0.0073,0,0,187,0,0
+VPS35,Vps35,FBgn0034708,high,MBON33,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,156,2,10,1.1395,0.0073,0,22,134,0,0
+VPS35,Vps35,FBgn0034708,high,MBON15-like,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,144,5,6,1.0518,0.0073,0,0,144,0,0
+VPS35,Vps35,FBgn0034708,high,MBON23,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,128,2,2,0.935,0.0073,0,0,128,0,0
+VPS35,Vps35,FBgn0034708,high,MBON28,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,124,2,4,0.9057,0.0073,0,0,124,0,0
+VPS35,Vps35,FBgn0034708,high,"MBON25,MBON34",mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,108,5,4,0.7889,0.0073,0,0,108,0,0
+VPS35,Vps35,FBgn0034708,high,MBON17,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,96,2,2,0.7012,0.0073,0,0,96,0,0
+VPS35,Vps35,FBgn0034708,high,MBON19,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,65,4,2,0.4748,0.0073,0,0,65,0,0
+VPS35,Vps35,FBgn0034708,high,MBON22,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,55,2,4,0.4017,0.0073,0,0,0,55,0
+VPS35,Vps35,FBgn0034708,high,MBON15,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,47,2,4,0.3433,0.0073,0,0,47,0,0
+VPS35,Vps35,FBgn0034708,high,cL21,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,36,3,2,15.6762,0.4355,0,0,0,0,36
+VPS35,Vps35,FBgn0034708,high,MBON17-like,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,32,2,2,0.2337,0.0073,0,0,32,0,0
+VPS35,Vps35,FBgn0034708,high,MBON10,mushroom body output neuron,FBbt_00047955,17.0,0.2394366197183098,0.2394366197183098,19,3,3,0.1388,0.0073,0,6,13,0,0
+VPS35,Vps35,FBgn0034708,high,NPFL1-I,adult NPF neuron,,21.0,0.2957746478873239,0.2957746478873239,15,1,2,2.245,0.1497,15,0,0,0,0
+VPS35,Vps35,FBgn0034708,high,DSKMP3,Drosulfakinin neuron,FBbt_00048999,8.0,0.1126760563380281,0.1126760563380281,13,1,2,3.8339,0.2949,13,0,0,0,0
+VPS35,Vps35,FBgn0034708,high,LT39,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,8,1,1,3.4836,0.4355,8,0,0,0,0
+VPS35,Vps35,FBgn0034708,high,LT56,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,7,1,1,3.0482,0.4355,0,0,0,0,7
+VPS35,Vps35,FBgn0034708,high,LC10d,lobula columnar neuron LC10d,FBbt_00111748,30.0,0.4225352112676056,0.4225352112676056,7,1,1,1.2342,0.1763,7,0,0,0,0
+VPS35,Vps35,FBgn0034708,high,cL16,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS35,Vps35,FBgn0034708,high,cL14,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,6,1,1,2.6127,0.4355,6,0,0,0,0
+VPS35,Vps35,FBgn0034708,high,cML01,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS35,Vps35,FBgn0034708,high,LT41,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,6,1,1,2.6127,0.4355,0,0,0,0,6
+VPS35,Vps35,FBgn0034708,high,OA-ASM1,centrigufal neuron,,61.0,0.8591549295774648,0.8591549295774648,5,1,1,2.1773,0.4355,0,0,0,0,5
