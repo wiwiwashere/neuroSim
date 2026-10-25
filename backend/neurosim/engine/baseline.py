@@ -1,10 +1,5 @@
 """Random-seed baseline (CS1). See docs/ENGINE_DESIGN.md, section 7.
 
-STATUS: placeholder. CS1 writes the null model and statistics. pipeline.py, the
-validation script and the API already call null_distributions, z_and_p and
-benjamini_hochberg with the signatures
-below, and the tests marked `needs_engine` turn green once they work.
-
 The question every result must answer: "is this more than you'd get from
 any random set of neurons like these?"
 
@@ -36,11 +31,18 @@ not minutes. Fix the RNG (config.RANDOM_SEED) so reruns are identical.
 
 from __future__ import annotations
 
+import warnings
 from dataclasses import dataclass
 
 import numpy as np
 
 from neurosim import config
+from neurosim.engine.perturb import initial_deficit
+from neurosim.engine.propagate import propagate
+from neurosim.engine.vulnerability import disruption_scores, group_means_batch
+
+# Draws propagated together. 139k x 25 float64 is about 28 MB per hop.
+DRAW_CHUNK = 25
 
 
 @dataclass
@@ -52,7 +54,15 @@ class NullDistribution:
 def draw_random_seeds(pool: np.ndarray, size: int, n_draws: int, rng: np.random.Generator) -> np.ndarray:
     """n_draws x size positions, each row sampled without replacement from pool.
     If size > len(pool), raise: the null is undefined."""
-    raise NotImplementedError("CS1: draw_random_seeds")
+    pool = np.asarray(pool, dtype=np.int64)
+    if size < 1:
+        raise ValueError("seed size must be at least 1")
+    if size > len(pool):
+        raise ValueError(f"cannot draw {size} seeds without replacement from a pool of {len(pool)}")
+    out = np.empty((n_draws, size), dtype=np.int64)
+    for i in range(n_draws):
+        out[i] = rng.choice(pool, size=size, replace=False)
+    return out
 
 
 def null_distribution(conn, seed_size: int, mode, strength: float, hops: int, decay: float,
@@ -76,22 +86,73 @@ def null_distributions(conn, seed_size: int, mode, strength: float, hops: int, d
     groupings maps a key to (group_codes, n_groups). Returns ({key: n_groups x
     n_draws group means}, n_draws disruption scores). The pipeline passes all
     four GroupLevels at once; the validation script passes one target set.
-
-    Suggested shape: draw once with np.random.default_rng(random_seed), put
-    the seed deficit (as perturb.initial_deficit would) in one column per draw,
-    propagate a chunk of ~25 draws at a time (139k x 25 dense is ~30 MB per
-    hop), and aggregate each chunk with vulnerability.group_means_batch and
-    vulnerability.disruption_scores at every level.
     """
-    raise NotImplementedError("CS1: null_distributions")
+    rng = np.random.default_rng(random_seed)
+    seeds = draw_random_seeds(pool, seed_size, n_draws, rng)
+
+    n = conn.n
+    keys = list(groupings)
+    group_parts: dict[str, list[np.ndarray]] = {k: [] for k in keys}
+    disruption_parts: list[np.ndarray] = []
+
+    for start in range(0, n_draws, DRAW_CHUNK):
+        chunk = seeds[start:start + DRAW_CHUNK]
+        x0 = np.column_stack([initial_deficit(n, row, mode, strength) for row in chunk])
+        prop = propagate(conn.A, x0, hops, decay)
+
+        for key in keys:
+            codes, n_groups = groupings[key]
+            group_parts[key].append(
+                group_means_batch(prop.impact, prop.seed_mask, codes, n_groups)
+            )
+        disruption_parts.append(
+            disruption_scores(prop.impact, prop.seed_mask, conn.in_strength, hops, decay)
+        )
+
+    means = {k: np.hstack(parts) for k, parts in group_parts.items()}
+    disruption = np.concatenate(disruption_parts)
+    return means, disruption
 
 
 def z_and_p(observed: np.ndarray, null: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """observed: n_groups; null: n_groups x n_draws. Returns (null_mean, null_sd, z, p)
     as defined in the module docstring."""
-    raise NotImplementedError("CS1: z_and_p")
+    observed = np.asarray(observed, dtype=float)
+    null = np.asarray(null, dtype=float)
+    n_draws = null.shape[1]
+
+    with warnings.catch_warnings():
+        # Groups with all-NaN nulls would otherwise warn; they become NaN below.
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        null_mean = np.nanmean(null, axis=1)
+        null_sd = np.maximum(np.nanstd(null, axis=1), 1e-9)
+
+    with np.errstate(invalid="ignore", divide="ignore"):
+        z = (observed - null_mean) / null_sd
+        # NaN comparisons are False, so NaN null draws never count as exceedances.
+        exceed = np.sum(null >= observed[:, None], axis=1)
+        p = (1.0 + exceed) / (1.0 + n_draws)
+
+    missing = np.isnan(observed)
+    z = np.where(missing, np.nan, z)
+    p = np.where(missing, np.nan, p)
+    return null_mean, null_sd, z, p
 
 
 def benjamini_hochberg(p: np.ndarray) -> np.ndarray:
     """q-values. Ignore NaN (unrankable groups) and return NaN for them."""
-    raise NotImplementedError("CS1: benjamini_hochberg")
+    p = np.asarray(p, dtype=float)
+    q = np.full(p.shape, np.nan)
+    valid = np.flatnonzero(~np.isnan(p))
+    m = valid.size
+    if m == 0:
+        return q
+
+    order = valid[np.argsort(p[valid], kind="stable")]
+    ranked = p[order]
+    ranks = np.arange(1, m + 1)
+    adjusted = ranked * m / ranks
+    # Enforce monotonicity: q_i = min over j >= i of adjusted_j.
+    adjusted = np.minimum.accumulate(adjusted[::-1])[::-1]
+    q[order] = np.clip(adjusted, 0.0, 1.0)
+    return q

@@ -55,4 +55,21 @@ def propagate(
     x0 may be 1-D (one run) or 2-D (one column per run). Use A @ x, never
     densify A. Set seed_mask = x0 > 0.
     """
-    raise NotImplementedError("CS1: propagate")
+    if hops < 1:
+        raise ValueError("hops must be at least 1")
+
+    x0 = np.asarray(x0, dtype=float)
+    per_hop: list[np.ndarray] = []
+    impact = np.zeros_like(x0, dtype=float)
+
+    h = x0
+    for k in range(1, hops + 1):
+        h = A @ h  # hop k: share of input from neurons hit in the previous hop
+        per_hop.append(np.asarray(h))
+        impact = impact + (decay ** (k - 1)) * h
+
+    return Propagation(
+        per_hop=per_hop,
+        impact=np.asarray(impact),
+        seed_mask=x0 > 0,
+    )

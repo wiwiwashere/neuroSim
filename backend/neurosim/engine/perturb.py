@@ -42,4 +42,20 @@ def initial_deficit(
     Raise ValueError for an empty seed set; an empty run must never look like
     "no effect".
     """
-    raise NotImplementedError("CS1: initial_deficit")
+
+    seeds = np.asarray(seed_positions, dtype=np.int64).ravel()
+    if seeds.size == 0:
+        raise ValueError("empty seed set: an empty run must not look like 'no effect'")
+    if seeds.min() < 0 or seeds.max() >= n_neurons:
+        raise ValueError(f"seed positions must lie in [0, {n_neurons})")
+
+    if mode == "knockout":
+        value = 1.0
+    elif mode == "reduce_output": # by the strength number 
+        value = float(strength)
+    else:
+        raise ValueError(f"unknown perturbation mode: {mode!r}")
+
+    x0 = np.zeros(n_neurons, dtype=float)
+    x0[seeds] = value  # duplicate seeds just write the same value twice
+    return x0
