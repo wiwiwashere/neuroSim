@@ -99,7 +99,26 @@ def input_normalize(W: sp.csr_matrix) -> tuple[sp.csr_matrix, np.ndarray]:
     Test: every row of A sums to 1.0 (within 1e-9) or 0.0.
     Connectome.A calls this on first use.
     """
-    raise NotImplementedError("CS1: input_normalize")
+
+    W = sp.csr_matrix(W, dtype=float)
+
+    # in_j = sum_k W[k, j]: total input synapses onto each neuron (column sums).
+    in_strength = np.asarray(W.sum(axis=0)).ravel()
+
+    # 1 / in_j for neurons with input; 0 for neurons with no input,
+    # so their columns stay all zero.
+    inv = np.zeros_like(in_strength)
+    has_input = in_strength > 0
+    
+    inv[has_input] = 1.0 / in_strength[has_input]
+
+    # Scale column j of W by 1/in_j (W @ diag(inv)), then transpose so that
+    # row j of A holds the input fractions for target neuron j.
+    A = (W @ sp.diags(inv)).T.tocsr()
+
+    return A, in_strength
+
+    
 
 
 def build_connectome(W: sp.spmatrix, neurons: pd.DataFrame, root_ids: np.ndarray, regions: dict | None = None,
