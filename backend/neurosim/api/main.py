@@ -181,10 +181,15 @@ async def dynamics(run_id: str, n_regions: int = 10, T: float = 10.0) -> Degener
 
 @app.get("/runs/{run_id}/neurons/{root_id}/explain")
 def explain(run_id: str, root_id: int) -> dict:
+    """Root IDs go out as strings, as in every other response (models.RootId)."""
     if USE_MOCKS:
-        return {"root_id": root_id, "paths": [{"neurons": ["PPL101", "MBON01"], "strength": 0.41}]}
+        return {"root_id": str(root_id), "paths": [{"neurons": ["PPL101", "MBON01"], "strength": 0.41}]}
     with _http_errors():
-        return pipeline.explain_neuron(run_id, root_id)
+        explained = pipeline.explain_neuron(run_id, root_id)
+    explained["root_id"] = str(explained["root_id"])
+    for path in explained["paths"]:
+        path["root_ids"] = [str(r) for r in path["root_ids"]]
+    return explained
 
 
 @app.get("/compare")

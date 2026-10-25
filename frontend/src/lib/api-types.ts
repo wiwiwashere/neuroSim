@@ -818,7 +818,7 @@ export interface components {
         /** NeuronImpact */
         NeuronImpact: {
             /** Root Id */
-            root_id: number;
+            root_id: string;
             /** Cell Type */
             cell_type: string | null;
             /** Region */
@@ -917,7 +917,7 @@ export interface components {
             /** N Neurons */
             n_neurons: number;
             /** Root Ids */
-            root_ids: number[];
+            root_ids: string[];
             /** Confidence */
             confidence: number;
             /** Evidence */

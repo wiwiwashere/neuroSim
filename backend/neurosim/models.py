@@ -8,10 +8,16 @@ other two people.
 from __future__ import annotations
 
 from enum import Enum
+from typing import Annotated
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PlainSerializer
 
 from neurosim import config
+
+# A FlyWire root ID. It is an int in Python, but JSON carries it as a string:
+# IDs like 720575940629024497 are past 2**53, so a JavaScript number rounds
+# them (to ...024500) and the API no longer finds the neuron.
+RootId = Annotated[int, PlainSerializer(str, return_type=str, when_used="json")]
 
 
 # --- Gene -> neurons (Bio) ----------------------------------------------------------
@@ -132,7 +138,7 @@ class SeedType(BaseModel):
     cluster: str                         # "PPL1"
     match: str                           # "exact" | "inferred"
     n_neurons: int
-    root_ids: list[int]
+    root_ids: list[RootId]
     confidence: float                    # ortholog x tier x match (see bio/evidence.py)
     evidence: list[EvidenceRow]
     expression: CellTypeExpression | None = None   # PAM types only; None = not measured, never a veto
@@ -194,7 +200,7 @@ class GroupScore(BaseModel):
 
 
 class NeuronImpact(BaseModel):
-    root_id: int
+    root_id: RootId
     cell_type: str | None
     region: str | None
     direct: float

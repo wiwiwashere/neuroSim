@@ -7,7 +7,9 @@ On a 429 (rate limit) we wait the delay the API suggests, retry once, then
 switch to config.AGENT_FALLBACK_MODEL. An overloaded model (503, 500 or a
 timeout) switches to the fallback straight away, and later calls stay on the
 fallback for config.AGENT_FALLBACK_COOLDOWN_S so each turn doesn't wait for
-the main model to time out again. Any other API error becomes a
+the main model to time out again. If the fallback fails during that window,
+the main model gets one more try before we give up, so one bad minute never
+blocks every follow-up question for five. Any other API error becomes a
 GeminiUnavailable with a message a person can act on, which the API turns
 into a 503.
 """
@@ -102,10 +104,14 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
     state = state if state is not None else {}
     default = config.AGENT_FALLBACK_MODEL if time.monotonic() < _fallback_until else config.AGENT_MODEL
     model = state.setdefault("model", default)
+    tried = {model}
     retried = False
     while True:
         try:
-            return fn(model)
+            result = fn(model)
+            if model == config.AGENT_MODEL:
+                _fallback_until = 0.0  # the main model answered: stop skipping it
+            return result
         except GeminiUnavailable:
             raise  # fn gave up on its own (agent.py's turn deadline)
         except Exception as err:  # the SDK raises a different class per API surface
@@ -119,8 +125,15 @@ def call(fn: Callable[[str], Any], state: dict | None = None) -> Any:
                 continue
             # 504: the API ran out of the deadline we sent it (our timeout).
             overloaded = status in (500, 503, 504) or timed_out
-            if (status == 429 or overloaded) and model != config.AGENT_FALLBACK_MODEL:
+            if (status == 429 or overloaded) and config.AGENT_FALLBACK_MODEL not in tried:
                 model = state["model"] = config.AGENT_FALLBACK_MODEL
                 _fallback_until = time.monotonic() + config.AGENT_FALLBACK_COOLDOWN_S
+                tried.add(model)
+                continue
+            if (status == 429 or overloaded) and config.AGENT_MODEL not in tried:
+                # On the fallback because of an earlier failure, and it failed
+                # too: the main model may have recovered since, so try it.
+                model = state["model"] = config.AGENT_MODEL
+                tried.add(model)
                 continue
             raise GeminiUnavailable(_plain(err, status), status) from err
