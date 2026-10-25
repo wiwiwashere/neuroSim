@@ -11,6 +11,10 @@ import type {
   AgentReply,
   ChatRequest,
   Comparison,
+  CustomDisease,
+  CustomInput,
+  CustomPreview,
+  CustomRowInput,
   DegenerationSeries,
   DirectTargets,
   EvidenceEdits,
@@ -21,6 +25,7 @@ import type {
   GeneOption,
   GroupLevel,
   LlmInfo,
+  NameMatch,
   NeuronExplanation,
   PaperInput,
   RunSummary,
@@ -97,14 +102,14 @@ const q = (params: Record<string, string | boolean | undefined>) => {
 export const api = {
   diseases: () => request<string[]>("/diseases"),
   genes: (disease: string) => request<GeneOption[]>(`/diseases/${encodeURIComponent(disease)}/genes`),
-  chain: (gene: string, highConfidenceOnly: boolean) =>
+  chain: (gene: string, highConfidenceOnly: boolean, disease?: string) =>
     request<SeedSet>(
-      `/genes/${encodeURIComponent(gene)}/chain${q({ high_confidence_only: highConfidenceOnly || undefined })}`,
+      `/genes/${encodeURIComponent(gene)}/chain${q({ high_confidence_only: highConfidenceOnly || undefined, disease })}`,
     ),
   expression: (gene: string) => request<GeneExpression | null>(`/genes/${encodeURIComponent(gene)}/expression`),
-  targets: (gene: string, highConfidenceOnly: boolean) =>
+  targets: (gene: string, highConfidenceOnly: boolean, disease?: string) =>
     request<DirectTargets | null>(
-      `/genes/${encodeURIComponent(gene)}/targets${q({ high_confidence_only: highConfidenceOnly || undefined })}`,
+      `/genes/${encodeURIComponent(gene)}/targets${q({ high_confidence_only: highConfidenceOnly || undefined, disease })}`,
     ),
   simulate: (body: SimulationRequest) =>
     request<SimulationResult>("/simulate", { method: "POST", body: JSON.stringify(body) }),
@@ -138,7 +143,23 @@ export const api = {
   approvedEvidence: () => request<EvidenceRow[]>("/evidence/approved"),
   removeEvidence: (rowId: string) =>
     request<{ removed: string }>(`/evidence/approved/${encodeURIComponent(rowId)}`, { method: "DELETE" }),
+  // User-supplied diseases (bio/custom.py).
+  customDiseases: () => request<CustomDisease[]>("/custom/diseases"),
+  previewCustom: (input: CustomInput) => {
+    const form = new FormData();
+    if ("file" in input) form.append("file", input.file);
+    else form.append("rows", JSON.stringify(input.rows));
+    if (input.disease) form.append("disease", input.disease);
+    return request<CustomPreview>("/custom/preview", { method: "POST", body: form });
+  },
+  saveCustom: (body: { name: string; file: string; rows: CustomRowInput[] }) =>
+    request<CustomDisease>("/custom/diseases", { method: "POST", body: JSON.stringify(body) }),
+  removeCustom: (id: string) => request<{ removed: string }>(`/custom/diseases/${encodeURIComponent(id)}`, { method: "DELETE" }),
+  customNames: (query: string) => request<NameMatch[]>(`/custom/names${q({ q: query })}`),
 };
+
+/** Downloadable templates for a user-supplied disease table (served by the API). */
+export const customTemplateUrl = (format: "csv" | "json") => `/api/custom/template.${format}`;
 
 /** FlyBase page for an anatomy ontology term (FBbt_00110931 -> FBbt:00110931). */
 export const flybaseTermUrl = (fbbt: string) => `https://flybase.org/reports/${fbbt.replace("_", ":")}`;

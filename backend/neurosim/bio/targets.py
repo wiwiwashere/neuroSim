@@ -83,16 +83,17 @@ def _target_expression(block: dict, table: dict, fly_genes: list[str]) -> dict[s
 
 
 def direct_targets(human_gene: str, high_confidence_only: bool = False, table: dict | None = None,
-                   top: int = config.TOP_DIRECT_TARGETS) -> DirectTargets | None:
+                   top: int = config.TOP_DIRECT_TARGETS, disease: str | None = None) -> DirectTargets | None:
     """The cell types the gene's lost clusters synapse onto, most synapses first.
-    None when the table is missing or no evidence row names a cluster for the gene."""
+    None when the table is missing or no evidence row names a cluster the table
+    has a column for (user-supplied cell types have none)."""
     from neurosim.bio import evidence
 
     table = table or evidence.load_evidence()
     block = _block(table)
     if block is None:
         return None
-    clusters = list(dict.fromkeys(c for row in evidence.evidence_for(human_gene, high_confidence_only)
+    clusters = list(dict.fromkeys(c for row in evidence.evidence_for(human_gene, high_confidence_only, disease)
                                   for c in row.clusters))
     if high_confidence_only:
         clusters = [c for c in clusters if evidence.cluster_cell_types(c, True)[1]]
@@ -101,6 +102,8 @@ def direct_targets(human_gene: str, high_confidence_only: bool = False, table: d
 
     columns = block["cluster_columns"]
     covered = [c for c in clusters if c in columns]
+    if not covered:
+        return None
     downstream = _csv(config.DOWNSTREAM_PATH)
     downstream = downstream[downstream["flywire_type"] != UNLABELLED]
     # ALL_DA spans every column, so with it in the set each column counts once.

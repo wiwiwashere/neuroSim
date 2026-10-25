@@ -16,19 +16,20 @@ Data source, decided once at startup:
 
 from __future__ import annotations
 
+import json
 import os
 from contextlib import contextmanager
 
 from fastapi import FastAPI, Form, HTTPException, Request, UploadFile
 from fastapi.concurrency import run_in_threadpool
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel
 
 from neurosim import config
 from neurosim.agent import agent, papers, summary
 from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
-from neurosim.bio import evidence, expression, targets
+from neurosim.bio import custom, evidence, expression, targets
 from neurosim.engine import degeneration, pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import (
@@ -111,10 +112,11 @@ def genes(disease: str) -> list[dict]:
 
 
 @app.get("/genes/{human_gene}/chain")
-def mapping_chain(human_gene: str, high_confidence_only: bool = False) -> dict:
+def mapping_chain(human_gene: str, high_confidence_only: bool = False, disease: str | None = None) -> dict:
     """Everything for the mapping-chain screen: ortholog, evidence rows,
-    clusters, cell types, neuron counts, confidence at every link."""
-    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
+    clusters, cell types, neuron counts, confidence at every link. disease
+    keeps one disease's rows (the UI sends it for user-added diseases)."""
+    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only, disease=disease)
     with _http_errors():
         return (mocks.mock_seeds(request) if USE_MOCKS else evidence.resolve_seeds(request)).model_dump()
 
@@ -127,12 +129,12 @@ def gene_expression(human_gene: str) -> GeneExpression | None:
 
 
 @app.get("/genes/{human_gene}/targets")
-def direct_targets(human_gene: str, high_confidence_only: bool = False) -> DirectTargets | None:
+def direct_targets(human_gene: str, high_confidence_only: bool = False, disease: str | None = None) -> DirectTargets | None:
     """Cell types the gene's lost clusters synapse onto directly, from Kait's
     one-hop table, with atlas expression where it was measured; null when no
     evidence row names a cluster. Real FlyWire connectivity even while the
     engine serves mocks, since nothing here is simulated."""
-    return targets.direct_targets(human_gene, high_confidence_only)
+    return targets.direct_targets(human_gene, high_confidence_only, disease=disease)
 
 
 @app.post("/simulate")
@@ -284,3 +286,91 @@ def evidence_remove(row_id: str) -> dict:
         raise HTTPException(404, str(err.args[0])) from err
     pipeline.clear_cache()
     return {"removed": row_id}
+
+
+# --- User-supplied diseases (bio/custom.py) ------------------------------------------
+
+
+@app.get("/custom/diseases")
+def custom_diseases() -> list[dict]:
+    """Diseases someone added through the app, with their rows. Each also
+    appears in GET /diseases, so the picker tags them "your data"."""
+    return custom.list_custom()
+
+
+@app.post("/custom/preview")
+async def custom_preview(
+    file: UploadFile | None = None, rows: str | None = Form(None), disease: str | None = Form(None)
+) -> dict:
+    """Check rows without saving: a CSV/JSON file (file) or rows typed in the
+    app (rows, a JSON list), plus an optional disease name. Every row comes
+    back with its checks (ortholog, each affected name resolved with its
+    neuron count, duplicates, confidence, non-dopamine notes)."""
+    try:
+        if file is not None:
+            parsed = custom.parse_upload(file.filename or "upload.csv", await file.read())
+            return custom.preview(parsed, disease, file.filename or "upload.csv")
+        if rows:
+            return custom.preview(_rows_json(rows), disease)
+        raise custom.CustomError("Give a CSV/JSON file or some rows.")
+    except custom.CustomError as err:
+        raise HTTPException(400, str(err)) from err
+
+
+class CustomDisease(BaseModel):
+    name: str | None = None
+    file: str = "typed in"
+    rows: list[dict]
+
+
+@app.post("/custom/diseases")
+def custom_save(body: CustomDisease) -> dict:
+    """Save a user-supplied disease (the reviewed, possibly edited rows). Refused
+    while any row still has a problem. Replaces an earlier save of the same
+    disease and clears cached runs, since the evidence table changed."""
+    try:
+        saved = custom.save(body.rows, body.name, body.file)
+    except custom.CustomError as err:
+        raise HTTPException(400, str(err)) from err
+    pipeline.clear_cache()
+    return saved
+
+
+@app.delete("/custom/diseases/{disease_id}")
+def custom_remove(disease_id: str) -> dict:
+    """Take a user-supplied disease, its rows and its orthologs back out."""
+    try:
+        custom.remove(disease_id)
+    except KeyError as err:
+        raise HTTPException(404, str(err.args[0])) from err
+    pipeline.clear_cache()
+    return {"removed": disease_id}
+
+
+@app.get("/custom/names")
+def custom_names(q: str = "", limit: int = 12) -> list[dict]:
+    """Dopamine clusters and FlyWire cell types matching a prefix, with neuron
+    counts, for the form's autocomplete."""
+    return custom.search_names(q, limit)
+
+
+@app.get("/custom/template.csv", response_class=PlainTextResponse)
+def custom_template_csv() -> PlainTextResponse:
+    return PlainTextResponse(custom.template_csv(), media_type="text/csv",
+                             headers={"Content-Disposition": 'attachment; filename="neurosim-disease-template.csv"'})
+
+
+@app.get("/custom/template.json")
+def custom_template_json() -> JSONResponse:
+    return JSONResponse(custom.template_json(),
+                        headers={"Content-Disposition": 'attachment; filename="neurosim-disease-template.json"'})
+
+
+def _rows_json(text: str) -> list[dict]:
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError as err:
+        raise custom.CustomError(f"rows must be a JSON list ({err.msg}).") from err
+    if not isinstance(parsed, list) or not all(isinstance(r, dict) for r in parsed):
+        raise custom.CustomError("rows must be a JSON list of row objects.")
+    return parsed

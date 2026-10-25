@@ -19,7 +19,10 @@ import {
   tpm,
   UploadedQuote,
   uniqueEvidence,
+  UserSuppliedBadge,
+  UserSuppliedNote,
 } from "./primitives";
+import { useCustomDiseaseId } from "./custom-disease";
 
 /** One link in the chain. The rail on the left joins the cards into a sequence. */
 function Link({ kicker, children, confidence, last }: { kicker: string; children: ReactNode; confidence?: number; last?: boolean }) {
@@ -44,9 +47,11 @@ export function MappingChain() {
   const option = genes.data?.find((g) => g.human_gene === ws.gene);
   const simulatable = option?.simulatable ?? false;
 
+  // A user-added disease may reuse a built-in gene, so its chain asks for its own rows only.
+  const customId = useCustomDiseaseId();
   const chain = useQuery({
-    queryKey: ["chain", ws.gene, ws.highConfidenceOnly],
-    queryFn: () => api.chain(ws.gene!, ws.highConfidenceOnly),
+    queryKey: ["chain", ws.gene, ws.highConfidenceOnly, customId],
+    queryFn: () => api.chain(ws.gene!, ws.highConfidenceOnly, customId),
     enabled: !!ws.gene && simulatable,
   });
   // The atlas needs no evidence rows, so genes that can't be simulated yet still get it.
@@ -127,6 +132,12 @@ export function MappingChain() {
       <StepHeading title="Why these neurons?" aside={toggle} />
       {chain.error && <ErrorNote error={chain.error} />}
       {chain.isPending && <div className="h-64 animate-pulse rounded-lg bg-muted/60" />}
+      {c?.user_supplied && (
+        <p className="mb-2 flex flex-wrap items-center gap-1.5 rounded-md border border-dashed border-seed/60 px-2.5 py-1.5 text-[11.5px] leading-snug text-muted-foreground">
+          <UserSuppliedBadge />
+          These seeds come from a table someone added in the app, not from the curated evidence.
+        </p>
+      )}
       {c && (
         <ol className="grid gap-2.5">
           <Link kicker="Human gene">
@@ -147,13 +158,14 @@ export function MappingChain() {
             </p>
           </Link>
 
-          <Link kicker="Dopamine clusters lost">
+          <Link kicker={c.user_supplied ? "Neurons affected" : "Dopamine clusters lost"}>
             <p className="font-mono text-[14px]">{clusters.join(", ")}</p>
             <ul className="mt-1.5 grid gap-2">
               {evidence.map((e) => (
                 <li key={evidenceKey(e)} className="border-t pt-1.5 text-[12px] leading-snug">
                   <p className="text-foreground/90">{e.finding}</p>
                   <UploadedQuote row={e} />
+                  <UserSuppliedNote row={e} />
                   <div className="mt-1 flex items-center justify-between gap-2 text-muted-foreground">
                     <a href={e.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline-offset-2 hover:underline">
                       {e.citation}

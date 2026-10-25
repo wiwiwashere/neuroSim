@@ -51,7 +51,7 @@ def mock_seeds(request: SimulationRequest | str = "PRKN") -> SeedSet:
     if not ortholog.fly_genes:
         raise evidence.SeedError(f"{gene} has no fly ortholog, so it cannot be simulated in the fly connectome")
     seeds = SeedSet(
-        disease="parkinsons",
+        disease=request.disease or "parkinsons",
         human_gene=gene,
         ortholog=ortholog,
         seed_types=[
@@ -86,6 +86,8 @@ def _mock_run_id(request: SimulationRequest) -> str:
         parts.append("hc")
     if request.seed_cell_types:
         parts.append("+".join(sorted(request.seed_cell_types)))
+    if request.disease:
+        parts.append(request.disease)
     return "-".join(parts)
 
 

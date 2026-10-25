@@ -10,6 +10,7 @@ export type SeedSet = S["SeedSet"];
 export type SeedType = S["SeedType"];
 export type EvidenceRow = S["EvidenceRow"];
 export type PaperSource = S["PaperSource"];
+export type UserSource = S["UserSource"];
 export type Ortholog = S["Ortholog"];
 export type GeneExpression = S["GeneExpression"];
 export type CellTypeExpression = S["CellTypeExpression"];
@@ -175,3 +176,95 @@ export interface EvidenceExtraction {
   fallback: boolean;
   rows: EvidenceProposal[];
 }
+
+// --- User-supplied diseases (bio/custom.py) ---------------------------------------
+
+/** One row as the person wrote it (CSV/JSON column names or the form). */
+export interface CustomRowInput {
+  disease?: string;
+  human_gene: string;
+  fly_gene?: string;
+  /** Dopamine clusters and/or FlyWire cell types; a string is split on ; */
+  affected: string[] | string;
+  model_type?: string;
+  finding?: string;
+  citation?: string;
+  url?: string;
+  tier?: EvidenceTier | "";
+}
+
+/** What one affected name resolved to. */
+export interface AffectedCheck {
+  name: string;
+  kind: "cluster" | "cell_type" | "unknown" | "unchecked";
+  match: "exact" | "inferred" | null;
+  n_cell_types: number;
+  n_neurons: number | null;
+  dopamine: boolean | null;
+  suggestions: string[];
+}
+
+export interface CustomRowChecks {
+  ortholog: { known: boolean; fly_genes: string[]; confidence: number; user_supplied: boolean };
+  affected: AffectedCheck[];
+  confidence: number | null;
+  can_seed: boolean;
+  /** Stops the save. */
+  problems: string[];
+  /** Worth knowing, doesn't stop the save (non-dopamine seeds, your own ortholog call). */
+  notes: string[];
+}
+
+/** A row after POST /custom/preview: normalised, with its checks. */
+export interface CustomRow {
+  disease: string;
+  human_gene: string;
+  fly_gene: string;
+  affected: string[];
+  model_type: string;
+  finding: string;
+  citation: string;
+  url: string;
+  tier: EvidenceTier;
+  checks: CustomRowChecks;
+}
+
+export interface CustomPreview {
+  disease: { id: string; name: string };
+  file: string;
+  rows: CustomRow[];
+  ok: boolean;
+  /** Problems with the upload as a whole (no name, two diseases, a built-in name). */
+  problems: string[];
+}
+
+/** GET /custom/diseases: a saved user-supplied disease. */
+export interface CustomDisease {
+  id: string;
+  name: string;
+  file: string;
+  added_at: string;
+  n_rows: number;
+  genes: string[];
+  rows: {
+    human_gene: string;
+    fly_gene: string;
+    affected: string[];
+    tier: EvidenceTier;
+    finding: string;
+    citation: string;
+    url: string;
+    model_type: string;
+    non_dopamine: string[];
+  }[];
+}
+
+/** GET /custom/names: autocomplete for affected names. */
+export interface NameMatch {
+  name: string;
+  kind: "cluster" | "cell_type";
+  n_neurons: number | null;
+  dopamine: boolean;
+}
+
+export type CustomInput = { file: File; disease?: string } | { rows: CustomRowInput[]; disease?: string };

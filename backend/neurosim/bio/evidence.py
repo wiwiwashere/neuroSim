@@ -43,13 +43,30 @@ class SeedError(ValueError):
 def load_evidence() -> dict:
     """Read data/evidence.json, plus the rows Bio approved from paper uploads
     in config.APPROVED_EVIDENCE_PATH if that file exists (same row shape, with
-    an extra "extracted" block). Validate every evidence row against
-    EvidenceRow and fail loudly on a row without a citation."""
+    an extra "extracted" block), plus the diseases someone added through the
+    app in config.CUSTOM_DISEASES_PATH (bio/custom.py; rows carry a
+    "user_supplied" block, their orthologs fill gaps in the table, and an
+    affected FlyWire cell type becomes a one-type cluster). Validate every
+    evidence row against EvidenceRow and fail loudly on a row without a citation."""
     data = json.loads(config.EVIDENCE_PATH.read_text())
     raw_rows = [(config.EVIDENCE_PATH.name, raw) for raw in data.get("evidence", [])]
     if config.APPROVED_EVIDENCE_PATH.exists():
         approved = json.loads(config.APPROVED_EVIDENCE_PATH.read_text())
         raw_rows += [(config.APPROVED_EVIDENCE_PATH.name, raw) for raw in approved.get("evidence", [])]
+    if config.CUSTOM_DISEASES_PATH.exists():
+        clusters = data.setdefault("cluster_to_cell_types", {})
+        for custom in json.loads(config.CUSTOM_DISEASES_PATH.read_text()).get("diseases", []):
+            for gene, entry in custom.get("orthologs", {}).items():
+                known = data["orthologs"].get(gene)
+                if not isinstance(known, dict):
+                    data["orthologs"][gene] = dict(entry)
+                elif custom["id"] not in known.get("diseases", []):
+                    known["diseases"] = list(known.get("diseases", [])) + [custom["id"]]
+            for raw in custom.get("evidence", []):
+                for name in raw.get("clusters", []):
+                    if name not in clusters:
+                        clusters[name] = {"match": "exact", "cell_types": [name], "user_supplied": True}
+                raw_rows.append((config.CUSTOM_DISEASES_PATH.name, raw))
     rows = []
     for i, (source, raw) in enumerate(raw_rows):
         row = EvidenceRow(**raw)
@@ -125,11 +142,13 @@ def find_ortholog(human_gene: str) -> Ortholog:
                     confidence=round(confidence, 3))
 
 
-def evidence_for(human_gene: str, high_confidence_only: bool = False) -> list[EvidenceRow]:
-    """Evidence rows for a gene. high_confidence_only drops tier 'low'.
+def evidence_for(human_gene: str, high_confidence_only: bool = False, disease: str | None = None) -> list[EvidenceRow]:
+    """Evidence rows for a gene. high_confidence_only drops tier 'low'; disease
+    keeps one disease's rows (a user-added disease may reuse a built-in gene).
     Never returns the SNCA validation row as a gene seed."""
     return [row for row in load_evidence()["evidence"]
             if row.human_gene == human_gene and not _is_validation(row)
+            and (disease is None or row.disease == disease)
             and not (high_confidence_only and row.tier == "low")]
 
 
@@ -211,10 +230,12 @@ def resolve_seeds(request: SimulationRequest) -> SeedSet:
     ortholog = find_ortholog(gene)
     if not ortholog.fly_genes:
         raise SeedError(f"{gene} has no fly ortholog, so it cannot be simulated in the fly connectome")
-    rows = evidence_for(gene, request.high_confidence_only)
+    rows = evidence_for(gene, request.high_confidence_only, request.disease)
     if not rows:
-        if request.high_confidence_only and evidence_for(gene):
+        if request.high_confidence_only and evidence_for(gene, disease=request.disease):
             raise SeedError(f"no evidence rows for {gene} at medium or high tier")
+        if request.disease and evidence_for(gene):
+            raise SeedError(f"{gene} has no rows for {request.disease}, only for other diseases")
         raise SeedError(f"{gene} has a fly ortholog ({', '.join(ortholog.fly_genes)}), but no paper in the evidence "
                         "table names the dopamine clusters lost in its fly models yet, so there are no seed neurons")
     seed_types = _seed_types(rows, ortholog.confidence, request.high_confidence_only)
@@ -227,8 +248,10 @@ def resolve_seeds(request: SimulationRequest) -> SeedSet:
                         "have no matched cell types" + (" after the filters" if request.seed_cell_types
                                                        or request.high_confidence_only else ""))
     disease = rows[0].disease
+    user_supplied = any(e.user_supplied for t in seed_types for e in t.evidence)
     # Expression is an annotation on the seeds, applied after they are chosen.
-    return expression.annotate(SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types))
+    return expression.annotate(SeedSet(disease=disease, human_gene=gene, ortholog=ortholog, seed_types=seed_types,
+                                       user_supplied=user_supplied))
 
 
 def validation_seeds() -> SeedSet:

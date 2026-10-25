@@ -104,7 +104,39 @@ export function uniqueEvidence(seeds: SeedSet): EvidenceRow[] {
   return [...seen.values()];
 }
 
-export const evidenceKey = (e: EvidenceRow) => e.extracted?.id ?? `${e.citation}|${e.clusters.join()}`;
+export const evidenceKey = (e: EvidenceRow) => e.extracted?.id ?? e.user_supplied?.id ?? `${e.citation}|${e.clusters.join()}`;
+
+/** The one label every view carries for data the person added themselves. */
+export const USER_SUPPLIED_LABEL = "user-supplied · not reviewed by Bio";
+
+export function UserSuppliedBadge({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex h-4 items-center rounded border border-dashed border-seed/70 px-1 text-[10px] font-medium uppercase not-italic tracking-wide text-seed",
+        className,
+      )}
+      title="Added by a user of this app from their own table. Nobody on the team has checked it."
+    >
+      {USER_SUPPLIED_LABEL}
+    </span>
+  );
+}
+
+/** Marks a row from a user-added disease, with where it came from. */
+export function UserSuppliedNote({ row }: { row: EvidenceRow }) {
+  const u = row.user_supplied;
+  if (!u) return null;
+  return (
+    <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-[11.5px] leading-snug text-muted-foreground">
+      <UserSuppliedBadge />
+      <span>from {u.file}</span>
+      {u.non_dopamine && u.non_dopamine.length > 0 && (
+        <span className="text-faint">· {u.non_dopamine.join(", ")} not dopamine; the baseline still draws dopamine neurons</span>
+      )}
+    </p>
+  );
+}
 
 /** Marks a row Bio approved from a paper upload, with the quote it rests on. */
 export function UploadedQuote({ row }: { row: EvidenceRow }) {

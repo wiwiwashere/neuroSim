@@ -85,6 +85,24 @@ picker with `why_not: "no_evidence"` (Kait's ten extra PD genes, VPS35 to
 GBA1). Seeding it raises a `SeedError` saying no paper names its clusters;
 an approved paper row makes it simulatable.
 
+**User-supplied diseases** (`bio/custom.py`, the "Add your own disease"
+panel). A third source merged by `load_evidence()`: `data/custom_diseases.json`
+(gitignored) holds diseases someone added in the app, each with its
+evidence rows (a `user_supplied` block instead of `extracted`) and any
+orthologs our table lacks (`relationship: "user-supplied"`, no DIOPT score,
+so `UNSCORED_ORTHOLOG_CONFIDENCE`). A row's affected names may be clusters
+from the table or FlyWire cell types; a cell type is added to the merged
+`cluster_to_cell_types` as a one-type exact cluster, so seeding, the chain
+and the engine see nothing new. `SimulationRequest.disease` restricts
+`evidence_for` to one disease's rows, which keeps a built-in gene reused in
+a user-added disease from mixing the two. Rows are checked before saving
+(ortholog, every name resolved with its neuron count, duplicates,
+confidence); nothing is reviewed by Bio, and every view says so.
+**Open for CS1:** the null draws random dopamine neurons (section 7), so a
+user-added disease whose seeds are not dopaminergic is compared against a
+pool its seeds don't come from. `check_row` warns about it; whether the
+pool should follow the seeds' neurotransmitter or super class is CS1's call.
+
 **Adding evidence from a paper** (`agent/papers.py`, the "Evidence from a
 paper" panel):
 
@@ -346,7 +364,8 @@ to model settings." If not, the headline claims must be softened.
 - **Seeds are only as good as the papers.** Different studies report
   different clusters; that uncertainty is shown, not removed. Rows approved
   from uploaded papers are read by an LLM and stay unverified until Bio
-  checks the figures.
+  checks the figures. Rows from a user-added disease were never reviewed at
+  all, and their non-dopamine seeds are still compared with a dopamine null.
 - **One brain.** FAFB is a single female fly; individual wiring varies.
 - **Fly, not human.** Results are hypotheses about fly circuits.
 
@@ -383,3 +402,4 @@ stay in sync.
 | Multiple testing | BH FDR 5% | Bonferroni, none | Standard, not over-strict | — |
 | Validation target | Beta-prime MBONs as one pre-registered neuron set, scored against the same nulls | Region or cell-type rank | FlyWire neuropils do not split the medial lobe into compartments, and every MBON type has fewer than 5 neurons, so neither appears in the ranked lists | Real-data run shows the set is too small to reach p < 0.05 |
 | Secondary "vs whole brain" null | Only in the validation script for now | In every GroupScore | Keeps the result contract unchanged | UI wants it next to each group |
+| User-supplied diseases | Extra rows merged into the evidence table, cell types as one-type clusters, labelled everywhere | A separate "custom seeds" request path | No second pipeline to keep in sync; the data-driven chain already takes any disease | CS1 decides whether the null pool should follow non-dopamine seeds |

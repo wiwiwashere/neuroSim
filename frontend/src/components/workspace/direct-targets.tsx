@@ -6,6 +6,7 @@ import { api, flybaseTermUrl } from "@/lib/api";
 import { int } from "@/lib/format";
 import type { DirectTarget } from "@/lib/types";
 import { useWorkspace } from "@/lib/workspace";
+import { useCustomDiseaseId } from "./custom-disease";
 import { ErrorNote, FlyGene, StepHeading, tpm } from "./primitives";
 
 const MATCH_NOTE: Record<string, string> = {
@@ -53,14 +54,17 @@ export function DirectTargets() {
   const ws = useWorkspace();
   const genes = useQuery({ queryKey: ["genes", ws.disease], queryFn: () => api.genes(ws.disease!), enabled: !!ws.disease });
   const simulatable = genes.data?.find((g) => g.human_gene === ws.gene)?.simulatable ?? false;
+  const customId = useCustomDiseaseId();
   const targets = useQuery({
-    queryKey: ["targets", ws.gene, ws.highConfidenceOnly],
-    queryFn: () => api.targets(ws.gene!, ws.highConfidenceOnly),
+    queryKey: ["targets", ws.gene, ws.highConfidenceOnly, customId],
+    queryFn: () => api.targets(ws.gene!, ws.highConfidenceOnly, customId),
     enabled: !!ws.gene && simulatable,
   });
 
   if (!ws.gene || !simulatable) return null;
   const t = targets.data;
+  // null: no cluster of this gene has a column in the table (user-supplied cell types never do).
+  if (targets.data === null) return null;
   const max = t?.targets[0]?.synapses ?? 1;
   const multi = (t?.clusters.length ?? 0) > 1;
 

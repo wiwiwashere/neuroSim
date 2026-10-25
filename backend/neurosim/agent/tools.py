@@ -15,7 +15,7 @@ import json
 
 from neurosim import config
 from neurosim.api import mocks
-from neurosim.bio import evidence, targets
+from neurosim.bio import custom, evidence, targets
 from neurosim.engine import pipeline
 from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SimulationRequest, SimulationResult
 
@@ -31,12 +31,13 @@ def _dump(payload: dict) -> str:
     return json.dumps(payload, default=str)
 
 
-def _seeds(human_gene: str, high_confidence_only: bool) -> SeedSet:
-    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only)
+def _seeds(human_gene: str, high_confidence_only: bool, disease: str | None = None) -> SeedSet:
+    request = SimulationRequest(human_gene=human_gene, high_confidence_only=high_confidence_only, disease=disease or None)
     try:
         return mocks.mock_seeds(request) if config.USE_MOCKS else evidence.resolve_seeds(request)
     except evidence.SeedError as err:
-        known = ", ".join(g["human_gene"] for g in evidence.list_genes("parkinsons") if g["simulatable"])
+        known = ", ".join(f"{g['human_gene']} ({d})" for d in evidence.list_diseases()
+                          for g in evidence.list_genes(d) if g["simulatable"])
         raise ValueError(f"{err}. Genes that can be simulated: {known}.") from err
 
 
@@ -51,6 +52,8 @@ def summarize_result(result: SimulationResult) -> dict:
         "run_id": result.run_id,
         "request": {
             "human_gene": req.human_gene,
+            "disease": result.seeds.disease,
+            "user_supplied": result.seeds.user_supplied,
             "mode": req.mode.value,
             "strength": req.strength,
             "high_confidence_only": req.high_confidence_only,
@@ -85,17 +88,26 @@ def summarize_result(result: SimulationResult) -> dict:
 
 
 def list_diseases() -> str:
-    """List the diseases neuroSim has evidence for."""
-    diseases = ["parkinsons"] if config.USE_MOCKS else evidence.list_diseases()
-    return _dump({"diseases": diseases})
+    """List the diseases neuroSim has evidence for, built in and user-added."""
+    added = {d["id"]: d for d in custom.list_custom()}
+    diseases = [
+        {"id": d, "name": added[d]["name"] if d in added else d, "user_supplied": d in added,
+         "genes": [g["human_gene"] for g in evidence.list_genes(d) if g["simulatable"]]}
+        for d in evidence.list_diseases()
+    ]
+    # The table needs no engine, so no sample note from _dump.
+    return json.dumps({"diseases": diseases, "note": "user_supplied diseases were added by the user and not reviewed "
+                       "by Bio; say so when you report their results."})
 
 
-def get_gene_chain(human_gene: str, high_confidence_only: bool = False) -> str:
+def get_gene_chain(human_gene: str, high_confidence_only: bool = False, disease: str | None = None) -> str:
     """Fly ortholog, lost dopamine clusters, matched cell types, neuron counts, confidence."""
-    seeds = _seeds(human_gene.upper(), high_confidence_only)
+    seeds = _seeds(human_gene.upper(), high_confidence_only, disease)
     return _dump(
         {
             "human_gene": seeds.human_gene,
+            "disease": seeds.disease,
+            "user_supplied": seeds.user_supplied,
             "ortholog": seeds.ortholog.model_dump(),
             "seed_types": [
                 {
@@ -140,10 +152,11 @@ def run_simulation(
     mode: str = "knockout",
     strength: float = 1.0,
     seed_cell_types: list[str] | None = None,
+    disease: str | None = None,
 ) -> str:
     """Run a perturbation; return run id, disruption score and top groups with z-scores."""
     human_gene = human_gene.upper()
-    seeds = _seeds(human_gene, False)
+    seeds = _seeds(human_gene, False, disease)
     if seed_cell_types:
         available = {t.cell_type for t in seeds.seed_types}
         missing = [t for t in seed_cell_types if t not in available]
@@ -154,6 +167,7 @@ def run_simulation(
         mode=PerturbationMode(mode),
         strength=1.0 if mode == "knockout" else strength,
         seed_cell_types=seed_cell_types or None,
+        disease=disease or None,
     )
     return _dump(summarize_result(_simulate(request)))
 
@@ -192,9 +206,11 @@ def _fn(name: str, description: str, properties: dict, required: list[str]) -> d
 
 _GENE = {"type": "string", "description": "Human gene symbol, e.g. PINK1."}
 _RUN = {"type": "string", "description": "Run id from run_simulation."}
+_DISEASE = {"type": "string", "description": "Disease id from list_diseases. Only needed for a user-added disease, "
+            "or when a gene has rows for more than one disease."}
 
 TOOL_DECLARATIONS = [
-    _fn("list_diseases", "List the diseases neuroSim has evidence for.", {}, []),
+    _fn("list_diseases", "List the diseases neuroSim has evidence for (built in and user-added) with their genes.", {}, []),
     _fn(
         "get_gene_chain",
         "Get the mapping chain for a human disease gene: fly ortholog, published evidence "
@@ -206,6 +222,7 @@ TOOL_DECLARATIONS = [
                 "type": "boolean",
                 "description": "Drop low-tier evidence and inferred cell-type matches.",
             },
+            "disease": _DISEASE,
         },
         ["human_gene"],
     ),
@@ -241,6 +258,7 @@ TOOL_DECLARATIONS = [
                 "items": {"type": "string"},
                 "description": 'Optional subset of seed cell types to perturb, e.g. ["PPL101"].',
             },
+            "disease": _DISEASE,
         },
         ["human_gene"],
     ),
