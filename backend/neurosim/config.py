@@ -30,6 +30,9 @@ TARGET_EXPRESSION_PATH = ROOT / "data" / "combinedDatabase.csv"
 FBBT_PATH = ROOT / "data" / "clusterFBbt.csv"
 # Paper rows waiting for Bio's decision, so an API reload doesn't drop them (gitignored).
 PROPOSALS_PATH = ROOT / "data" / "evidence_proposals.json"
+# Diseases someone added through the app (bio/custom.py): their orthologs and
+# evidence rows, user-supplied and never reviewed by Bio (gitignored).
+CUSTOM_DISEASES_PATH = ROOT / "data" / "custom_diseases.json"
 
 # Serve api/mocks.py payloads instead of the engine until the engine works.
 # The API and the agent's tools both read this, so they always agree.

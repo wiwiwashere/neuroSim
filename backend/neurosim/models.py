@@ -39,6 +39,17 @@ class PaperSource(BaseModel):
     approved_at: str
 
 
+class UserSource(BaseModel):
+    """Where a user-supplied row came from (bio/custom.py). Never reviewed by Bio."""
+
+    id: str                              # row id
+    disease_id: str                      # the custom disease it belongs to (removing the disease removes the row)
+    file: str                            # uploaded file name, or "typed in"
+    added_at: str
+    cell_types: list[str] = []           # affected names that are FlyWire cell types, not clusters
+    non_dopamine: list[str] = []         # those that aren't dopamine types (the baseline draws DA neurons)
+
+
 class EvidenceRow(BaseModel):
     """One published finding: in this fly model, these DA clusters were lost."""
 
@@ -53,6 +64,7 @@ class EvidenceRow(BaseModel):
     tier: str                            # "high" | "medium" | "low"
     verified_by_bio: bool = False        # flipped once Bio checks the paper figures
     extracted: PaperSource | None = None # set on rows approved from a paper upload
+    user_supplied: UserSource | None = None   # set on rows from a user-added disease
 
 
 class CellTypeExpression(BaseModel):
@@ -132,6 +144,7 @@ class SeedSet(BaseModel):
     ortholog: Ortholog
     seed_types: list[SeedType]
     expression: GeneExpression | None = None   # None when the atlas has none of the gene's orthologs
+    user_supplied: bool = False          # any seed rests on a user-added row (label it so)
 
     @property
     def root_ids(self) -> list[int]:
@@ -154,6 +167,7 @@ class SimulationRequest(BaseModel):
     decay: float = Field(config.DECAY, gt=0.0, le=1.0)
     high_confidence_only: bool = False   # drop low-tier evidence and inferred type matches
     seed_cell_types: list[str] | None = None   # restrict to these (agent follow-ups)
+    disease: str | None = None           # only this disease's rows (a gene two diseases share); None = every row
 
 
 class GroupLevel(str, Enum):
