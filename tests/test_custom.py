@@ -128,7 +128,7 @@ def test_json_upload_and_templates_round_trip():
     tmpl = custom.template_json()
     data = json.dumps({"disease": tmpl["disease"], "rows": tmpl["rows"]}).encode()
     rows = custom.parse_upload("t.json", data)
-    assert rows[0]["disease"] == "Huntington's disease" and rows[0]["affected"] == ["PAM", "MBON01"]
+    assert rows[0]["disease"] == custom.EXAMPLE_DISEASE and rows[0]["affected"] == ["PAM", "PPL1"]
     csv_rows = custom.parse_upload("t.csv", custom.template_csv().encode())
     assert [r["affected"] for r in csv_rows] == [r["affected"] for r in rows]
     with pytest.raises(custom.CustomError, match="header"):
@@ -257,3 +257,24 @@ def test_run_refuses_a_seed_set_bigger_than_the_pool():
     with pytest.raises(evidence.SeedError, match="more than the"):
         pipeline.run_simulation(SimulationRequest(human_gene="HTT", disease="big"), seeds=seeds)
 
+
+def test_example_rows_pass_the_checks():
+    """The template is the "Use the example" button's data, so it has to come
+    through clean: a name, every row seedable, no problems. On the real
+    connectome when data/processed is here, else on the synthetic brain's names."""
+    from neurosim.engine.graph import processed_data_available
+
+    if processed_data_available():
+        set_connectome(None)
+        custom._catalogue_for.cache_clear()
+    tmpl = custom.template_json()
+    rows = [{**r, "affected": "; ".join(r["affected"])} for r in tmpl["rows"]]
+    out = custom.preview(rows, tmpl["disease"], "template.json")
+    if not processed_data_available():
+        pytest.skip("the example names are FlyWire types; the synthetic brain has only some of them")
+    assert out["ok"], [r["checks"]["problems"] for r in out["rows"]]
+    assert out["disease"]["id"] not in custom.builtin_diseases()
+    assert all(r["checks"]["can_seed"] for r in out["rows"])
+    assert all(custom.EXAMPLE_CITATION == r["citation"] for r in out["rows"])
+    csv_rows = custom.parse_upload("template.csv", custom.template_csv().encode())
+    assert custom.preview(csv_rows, filename="template.csv")["ok"]

@@ -55,12 +55,20 @@ MAX_ROWS = 50
 MAX_BYTES = 2 * 1024 * 1024
 SEPARATORS = re.compile(r"[;|]")
 
+# Example rows: real FlyWire v783 names that pass every check, so a person can
+# load them with "Use the example" (or download them as the CSV/JSON template)
+# and run them. They are illustrations of the format, not reviewed findings.
+EXAMPLE_DISEASE = "Huntington's disease (example)"
+EXAMPLE_CITATION = "Example rows, not a reviewed finding"
 TEMPLATE_ROWS = [
-    {"disease": "Huntington's disease", "human_gene": "HTT", "fly_gene": "htt", "affected": "PAM; MBON01",
-     "model_type": "overexpression", "finding": "Expanded-repeat HTT expressed in dopamine neurons caused PAM loss.",
-     "citation": "Your source, e.g. Smith et al. 2020, J Neurosci", "url": "https://doi.org/...", "tier": "medium"},
-    {"disease": "Huntington's disease", "human_gene": "HTT", "fly_gene": "htt", "affected": "KCg-m",
-     "model_type": "other", "finding": "Replace this row with your own, or delete it.", "citation": "", "url": "", "tier": "low"},
+    {"disease": EXAMPLE_DISEASE, "human_gene": "HTT", "fly_gene": "htt", "affected": "PAM; PPL1",
+     "model_type": "overexpression",
+     "finding": "Expanded-repeat HTT expressed in dopamine neurons leads to PAM and PPL1 loss.",
+     "citation": EXAMPLE_CITATION, "url": "", "tier": "high"},
+    {"disease": EXAMPLE_DISEASE, "human_gene": "HTT", "fly_gene": "htt", "affected": "MBON01; MBON03",
+     "model_type": "other",
+     "finding": "Two mushroom body output neuron types, to show a cell type that is not dopaminergic.",
+     "citation": EXAMPLE_CITATION, "url": "", "tier": "low"},
 ]
 FIELD_HELP = {
     "disease": "Disease name, the same on every row (Huntington's disease).",
