@@ -28,12 +28,13 @@ from neurosim import config
 from neurosim.agent import agent, papers, summary
 from neurosim.agent.gemini import GeminiUnavailable
 from neurosim.api import mocks
-from neurosim.bio import evidence, expression
+from neurosim.bio import evidence, expression, targets
 from neurosim.engine import degeneration, pipeline
 from neurosim.engine.graph import processed_data_available, set_connectome
 from neurosim.models import (
     Comparison,
     DegenerationSeries,
+    DirectTargets,
     GeneExpression,
     GroupLevel,
     SankeyLink,
@@ -123,6 +124,15 @@ def gene_expression(human_gene: str) -> GeneExpression | None:
     """Kait's atlas values for the gene's fly orthologs (PAM only), or null.
     From the evidence table, so it works for genes that can't be simulated yet."""
     return expression.gene_expression(human_gene)
+
+
+@app.get("/genes/{human_gene}/targets")
+def direct_targets(human_gene: str, high_confidence_only: bool = False) -> DirectTargets | None:
+    """Cell types the gene's lost clusters synapse onto directly, from Kait's
+    one-hop table, with atlas expression where it was measured; null when no
+    evidence row names a cluster. Real FlyWire connectivity even while the
+    engine serves mocks, since nothing here is simulated."""
+    return targets.direct_targets(human_gene, high_confidence_only)
 
 
 @app.post("/simulate")
