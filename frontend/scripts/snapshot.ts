@@ -57,6 +57,7 @@ for (const disease of diseases) {
     await save(`/genes/${encodeURIComponent(gene)}/expression`);
     if (!g.simulatable) continue;
     for (const hc of [false, true]) {
+      await save(`/genes/${encodeURIComponent(gene)}/targets${hc ? "?high_confidence_only=true" : ""}`);
       const chain = await save(`/genes/${encodeURIComponent(gene)}/chain${hc ? "?high_confidence_only=true" : ""}`);
       const base = { human_gene: gene, high_confidence_only: hc };
       const ko = await saveRun({ ...base, mode: "knockout", strength: 1 });

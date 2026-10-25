@@ -88,6 +88,29 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/genes/{human_gene}/targets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Direct Targets
+         * @description Cell types the gene's lost clusters synapse onto directly, from Kait's
+         *     one-hop table, with atlas expression where it was measured; null when no
+         *     evidence row names a cluster. Real FlyWire connectivity even while the
+         *     engine serves mocks, since nothing here is simulated.
+         */
+        get: operations["direct_targets_genes__human_gene__targets_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/simulate": {
         parameters: {
             query?: never;
@@ -159,6 +182,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/runs/{run_id}/dynamics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Dynamics
+         * @description neurolib / Wilson–Cowan time-series: how activity in the top affected
+         *     regions evolves as seed neurons lose function over simulated time T.
+         *     CPU-bound; runs off the event loop.
+         */
+        get: operations["dynamics_runs__run_id__dynamics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/runs/{run_id}/neurons/{root_id}/explain": {
         parameters: {
             query?: never;
@@ -193,6 +238,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/agent/llm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Agent Llm
+         * @description Which model family answers the agent, summaries and paper extraction
+         *     (NEUROSIM_LLM), so the UI can name it.
+         */
+        get: operations["agent_llm_agent_llm_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/agent/chat": {
         parameters: {
             query?: never;
@@ -207,7 +273,8 @@ export interface paths {
          * @description {"message", "interaction_id": str | None, "context": {...} | None} in,
          *     {"reply", "tool_calls": [{"name", "arguments", "error"}], "run_ids",
          *     "interaction_id", "model"} out.
-         *     The frontend keeps only the latest interaction_id (Gemini holds the history)
+         *     The frontend keeps only the latest interaction_id (Gemini's server or, for
+         *     Gemma, agent.py holds the history)
          *     and shows tool_calls so users see the agent used real results.
          */
         post: operations["agent_chat_agent_chat_post"];
@@ -228,7 +295,7 @@ export interface paths {
         put?: never;
         /**
          * Run Summary
-         * @description Gemini's structured summary card for one run (cached per run): headline,
+         * @description The model's structured summary card for one run (cached per run): headline,
          *     top circuits with the run's own z-scores, caveats, one next experiment.
          */
         post: operations["run_summary_runs__run_id__summary_post"];
@@ -409,6 +476,76 @@ export interface components {
             edits?: {
                 [key: string]: unknown;
             } | null;
+        };
+        /** DegenerationFrame */
+        DegenerationFrame: {
+            /** T */
+            t: number;
+            /** Region Activity */
+            region_activity: {
+                [key: string]: number;
+            };
+            /** Seed Health */
+            seed_health: number;
+        };
+        /** DegenerationSeries */
+        DegenerationSeries: {
+            /** Run Id */
+            run_id: string;
+            /** Frames */
+            frames: components["schemas"]["DegenerationFrame"][];
+            /** Dt */
+            dt: number;
+            /** Total T */
+            total_t: number;
+            /** N Regions */
+            n_regions: number;
+            /** Model */
+            model: string;
+        };
+        /**
+         * DirectTarget
+         * @description One FlyWire cell type that the gene's lost clusters synapse onto directly.
+         */
+        DirectTarget: {
+            /** Cell Type */
+            cell_type: string;
+            /** Synapses */
+            synapses: number;
+            /** By Cluster */
+            by_cluster: {
+                [key: string]: number;
+            };
+            /** N Neurons */
+            n_neurons: number;
+            expression?: components["schemas"]["TargetExpression"] | null;
+        };
+        /**
+         * DirectTargets
+         * @description Where the lost dopamine neurons send their output, one synapse away.
+         *     Connectivity from Kait's table, not a simulation result.
+         */
+        DirectTargets: {
+            /** Human Gene */
+            human_gene: string;
+            /** Clusters */
+            clusters: string[];
+            /** Clusters Not Covered */
+            clusters_not_covered: string[];
+            /** Total Synapses */
+            total_synapses: number;
+            /** N Target Types */
+            n_target_types: number;
+            /** Targets */
+            targets: components["schemas"]["DirectTarget"][];
+            /** N Types With Expression */
+            n_types_with_expression: number;
+            /** Citation */
+            citation: string;
+            /** Expression Citation */
+            expression_citation?: string | null;
+            /** Expression Url */
+            expression_url?: string | null;
         };
         /**
          * EvidenceRow
@@ -695,6 +832,27 @@ export interface components {
             /** Edges */
             edges: components["schemas"]["GraphEdge"][];
         };
+        /**
+         * TargetExpression
+         * @description A fly gene's atlas value in one downstream cell type (bio/targets.py). Context only.
+         */
+        TargetExpression: {
+            /** Tpm */
+            tpm: {
+                [key: string]: number;
+            };
+            /** Atlas Label */
+            atlas_label: string;
+            /** Match */
+            match: string;
+            /**
+             * Fbbt Ids
+             * @default []
+             */
+            fbbt_ids?: string[];
+            /** Note */
+            note?: string | null;
+        };
         /** ValidationError */
         ValidationError: {
             /** Location */
@@ -836,6 +994,39 @@ export interface operations {
             };
         };
     };
+    direct_targets_genes__human_gene__targets_get: {
+        parameters: {
+            query?: {
+                high_confidence_only?: boolean;
+            };
+            header?: never;
+            path: {
+                human_gene: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DirectTargets"] | null;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     simulate_simulate_post: {
         parameters: {
             query?: never;
@@ -962,6 +1153,40 @@ export interface operations {
             };
         };
     };
+    dynamics_runs__run_id__dynamics_get: {
+        parameters: {
+            query?: {
+                n_regions?: number;
+                T?: number;
+            };
+            header?: never;
+            path: {
+                run_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DegenerationSeries"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     explain_runs__run_id__neurons__root_id__explain_get: {
         parameters: {
             query?: never;
@@ -1025,6 +1250,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    agent_llm_agent_llm_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

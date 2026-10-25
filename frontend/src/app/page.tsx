@@ -1,4 +1,5 @@
 import { AgentPanel } from "@/components/workspace/agent-panel";
+import { DirectTargets } from "@/components/workspace/direct-targets";
 import { DiseasePicker, GenePicker } from "@/components/workspace/gene-picker";
 import { MappingChain } from "@/components/workspace/mapping-chain";
 import { PaperEvidence } from "@/components/workspace/paper-evidence";
@@ -17,6 +18,7 @@ export default function Workspace() {
           <DiseasePicker />
           <GenePicker />
           <MappingChain />
+          <DirectTargets />
           <PaperEvidence />
           <Perturbation />
         </aside>

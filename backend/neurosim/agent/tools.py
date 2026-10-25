@@ -15,7 +15,7 @@ import json
 
 from neurosim import config
 from neurosim.api import mocks
-from neurosim.bio import evidence
+from neurosim.bio import evidence, targets
 from neurosim.engine import pipeline
 from neurosim.models import GroupLevel, PerturbationMode, SeedSet, SimulationRequest, SimulationResult
 
@@ -116,6 +116,25 @@ def get_gene_chain(human_gene: str, high_confidence_only: bool = False) -> str:
     )
 
 
+def get_direct_targets(human_gene: str, high_confidence_only: bool = False) -> str:
+    """Cell types the gene's lost clusters synapse onto, with atlas expression where measured."""
+    found = targets.direct_targets(human_gene.upper(), high_confidence_only)
+    if found is None:
+        raise ValueError(f"no evidence row names the dopamine clusters lost for {human_gene.upper()}, "
+                         "so there are no direct targets to list")
+    payload = found.model_dump(exclude={"targets"})
+    payload["targets"] = [
+        {"cell_type": t.cell_type, "synapses": t.synapses, "by_cluster": t.by_cluster, "n_neurons": t.n_neurons,
+         "expression_tpm": t.expression.tpm if t.expression else "not measured",
+         **({"atlas_match": t.expression.match} if t.expression else {})}
+        for t in found.targets
+    ]
+    payload["note"] = ("Synapse counts from FlyWire connections, not a simulation. Expression is bulk RNA-seq "
+                       "context; 'not measured' does not mean not expressed.")
+    # Real data in mock mode too, so no sample note from _dump.
+    return json.dumps(payload, default=str)
+
+
 def run_simulation(
     human_gene: str,
     mode: str = "knockout",
@@ -155,6 +174,7 @@ def explain_neuron(run_id: str, root_id: int) -> str:
 TOOLS = {
     "list_diseases": list_diseases,
     "get_gene_chain": get_gene_chain,
+    "get_direct_targets": get_direct_targets,
     "run_simulation": run_simulation,
     "compare_runs": compare_runs,
     "explain_neuron": explain_neuron,
@@ -180,6 +200,21 @@ TOOL_DECLARATIONS = [
         "Get the mapping chain for a human disease gene: fly ortholog, published evidence "
         "of which dopamine neuron clusters are lost, matched connectome cell types, neuron "
         "counts and the confidence of every link.",
+        {
+            "human_gene": _GENE,
+            "high_confidence_only": {
+                "type": "boolean",
+                "description": "Drop low-tier evidence and inferred cell-type matches.",
+            },
+        },
+        ["human_gene"],
+    ),
+    _fn(
+        "get_direct_targets",
+        "List the connectome cell types that the gene's lost dopamine clusters synapse onto "
+        "directly (one synapse away), with synapse counts per cluster and, where the "
+        "expression atlas measured them, the fly ortholog's expression in those targets. "
+        "Real FlyWire connectivity, available even when simulations return sample numbers.",
         {
             "human_gene": _GENE,
             "high_confidence_only": {

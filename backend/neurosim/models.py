@@ -77,6 +77,42 @@ class GeneExpression(BaseModel):
     url: str
 
 
+class TargetExpression(BaseModel):
+    """A fly gene's atlas value in one downstream cell type (bio/targets.py). Context only."""
+
+    tpm: dict[str, float]                # fly gene -> TPM
+    atlas_label: str                     # "alpha/beta posterior Kenyon cell"
+    match: str                           # "exact" | "coarse" (a pooled line) | "inferred" (a promoter fusion)
+    fbbt_ids: list[str] = []             # FlyBase anatomy ids of the atlas label(s)
+    note: str | None = None
+
+
+class DirectTarget(BaseModel):
+    """One FlyWire cell type that the gene's lost clusters synapse onto directly."""
+
+    cell_type: str                       # "KCg-m"
+    synapses: int                        # from the gene's clusters only
+    by_cluster: dict[str, int]           # evidence cluster -> synapses, zeros left out
+    n_neurons: int                       # neurons of this type that get any DA input (all five clusters)
+    expression: TargetExpression | None = None   # None = not measured, never "not expressed"
+
+
+class DirectTargets(BaseModel):
+    """Where the lost dopamine neurons send their output, one synapse away.
+    Connectivity from Kait's table, not a simulation result."""
+
+    human_gene: str
+    clusters: list[str]                  # evidence clusters the table covers
+    clusters_not_covered: list[str]      # evidence clusters with no column (PPM3)
+    total_synapses: int                  # onto every target type, not just the ones listed
+    n_target_types: int
+    targets: list[DirectTarget]          # top config.TOP_DIRECT_TARGETS by synapses
+    n_types_with_expression: int         # target types the atlas measured, of n_target_types
+    citation: str
+    expression_citation: str | None = None
+    expression_url: str | None = None
+
+
 class SeedType(BaseModel):
     """A connectome cell type chosen as a starting point, and why."""
 

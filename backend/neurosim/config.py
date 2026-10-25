@@ -22,6 +22,12 @@ EVIDENCE_PATH = ROOT / "data" / "evidence.json"
 APPROVED_EVIDENCE_PATH = ROOT / "data" / "evidence_approved.json"
 # Kait's expression atlas table (Davis et al. 2020), read by bio/expression.py.
 EXPRESSION_PATH = ROOT / "data" / "expression_table.csv"
+# Kait's one-hop table: FlyWire cell types downstream of the DA clusters, read by bio/targets.py.
+DOWNSTREAM_PATH = ROOT / "data" / "downstream_by_flywire_type.csv"
+# Kait's atlas values on those downstream types (bio/targets.py reads only the labels evidence.json trusts).
+TARGET_EXPRESSION_PATH = ROOT / "data" / "combinedDatabase.csv"
+# FlyBase anatomy ontology ids for the atlas labels.
+FBBT_PATH = ROOT / "data" / "clusterFBbt.csv"
 # Paper rows waiting for Bio's decision, so an API reload doesn't drop them (gitignored).
 PROPOSALS_PATH = ROOT / "data" / "evidence_proposals.json"
 
@@ -75,6 +81,10 @@ UNSCORED_ORTHOLOG_CONFIDENCE = 0.5
 # --- Drawing (CS1 -> CS2) ----------------------------------------------------------
 
 SUBGRAPH_MAX_NODES = 200
+
+# Direct targets listed per gene (bio/targets.py). Enough for the mushroom body
+# picture (Kenyon cells, APL, DPM, the MBONs) without a scroll of one-synapse types.
+TOP_DIRECT_TARGETS = 12
 
 # --- Agent (CS2) -------------------------------------------------------------------
 

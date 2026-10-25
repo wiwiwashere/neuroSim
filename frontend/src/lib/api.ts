@@ -12,6 +12,7 @@ import type {
   ChatRequest,
   Comparison,
   DegenerationSeries,
+  DirectTargets,
   EvidenceEdits,
   EvidenceExtraction,
   EvidenceProposal,
@@ -101,6 +102,10 @@ export const api = {
       `/genes/${encodeURIComponent(gene)}/chain${q({ high_confidence_only: highConfidenceOnly || undefined })}`,
     ),
   expression: (gene: string) => request<GeneExpression | null>(`/genes/${encodeURIComponent(gene)}/expression`),
+  targets: (gene: string, highConfidenceOnly: boolean) =>
+    request<DirectTargets | null>(
+      `/genes/${encodeURIComponent(gene)}/targets${q({ high_confidence_only: highConfidenceOnly || undefined })}`,
+    ),
   simulate: (body: SimulationRequest) =>
     request<SimulationResult>("/simulate", { method: "POST", body: JSON.stringify(body) }),
   run: (runId: string) => request<SimulationResult>(`/runs/${encodeURIComponent(runId)}`),
@@ -134,6 +139,9 @@ export const api = {
   removeEvidence: (rowId: string) =>
     request<{ removed: string }>(`/evidence/approved/${encodeURIComponent(rowId)}`, { method: "DELETE" }),
 };
+
+/** FlyBase page for an anatomy ontology term (FBbt_00110931 -> FBbt:00110931). */
+export const flybaseTermUrl = (fbbt: string) => `https://flybase.org/reports/${fbbt.replace("_", ":")}`;
 
 /** FlyWire Codex page for one neuron: the real 3D shape, no renderer of our own. */
 export const codexUrl = (rootId: number | string) =>

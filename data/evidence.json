@@ -225,6 +225,33 @@
       "dopaminergic PAM neuron 9": {"cluster": "PAM", "match": "inferred", "compartments": "b1", "cell_types": ["PAM10"]}
     }
   },
+  "targets": {
+    "_readme": "Bio (Kait). Direct, one-synapse targets of the dopamine clusters, from data/downstream_by_flywire_type.csv: FlyWire v783 cell types that receive synapses from the PAL, PAM, PPL1, PPL2 and PPM1/2 neurons, the seed types themselves left out, at least 5 synapses per type. Connectivity only, no simulation. cluster_columns maps each evidence cluster to the table's syn_from_ columns; PPM3 has none, so it is reported as not covered. Target expression comes from data/combinedDatabase.csv (the head values of data/expression_table.csv) and is used only for the atlas labels in atlas_labels, on the FlyWire types listed there; excluded_labels are labels whose mapping in that file is wrong. fbbt ids come from data/clusterFBbt.csv. All of it is context: it never changes a seed, a confidence or a score. The pd_score, impact and perturbation columns are Kait's scoring proposal for CS1 and are not read here.",
+    "citation": "Kait's one-hop table, FlyWire v783 connections",
+    "verified_by_bio": false,
+    "cluster_columns": {
+      "PAL": ["syn_from_PAL"],
+      "PAM": ["syn_from_PAM"],
+      "PPL1": ["syn_from_PPL1"],
+      "PPL2": ["syn_from_PPL2"],
+      "PPM1/2": ["syn_from_PPM"],
+      "ALL_DA": ["syn_from_PAL", "syn_from_PAM", "syn_from_PPL1", "syn_from_PPL2", "syn_from_PPM"]
+    },
+    "atlas_labels": {
+      "alpha’/beta’ middle Kenyon cell": {"match": "exact", "cell_types": ["KCapbp-m"]},
+      "alpha’/beta’ anterior-posterior Kenyon cell": {"match": "exact", "cell_types": ["KCapbp-ap1", "KCapbp-ap2"]},
+      "alpha/beta posterior Kenyon cell": {"match": "exact", "cell_types": ["KCab-p"]},
+      "alpha/beta core Kenyon cell ; alpha/beta surface Kenyon cell": {"match": "coarse", "cell_types": ["KCab"], "_note": "FlyWire KCab pools the core, middle and surface cells; the atlas profiled core and surface only."},
+      "gamma dorsal Kenyon cell": {"match": "exact", "cell_types": ["KCg-d"]},
+      "mushroom body output neuron": {"match": "coarse", "cell_types": ["MBON10", "MBON11"], "_note": "The atlas pools two drivers, MBON-g1pedc>a/b (MBON11) and MBON-b'1 (MBON10). combinedDatabase.csv copies the label to all 35 MBON types; the other 33 are not measured."},
+      "adult NPF neuron": {"match": "inferred", "cell_types": ["NPFL1-I"], "_note": "NPF promoter fusion, so it labels every NPF neuron, not one type."},
+      "Drosulfakinin neuron": {"match": "inferred", "cell_types": ["DSKMP3"], "_note": "Dsk promoter fusion, so it labels every Dsk neuron, not one type."},
+      "lobula columnar neuron LC10d": {"match": "exact", "cell_types": ["LC10d"]}
+    },
+    "excluded_labels": {
+      "centrigufal neuron": "The atlas line is the C2 + C3 lamina centrifugal driver. combinedDatabase.csv maps it to nine FlyWire visual_centrifugal types (cL14, cL16, cL21, cL22b, LT39, LT41, LT56, cML01, OA-ASM1), which are other neurons. C2 and C3 get no dopamine input, so nothing replaces them."
+    }
+  },
   "cluster_to_cell_types": {
     "_readme": "Bio + CS1, built on day 1 by searching Codex. exact = the connectome names this cluster directly; inferred = matched by projection pattern.",
     "PPL1": {"match": "exact", "cell_types": ["PPL101", "PPL102", "PPL103", "PPL104", "PPL105", "PPL106"], "_note": "The FlyWire v783 annotations (flywire_annotations v3.2.0) also have PPL107 and PPL108 (2 neurons each, dopamine). Bio to decide whether they belong here."},
