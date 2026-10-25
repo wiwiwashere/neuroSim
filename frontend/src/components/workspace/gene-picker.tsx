@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { Check } from "lucide-react";
+import { useEffect } from "react";
 import { api } from "@/lib/api";
 import { diseaseName } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -11,6 +12,12 @@ import { ErrorNote, FlyGene, StepHeading, TierBadge } from "./primitives";
 export function DiseasePicker() {
   const ws = useWorkspace();
   const diseases = useQuery({ queryKey: ["diseases"], queryFn: api.diseases });
+  const { disease, set } = ws;
+
+  // With only one disease there is nothing to choose, so open its gene list.
+  useEffect(() => {
+    if (!disease && diseases.data?.length === 1) set({ disease: diseases.data[0] });
+  }, [disease, diseases.data, set]);
 
   return (
     <section>

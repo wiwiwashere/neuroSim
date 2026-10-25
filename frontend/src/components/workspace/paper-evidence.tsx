@@ -62,7 +62,7 @@ export function PaperEvidence() {
   return (
     <section>
       <StepHeading title="Evidence from a paper" />
-      <div className="grid gap-3 rounded-lg border bg-card p-3">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-3 rounded-lg border bg-card p-3">
         <p className="text-[12px] leading-snug text-muted-foreground">
           Give a fly paper. The model proposes which neurons it reports lost, with the quote behind each row; nothing is used until
           you approve it.
@@ -376,7 +376,7 @@ function ApprovedList({ rows }: { rows: EvidenceRow[] }) {
   const remove = useMutation({ mutationFn: (id: string) => api.removeEvidence(id), onSuccess: changed });
 
   return (
-    <div className="grid gap-1.5 border-t pt-2.5">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-1.5 border-t pt-2.5">
       <p className="text-[11.5px] font-medium text-muted-foreground">
         In the evidence table from papers ({rows.length}) · used by the next run of each gene
       </p>
