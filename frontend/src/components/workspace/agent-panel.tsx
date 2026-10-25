@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowUp, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sparkles } from "lucide-react";
+import { ArrowUp, Box, FlaskConical, GitCompareArrows, Loader2, Microscope, Route, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { api, SNAPSHOT_MODE } from "@/lib/api";
@@ -24,6 +24,7 @@ const SUGGESTIONS = [
   "Test PPL101 alone",
   "Compare PINK1 and PRKN",
   "Why these neurons?",
+  "What am I looking at in the 3D view?",
 ];
 
 function chipText(call: ToolCall): string {
@@ -41,6 +42,8 @@ function chipText(call: ToolCall): string {
       return `explained neuron ${i.root_id}`;
     case "list_diseases":
       return "listed diseases";
+    case "describe_network_view":
+      return "read the 3D view";
     default:
       return call.name;
   }
@@ -51,6 +54,7 @@ const CHIP_ICON: Record<string, typeof FlaskConical> = {
   compare_runs: GitCompareArrows,
   get_gene_chain: Route,
   explain_neuron: Microscope,
+  describe_network_view: Box,
 };
 
 export function AgentPanel() {
@@ -93,7 +97,12 @@ export function AgentPanel() {
       const reply = await api.agentChat({
         message,
         interaction_id: interactionId,
-        context: ws.activeRun ? { active_run: { run_id: ws.activeRun.result.run_id, label: ws.activeRun.label, ...active } } : null,
+        context: ws.activeRun
+          ? {
+              active_run: { run_id: ws.activeRun.result.run_id, label: ws.activeRun.label, ...active },
+              view: { tab: ws.tab, network_view: ws.networkView, selected_neuron: ws.selectedNeuron },
+            }
+          : null,
       });
       const results = await Promise.all(
         reply.run_ids.map((id) => qc.fetchQuery({ queryKey: ["run", id], queryFn: () => api.run(id) })),
@@ -126,6 +135,8 @@ export function AgentPanel() {
       ws.set({ tab: "compare" });
     } else if (call.name === "get_gene_chain") {
       ws.set({ gene: String(call.arguments.human_gene) });
+    } else if (call.name === "describe_network_view") {
+      ws.set({ tab: "network", networkView: "3d" });
     }
   };
 
