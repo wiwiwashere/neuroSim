@@ -56,7 +56,8 @@ export interface paths {
         /**
          * Mapping Chain
          * @description Everything for the mapping-chain screen: ortholog, evidence rows,
-         *     clusters, cell types, neuron counts, confidence at every link.
+         *     clusters, cell types, neuron counts, confidence at every link. disease
+         *     keeps one disease's rows (the UI sends it for user-added diseases).
          */
         get: operations["mapping_chain_genes__human_gene__chain_get"];
         put?: never;
@@ -409,10 +410,144 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/custom/diseases": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Custom Diseases
+         * @description Diseases someone added through the app, with their rows. Each also
+         *     appears in GET /diseases, so the picker tags them "your data".
+         */
+        get: operations["custom_diseases_custom_diseases_get"];
+        put?: never;
+        /**
+         * Custom Save
+         * @description Save a user-supplied disease (the reviewed, possibly edited rows). Refused
+         *     while any row still has a problem. Replaces an earlier save of the same
+         *     disease and clears cached runs, since the evidence table changed.
+         */
+        post: operations["custom_save_custom_diseases_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Custom Preview
+         * @description Check rows without saving: a CSV/JSON file (file) or rows typed in the
+         *     app (rows, a JSON list), plus an optional disease name. Every row comes
+         *     back with its checks (ortholog, each affected name resolved with its
+         *     neuron count, duplicates, confidence, non-dopamine notes).
+         */
+        post: operations["custom_preview_custom_preview_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom/diseases/{disease_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Custom Remove
+         * @description Take a user-supplied disease, its rows and its orthologs back out.
+         */
+        delete: operations["custom_remove_custom_diseases__disease_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom/names": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Custom Names
+         * @description Dopamine clusters and FlyWire cell types matching a prefix, with neuron
+         *     counts, for the form's autocomplete.
+         */
+        get: operations["custom_names_custom_names_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom/template.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Custom Template Csv */
+        get: operations["custom_template_csv_custom_template_csv_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/custom/template.json": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Custom Template Json */
+        get: operations["custom_template_json_custom_template_json_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** Body_custom_preview_custom_preview_post */
+        Body_custom_preview_custom_preview_post: {
+            /** File */
+            file?: string | null;
+            /** Rows */
+            rows?: string | null;
+            /** Disease */
+            disease?: string | null;
+        };
         /** Body_evidence_extract_evidence_extract_post */
         Body_evidence_extract_evidence_extract_post: {
             /** File */
@@ -467,6 +602,20 @@ export interface components {
             only_b: string[];
             /** Summary */
             summary: string;
+        };
+        /** CustomDisease */
+        CustomDisease: {
+            /** Name */
+            name?: string | null;
+            /**
+             * File
+             * @default typed in
+             */
+            file?: string;
+            /** Rows */
+            rows: {
+                [key: string]: unknown;
+            }[];
         };
         /** Decision */
         Decision: {
@@ -576,6 +725,7 @@ export interface components {
              */
             verified_by_bio?: boolean;
             extracted?: components["schemas"]["PaperSource"] | null;
+            user_supplied?: components["schemas"]["UserSource"] | null;
         };
         /**
          * GeneExpression
@@ -747,6 +897,11 @@ export interface components {
             /** Seed Types */
             seed_types: components["schemas"]["SeedType"][];
             expression?: components["schemas"]["GeneExpression"] | null;
+            /**
+             * User Supplied
+             * @default false
+             */
+            user_supplied?: boolean;
         };
         /**
          * SeedType
@@ -797,6 +952,8 @@ export interface components {
             high_confidence_only?: boolean;
             /** Seed Cell Types */
             seed_cell_types?: string[] | null;
+            /** Disease */
+            disease?: string | null;
         };
         /** SimulationResult */
         SimulationResult: {
@@ -852,6 +1009,30 @@ export interface components {
             fbbt_ids?: string[];
             /** Note */
             note?: string | null;
+        };
+        /**
+         * UserSource
+         * @description Where a user-supplied row came from (bio/custom.py). Never reviewed by Bio.
+         */
+        UserSource: {
+            /** Id */
+            id: string;
+            /** Disease Id */
+            disease_id: string;
+            /** File */
+            file: string;
+            /** Added At */
+            added_at: string;
+            /**
+             * Cell Types
+             * @default []
+             */
+            cell_types?: string[];
+            /**
+             * Non Dopamine
+             * @default []
+             */
+            non_dopamine?: string[];
         };
         /** ValidationError */
         ValidationError: {
@@ -932,6 +1113,7 @@ export interface operations {
         parameters: {
             query?: {
                 high_confidence_only?: boolean;
+                disease?: string | null;
             };
             header?: never;
             path: {
@@ -998,6 +1180,7 @@ export interface operations {
         parameters: {
             query?: {
                 high_confidence_only?: boolean;
+                disease?: string | null;
             };
             header?: never;
             path: {
@@ -1489,6 +1672,205 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    custom_diseases_custom_diseases_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+        };
+    };
+    custom_save_custom_diseases_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CustomDisease"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    custom_preview_custom_preview_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": components["schemas"]["Body_custom_preview_custom_preview_post"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    custom_remove_custom_diseases__disease_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                disease_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    custom_names_custom_names_get: {
+        parameters: {
+            query?: {
+                q?: string;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    custom_template_csv_custom_template_csv_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+        };
+    };
+    custom_template_json_custom_template_json_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
         };
