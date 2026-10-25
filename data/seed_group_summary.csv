@@ -1,0 +1,6 @@
+group,syn_out,n_target_neurons,n_seed_neurons
+PAL,3741,330,6
+PAM,21279,695,285
+PPL1,32645,2519,16
+PPL2,7170,758,8
+PPM,12394,991,16
