@@ -6,20 +6,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_vercel_builds_frontend_and_routes_api() -> None:
-    config = json.loads((ROOT / "vercel.json").read_text())
+    config = json.loads((ROOT / "frontend" / "vercel.json").read_text())
 
     assert config["framework"] == "nextjs"
-    assert config["buildCommand"] == "cd frontend && npm run build"
-    assert config["installCommand"] == "cd frontend && npm install"
-    assert config["outputDirectory"] == "frontend/.next"
+    assert config["buildCommand"] == "npm run build"
+    assert config["installCommand"] == "npm install"
+    assert config["outputDirectory"] == ".next"
     assert config["rewrites"] == [{"source": "/api/:path*", "destination": "/api/index"}]
 
 
 def test_vercel_python_entrypoint_reuses_fastapi_app() -> None:
-    source = (ROOT / "api" / "index.py").read_text()
+    source = (ROOT / "frontend" / "api" / "index.py").read_text()
 
     assert 'ROOT / "backend"' in source
     assert "from neurosim.api.main import app" in source
+    assert (ROOT / "frontend" / "requirements.txt").read_text().strip() == "-r ../requirements.txt"
 
 
 def test_next_config_keeps_local_proxy_out_of_vercel() -> None:

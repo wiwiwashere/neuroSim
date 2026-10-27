@@ -4,7 +4,7 @@
 
 **Goal:** Deploy neuroSim's Next.js frontend and FastAPI mock-data backend together as one production Vercel project linked to `wiwiwashere/neuroSim`.
 
-**Architecture:** Keep the existing local two-process workflow intact. Add a Vercel Python entry point that exposes the existing FastAPI `app`, configure Vercel to build the nested Next.js app and route `/api/*` to the Python function, and disable the localhost Next.js proxy only during Vercel builds.
+**Architecture:** Keep the existing local two-process workflow intact. Use `frontend/` as Vercel's project root, add a Python entry point there that exposes the existing FastAPI `app` from the repository-level backend, route `/api/*` to the Python function, and disable the localhost Next.js proxy only during Vercel builds.
 
 **Tech Stack:** Vercel, Next.js 15, React 19, FastAPI, Python 3.11+
 
@@ -22,18 +22,19 @@
 ### Task 1: Add the Vercel application boundary
 
 **Files:**
-- Create: `api/index.py`
-- Create: `vercel.json`
+- Create: `frontend/api/index.py`
+- Create: `frontend/requirements.txt`
+- Create: `frontend/vercel.json`
 - Modify: `frontend/next.config.ts`
 - Test: `tests/test_vercel_deployment.py`
 
 **Interfaces:**
 - Consumes: `backend/neurosim/api/main.py:app`
-- Produces: an ASGI entry point at `api/index.py:app` and a same-origin `/api/*` route
+- Produces: an ASGI entry point at `frontend/api/index.py:app` and a same-origin `/api/*` route
 
 - [ ] **Step 1: Write deployment-contract tests**
 
-Verify that `api/index.py` exports the existing FastAPI application, `vercel.json` builds `frontend/.next`, and the frontend omits its localhost rewrite when `VERCEL=1`.
+Verify that `frontend/api/index.py` exports the existing FastAPI application, `frontend/vercel.json` builds `.next`, and the frontend omits its localhost rewrite when `VERCEL=1`.
 
 - [ ] **Step 2: Run the focused test and confirm it fails**
 
@@ -65,7 +66,7 @@ Show the exact changed files and request the repository-required push approval.
 
 - [ ] **Step 2: Commit and push the reviewed deployment adapter**
 
-Run: `git add api/index.py vercel.json frontend/next.config.ts tests/test_vercel_deployment.py docs/superpowers/plans/2026-10-26-vercel-deployment.md`
+Run: `git add frontend/api/index.py frontend/requirements.txt frontend/vercel.json frontend/next.config.ts tests/test_vercel_deployment.py docs/superpowers/plans/2026-10-26-vercel-deployment.md`
 Run: `git commit -m "chore: configure Vercel deployment"`
 Run: `git push origin main`
 
