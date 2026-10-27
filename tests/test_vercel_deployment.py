@@ -9,7 +9,7 @@ def test_vercel_builds_frontend_and_routes_api() -> None:
     config = json.loads((ROOT / "frontend" / "vercel.json").read_text())
 
     assert config["framework"] == "nextjs"
-    assert config["buildCommand"] == "npm run build"
+    assert config["buildCommand"] == "cp -R ../backend ./backend && cp -R ../data ./data && npm run build"
     assert config["installCommand"] == "npm install"
     assert config["outputDirectory"] == ".next"
     assert config["rewrites"] == [{"source": "/api/:path*", "destination": "/api/index"}]
@@ -18,7 +18,8 @@ def test_vercel_builds_frontend_and_routes_api() -> None:
 def test_vercel_python_entrypoint_reuses_fastapi_app() -> None:
     source = (ROOT / "frontend" / "api" / "index.py").read_text()
 
-    assert 'REPO_ROOT / "backend"' in source
+    assert 'PROJECT_ROOT / "backend"' in source
+    assert 'PROJECT_ROOT.parent / "backend"' in source
     assert "from neurosim.api.vercel import app" in source
     requirements = (ROOT / "frontend" / "requirements.txt").read_text().splitlines()
     assert "fastapi" in requirements
