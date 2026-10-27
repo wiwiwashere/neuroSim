@@ -18,7 +18,7 @@ def test_vercel_builds_frontend_and_routes_api() -> None:
 def test_vercel_python_entrypoint_reuses_fastapi_app() -> None:
     source = (ROOT / "frontend" / "api" / "index.py").read_text()
 
-    assert 'ROOT / "backend"' in source
+    assert 'REPO_ROOT / "backend"' in source
     assert "from neurosim.api.vercel import app" in source
     requirements = (ROOT / "frontend" / "requirements.txt").read_text().splitlines()
     assert "fastapi" in requirements
