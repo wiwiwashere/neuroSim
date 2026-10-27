@@ -19,7 +19,7 @@ from neurosim.models import GroupLevel, SimulationRequest
 
 
 config.USE_MOCKS = True
-app = FastAPI(title="neuroSim", description="Vercel sample-data deployment")
+app = FastAPI(title="neuroSim", description="Vercel sample-data deployment", root_path="/api")
 
 
 @app.exception_handler(Exception)
@@ -71,12 +71,14 @@ def run(run_id: str):
 
 
 @app.get("/runs/{run_id}/sankey")
-def sankey(_run_id: str):
+def sankey(run_id: str):
+    del run_id
     return mocks.mock_sankey()
 
 
 @app.get("/runs/{run_id}/subgraph")
-def subgraph(_run_id: str):
+def subgraph(run_id: str):
+    del run_id
     return mocks.mock_subgraph()
 
 
@@ -86,7 +88,8 @@ def dynamics(run_id: str, n_regions: int = 10, T: float = 10.0):
 
 
 @app.get("/runs/{run_id}/neurons/{root_id}/explain")
-def explain(_run_id: str, root_id: int) -> dict:
+def explain(run_id: str, root_id: int) -> dict:
+    del run_id
     return {
         "root_id": str(root_id),
         "paths": [{"neurons": ["PPL101", "MBON01"], "strength": 0.41}],

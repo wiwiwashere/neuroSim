@@ -33,3 +33,17 @@ def test_next_config_keeps_local_proxy_out_of_vercel() -> None:
 
     assert 'process.env.VERCEL === "1"' in source
     assert "return []" in source
+
+
+def test_vercel_api_routes_under_public_prefix() -> None:
+    import sys
+
+    from fastapi.testclient import TestClient
+
+    sys.path.insert(0, str(ROOT / "backend"))
+    from neurosim.api.vercel import app
+
+    client = TestClient(app)
+    assert client.get("/api/diseases").json() == ["parkinsons"]
+    assert client.get("/api/runs/demo/sankey").status_code == 200
+    assert client.get("/api/runs/demo/subgraph").status_code == 200
