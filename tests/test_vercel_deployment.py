@@ -20,7 +20,10 @@ def test_vercel_python_entrypoint_reuses_fastapi_app() -> None:
 
     assert 'ROOT / "backend"' in source
     assert "from neurosim.api.main import app" in source
-    assert (ROOT / "frontend" / "requirements.txt").read_text().strip() == "-r ../requirements.txt"
+    requirements = (ROOT / "frontend" / "requirements.txt").read_text().splitlines()
+    assert "fastapi" in requirements
+    assert "google-genai" in requirements
+    assert "pyarrow" in requirements
 
 
 def test_next_config_keeps_local_proxy_out_of_vercel() -> None:
