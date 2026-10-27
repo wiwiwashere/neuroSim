@@ -1,14 +1,5 @@
 numpy
-scipy
-neurolib
 pandas
-pyarrow
-networkx
 fastapi
-python-multipart
-pypdf
-uvicorn
-watchfiles
 pydantic>=2
-google-genai
 python-dotenv
