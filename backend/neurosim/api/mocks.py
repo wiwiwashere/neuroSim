@@ -9,8 +9,8 @@ from __future__ import annotations
 
 import math
 
-from neurosim import config
 from neurosim.bio import evidence, expression
+from neurosim.engine import graph
 from neurosim.models import (
     Comparison,
     DegenerationFrame,
@@ -44,11 +44,8 @@ def mock_seeds(request: SimulationRequest | str = "PRKN") -> SeedSet:
     can't be simulated). Without it, the table's ortholog and two fake PPL1 types."""
     if isinstance(request, str):
         request = SimulationRequest(human_gene=request)
-    if not config.USE_MOCKS:
-        from neurosim.engine import graph
-
-        if graph.connectome_available():
-            return evidence.resolve_seeds(request)
+    if graph.connectome_available():
+        return evidence.resolve_seeds(request)
     gene = request.human_gene
     ortholog = evidence.find_ortholog(gene)   # SeedError for a gene the table doesn't know
     if not ortholog.fly_genes:

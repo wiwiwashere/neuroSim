@@ -9,8 +9,6 @@ const nextConfig: NextConfig = {
   // minutes; the proxy's 30s default would cut it off.
   experimental: { proxyTimeout: 300_000 },
   async rewrites() {
-    // Vercel routes /api/* to the FastAPI function in frontend/api/index.py.
-    if (process.env.VERCEL === "1") return [];
     return [{ source: "/api/:path*", destination: `${API_URL}/:path*` }];
   },
 };
